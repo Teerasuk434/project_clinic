@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Admin.css'
 import Sidebar from './Sidebar'
 import AdminContent from './AdminContent';
-import { useEffect } from 'react';
 
 export default function Admin() {
     let date = new Date().toLocaleDateString();

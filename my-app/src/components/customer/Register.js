@@ -1,11 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import './Register.css';
 
 export default function Register(){
-
-    let params = useParams();
 
     const [validated, setValidated] = useState(false);
     const [firstName, setFirstName] = useState("");

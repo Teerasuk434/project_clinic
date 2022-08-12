@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Users.css';
@@ -7,17 +7,9 @@ import UsersItem from './UsersItem';
 import { API_GET, API_POST } from '../../api';
 
 export default function Users(){
-    let params = useParams();
-    const [userId, setUserId] = useState(0);
-    const [username, setUserName] = useState("");
-    const [password, setPassword] = useState("");
-    const [role_id, setRoleId] = useState(0);
-    const [role_name, setRoleName] = useState("");
     
     const [search, setSearch] = useState("");
     const [users, setUsers] = useState([]);
-    const [roles, setRoles] = useState([]);
-
 
     useEffect(() => {
         async function fetchData() {

@@ -7,7 +7,6 @@ import IconService from './images/img6.png'
 import IconRoomType from './images/img4.png'
 import IconExit from './images/img7.png'
 import './Sidebar.css'
-import { useState } from 'react'
 
 export default function Sidebar(props){
 

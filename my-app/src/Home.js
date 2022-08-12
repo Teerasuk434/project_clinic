@@ -14,7 +14,7 @@ export default function Home() {
     let username = localStorage.getItem("username")
 
     useEffect(() =>{
-        checkRole()
+        checkRole();
     },[])
 
     const checkRole = async () => {
@@ -38,10 +38,10 @@ export default function Home() {
 
     return (
         <>  
-            {role_id == 1 && (<Customer />)}
-            {role_id == 2 && (<Owner />)}
-            {role_id == 3 && (<Employee />)}
-            {role_id == 4 && (<Admin />)}
+            {role_id === 1 && (<Customer />)}
+            {role_id === 2 && (<Owner />)}
+            {role_id === 3 && (<Employee />)}
+            {role_id === 4 && (<Admin />)}
         </>
     );    
 }
