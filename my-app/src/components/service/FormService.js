@@ -14,6 +14,7 @@ export default function FormService() {
     const [cost_deposit, setCostDeposit] = useState(0);
     const [time_spent, setTimeSpent] = useState("");
     const [room_type_id, setRoomTypeId] = useState(0);
+    const [serviceImage, setServiceImage] = useState("");
     const [imageUrl, setImageUrl] = useState("");
     const [selectedFile, setSelectedFile] = useState([]);
 
@@ -52,6 +53,7 @@ export default function FormService() {
             setCostDeposit(data.cost_deposit);
             setTimeSpent(data.time_spent);
             setRoomTypeId(data.room_type_id);
+            setServiceImage(data.serviceImage);
             setImageUrl(data.service_image);
         }
 

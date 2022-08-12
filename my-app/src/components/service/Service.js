@@ -26,6 +26,7 @@ export default function Service(){
 
             let json = await response.json();
             setServices(json.data);
+            console.log(services);
         }
 
         fetchData();
