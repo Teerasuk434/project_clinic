@@ -8,6 +8,7 @@ import Home from './Home';
 import Register from './components/customer/Register';
 import Users from './components/admin/Users'
 import FormUser from './components/users/FormUser';
+import Roles from './components/admin/Roles'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -19,6 +20,9 @@ root.render(
       <Route path="/register" element={<Register/>} />
       <Route path="/users" element={<Users />}/>
       <Route path="/user/:user_id" element={<FormUser />}/>
+      <Route path="/roles" element={<Roles />}/>
+
+
 
     </Routes> 
   </BrowserRouter>

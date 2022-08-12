@@ -21,7 +21,7 @@ export default function Sidebar(props){
             <div className="sidebar-bottom">
                 <a className={pages === 1 && "active"} href="home"><span><img src={IconMain}></img></span>หน้าแรก</a>
                 <a className={pages === 2 && "active"} href="users"><span><img src={IconUser}></img></span>ผู้ใช้งาน</a>
-                <a className={pages === 3 && "active"} href="#user_types"><span><img src={IconTypeUser}></img></span>ประเภทผู้ใช้งาน</a>
+                <a className={pages === 3 && "active"} href="roles"><span><img src={IconTypeUser}></img></span>ประเภทผู้ใช้งาน</a>
                 <a className={pages === 4 && "active"} href="#emp_types"><span><img src={IconEmp}></img></span>ประเภทพนักงาน</a> 
                 <a className={pages === 5 && "active"} href="#service"><span><img src={IconService}></img></span>บริการของคลินิก</a>
                 <a className={pages === 6 && "active"} href="#room_types"><span><img src={IconService}></img></span>ประเภทห้องรักษา</a> 
