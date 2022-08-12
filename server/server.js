@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const Account = require('./libs/Account');
 const Users = require('./libs/Users');
+const Roles = require('./libs/Roles');
 
 const app = express();
 const port = 8080;
@@ -89,6 +90,7 @@ app.post("/api/access_request", (req, res) => {
     const authenSignature = req.body.auth_signature;
     const authToken = req.body.auth_token;
 
+    console.log(authToken);
     var decoded = jwt.verify(authToken, "MySecretKey");
 
     if (decoded) {
@@ -291,7 +293,7 @@ app.post("/api/user/update", checkAuth, async (req, res) => {
             message: ex.message
         });
     }
-})
+});
 
 app.post("/api/user/delete", checkAuth, async (req, res) => {
     const input = req.body;
@@ -326,7 +328,43 @@ app.get("/api/user/:user_id", async (req, res) => {
             message: ex.message
         });
     }
-})
+});
+
+app.get("/api/user/search/:data", async (req, res) => {
+    const data = req.params.data;
+    try {
+        var result = await Users.searchUser(pool, data);
+
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
+app.post("/api/role/add", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Roles.createRole(pool,
+            input.role_name);
+
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
 
 app.get("/api/roles",checkAuth, async (req, res) => {
 
@@ -352,10 +390,47 @@ app.get("/api/roles",checkAuth, async (req, res) => {
     });
 });
 
-app.get("/api/user/search/:data", async (req, res) => {
-    const data = req.params.data;
+app.post("/api/role/update", checkAuth, async (req, res) => {
+    const input = req.body;
+
     try {
-        var result = await Users.searchUser(pool, data);
+        var result = await Roles.updateRole(pool,
+            input.role_id,input.role_name);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post("/api/role/delete", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Roles.deleteRole(pool,
+            input.role_id);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get("/api/role/:role_id", async (req, res) => {
+    const role_id = req.params.role_id;
+
+    try {
+        var result = await Roles.getByRoleId(pool, role_id);
 
         res.json({
             result: true,
@@ -368,6 +443,24 @@ app.get("/api/user/search/:data", async (req, res) => {
         });
     }
 })
+
+app.get("/api/role/search/:data", async (req, res) => {
+    const data = req.params.data;
+    try {
+        var result = await Roles.searchRole(pool, data);
+
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 
 app.listen(port, () => {
     console.log("Running");

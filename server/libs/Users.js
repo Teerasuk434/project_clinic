@@ -12,7 +12,6 @@ module.exports = {
     updateUser: async (pool, user_id,username, password, role_id) =>{
         var sql = "UPDATE users SET username = ?,password = MD5(?),role_id = ? WHERE user_id = ?";
         sql = mysql.format(sql, [username,password,role_id,user_id]);
-        console.log(password);
 
         return await pool.query(sql);
     },
