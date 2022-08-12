@@ -1,0 +1,96 @@
+ body{
+    /* box-sizing: border-box; */
+    margin: 0;
+    padding:0;
+    background-color: #E6E6EA;  
+    font-family: "Lato", sans-serif;
+  }
+
+  .top{
+    background-color: #3171B0;
+    padding: 0.5rem;
+    color:white;
+    text-align: end;
+  }
+
+  .bottom{
+    position: fixed;
+    left:0;
+    bottom:0;
+    right:0.5rem;
+    background-color: #3171B0;
+    padding:0;
+    color:white;
+    text-align: end;
+  }
+
+  p{
+    margin:auto;
+    padding: 0.5rem;
+  }
+  
+   /* .Main {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .sidebar{
+    height: 100%;
+  } */
+
+  /* .content {
+    background-color: dodgerblue;
+    padding: 10px;
+    flex: 85%;
+  }  */
+
+
+  /* .box-top{
+    position: fixed;
+    background-color: #3171B0;  
+    width: 100%;
+    height: 30px;
+    top:0;
+    left: 250px;
+    z-index: 2;
+  }
+
+  .content{
+    position: relative;
+    background-color: #E6E6EA;  
+    width: 100%;
+    height: 100%;
+    top:30px;
+    z-index: 1;
+    padding: 1rem;
+  }
+
+  .box-bottom {
+    position: fixed;
+    background-color: #3171B0;  
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+    left: 250px;
+    right: 0;
+    z-index: 2;
+  } */
+
+
+  
+  /* @media screen and (max-width: 700px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidebar a {float: left;}
+    div.content {margin-left: 0;}
+  }
+  
+  @media screen and (max-width: 400px) {
+    .sidebar a {
+      text-align: center;
+      float: none;
+    }
+  } */

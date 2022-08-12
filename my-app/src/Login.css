@@ -1,0 +1,34 @@
+.header-box{
+    background-color: #3498DB;
+}
+
+.box{
+    background-color: #DAECF5;
+}
+
+Button{
+    width: 100%;
+    display: block;
+}
+
+.btn-login {
+    background-color: #3498DB;
+    color:#FFFFFF;
+}
+
+.btn-login:hover, .btn-login:focus, .btn-login.active{
+    background-color: #2874A6;
+    color:#FFFFFF;
+}
+
+.btn-register { 
+    color: #FFFFFF; 
+    background-color: #27AE60; 
+  } 
+
+  .btn-register:hover, .btn-register:focus, .btn-register.active{
+    background-color: #1E8449 ;
+    color:#FFFFFF;
+}
+   
+  
