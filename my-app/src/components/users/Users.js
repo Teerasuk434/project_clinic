@@ -74,7 +74,7 @@ export default function Users(){
                 <div className="row">
                     <div className="col">
                         <div className="my-5">
-                            <h2 className="header text-center text-white p-2">จัดการข้อมูลผู้ใช้งาน</h2>
+                            <h2 className="header text-center text-white p-2">ข้อมูลผู้ใช้งาน</h2>
                         </div>
                     </div>
                 </div>

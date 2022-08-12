@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import RolesItem from './RolesItem';
+import ServiceItem from './ServiceItem';
 import { API_GET, API_POST } from '../../api';
 
-export default function Roles() {
-
+export default function Service(){
+    
     const [search, setSearch] = useState("");
-    const [roles, setRoles] = useState([]);
+    const [services, setServices] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
-                "http://localhost:8080/api/roles",
+                "http://localhost:8080/api/service",
                 {
                     method: "GET",
                     headers: {
@@ -25,30 +25,30 @@ export default function Roles() {
             );
 
             let json = await response.json();
-            setRoles(json.data);
+            setServices(json.data);
         }
 
         fetchData();
     }, []);
 
-    const fetchUsers = async () => {
-        let json = await API_GET("roles");
-        setRoles(json.data);
+    const fetchServices = async () => {
+        let json = await API_GET("service");
+        setServices(json.data);
     }
 
     const onDelete = async (data) => {
-        let json = await API_POST("role/delete", {
-            role_id: data.role_id
+        let json = await API_POST("service/delete", {
+            service_id: data.service_id
         });
 
         if (json.result) {
-            fetchUsers();
+            fetchServices();
         }
     }
 
     const doSearch = async (data) => {
-        let json = await API_GET("role/search/" + data);
-            setRoles(json.data);
+        let json = await API_GET("service/search/" + data);
+            setServices(json.data);
 
     }
 
@@ -60,7 +60,7 @@ export default function Roles() {
             event.stopPropagation();
         } else {
                 if(search === ""){
-                    fetchUsers();
+                    fetchServices();
                 }else {
                     doSearch(search);
                 }
@@ -73,14 +73,14 @@ export default function Roles() {
                 <div className="row">
                     <div className="col">
                         <div className="my-5">
-                            <h2 className="header text-center text-white p-2">ข้อมูลประเภทผู้ใช้งาน</h2>
+                            <h2 className="header text-center text-white p-2">ข้อมูลบริการ</h2>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
                     <div className="col-2">
-                        <Link to={"/role/add"} className="btn btn-success ms-3">{<i class="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
+                        <Link to={"/service/add"} className="btn btn-success ms-3">{<i class="fa-solid fa-plus me-3"></i>}เพิ่มบริการ</Link>
                     </div>
                     <div className="col-10">
                         <Form>
@@ -112,16 +112,21 @@ export default function Roles() {
                         <Table striped>
                             <thead>
                                 <tr>
-                                <th>รหัสประเภทผู้ใช้งาน</th>
-                                <th>ชื่อประเภทผู้ใช้งาน</th>
+                                <th>รหัสบริการ</th>
+                                <th>ชื่อบริการ</th>
+                                <th>ค่าบริการ</th>
+                                <th>ค่ามัดจำ</th>
+                                <th>เวลาที่ใช้</th>
+                                <th>รูปภาพ</th>
+                                <th>ห้องที่ใช้</th>
                                 <th>action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    roles.map(item => (
-                                        <RolesItem
-                                        key={item.role_id}
+                                    services.map(item => (
+                                        <ServiceItem
+                                        key={item.service_id}
                                         data={item}
                                         onDelete={onDelete} />
                                     ))

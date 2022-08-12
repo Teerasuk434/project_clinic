@@ -1,20 +1,25 @@
 const util = require('util');
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const multer = require("multer");
+
 
 const Account = require('./libs/Account');
 const Users = require('./libs/Users');
 const Roles = require('./libs/Roles');
+const Service = require('./libs/Service');
 
-const app = express();
+
 const port = 8080;
 const bodyParser = require('body-parser');
+const app = express();
 
-const cors = require("cors");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
+app.use('/images', express.static('images'));
 
 var mysql = require('mysql');
 var pool = mysql.createPool({
@@ -461,6 +466,154 @@ app.get("/api/role/search/:data", async (req, res) => {
     }
 });
 
+app.post("/api/service/add", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Service.createService(pool,
+            input.service_name,input.cost_service,
+            input.cost_deposit,input.time_spent,input.room_type_id);
+
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get("/api/service",checkAuth, async (req, res) => {
+
+    pool.query("SELECT * FROM service", function(error, results, fields){
+        if (error) {
+            res.json({
+                result: false,
+                message: error.message
+            });
+        }
+
+        if (results.length) {
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result:false,
+                message: "ไม่พบ Username"
+            });
+        }
+    });
+});
+
+app.post("/api/service/update", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Service.updateService(pool,
+            input.service_name,input.cost_service,
+            input.cost_deposit,input.time_spent,input.room_type_id);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post("/api/service/delete", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Service.deleteService(pool,
+            input.service_id);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get("/api/service/:service_id", async (req, res) => {
+    const service_id = req.params.service_id;
+
+    try {
+        var result = await Service.getByServiceId(pool, service_id);
+
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+})
+
+app.get("/api/service/search/:data", async (req, res) => {
+    const data = req.params.data;
+    try {
+        var result = await Service.searchService(pool, data);
+
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
+    var service_id = req.params.service_id;
+    var fileName;
+
+    var storage = multer.diskStorage({
+        destination: (req, file, cp) =>{
+            cp(null, "images");
+        },
+        filename: (req, file, cp) => {
+            fileName = service_id + "-" + file.originalname;
+            cp(null, fileName);
+        }
+    });
+
+    var upload = multer({ storage: storage}).single('file');
+
+    upload(req, res, async (err) => {
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message
+            });
+        } else {
+            console.log("picture");
+            var result = Service.uploadImage(pool, service_id, fileName);
+    
+            res.json({
+                result: true,
+                data: fileName
+            });
+        }
+    });
+});
 
 app.listen(port, () => {
     console.log("Running");

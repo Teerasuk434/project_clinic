@@ -11,14 +11,18 @@ export default function UsersItem(props) {
     return (
         <>
             <tr>
-                <td><p>{props.data.user_id}</p></td>
-                <td><p>{props.data.username}</p></td>
-                <td><p>{props.data.role_name}</p></td>
+                <td><p>{props.data.service_id}</p></td>
+                <td><p>{props.data.service_name}</p></td>
+                <td><p>{props.data.cost_service}</p></td>
+                <td><p>{props.data.cost_deposit}</p></td>
+                <td><p>{props.data.time_spent}</p></td>
+                <td><p><img src={`http://localhost:8080/images/${props.data.sevice_image}`} width={50}/></p></td>
+                <td><p>{props.data.room_type_id}</p></td>
                 <td>
                     <div className="row">
                         <div className="col-12">
                             <div className="d-inline-block">
-                                <Link to={`/user/${props.data.user_id}`} className="btn btn-warning me-3">{<i class="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
+                                <Link to={`/service/${props.data.service_id}`} className="btn btn-warning me-3">{<i class="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>
 
                             <div className="d-inline-block">
