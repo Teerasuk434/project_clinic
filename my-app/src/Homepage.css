@@ -1,0 +1,35 @@
+.homepage-picture img{
+}
+
+.homepage-picture button{
+    margin-top: -200px;
+    margin-left: -450px;
+    margin-bottom: -500px;
+    z-index: 1;
+    width: 30%;
+    padding: 1rem;
+    font-size: 20px;
+}
+
+.Services{
+  background-color: aliceblue;
+}
+
+.btn-appointment { 
+    color: #FFFFFF; 
+    background-color: #3498DB; 
+  } 
+
+  .btn-appointment:hover, .btn-appointment:focus, .btn-appointment.active{
+    background-color: #2874A6  ;
+    color:#FFFFFF;
+}
+
+.items img{
+  width: 150px;
+}
+
+.Text-title{
+  color:#85349A;
+}
+
