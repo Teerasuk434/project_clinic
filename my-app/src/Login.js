@@ -1,6 +1,5 @@
 // import { auto } from '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';

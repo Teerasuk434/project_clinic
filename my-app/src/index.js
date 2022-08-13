@@ -12,7 +12,6 @@ import Roles from './components/admin/Roles'
 import FormRole from './components/users/FormRole';
 import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
