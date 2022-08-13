@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
+import Navigation from './components/Navigation';
 
 var md5 = require("md5");
 export default function Login() {
@@ -38,7 +39,7 @@ export default function Login() {
         localStorage.setItem("role_id", data2.data.account_info.role_id);
         localStorage.setItem("role_name", data2.data.account_info.role_name);
         
-        navigate("home", { replace: false});
+        <Link to="/home"/>
         
     }
 
@@ -85,45 +86,51 @@ export default function Login() {
     }
 
     return (
-        <div className='container m-auto'>
-            <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
-            <div className="box p-4">
-                <Form noValidate validated={validated} onSubmit={onLogin}>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateUsername">
-                            <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                placeholder="Username"
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก Username
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validatePassword">
-                            <Form.Label>รหัสผ่าน</Form.Label>
-                            <Form.Control type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)}/>
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก Password
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
-                    <Row >
-                        <Col>
-                            <Button bsPrefix="btn btn-login btn-lg" type="submit" >เข้าสู่ระบบ</Button>
-                        </Col>
-                    </Row>
-                </Form>
+        <>  
+            <Navigation/>
+            <div className='container'>
+                <div className="Form-Login m-auto">
+                    <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
+                    <div className="box p-4">
+                        <Form noValidate validated={validated} onSubmit={onLogin}>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} controlId="validateUsername">
+                                    <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        placeholder="Username"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        กรุณากรอก Username
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row className="mb-3">
+                                <Form.Group as={Col} controlId="validatePassword">
+                                    <Form.Label>รหัสผ่าน</Form.Label>
+                                    <Form.Control type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)}/>
+                                    <Form.Control.Feedback type="invalid">
+                                        กรุณากรอก Password
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Row>
+                            <Row >
+                                <Col>
+                                    <Button bsPrefix="btn btn-login btn-lg" type="submit" >เข้าสู่ระบบ</Button>
+                                </Col>
+                            </Row>
+                        </Form>
 
-                <div >
-                    <Link to={"/register"} className="btn btn-register btn-lg mt-3 d-block">สมัครสมาชิก </Link>
+                        <div >
+                            <Link to={"/register"} className="btn btn-register btn-lg mt-3 d-block">สมัครสมาชิก </Link>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>  
+                
+            </div>  
+        </>
     );
 }
 

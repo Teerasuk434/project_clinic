@@ -1,0 +1,25 @@
+.Box-top{
+    background-color: #3171B0;
+    color:#fff;
+    font-size: 12px;
+    padding: 0.5rem;
+}
+
+.Navbar{
+    background-color: aliceblue;
+}
+
+.Navbar img {
+    height: 60px;
+}
+
+.Btn-login{
+    border: 1px solid #3171B0;
+    border-radius: 5px;
+    color:#85349A;
+}
+
+.Btn-login:hover,.Box-top:active{
+    background-color: #3171B0;
+    color:white;
+}

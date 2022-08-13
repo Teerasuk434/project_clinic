@@ -12,13 +12,17 @@ import Roles from './components/admin/Roles'
 import FormRole from './components/users/FormRole';
 import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
+import Homepage from './Homepage';
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="home" element={<Home />} />
+      <Route path="/" element={<Homepage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register/>} />
       <Route path="/users" element={<Users />}/>
       <Route path="/user/:user_id" element={<FormUser />}/>

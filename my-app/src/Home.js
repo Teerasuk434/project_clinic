@@ -5,6 +5,7 @@ import Owner from './components/owner/Owner';
 import Employee from './components/employee/Employee';
 import Admin from './components/admin/Admin';
 import { useEffect, useState } from 'react';
+import Navigation from './components/Navigation';
 
 
 export default function Home() {             
@@ -38,6 +39,8 @@ export default function Home() {
 
     return (
         <>  
+            {/* <Navigation /> */}
+
             {role_id === 1 && (<Customer />)}
             {role_id === 2 && (<Owner />)}
             {role_id === 3 && (<Employee />)}
