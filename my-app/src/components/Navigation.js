@@ -19,17 +19,17 @@ export default function Navigation(){
             </div>
 
             <div className='Navbar'>
-                <Navbar className="d-flex justify-content-between" bg="light" variant="light">    
-                    <div>
+                <Navbar className="d-flex justify-content-between" sticky="top" bg="light" variant="light">    
+                    <div className="ms-5">
                         <Navbar.Brand href="#home"><img src={`http://localhost:8080/images/Logo2.png`}/></Navbar.Brand>
                     </div>
 
-                    <div>
-                        <Nav className="me-auto">
-                            <Nav.Link bsPrefix="" href="#home">หน้าแรก</Nav.Link>
-                            <Nav.Link href="#about">เกี่ยวกับเรา</Nav.Link>
-                            <Nav.Link href="#services">บริการของเรา</Nav.Link>
-                            <Nav.Link href="#appointment">นัดหมาย</Nav.Link>
+                    <div className="me-3">
+                        <Nav>
+                            <Nav.Link className="me-2" href="#home">หน้าแรก</Nav.Link>
+                            <Nav.Link className="me-2" href="#about">เกี่ยวกับเรา</Nav.Link>
+                            <Nav.Link className="me-2" href="#services">บริการของเรา</Nav.Link>
+                            <Nav.Link className="me-2" href="#appointment">นัดหมาย</Nav.Link>
                             <Nav.Link className="Btn-login" href="login"><i class="fa-solid fa-right-to-bracket me-2"></i>เข้าสู่ระบบ</Nav.Link>
                         </Nav>
                     </div>

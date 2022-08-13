@@ -1,8 +1,7 @@
-// import { auto } from '@popperjs/core';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import './Login.css';
 import Navigation from './components/Navigation';
 
@@ -38,9 +37,9 @@ export default function Login() {
         localStorage.setItem("username", username);
         localStorage.setItem("role_id", data2.data.account_info.role_id);
         localStorage.setItem("role_name", data2.data.account_info.role_name);
-        
-        <Link to="/home"/>
-        
+
+        navigate("home", { replace: true});
+        // <Navigate replace to="/home" />
     }
 
     const getAuthenToken = async () =>{
