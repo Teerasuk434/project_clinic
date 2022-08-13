@@ -3,7 +3,7 @@ const mysql = require('mysql');
 module.exports = {
     createService: async (pool, service_name,cost_service,cost_deposit,time_spent,room_type_id) => {
         var sql ="INSERT INTO service (service_name, cost_service, cost_deposit, time_spent,room_type_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?)";
         sql = mysql.format(sql, [service_name, cost_service, cost_deposit, time_spent,room_type_id]);
 
         return await pool.query(sql);
