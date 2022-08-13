@@ -23,7 +23,6 @@ export default function Homepage(){
 
             let json = await response.json();
             setServices(json.data);
-            console.log(services);
         }
 
         fetchData();

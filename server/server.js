@@ -494,7 +494,6 @@ app.get("/api/service",checkAuth, async (req, res) => {
                 message: error.message
             });
         }
-
         if (results.length) {
             res.json({
                 result: true,
