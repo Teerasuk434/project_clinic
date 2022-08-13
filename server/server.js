@@ -590,7 +590,7 @@ app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
             cp(null, "images");
         },
         filename: (req, file, cp) => {
-            fileName = service_id + "-" + file.originalname;
+            fileName = "service" + service_id +"-"+file.originalname;
             cp(null, fileName);
         }
     });
@@ -604,9 +604,8 @@ app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
                 message: err.message
             });
         } else {
-            console.log("picture");
             var result = Service.uploadImage(pool, service_id, fileName);
-    
+
             res.json({
                 result: true,
                 data: fileName

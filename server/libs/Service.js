@@ -33,11 +33,9 @@ module.exports = {
         return await pool.query(sql);
     },
     uploadImage: async (pool, service_id, fileName) => {
-        var sql = "UPDATE service SET service_image = ? ";
-                    +"WHERE service_id = ?";
+        var sql = "UPDATE service SET service_image = ? WHERE service_id = ?";
         sql = mysql.format(sql, [fileName,service_id]);
-
-        return
+        return await pool.query(sql);
     }
 
 }
