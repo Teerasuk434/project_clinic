@@ -12,10 +12,7 @@ export default function Footer(){
         <div className="Footer">
            <div className='container p-3'>
                 <div className='row mx-5'>
-                    <div className="col-1">
-
-                    </div>
-                    <div className="col-3 left">
+                    <div className="col-4 left">
                         <div className="boxs">
                             <h1 className='Title'>คลินิกปุณกันฑ์สัตวแพทย์</h1>
                             <div className='Text'>

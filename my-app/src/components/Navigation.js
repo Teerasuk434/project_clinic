@@ -19,7 +19,7 @@ export default function Navigation(){
             </div>
 
             <div className='Navbar'>
-                <Navbar className="d-flex justify-content-between" sticky="top" bg="light" variant="light">    
+                <Navbar className="d-flex justify-content-between" bg="light" variant="light">    
                     <div className="ms-5">
                         <Navbar.Brand href="#home"><img src={`http://localhost:8080/images/Logo2.png`}/></Navbar.Brand>
                     </div>

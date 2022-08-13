@@ -34,7 +34,7 @@ export default function Homepage(){
             
             <div className="container">
                 <div className='homepage-picture'>
-                    <img src={`http://localhost:8080/images/Appointment.png`} width={"100%"}/>
+                    <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"}/>
                     <button className='btn btn-appointment'>นัดหมายบริการ</button>
                 </div>
 

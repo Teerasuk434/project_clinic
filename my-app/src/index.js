@@ -30,7 +30,6 @@ root.render(
       <Route path="/role/:role_id" element={<FormRole />}/>
       <Route path="/services" element={<Service/>}/>
       <Route path="/service/:service_id" element={<FormService />}/>
-
     </Routes> 
   </BrowserRouter>
 
