@@ -10,7 +10,7 @@ export default function Admin() {
     console.log(date);
     return (
         <>
-            <div className="Main">
+            <div className="container-fluid">
                 <div className='top row'>
                     <div className='col'>
                         <p>สถานะ : แอดมิน</p>
