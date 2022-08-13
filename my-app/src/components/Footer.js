@@ -1,12 +1,21 @@
 import './Footer.css'
 
 export default function Footer(){
+
+    const iframe = '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpoonnakanpetclinic&tabs=timeline&width=370&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="370" height="130" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
+    
+    function Iframe(props) {
+        return (<div dangerouslySetInnerHTML={ {__html:  props.iframe?props.iframe:""}} />);
+      }
+
     return(
         <div className="Footer">
            <div className='container p-3'>
-                <div className='row'>
+                <div className='row mx-5'>
+                    <div className="col-1">
 
-                    <div className="col-4 left">
+                    </div>
+                    <div className="col-3 left">
                         <div className="boxs">
                             <h1 className='Title'>คลินิกปุณกันฑ์สัตวแพทย์</h1>
                             <div className='Text'>
@@ -17,22 +26,25 @@ export default function Footer(){
                         </div>
                     </div>
 
-                    <div className="col-4 center">
-                        <div className='boxs'>
+                    <div className="col-3 center">
+                        <div className="boxs">
                             <h1 className='Title'>ช่องทางการติดต่อ</h1>
                             <div className='Text'>
-                                <p><i class="fa-brands fa-square-facebook me-2 fa-xl"></i>ปุณณกัณฑ์สัตวแพทย์</p>
-                                <p><i class="fa-brands fa-line me-2 fa-xl"></i>081-622-7293</p>
                                 <p><i class="fa-solid fa-phone me-2 fa-lg"></i>081-622-7293</p>
+                                <p><i class="fa-brands fa-line me-2 fa-xl"></i>081-622-7293</p>
+                                <p><i class="fa-brands fa-square-facebook me-2 fa-xl"></i>ปุณณกัณฑ์สัตวแพทย์</p>
                             </div>
                         </div>
                     </div>  
 
                     <div className="col-4 right">
-                        <div className="boxs">
-                
-                        </div>
-                    </div>             
+                        <Iframe iframe={iframe} />
+                    </div>  
+
+                    <div className="col-1">
+
+                    </div>
+
                 </div>
            </div>
         </div>
