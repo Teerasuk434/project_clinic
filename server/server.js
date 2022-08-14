@@ -94,8 +94,6 @@ app.post("/api/authen_request", (req, res) => {
 app.post("/api/access_request", (req, res) => {
     const authenSignature = req.body.auth_signature;
     const authToken = req.body.auth_token;
-
-    console.log(authToken);
     var decoded = jwt.verify(authToken, "MySecretKey");
 
     if (decoded) {
@@ -485,7 +483,7 @@ app.post("/api/service/add", checkAuth, async (req, res) => {
     }
 });
 
-app.get("/api/service",checkAuth, async (req, res) => {
+app.get("/api/service",async (req, res) => {
 
     pool.query("SELECT * FROM service", function(error, results, fields){
         if (error) {

@@ -4,6 +4,8 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { useNavigate, Link} from 'react-router-dom';
 import './Login.css';
 import Navigation from './components/Navigation';
+import BoxTop from './components/Box-top';
+import Footer from './components/Footer';
 
 var md5 = require("md5");
 export default function Login() {
@@ -38,7 +40,7 @@ export default function Login() {
         localStorage.setItem("role_id", data2.data.account_info.role_id);
         localStorage.setItem("role_name", data2.data.account_info.role_name);
 
-        navigate("home", { replace: true});
+        navigate("/home", { replace: true });
         // <Navigate replace to="/home" />
     }
 
@@ -86,8 +88,11 @@ export default function Login() {
 
     return (
         <>  
+            <BoxTop/>
+            
             <Navigation/>
-            <div className='container'>
+
+            <div className='container content-login p-5'>
                 <div className="Form-Login m-auto">
                     <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
                     <div className="box p-4">
@@ -117,7 +122,7 @@ export default function Login() {
                             </Row>
                             <Row >
                                 <Col>
-                                    <Button bsPrefix="btn btn-login btn-lg" type="submit" >เข้าสู่ระบบ</Button>
+                                    <Button className="btn btn-login btn-lg" type="submit" >เข้าสู่ระบบ</Button>
                                 </Col>
                             </Row>
                         </Form>
@@ -127,8 +132,8 @@ export default function Login() {
                         </div>
                     </div>
                 </div>
-                
             </div>  
+            <Footer/>
         </>
     );
 }

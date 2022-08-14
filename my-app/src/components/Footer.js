@@ -27,9 +27,9 @@ export default function Footer(){
                         <div className="boxs">
                             <h1 className='Title'>ช่องทางการติดต่อ</h1>
                             <div className='Text'>
-                                <p><i class="fa-solid fa-phone me-2 fa-lg"></i>081-622-7293</p>
-                                <p><i class="fa-brands fa-line me-2 fa-xl"></i>081-622-7293</p>
-                                <p><i class="fa-brands fa-square-facebook me-2 fa-xl"></i>ปุณณกัณฑ์สัตวแพทย์</p>
+                                <p><i className="fa-solid fa-phone me-2 fa-lg"></i>081-622-7293</p>
+                                <p><i className="fa-brands fa-line me-2 fa-xl"></i>081-622-7293</p>
+                                <p><i className="fa-brands fa-square-facebook me-2 fa-xl"></i>ปุณณกัณฑ์สัตวแพทย์</p>
                             </div>
                         </div>
                     </div>  

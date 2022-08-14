@@ -23,11 +23,11 @@ export default function UsersItem(props) {
                     <div className="row">
                         <div className="col-12 mt-3">
                             <div className="d-inline-block">
-                                <Link to={`/service/${props.data.service_id}`} className="btn btn-warning me-3">{<i class="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
+                                <Link to={`/service/${props.data.service_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>
 
                             <div className="d-inline-block">
-                                <button type="button" className="btn btn-danger" onClick={onDelete}>{<i class="fa-solid fa-trash-can me-2"></i>}ลบ</button>
+                                <button type="button" className="btn btn-danger" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</button>
                             </div>
                         </div>
                     </div>

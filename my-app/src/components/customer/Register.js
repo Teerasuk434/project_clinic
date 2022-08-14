@@ -16,8 +16,6 @@ export default function Register(){
     const [password, setPassword] = useState("");
 
     const [curr_username, setCurrentUsername] = useState([]); 
-
-    const [checkUsername, setCheckUsername] = useState(false);
     
     let user_id = 0;
 
@@ -35,20 +33,6 @@ export default function Register(){
             );
             let json = await response.json();
             setCurrentUsername(json.data);
-
-            {curr_username.map(item => 
-                {   
-                    //เช็คว่า username ที่รับมากับในฐานข้อมูลตรงกันมั้ย
-                    if (item.username == username){
-                        console.log("Found")
-                        setCheckUsername(true)
-                        setValidated(false)
-                    }else if (item.username != username){
-                        setCheckUsername(false)
-                    }
-                }
-            )}
- 
         }
         fetchData();
     },[])

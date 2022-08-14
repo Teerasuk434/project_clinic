@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Login from './Login';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter,Routes,Route} from "react-router-dom";
+
+import Login from './Login';
 import Home from './Home';
 import Register from './components/customer/Register';
 import Users from './components/admin/Users'

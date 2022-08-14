@@ -1,50 +1,59 @@
-// import { useEffect, useState } from "react";
-// import { Navigate, Link } from "react-router-dom";
 import Customer from './components/customer/Customer';
 import Owner from './components/owner/Owner';
 import Employee from './components/employee/Employee';
 import Admin from './components/admin/Admin';
 import { useEffect, useState } from 'react';
-import Navigation from './components/Navigation';
+import { useNavigate} from 'react-router-dom';
 
 
 export default function Home() {             
 
     let [role_id, setRoleId] = useState(0);
+    let [isLogin, setIsLogin] = useState(false);
     // let role_id = localStorage.getItem("role_id")
     let username = localStorage.getItem("username")
 
-    useEffect(() =>{
-        checkRole();
-    },[])
+    let navigate = useNavigate();
 
-    const checkRole = async () => {
-        const response = await fetch(
-            "http://localhost:8080/home",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username
-                })
-            }
-        );
-        const data = await response.json();
-        console.log(data)
-        setRoleId(data.data)    
+    useEffect(() =>{
+        async function fetchData() {
+            const response = await fetch(
+                "http://localhost:8080/home",
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username
+                    })
+                }
+            );
+
+            const data = await response.json();
+            setRoleId(data.data);
+            checkRole(data.data);
+
+        }
+        fetchData();
+    },[]);
+
+    const checkRole = (id)=>{
+        console.log(id)
+        if(id === 0){
+            navigate("/login", { replace: true });
+        }else if (id === 1){
+            navigate("/", { replace: true });
+        }
     }
 
     return (
         <>  
-            {/* <Navigation /> */}
-
-            {role_id === 1 && (<Customer />)}
             {role_id === 2 && (<Owner />)}
             {role_id === 3 && (<Employee />)}
             {role_id === 4 && (<Admin />)}
+
         </>
     );    
 }

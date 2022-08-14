@@ -31,6 +31,10 @@ Button{
     color:#FFFFFF;
 }
 
+.content-login{
+    background:aliceblue;
+}
+
 .Form-Login{
     width: 50%;
 }

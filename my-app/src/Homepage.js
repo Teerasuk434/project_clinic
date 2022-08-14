@@ -1,4 +1,5 @@
 import Navigation from './components/Navigation';
+import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
 import './Homepage.css';
 import { useEffect, useState } from 'react';
@@ -15,26 +16,31 @@ export default function Homepage(){
                     method: "GET",
                     headers: {
                         Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
+                        'Content-Type': 'application/json'
                     }
                 }
             );
 
             let json = await response.json();
             setServices(json.data);
+            console.log(json.data);
         }
 
         fetchData();
     }, []);
 
     return (
-        <>
+        <>  
+
+        <BoxTop/>
+
+        <div className="sticky-top">
             <Navigation />
+        </div>
             
             <div className="container">
                 <div className='homepage-picture'>
-                    <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"}/>
+                    <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
                     <button className='btn btn-appointment'>นัดหมายบริการ</button>
                 </div>
 
@@ -44,7 +50,7 @@ export default function Homepage(){
                         {
                             services.map(item => (
                                 <div className="items d-inline-block mx-5 text-center">
-                                    <img src={`http://localhost:8080/images/${item.service_image}`}/>
+                                    <img src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
                                     <h6 className='mt-2 fs-4'>{item.service_name}</h6>
                                 </div>
                             ))

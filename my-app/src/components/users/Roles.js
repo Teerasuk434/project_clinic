@@ -80,7 +80,7 @@ export default function Roles() {
 
                 <div className="row">
                     <div className="col-2">
-                        <Link to={"/role/add"} className="btn btn-success ms-3">{<i class="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
+                        <Link to={"/role/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
                     </div>
                     <div className="col-10">
                         <Form>
@@ -99,7 +99,7 @@ export default function Roles() {
                                     </Form.Group>
                                 <Form.Group as={Col} md="2">
                                     <div className="d-grid gap-2">
-                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i class="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
+                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
                                     </div>
                                 </Form.Group>
                             </Row>

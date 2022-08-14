@@ -1,12 +1,6 @@
-.Box-top{
-    background-color: #3171B0;
-    color:#fff;
-    font-size: 12px;
-    padding: 0.5rem;
-}
-
 .Navbar{
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
+    background-color: #91C0DE ;
 }
 
 .Navbar img {
