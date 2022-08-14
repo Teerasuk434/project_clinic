@@ -4,12 +4,12 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const multer = require("multer");
 
-
 const Account = require('./libs/Account');
 const Users = require('./libs/Users');
 const Roles = require('./libs/Roles');
 const Service = require('./libs/Service');
 
+const EmployeeTypes = require('./libs/EmployeeTypes');
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/images', express.static('images'));
 
 var mysql = require('mysql');
+const { response } = require('express');
 var pool = mysql.createPool({
     connectionLimit: 10,
     host: "localhost",
@@ -611,6 +612,94 @@ app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
     });
 });
 
+app.get('/api/emp_types',(req, res) => {
+    pool.query("SELECT * FROM emp_type",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: error.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบประเภทพนักงาน"
+            });
+        }
+    });
+});
+
+app.post('/api/emp_types/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await EmployeeTypes.createEmptypes(pool,input.emp_position_name);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/emp_types/update',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await EmployeeTypes.updateEmptypes(pool,input.emp_position_id, input.emp_position_name);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/emp_types/delete',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await EmployeeTypes.deleteEmptypes(pool,input.emp_position_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
+app.get('/api/emp_types/:emp_position_id', async(req, res) => {
+    const emp_position_id = req.params.emp_position_id;
+
+    try{
+        var result = await EmployeeTypes.getByEmp_position_id(pool,emp_position_id);
+        res.json({
+            result: true,
+            data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
 app.listen(port, () => {
     console.log("Running");
 });
+
