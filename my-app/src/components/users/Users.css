@@ -13,5 +13,5 @@ thead{
 
 .table-striped>tbody>tr:nth-child(odd)>td, 
 .table-striped>tbody>tr:nth-child(odd)>th {
-    background-color: #D6EAF8; /* Choose your own color here */
+    background-color: #D6EAF8;
 }
