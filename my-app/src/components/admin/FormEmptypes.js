@@ -11,20 +11,22 @@ export default function FormEmptypes(){
     const [validated,setValidated] = useState(false);
     // const [emp_position_,setEmpTypes] = useState(false);
     const [emp_position_name,setEmpPositionName] = useState("");
-    
+    const [emp_position_id,setEmpPositionId] = useState("");
 
     useEffect(() =>{
-        async function fetchData(emp_position_name){
-            let json = await API_GET("/emp_types"+emp_position_name);
+        async function fetchData(emp_position_id){
+            let json = await API_GET("emp_types/"+emp_position_id);
             var data = json.data[0];
 
             setEmpPositionName(data.emp_position_name);
+            setEmpPositionId(data.emp_position_id);
+
         }
 
         if(params.emp_position_name != "add"){
-            fetchData([params.emp_position_name]);
+            fetchData([params.emp_position_id]);
         }
-    });
+    },[]);
 
     const onSave = async(event) =>{
         const form = event.currentTarget;
@@ -65,6 +67,7 @@ export default function FormEmptypes(){
     }
     
     const doUpdateEmptypes = async(res) => {
+        console.log(emp_position_name)
         const response = await fetch(
             "http://localhost:8080/api/emp_types/update",
             {
@@ -75,7 +78,9 @@ export default function FormEmptypes(){
                     Authorization: "Bearer "+ localStorage.getItem("access_token")
                 },
                 body: JSON.stringify({
+                    emp_position_id: emp_position_id,
                     emp_position_name: emp_position_name
+                    
                 })
             }
         )
