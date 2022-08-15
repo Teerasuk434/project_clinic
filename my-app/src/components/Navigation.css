@@ -1,9 +1,11 @@
 .Navbar{
-    /* background-color: aliceblue; */
-    background-color: #91C0DE ;
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
 }
 
 .Navbar img {
+    padding:1px;
     height: 60px;
 }
 
@@ -18,6 +20,6 @@
     color:white;
 }
 
-.link{
-    color:black;
+a:hover{
+    font-weight: 500;
 }

@@ -37,8 +37,8 @@ export default function Homepage(){
             <Navigation />
         </div>
             
-            <div className="container">
-                <div className='homepage-picture'>
+            <div className="container" style={{width:"80%"}}>
+                <div className='homepage-picture pt-3 pb-2 px-5'>
                     <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
                     <button className='btn btn-appointment'>นัดหมายบริการ</button>
                 </div>

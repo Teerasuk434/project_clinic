@@ -2,7 +2,7 @@ import './Footer.css'
 
 export default function Footer(){
 
-    const iframe = '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpoonnakanpetclinic&tabs=timeline&width=370&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="370" height="100" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
+    const iframe = '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpoonnakanpetclinic&tabs=timeline&width=370&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="370" height="130" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
     
     function Iframe(props) {
         return (<div dangerouslySetInnerHTML={ {__html:  props.iframe?props.iframe:""}} />);
@@ -12,8 +12,11 @@ export default function Footer(){
         <div className="Footer">
            <div className='container p-3'>
                 <div className='row mx-5'>
+                    
+                    <div className="col-1"></div>
+
                     <div className="col-sm-12 col-lg-4 left">
-                        <div className="boxs">
+                        <div className="boxs ms-5">
                             <h1 className='Title'>คลินิกปุณกันฑ์สัตวแพทย์</h1>
                             <div className='Text'>
                                 <p>คลินิกรักษาสัตว์หาดใหญ่</p>
@@ -23,7 +26,7 @@ export default function Footer(){
                         </div>
                     </div>
 
-                    <div className="col-sm-12 col-lg-3 center">
+                    <div className="col-sm-12 col-lg-2 center">
                         <div className="boxs">
                             <h1 className='Title'>ช่องทางการติดต่อ</h1>
                             <div className='Text'>
@@ -34,7 +37,7 @@ export default function Footer(){
                         </div>
                     </div>  
 
-                    <div className="col-sm-12 col-lg-4 right">
+                    <div className="col-sm-12 col-lg-3 right">
                         
                         
                         <div class="fb-page" data-href="https://www.facebook.com/poonnakanpetclinic" 
@@ -52,10 +55,10 @@ export default function Footer(){
                             </div>
 
 
-                        {/* <Iframe iframe={iframe} /> */}
+                        <Iframe iframe={iframe} />
                     </div>  
 
-                    <div className="col-1">
+                    <div className="col-2">
 
                     </div>
 
