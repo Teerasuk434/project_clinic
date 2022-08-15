@@ -22,7 +22,7 @@ export default function UsersItem(props) {
                 <td>
                     <div className="row">
                         <div className="col-12 mt-3">
-                            <div className="d-inline-block">
+                            <div className="d-inline-block me-2">
                                 <Link to={`/service/${props.data.service_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>
 

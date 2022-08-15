@@ -23,7 +23,6 @@ export default function Homepage(){
 
             let json = await response.json();
             setServices(json.data);
-            console.log(json.data);
         }
 
         fetchData();
@@ -46,12 +45,15 @@ export default function Homepage(){
 
                 <div className="Services text-center p-5">
                     <h1 className="Text-title">บริการของคลินิก</h1>
-                    <div className="Services-Items">
+                    <div className="row mt-4">
                         {
                             services.map(item => (
-                                <div className="items d-inline-block mx-5 text-center">
-                                    <img src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
-                                    <h6 className='mt-2 fs-4'>{item.service_name}</h6>
+                                <div className="col-sm-12 col-lg-3 mt-4" key={item.service_id}>
+                                    <div>
+                                        <img className="img-service" src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
+
+                                    </div>
+                                    <h6 className='mt-3 fs-4'>{item.service_name}</h6>
                                 </div>
                             ))
                         }

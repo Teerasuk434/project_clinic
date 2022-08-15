@@ -682,7 +682,6 @@ app.post('/api/emp_types/delete',async(req, res) => {
     }
 });
 
-
 app.get('/api/emp_types/:emp_position_id', async(req, res) => {
     const emp_position_id = req.params.emp_position_id;
 
@@ -699,6 +698,7 @@ app.get('/api/emp_types/:emp_position_id', async(req, res) => {
         });
     }
 });
+
 app.listen(port, () => {
     console.log("Running");
 });

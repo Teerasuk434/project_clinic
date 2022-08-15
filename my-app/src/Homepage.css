@@ -1,6 +1,6 @@
 .homepage-picture button{
     margin-top: -200px;
-    margin-left: -450px;
+    margin-left: -500px;
     margin-bottom: -400px;
     z-index: 1;
     width: 30%;
@@ -28,5 +28,10 @@
 
 .Text-title{
   color:#85349A;
+}
+
+.img-service{
+  width: 100px;
+  height: 100px;
 }
 

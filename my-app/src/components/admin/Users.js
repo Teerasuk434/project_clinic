@@ -4,7 +4,7 @@ import Sidebar from './Sidebar'
 import AdminContent from './AdminContent'
 
 export default function Admin() {
-    
+    let date = new Date().toLocaleDateString();
     let pages = 2;
     return (
         <>
@@ -29,11 +29,13 @@ export default function Admin() {
                 </div>
 
             
-                <div className='bottom row'>
-                        <div className='col'>
-                            วันที่ : 8/8/2565
+                <div className="row">              
+                    <div className='bottom'>
+                        <div>
+                            <p>วันที่ : {date}</p>
                         </div>
                     </div>
+                </div>
                 
             </div>
         </>

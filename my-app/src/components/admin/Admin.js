@@ -18,7 +18,7 @@ export default function Admin() {
                 </div>
 
                 <div className='row'>
-                    <div className='p-0 col-12 col-lg-2 bg-primary'>
+                    <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
@@ -31,13 +31,14 @@ export default function Admin() {
                     </div>
                 </div>
 
-            
-                <div className='bottom row'>
-                        <div className='col'>
+                <div className="row">              
+                    <div className='bottom'>
+                        <div>
                             <p>วันที่ : {date}</p>
                         </div>
                     </div>
-                
+                </div>
+
             </div>
         </>
     )

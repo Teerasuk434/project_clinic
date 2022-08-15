@@ -14,6 +14,7 @@ import FormRole from './components/users/FormRole';
 import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
 import Homepage from './Homepage';
+import Profile from './components/customer/Profile';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,6 +32,8 @@ root.render(
       <Route path="/role/:role_id" element={<FormRole />}/>
       <Route path="/services" element={<Service/>}/>
       <Route path="/service/:service_id" element={<FormService />}/>
+      <Route path="/profile" element={<Profile />}/>
+
     </Routes> 
   </BrowserRouter>
 
