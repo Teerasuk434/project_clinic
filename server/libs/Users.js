@@ -9,8 +9,13 @@ module.exports = {
 
         return await pool.query(sql);
     },
-    updateUser: async (pool, user_id,username, password, role_id) =>{
-        var sql = "UPDATE users SET username = ?,password = MD5(?),role_id = ? WHERE user_id = ?";
+    updateUser: async (pool, user_id,username, password, role_id,status) =>{
+        if(status == true){
+            var sql = "UPDATE users SET username = ?,password = MD5(?),role_id = ? WHERE user_id = ?";
+        }else{
+            console.log("else");
+            var sql = "UPDATE users SET username = ?,password = ?,role_id = ? WHERE user_id = ?";
+        }
         sql = mysql.format(sql, [username,password,role_id,user_id]);
 
         return await pool.query(sql);

@@ -10,6 +10,7 @@ export default function FormUser() {
     const [userId, setUserId] = useState(0);
     const [username, setUserName] = useState("");
     const [newpassword, setNewPassword] = useState("");
+    const [password,setPassword] = useState("");
     const [role_id, setRoleId] = useState(0);
     const [role_name, setRoleName] = useState("");
 
@@ -17,7 +18,8 @@ export default function FormUser() {
 
     const [validated, setValidated] = useState(false);
 
-    let password;
+    let statusPassword = false;
+
 
     useEffect(() => {
         async function fetchData() {
@@ -46,7 +48,7 @@ export default function FormUser() {
             var data = json.data[0];
             setUserId(data.user_id);
             setUserName(data.username);
-            password = data.password;
+            setPassword(data.password);
             setRoleId(data.role_id);
             setRoleName(data.role_name)
         }
@@ -69,9 +71,11 @@ export default function FormUser() {
 
             } else {
                 if(newpassword === ""){
+                    statusPassword = false;
                     doUpdateUser();
                 }else{
-                    password = newpassword;
+                    statusPassword = true;
+                    setPassword(newpassword);
                     doUpdateUser();
 
                 }
@@ -109,7 +113,8 @@ export default function FormUser() {
             user_id: userId,
             username: username,
             password: password,
-            role_id: role_id
+            role_id: role_id,
+            status: statusPassword
         });
 
         if (json.result) {

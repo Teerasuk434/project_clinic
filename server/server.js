@@ -286,7 +286,8 @@ app.post("/api/user/update", checkAuth, async (req, res) => {
             input.user_id,
             input.username,
             input.password,
-            input.role_id);
+            input.role_id,
+            input.status);
         
         res.json({
             result: true
