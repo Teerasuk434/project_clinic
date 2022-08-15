@@ -15,6 +15,7 @@ import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
 import Homepage from './Homepage';
 import Profile from './components/customer/Profile';
+import FormEmptypes from './components/admin/FormEmptypes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -33,6 +34,7 @@ root.render(
       <Route path="/services" element={<Service/>}/>
       <Route path="/service/:service_id" element={<FormService />}/>
       <Route path="/profile" element={<Profile />}/>
+      <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
 
     </Routes> 
   </BrowserRouter>
