@@ -12,7 +12,7 @@ export default function Register(){
                 <Navigation />
             </div>
 
-            <div className="container" style={{background:"aliceblue"}}>
+            <div className="container" style={{background:"aliceblue",width:"80%"}}>
                 <FormRegister/>
             </div>
 

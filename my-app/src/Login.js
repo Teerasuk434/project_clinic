@@ -92,7 +92,7 @@ export default function Login() {
             
             <Navigation/>
 
-            <div className='container content-login p-5'>
+            <div className='container content-login p-5' style={{width:"80%"}}>
                 <div className="Form-Login m-auto">
                     <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
                     <div className="box p-4">

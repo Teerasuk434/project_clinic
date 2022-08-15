@@ -1,20 +1,45 @@
 .profile{
     height: 100vh;
-    background-color: aliceblue;
+    background-color: white;
+
 }
 
 .profile-left{
-    background-color: beige;
+    background-color: aliceblue;
+    border: 1px solid #CCD1D1;
+    padding: 0;
 }
 
 .profile-right{
-    background-color: cadetblue;
+    background-color: aliceblue;
+    border: 1px solid #CCD1D1;
 }
 
 .profile-sidebar a{
     text-decoration: none;
+    font-size: 14px;
     display: block;
+    width: 100%;
     padding: 16px;
-    border: 1px solid;
+    color:black;
+}
+
+.profile-sidebar a:hover{
+    background-color: #aeddf5;
+    color: black;
+    font-weight: 500;
+}
+
+.profile-sidebar a:active,a.active{
+    background-color: #4BB2E5;
+    color: white;
+    font-weight: 500;
+
+}
+
+.profile-right-header{
+    background-color: #3171B0;
+    color: white;
+    width: 100%;
 }
 
