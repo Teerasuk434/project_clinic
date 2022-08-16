@@ -74,9 +74,10 @@ export default function FormRegister(){
         );
         
         let json = await response.json();
-        // if (json.result) {
-        //     window.location = "/"
-        // }
+        if (json.result) {
+            console.log("สมัครสมาชิกสำเร็จ");
+            window.location = "/"
+        }
     }
 
     const doCreateUser = async () => {
