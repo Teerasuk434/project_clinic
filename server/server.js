@@ -10,6 +10,7 @@ const Roles = require('./libs/Roles');
 const Service = require('./libs/Service');
 
 const EmployeeTypes = require('./libs/EmployeeTypes');
+const RoomTypes = require('./libs/RoomTypes')
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -691,6 +692,22 @@ app.get('/api/emp_types/:emp_position_id', async(req, res) => {
         res.json({
             result: true,
             data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/room_types/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await RoomTypes.createRoomtypes(pool,input.room_type_name);
+        res.json({
+            result: true
         });
     }catch(ex){
         res.json({
