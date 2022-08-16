@@ -255,6 +255,31 @@ app.get("/api/customer/:user_id",async (req, res) =>{
     }
 });
 
+app.post("/api/account/editprofile", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Customer.UpdateProfile(pool,
+            input.firstname,
+            input.lastname,
+            input.tel,
+            input.address,
+            input.gender,
+            input.birthDate,
+            input.email,
+            input.custId);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 
 
 app.get("/api/users", (req, res) =>{

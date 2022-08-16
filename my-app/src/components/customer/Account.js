@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { API_GET,API_POST } from "../../api"
 import { Navigate } from "react-router-dom";
 import Moment from 'moment';
+import { Link } from "react-router-dom"
 
 export default function Account(){
     
@@ -97,7 +98,8 @@ export default function Account(){
 
                                 <div className="row">
                                     <div className="col">
-                                        <button className="btn btn-success ms-5" style={{width:"30%"}}>แก้ไขข้อมูล</button>
+
+                                        <Link to="editprofile" className="btn btn-success ms-5" style={{width:"30%"}}>{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
                                     </div>
                                 </div>
 
