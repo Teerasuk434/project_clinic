@@ -8,6 +8,7 @@ const Account = require('./libs/Account');
 const Users = require('./libs/Users');
 const Roles = require('./libs/Roles');
 const Service = require('./libs/Service');
+const Customer = require('./libs/Customer');
 
 const EmployeeTypes = require('./libs/EmployeeTypes');
 const RoomTypes = require('./libs/RoomTypes')
@@ -235,6 +236,27 @@ app.get("/api/register/user", async (req, res) => {
         }
     });
 });
+
+app.get("/api/customer/:user_id",async (req, res) =>{
+    const user_id = req.params.user_id;
+
+    console.log(user_id);
+    try {
+        var result = await Customer.getByUserId(pool,user_id);
+        // var result = await Users.searchUser(pool,username);
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
 
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "

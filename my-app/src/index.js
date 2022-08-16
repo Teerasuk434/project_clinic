@@ -14,8 +14,10 @@ import FormRole from './components/users/FormRole';
 import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
 import Homepage from './Homepage';
-import Profile from './components/customer/Profile';
 import FormEmptypes from './components/admin/FormEmptypes';
+
+import Account from './components/customer/Account';
+import EditProfile from './components/customer/EditProfile';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -27,13 +29,18 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register/>} />
+
       <Route path="/users" element={<Users />}/>
       <Route path="/user/:user_id" element={<FormUser />}/>
+
       <Route path="/roles" element={<Roles />}/>
       <Route path="/role/:role_id" element={<FormRole />}/>
+
       <Route path="/services" element={<Service/>}/>
       <Route path="/service/:service_id" element={<FormService />}/>
-      <Route path="/profile" element={<Profile />}/>
+
+      <Route path="/account" element={<Account />}/>
+      <Route path="/account/editprofile" element={<EditProfile />}/>
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
 
     </Routes> 

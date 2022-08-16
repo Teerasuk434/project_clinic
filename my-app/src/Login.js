@@ -36,6 +36,7 @@ export default function Login() {
         const data2 = await getAccessToken(authToken);
 
         localStorage.setItem("access_token", data2.data.access_token);
+        localStorage.setItem("user_id", data2.data.account_info.user_id);
         localStorage.setItem("username", username);
         localStorage.setItem("role_id", data2.data.account_info.role_id);
         localStorage.setItem("role_name", data2.data.account_info.role_name);

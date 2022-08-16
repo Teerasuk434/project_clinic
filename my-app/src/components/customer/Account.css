@@ -43,3 +43,8 @@
     width: 100%;
 }
 
+.profile-label p{
+    font-weight: 700;
+    font-size: 16px;
+}
+
