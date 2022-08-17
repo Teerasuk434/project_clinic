@@ -41,7 +41,6 @@ export default function Users(){
             listUsers.filter(user => user.username.includes(search)).map(item => {
                 searchUser.push(item);
             })
-            console.log(searchUser);
 
             fetchSearch(searchUser);
         }else {
