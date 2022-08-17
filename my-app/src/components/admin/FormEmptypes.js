@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import {Button, Form , Row ,Col} from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 
 export default function FormEmptypes(){
 
     let params = useParams();
+    let navigate = useNavigate();
 
     const [validated,setValidated] = useState(false);
     // const [emp_position_,setEmpTypes] = useState(false);
@@ -62,7 +63,7 @@ export default function FormEmptypes(){
         let json = await response.json();
 
         if(json.result){
-            console.log("เพิ่มสำเร็จ");
+            navigate("/emptypes", { replace: true });
         }
     }
     

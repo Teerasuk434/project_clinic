@@ -6,6 +6,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom";
 
 import Login from './Login';
 import Home from './Home';
+import Homepage from './Homepage';
 import Register from './components/customer/Register';
 import Users from './components/admin/Users'
 import FormUser from './components/users/FormUser';
@@ -13,11 +14,13 @@ import Roles from './components/admin/Roles'
 import FormRole from './components/users/FormRole';
 import Service from './components/admin/Service'
 import FormService from './components/service/FormService';
-import Homepage from './Homepage';
 import FormEmptypes from './components/admin/FormEmptypes';
+import EmpTypeMain from './components/admin/EmpTypeMain';
 
 import Account from './components/customer/Account';
 import EditProfile from './components/customer/EditProfile';
+
+import Pets from './components/customer/Pets';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -41,6 +44,9 @@ root.render(
 
       <Route path="/account" element={<Account />}/>
       <Route path="/account/editprofile" element={<EditProfile />}/>
+      <Route path="/account/pets" element={<Pets />} />
+
+      <Route path="/emptypes" element={<EmpTypeMain />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
 
     </Routes> 

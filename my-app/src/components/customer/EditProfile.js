@@ -9,7 +9,6 @@ import Moment from 'moment';
 
 export default function EditProfile(){
 
-
     const [custId, setCustId] = useState(0);
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
@@ -19,7 +18,6 @@ export default function EditProfile(){
     const [birthDate, setBirthDate] = useState("");
     const [email, setEmail] = useState("");
     
-
     const [validated, setValidated] = useState("");
 
     let user_id = localStorage.getItem("user_id");

@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Row, Col, Table } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Users.css';
-import UsersItem from './UsersItem';
+import { Form, Row, Col, Table } from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
+import Emp_Type_Item from './Emp_Type_Item';
 
-export default function Users(){
-    
+export default function EmpTypeContent(){
+
     const [search, setSearch] = useState("");
-    const [users, setUsers] = useState([]);
-    const [listUsers, setListUsers] = useState([]);
+    const [empTypes, setEmpTypes] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
-                "http://localhost:8080/api/users",
+                "http://localhost:8080/api/emp_types",
                 {
                     method: "GET",
                     headers: {
@@ -27,78 +24,41 @@ export default function Users(){
             );
 
             let json = await response.json();
-            setListUsers(json.data);
-            setUsers(json.data);
+            setEmpTypes(json.data);
         }
         fetchData();
 
     }, []);
 
-    useEffect(() => {
 
-        if(search != ""){
-            let searchUser = [];
-            listUsers.filter(user => user.username.includes(search)).map(item => {
-                searchUser.push(item);
-            })
-            console.log(searchUser);
-
-            fetchSearch(searchUser);
-        }else {
-            setUsers(listUsers)
-
-        }
-    },[search])
-
-    const fetchUsers = async () => {
-        let json = await API_GET("users");
-        setListUsers(json.data);
+    const fetchData = async () => {
+        let json = await API_GET("emp_types");
+        setEmpTypes(json.data);
     }
 
     const onDelete = async (data) => {
-        let json = await API_POST("user/delete", {
-            user_id: data.user_id
+        let json = await API_POST("emp_types/delete", {
+            emp_position_id: data.emp_position_id
         });
 
         if (json.result) {
-            fetchUsers();
+            fetchData();
         }
     }
-
-    const fetchSearch = async (searchUser) => {
-        setUsers(searchUser);
-    }
-
-
-    // const onSearch = async (event) => {
-    //     const form = event.currentTarget;
-    //     event.preventDefault();
-
-    //     if (form.checkValidity() === false) {
-    //         event.stopPropagation();
-    //     } else {
-    //             if(search === ""){
-    //                 fetchUsers();
-    //             }else {
-    //                 doSearch(search);
-    //             }
-    //     }
-    // }
-
-    return(
-        <>
-            <div className="container m-auto">
+    
+    return (
+        <div className="container m-auto">
                 <div className="row">
                     <div className="col">
                         <div className="my-5">
-                            <h2 className="header text-center text-white p-2">ข้อมูลผู้ใช้งาน</h2>
+                            <h2 className="header text-center text-white p-2">ข้อมูลประเภทพนักงาน</h2>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
                     <div className="col-2">
-                        <Link to={"/user/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
+                        <Link to={"/emptypes/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
                     </div>
                     <div className="col-10">
                         <Form>
@@ -130,17 +90,16 @@ export default function Users(){
                         <Table striped>
                             <thead>
                                 <tr>
-                                <th>รหัสผู้ใช้งาน</th>
-                                <th>ชื่อผู้ใช้งาน</th>
-                                <th>ประเภทผู้ใช้งาน</th>
+                                <th>รหัสประเภทพนักงาน</th>
+                                <th>ชื่อประเภทพนักงาน</th>
                                 <th>action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    users.map(item => (
-                                        <UsersItem
-                                        key={item.user_id}
+                                    empTypes.map(item => (
+                                        <Emp_Type_Item
+                                        key={item.emp_position_id}
                                         data={item}
                                         onDelete={onDelete} />
                                     ))
@@ -151,6 +110,5 @@ export default function Users(){
 
                 </div>
             </div>
-        </>
     )
 }

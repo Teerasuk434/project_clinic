@@ -1,4 +1,3 @@
-import Customer from './components/customer/Customer';
 import Owner from './components/owner/Owner';
 import Employee from './components/employee/Employee';
 import Admin from './components/admin/Admin';
@@ -9,8 +8,6 @@ import { useNavigate} from 'react-router-dom';
 export default function Home() {             
 
     let [role_id, setRoleId] = useState(0);
-    let [isLogin, setIsLogin] = useState(false);
-    // let role_id = localStorage.getItem("role_id")
     let username = localStorage.getItem("username")
 
     let navigate = useNavigate();
@@ -32,18 +29,21 @@ export default function Home() {
             );
 
             const data = await response.json();
-            setRoleId(data.data);
-            checkRole(data.data);
+
+            if(data.result == false){
+                navigate("/login", { replace: true });
+            }else {
+                setRoleId(data.data);
+                checkRole(data.data);
+                console.log(data.data);
+            }
 
         }
         fetchData();
     },[]);
 
     const checkRole = (id)=>{
-        console.log(id)
-        if(id === 0){
-            navigate("/login", { replace: true });
-        }else if (id === 1){
+        if (id === 1){
             navigate("/", { replace: true });
         }
     }

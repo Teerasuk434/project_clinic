@@ -23,7 +23,7 @@ export default function Account(){
 
     useEffect(()=>{
 
-        async function fetchData(user_id){
+        async function fetchData(){
             let json = await API_GET("customer/" + user_id);
 
             setFirstName(json.data[0].cust_fname);
@@ -36,7 +36,7 @@ export default function Account(){
             let bd_split = (json.data[0].cust_birthdate).split("T")
             setBirthDate(Moment(bd_split[0]).format('DD/MM/YYYY'));
         }
-        fetchData(user_id);
+        fetchData();
 
     },[])
 
@@ -49,7 +49,7 @@ export default function Account(){
 
                 <div className="container profile">
                     <div className="row p-4">
-                        <div className="col-2 profile-left me-2  ms-5 shadow-sm ">
+                        <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
                             <div className="Profile-Name text-center">
                                 <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
                                 <h5 className="text-center mt-3">ธีรศักดิ์ เทียนชัย</h5>
@@ -58,12 +58,14 @@ export default function Account(){
 
                             <div className="profile-sidebar">
                                 <div>
-                                    <a className="active" href="#">ข้อมูลบัญชี</a>
-                                    <a href="#">ข้อมูลสัตว์เลี้ยง</a>
+                                    <Link className="active" to="/account">ข้อมูลบัญชี</Link>
+                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
+                                    {/* <a className="active" href="/account">ข้อมูลบัญชี</a>
+                                    <a href="/account/pets">ข้อมูลสัตว์เลี้ยง</a> */}
                                     <a href="">ข้อมูลการนัดหมาย</a>
                                     <a href="">ประวัติการนัดหมาย</a>
                                     <a href="">ตั้งค่ารหัสผ่าน</a>
-                                    <a href="">ออกจากระบบ</a>
+                                    <a href="/">ออกจากระบบ</a>
                                 </div>
                             </div>
                         </div>
