@@ -748,13 +748,84 @@ app.get('/api/emp_types/:emp_position_id', async(req, res) => {
     }
 });
 
-app.post('/api/room_types/add',async(req, res) => {
+app.get('/api/room_type',(req, res) => {
+    pool.query("SELECT * FROM room_type",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: error.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบประเภทห้องรักษา"
+            });
+        }
+    });
+});
+
+app.post('/api/room_type/add',async(req, res) => {
     const input = req.body;
 
     try{
         var result = await RoomTypes.createRoomtypes(pool,input.room_type_name);
         res.json({
             result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/room_type/update',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await RoomTypes.updateRoomtypes(pool,input.room_type_id, input.room_type_name);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/room_type/delete',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await RoomTypes.deleteRoomtypes(pool,input.room_type_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/room_type/:room_type_id', async(req, res) => {
+    const room_type_id = req.params.room_type_id;
+
+    try{
+        var result = await RoomTypes.getByroom_type_id(pool,room_type_id);
+        res.json({
+            result: true,
+            data: result
         });
     }catch(ex){
         res.json({
