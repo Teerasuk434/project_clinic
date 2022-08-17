@@ -8,7 +8,7 @@ export default function RoomTypes(){
     useEffect( () => {
         async function fetchData(){
             const response = await fetch(
-                "http://localhost:8080/api/room_types",
+                "http://localhost:8080/api/room_type",
                 {
                     method: "GET",
                     headers:{
