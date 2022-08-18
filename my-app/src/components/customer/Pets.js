@@ -1,10 +1,49 @@
 import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
-import './Account.css'
+import { Form, Row, Col, Table } from 'react-bootstrap'
 import { Link } from "react-router-dom"
+import PetsItems from "./PetsItems"
+import { API_GET, API_POST } from "../../api"
+import { useEffect, useState } from "react"
 
-export default function Account(){
+export default function Pets(){
+
+    const [pets, setPets] = useState([]);
+    const [custId, setCustId] = useState(0);
+
+    let user_id = localStorage.getItem("user_id");
+
+
+    useEffect(()=>{
+
+        async function fetchData(user_id){
+            let json = await API_GET("customer/" + user_id);
+            setCustId(json.data[0].cust_id);
+
+        }
+        fetchData(user_id);
+
+    },[])
+
+    useEffect(()=>{
+
+        async function fetchData(){
+            let json = await API_GET("pets");
+            let listPets = [];
+
+            json.data.map(item => {
+                console.log(item)
+                if(item.cust_id === custId){
+                    listPets.push(item)
+                }
+            })
+
+            setPets(listPets);
+        }
+        fetchData();
+
+    },[custId])
   
     return(
         <>
@@ -43,22 +82,33 @@ export default function Account(){
 
                             <div className="profile-details">
                                 <div className="row mx-5 mt-5 mb-3">
-                                    <div className="col-3 m-auto profile-label">
-
+                                    <div className="col m-auto profile-label text-center">
+                                    <Table>
+                                        <thead>
+                                            <tr>
+                                            <th>ชื่อสัตว์เลี้ยง</th>
+                                            <th>ประเภท</th>
+                                            <th>สายพันธุ์</th>
+                                            <th>เพศ</th>
+                                            <th>อายุ</th>
+                                            <th>action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                pets.map(item => (
+                                                    <PetsItems
+                                                    key={item.pet_id}
+                                                    data={item}
+                                                     />
+                                                    //  onDelete={onDelete}
+                                                ))
+                                            }
+                                        </tbody>
+                                    </Table>
                                     </div>
 
-                                    <div className="col-9">
-
-                                    </div>
                                 </div>
-
-                                <div className="row">
-                                    <div className="col">
-
-                                        {/* <Link to="editprofile" className="btn btn-success ms-5" style={{width:"30%"}}>{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link> */}
-                                    </div>
-                                </div>
-
                                 
                             </div>
 

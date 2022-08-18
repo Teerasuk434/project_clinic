@@ -25,11 +25,5 @@ module.exports = {
         sql = mysql.format(sql, [role_id]);
 
         return await pool.query(sql);
-    },
-    searchRole: async (pool, data) => {
-        var sql = "SELECT * FROM roles WHERE role_id = ? OR role_name = ?";
-        sql = mysql.format(sql,[data,data]);
-
-        return await pool.query(sql);
     }
 }

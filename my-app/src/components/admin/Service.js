@@ -31,7 +31,7 @@ export default function Admin() {
                 <div className="row">              
                     <div className='bottom'>
                         <div>
-                            <p>วันที่ : {date}</p>
+                            <p className='me-2'>วันที่ : {date}</p>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@ export default function FormService() {
     const [selectedFile, setSelectedFile] = useState([]);
 
     const [services, setServices] = useState([]);
+    const [room_types, setRoomTypes] = useState([]);
 
     const [validated, setValidated] = useState(false);
 
@@ -38,6 +39,27 @@ export default function FormService() {
 
             let json = await response.json();
             setServices(json.data);
+        }
+
+        fetchData();
+    },[]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                "http://localhost:8080/api/room_type",
+                {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + localStorage.getItem("access_token")
+                    }
+                }
+            );
+
+            let json = await response.json();
+            setRoomTypes(json.data);
         }
 
         fetchData();
@@ -73,7 +95,7 @@ export default function FormService() {
                 doCreateService();
 
             } else {
-                    doUpdateService();
+                doUpdateService();
             }
         }
         setValidated(true);
@@ -248,13 +270,18 @@ export default function FormService() {
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="validateRoomUse">
                             <Form.Label>ห้องที่ใช้</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    value={room_type_id}
-                                    placeholder="ห้องที่ใช้"
-                                    onChange={(e) => setRoomTypeId(e.target.value)}
-                                />
+                            <Form.Select
+                                value={room_type_id}
+                                onChange={(e) => setRoomTypeId(e.target.value)}
+                                required>
+                                <option label="กรุณาเลือกห้องที่ใช้"></option> 
+                                {
+                                   room_types.map(item => (
+                                    <option key={item.room_type_id} value={item.room_type_id}> 
+                                    {item.room_type_name} </option>
+                                ))
+                                }
+                            </Form.Select>
                                 <Form.Control.Feedback type="invalid">
                                     กรุณากรอก ห้องที่ใช้
                                 </Form.Control.Feedback>

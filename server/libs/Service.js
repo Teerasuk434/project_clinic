@@ -10,7 +10,8 @@ module.exports = {
     },
     updateService: async (pool, service_id,service_name,cost_service,cost_deposit,time_spent,room_type_id) =>{
         var sql = "UPDATE service SET service_name = ?, cost_service = ?, cost_deposit = ?, time_spent = ?, room_type_id = ? WHERE service_id = ?";
-        sql = mysql.format(sql, [service_id,service_name,cost_service,cost_deposit,time_spent,room_type_id]);
+        sql = mysql.format(sql, [service_name,cost_service,cost_deposit,time_spent,room_type_id,service_id]);
+        console.log(sql)
 
         return await pool.query(sql);
     },
@@ -23,12 +24,6 @@ module.exports = {
     getByServiceId: async (pool, service_id) => {
         var sql = "SELECT * FROM service WHERE service_id = ?";
         sql = mysql.format(sql, [service_id]);
-
-        return await pool.query(sql);
-    },
-    searchService: async (pool, data) => {
-        var sql = "SELECT * FROM service WHERE service_id = ? OR service_name = ? OR cost_service = ? OR cost_deposit = ? OR time_spent = ? OR room_type_id = ?";
-        sql = mysql.format(sql,[data,data,data,data,data,data]);
 
         return await pool.query(sql);
     },

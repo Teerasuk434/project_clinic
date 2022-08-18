@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
     createUser: async (pool, username, password, role_id) => {
+        console.log(password);
         var sql ="INSERT INTO users (username, password, role_id) "
                     + "VALUES (?, MD5(?), ?)";
         sql = mysql.format(sql, [username, password, role_id]);
@@ -29,12 +30,6 @@ module.exports = {
     getByUserId: async (pool, user_id) => {
         var sql = "SELECT * FROM users WHERE user_id = ?";
         sql = mysql.format(sql, [user_id]);
-
-        return await pool.query(sql);
-    },
-    searchUser: async (pool, data) => {
-        var sql = "SELECT * FROM users a JOIN roles b ON a.role_id = b.role_id WHERE a.user_id = ? OR a.username = ? OR b.role_name = ?";
-        sql = mysql.format(sql,[data,data,data]);
 
         return await pool.query(sql);
     }

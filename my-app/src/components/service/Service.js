@@ -9,6 +9,7 @@ export default function Service(){
     
     const [search, setSearch] = useState("");
     const [services, setServices] = useState([]);
+    const [listServices, setListServices] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -26,15 +27,23 @@ export default function Service(){
 
             let json = await response.json();
             setServices(json.data);
-            console.log(services);
+            setListServices(json.data)
         }
 
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if(search == ""){
+            setServices(listServices);
+        }
+
+    }, [search]);
+
     const fetchServices = async () => {
         let json = await API_GET("service");
         setServices(json.data);
+        setListServices(json.data);
     }
 
     const onDelete = async (data) => {
@@ -47,12 +56,6 @@ export default function Service(){
         }
     }
 
-    const doSearch = async (data) => {
-        let json = await API_GET("service/search/" + data);
-            setServices(json.data);
-
-    }
-
     const onSearch = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
@@ -60,13 +63,18 @@ export default function Service(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-                if(search === ""){
-                    fetchServices();
-                }else {
-                    doSearch(search);
-                }
+            if(search != ""){
+                let searchServices = [];
+                listServices.filter(Service => Service.service_name.includes(search)).map(item => {
+                    searchServices.push(item);
+                })
+    
+                setServices(searchServices);
+            }else {
+                setServices(listServices);
+            }
         }
-    }
+     }
 
     return(
         <>

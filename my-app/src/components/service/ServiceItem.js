@@ -18,7 +18,7 @@ export default function UsersItem(props) {
                 <td><p className="mt-3">{props.data.cost_deposit}</p></td>
                 <td><p className="mt-3">{props.data.time_spent}</p></td>
                 <td><p><img src={`http://localhost:8080/images/${props.data.service_image}`} width={60}/></p></td>
-                <td><p className="mt-3">{props.data.room_type_id}</p></td>
+                <td><p className="mt-3">{props.data.room_type_name}</p></td>
                 <td>
                     <div className="row">
                         <div className="col-12 mt-3">

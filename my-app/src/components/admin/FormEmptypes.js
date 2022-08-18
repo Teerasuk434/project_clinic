@@ -88,7 +88,7 @@ export default function FormEmptypes(){
         let json = await response.json();
 
         if(json.result){
-            console.log("อัปเดตสำเร็จ");
+            navigate("/emptypes", { replace: true });
         }
     }
     return(

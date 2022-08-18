@@ -29,29 +29,23 @@ export default function Users(){
             let json = await response.json();
             setListUsers(json.data);
             setUsers(json.data);
+            console.log(json.data);
         }
         fetchData();
 
     }, []);
 
     useEffect(() => {
-
-        if(search != ""){
-            let searchUser = [];
-            listUsers.filter(user => user.username.includes(search)).map(item => {
-                searchUser.push(item);
-            })
-
-            fetchSearch(searchUser);
-        }else {
-            setUsers(listUsers)
-
+        if(search == ""){
+            setUsers(listUsers);
         }
-    },[search])
+
+    }, [search]);
 
     const fetchUsers = async () => {
         let json = await API_GET("users");
         setListUsers(json.data);
+        setUsers(json.data);
     }
 
     const onDelete = async (data) => {
@@ -64,25 +58,25 @@ export default function Users(){
         }
     }
 
-    const fetchSearch = async (searchUser) => {
-        setUsers(searchUser);
-    }
+    const onSearch = async (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
 
-
-    // const onSearch = async (event) => {
-    //     const form = event.currentTarget;
-    //     event.preventDefault();
-
-    //     if (form.checkValidity() === false) {
-    //         event.stopPropagation();
-    //     } else {
-    //             if(search === ""){
-    //                 fetchUsers();
-    //             }else {
-    //                 doSearch(search);
-    //             }
-    //     }
-    // }
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        } else {
+            if(search != ""){
+                let searchUser = [];
+                listUsers.filter(user => user.username.includes(search)).map(item => {
+                    searchUser.push(item);
+                })
+    
+                setUsers(searchUser);
+            }else {
+                setUsers(listUsers);
+            }
+        }
+     }
 
     return(
         <>
@@ -116,7 +110,7 @@ export default function Users(){
                                     </Form.Group>
                                 <Form.Group as={Col} md="2">
                                     <div className="d-grid gap-2">
-                                        <button className="btn btn-success" type="submit">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
+                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
                                     </div>
                                 </Form.Group>
                             </Row>

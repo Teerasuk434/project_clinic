@@ -12,6 +12,7 @@ const Customer = require('./libs/Customer');
 
 const EmployeeTypes = require('./libs/EmployeeTypes');
 const RoomTypes = require('./libs/RoomTypes')
+const Pets = require('./libs/Pets')
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -243,7 +244,6 @@ app.get("/api/customer/:user_id",async (req, res) =>{
     console.log(user_id);
     try {
         var result = await Customer.getByUserId(pool,user_id);
-        // var result = await Users.searchUser(pool,username);
         res.json({
             result: true,
             data: result
@@ -383,23 +383,6 @@ app.get("/api/user/:user_id", async (req, res) => {
     }
 });
 
-app.get("/api/user/search/:data", async (req, res) => {
-    const data = req.params.data;
-    try {
-        var result = await Users.searchUser(pool, data);
-
-        res.json({
-            result: true,
-            data: result
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
-
 
 app.post("/api/role/add", checkAuth, async (req, res) => {
     const input = req.body;
@@ -495,23 +478,6 @@ app.get("/api/role/:role_id", async (req, res) => {
             message: ex.message
         });
     }
-})
-
-app.get("/api/role/search/:data", async (req, res) => {
-    const data = req.params.data;
-    try {
-        var result = await Roles.searchRole(pool, data);
-
-        res.json({
-            result: true,
-            data: result
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
 });
 
 app.post("/api/service/add", checkAuth, async (req, res) => {
@@ -535,7 +501,7 @@ app.post("/api/service/add", checkAuth, async (req, res) => {
 
 app.get("/api/service",async (req, res) => {
 
-    pool.query("SELECT * FROM service", function(error, results, fields){
+    pool.query("SELECT * FROM service a JOIN room_type b ON a.room_type_id = b.room_type_id", function(error, results, fields){
         if (error) {
             res.json({
                 result: false,
@@ -559,8 +525,10 @@ app.get("/api/service",async (req, res) => {
 app.post("/api/service/update", checkAuth, async (req, res) => {
     const input = req.body;
 
+
     try {
         var result = await Service.updateService(pool,
+            input.service_id,
             input.service_name,input.cost_service,
             input.cost_deposit,input.time_spent,input.room_type_id);
         
@@ -611,22 +579,6 @@ app.get("/api/service/:service_id", async (req, res) => {
     }
 })
 
-app.get("/api/service/search/:data", async (req, res) => {
-    const data = req.params.data;
-    try {
-        var result = await Service.searchService(pool, data);
-
-        res.json({
-            result: true,
-            data: result
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
 
 app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
     var service_id = req.params.service_id;
@@ -823,6 +775,102 @@ app.get('/api/room_type/:room_type_id', async(req, res) => {
 
     try{
         var result = await RoomTypes.getByroom_type_id(pool,room_type_id);
+        res.json({
+            result: true,
+            data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/pets',(req, res) => {
+    pool.query("SELECT * FROM pets",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: error.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบประเภทห้องรักษา"
+            });
+        }
+    });
+});
+
+app.post('/api/pets/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Pets.createPet(pool,
+            input.pet_name,input.pet_type,
+            input.pet_species,input.pet_gender,
+            input.pet_age_year,input.pet_age_month,
+            input.cust_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/pets/update',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Pets.updatePet(pool,
+            input.pet_id,
+            input.pet_name,input.pet_type,
+            input.pet_species,input.pet_gender,
+            input.pet_age_year,input.pet_age_month,
+            input.cust_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/pets/delete',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Pets.deletePet(pool,input.pet_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/pets/:pet_id', async(req, res) => {
+    const pet_id = req.params.pet_id;
+
+    try{
+        var result = await Pets.getByPetId(pool,pet_id);
         res.json({
             result: true,
             data: result

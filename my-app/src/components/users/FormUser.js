@@ -20,7 +20,6 @@ export default function FormUser() {
 
     let statusPassword = false;
 
-
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -66,7 +65,7 @@ export default function FormUser() {
             event.stopPropagation();
         } else {
             if (params.user_id === "add") {
-                password = newpassword;
+                await setPassword(newpassword);
                 doCreateUser();
 
             } else {

@@ -60,12 +60,10 @@ export default function Account(){
                                 <div>
                                     <Link className="active" to="/account">ข้อมูลบัญชี</Link>
                                     <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    {/* <a className="active" href="/account">ข้อมูลบัญชี</a>
-                                    <a href="/account/pets">ข้อมูลสัตว์เลี้ยง</a> */}
-                                    <a href="">ข้อมูลการนัดหมาย</a>
-                                    <a href="">ประวัติการนัดหมาย</a>
-                                    <a href="">ตั้งค่ารหัสผ่าน</a>
-                                    <a href="/">ออกจากระบบ</a>
+                                    <Link to="#">ข้อมูลการนัดหมาย</Link>
+                                    <Link to="#">ประวัติการนัดหมาย</Link>
+                                    <Link to="#">ตั้งค่ารหัสผ่าน</Link>
+                                    <Link to="/">ออกจากระบบ</Link>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +74,7 @@ export default function Account(){
                             </div>
 
                             <div className="profile-details">
-                                <div className="row mx-5 mt-5 mb-3">
+                                <div className="row mx-5 mt-5 mb-4">
                                     <div className="col-3 m-auto profile-label">
                                         <p>ชื่อผู้ใช้งาน</p>
                                         <p>ชื่อ-สกุล</p>
@@ -105,7 +103,6 @@ export default function Account(){
                                     </div>
                                 </div>
 
-                                
                             </div>
 
                             <div className="profile-right-content">

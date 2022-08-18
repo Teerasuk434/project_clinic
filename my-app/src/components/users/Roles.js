@@ -9,6 +9,7 @@ export default function Roles() {
 
     const [search, setSearch] = useState("");
     const [roles, setRoles] = useState([]);
+    const [listRoles, setListRoles] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -26,14 +27,23 @@ export default function Roles() {
 
             let json = await response.json();
             setRoles(json.data);
+            setListRoles(json.data);
         }
 
         fetchData();
     }, []);
 
-    const fetchUsers = async () => {
+    useEffect(() => {
+        if(search == ""){
+            setRoles(listRoles);
+        }
+
+    }, [search]);
+
+    const fetchRoles = async () => {
         let json = await API_GET("roles");
         setRoles(json.data);
+        setListRoles(json.data)
     }
 
     const onDelete = async (data) => {
@@ -42,14 +52,8 @@ export default function Roles() {
         });
 
         if (json.result) {
-            fetchUsers();
+            fetchRoles();
         }
-    }
-
-    const doSearch = async (data) => {
-        let json = await API_GET("role/search/" + data);
-            setRoles(json.data);
-
     }
 
     const onSearch = async (event) => {
@@ -59,14 +63,17 @@ export default function Roles() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-                if(search === ""){
-                    fetchUsers();
-                }else {
-                    doSearch(search);
-                }
+            if(search != ""){
+                let searchRoles = [];
+                listRoles.filter(role => role.role_name.includes(search)).map(item => {
+                    searchRoles.push(item);
+                })
+    
+                setRoles(searchRoles);
+            }
         }
-    }
-
+     }
+     
     return(
         <>
             <div className="container m-auto">

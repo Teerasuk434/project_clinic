@@ -8,6 +8,7 @@ export default function EmpTypeContent(){
 
     const [search, setSearch] = useState("");
     const [empTypes, setEmpTypes] = useState([]);
+    const [listEmpTypes, setListEmpTypes] = useState([]);
 
     useEffect(() => {
         async function fetchData() {
@@ -25,15 +26,24 @@ export default function EmpTypeContent(){
 
             let json = await response.json();
             setEmpTypes(json.data);
+            setListEmpTypes(json.data);
         }
         fetchData();
 
     }, []);
 
+    useEffect(() => {
+        if(search == ""){
+            setEmpTypes(listEmpTypes);
+        }
+
+    }, [search]);
+
 
     const fetchData = async () => {
         let json = await API_GET("emp_types");
         setEmpTypes(json.data);
+        setListEmpTypes(json.data);
     }
 
     const onDelete = async (data) => {
@@ -45,6 +55,24 @@ export default function EmpTypeContent(){
             fetchData();
         }
     }
+
+    const onSearch = async (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        } else {
+            if(search != ""){
+                let searchEmpTypes = [];
+                listEmpTypes.filter(empTypes => empTypes.emp_position_name.includes(search)).map(item => {
+                    searchEmpTypes.push(item);
+                })
+    
+                setEmpTypes(searchEmpTypes);
+            }
+        }
+     }
     
     return (
         <div className="container m-auto">
@@ -77,7 +105,7 @@ export default function EmpTypeContent(){
                                     </Form.Group>
                                 <Form.Group as={Col} md="2">
                                     <div className="d-grid gap-2">
-                                        <button className="btn btn-success" type="submit">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
+                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
                                     </div>
                                 </Form.Group>
                             </Row>
