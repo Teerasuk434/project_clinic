@@ -94,68 +94,71 @@ export default function Rooms(){
                         </div>
                     </div>
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="container m-auto">
-                            <div className="row">
-                                <div className="col">
-                                    <div className="my-5">
-                                        <h2 className="header text-center text-white p-2">ข้อมูลประเภทห้องรักษา</h2>
+                        <div className="content">
+                            <div className="container m-auto">
+                                <div className="row">
+                                    <div className="col">
+                                        <div className="my-5">
+                                            <h2 className="header text-center text-white p-2">ข้อมูลประเภทห้องรักษา</h2>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="row">
-                                <div className="col-2">
-                                    <Link to={"/roomtype/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
-                                </div>
-                                <div className="col-10">
-                                    <Form>
-                                        <Row>
-                                            <Form.Group as={Col} md="10" className="mb-2" controlId="validateFirstName">
-                                                <Form.Control
-                                                    required
-                                                    type="text"
-                                                    value={search}
-                                                    placeholder="ค้นหา"
-                                                    onChange={(e) => setSearch(e.target.value)}
-                                                />
-                                                <Form.Control.Feedback type="invalid">
-                                                    กรุณากรอกข้อมูลที่ต้องการค้นหา
-                                                </Form.Control.Feedback>
+                                <div className="row">
+                                    <div className="col-2">
+                                        <Link to={"/room/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
+                                    </div>
+                                    <div className="col-10">
+                                        <Form>
+                                            <Row>
+                                                <Form.Group as={Col} md="10" className="mb-2" controlId="validateFirstName">
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={search}
+                                                        placeholder="ค้นหา"
+                                                        onChange={(e) => setSearch(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกข้อมูลที่ต้องการค้นหา
+                                                    </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                <Form.Group as={Col} md="2">
+                                                    <div className="d-grid gap-2">
+                                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
+                                                    </div>
                                                 </Form.Group>
-                                            <Form.Group as={Col} md="2">
-                                                <div className="d-grid gap-2">
-                                                    <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
-                                                </div>
-                                            </Form.Group>
-                                        </Row>
-                                    </Form>
+                                            </Row>
+                                        </Form>
+                                    </div>
+                                </div>
+
+                                <div className='row mt-3'>
+                                    <div className='col text-center'>
+                                        <Table striped>
+                                            <thead>
+                                                <tr>
+                                                <th>รหัสประเภทห้องรักษา</th>
+                                                <th>ชื่อประเภทห้องรักษา</th>
+                                                <th>action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    room_type.map(item => (
+                                                        <RoomTypesItem
+                                                        key={item.room_type_id}
+                                                        data={item}
+                                                        onDelete={onDelete} />
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </div>
+
                                 </div>
                             </div>
 
-                            <div className='row mt-3'>
-                                <div className='col text-center'>
-                                    <Table striped>
-                                        <thead>
-                                            <tr>
-                                            <th>รหัสประเภทห้องรักษา</th>
-                                            <th>ชื่อประเภทห้องรักษา</th>
-                                            <th>action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                room_type.map(item => (
-                                                    <RoomTypesItem
-                                                    key={item.room_type_id}
-                                                    data={item}
-                                                    onDelete={onDelete} />
-                                                ))
-                                            }
-                                        </tbody>
-                                    </Table>
-                                </div>
-
-                            </div>
                         </div>
                     </div>
                 </div>

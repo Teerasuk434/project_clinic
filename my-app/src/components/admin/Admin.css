@@ -30,6 +30,7 @@
     background-color: #3171B0;
   }
 
-  .content contanier {
-    width:70%;
+  .content{
+    width:90%;
+    margin: auto;
   }
