@@ -1,10 +1,10 @@
 import Sidebar from "./Sidebar";
 import AdminContent from "./AdminContent";
 
-export default function RoomTypes(){
+export default function Rooms(){
     
     let date = new Date().toLocaleDateString();
-    let pages = 6
+    // let pages = 6
 
 
     
@@ -36,7 +36,7 @@ export default function RoomTypes(){
                 <div className="row">              
                     <div className='bottom'>
                         <div>
-                            <p>วันที่ : {date}</p>
+                            {/* <p>วันที่ : {date}</p> */}
                         </div>
                     </div>
                 </div>

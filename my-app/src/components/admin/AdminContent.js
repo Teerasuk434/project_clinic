@@ -4,6 +4,7 @@ import Roles from '../users/Roles';
 import Service from '../service/Service';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EmpTypeContent from './EmpTypeContent';
+import RoomTypes from '../room/RoomTypes';
 
 
 export default function AdminContent(props){
@@ -14,7 +15,7 @@ export default function AdminContent(props){
                 {props.pages === 3 && <Roles />}
                 {props.pages === 4 && <EmpTypeContent />}
                 {props.pages === 5 && <Service />}
-                {props.pages === 6 && <Service />}
+                {props.pages === 6 && <RoomTypes />}
 
             </>
     )

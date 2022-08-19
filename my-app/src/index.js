@@ -21,9 +21,11 @@ import Account from './components/customer/Account';
 import EditProfile from './components/customer/EditProfile';
 
 import Pets from './components/customer/Pets';
-import FormRoomtypes from './components/admin/FormRoomTypes';
+import FormRoomtypes from './components/room/FormRoomTypes';
 
 import Appointment from './components/Appointment';
+
+import RoomTypes from './components/admin/RoomTypes';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -51,9 +53,12 @@ root.render(
 
       <Route path="/emptypes" element={<EmpTypeMain />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
-      <Route path="/roomtypes/:room_type_id" element={<FormRoomtypes/>} />
-
+      
       <Route path="/appointment" element={<Appointment />} />
+
+      <Route path="/roomtypes" element={<RoomTypes/>} />
+      <Route path="/roomtype/:room_type_id" element={<FormRoomtypes/>} />
+
 
 
     </Routes> 

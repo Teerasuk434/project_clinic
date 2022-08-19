@@ -15,7 +15,7 @@ export default function FormRoomtypes(){
     const [room_type_id,setRoomTypesId] = useState("");
 
     useEffect(() =>{
-        async function fetchData(emp_position_id){
+        async function fetchData(room_type_id){
             let json = await API_GET("room_type/"+room_type_id);
             var data = json.data[0];
 

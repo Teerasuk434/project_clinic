@@ -773,6 +773,8 @@ app.post('/api/room_type/delete',async(req, res) => {
 app.get('/api/room_type/:room_type_id', async(req, res) => {
     const room_type_id = req.params.room_type_id;
 
+    console.log(room_type_id)
+
     try{
         var result = await RoomTypes.getByroom_type_id(pool,room_type_id);
         res.json({
