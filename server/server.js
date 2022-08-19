@@ -789,7 +789,7 @@ app.get('/api/pets',(req, res) => {
         if(err){
             res.json({
                 result: false,
-                message: error.message
+                message: err.message
             });
         }
         if(results.length){
