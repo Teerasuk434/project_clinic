@@ -23,6 +23,8 @@ import EditProfile from './components/customer/EditProfile';
 import Pets from './components/customer/Pets';
 import FormRoomtypes from './components/admin/FormRoomTypes';
 
+import Appointment from './components/Appointment';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -50,6 +52,9 @@ root.render(
       <Route path="/emptypes" element={<EmpTypeMain />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       <Route path="/roomtypes/:room_type_id" element={<FormRoomtypes/>} />
+
+      <Route path="/appointment" element={<Appointment />} />
+
 
     </Routes> 
   </BrowserRouter>

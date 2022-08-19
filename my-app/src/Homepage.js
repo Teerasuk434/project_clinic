@@ -3,6 +3,7 @@ import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
 import './Homepage.css';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Homepage(){
 
@@ -40,7 +41,7 @@ export default function Homepage(){
             <div className="container" style={{width:"80%"}}>
                 <div className='homepage-picture py-5 px-3 '>
                     <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
-                    <button className='btn btn-appointment'>นัดหมายบริการ</button>
+                    <Link className="btn btn-appointment" to="/appointment">นัดหมายบริการ</Link>
                 </div>
 
                 <div className="Services text-center p-5">

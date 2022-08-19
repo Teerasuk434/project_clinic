@@ -25,7 +25,7 @@ export default function Navigation(){
                             <Nav.Link className="me-2" href="/">หน้าแรก</Nav.Link>
                             <Nav.Link className="me-2" href="#about">เกี่ยวกับเรา</Nav.Link>
                             <Nav.Link className="me-2" href="#services">บริการของเรา</Nav.Link>
-                            <Nav.Link className="me-2" href="#appointment">นัดหมาย</Nav.Link>
+                            <Nav.Link className="me-2" href="/appointment">นัดหมาย</Nav.Link>
                             {role_id != 1 
                                 ?
                                 <Nav.Link className="Btn-login" href="login">
