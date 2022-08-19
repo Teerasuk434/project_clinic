@@ -34,3 +34,12 @@
     width:90%;
     margin: auto;
   }
+
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #D6EAF8  ; 
+ }
+
+ thead{
+  background-color: #7FB3D5;
+ }
