@@ -52,7 +52,7 @@ export default function Account(){
                         <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
                             <div className="Profile-Name text-center">
                                 <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <h5 className="text-center mt-3">ธีรศักดิ์ เทียนชัย</h5>
+                                <h5 className="text-center mt-3">{firstname} {lastname}</h5>
                             </div>
                             <div className="border border-bottom-5 mx-2 mb-3"></div>
 

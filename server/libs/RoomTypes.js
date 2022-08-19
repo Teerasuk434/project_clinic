@@ -28,8 +28,6 @@ module.exports = {
         var sql = "SELECT * FROM room_type WHERE room_type_id = ?";
         sql = mysql.format(sql,[room_type_id]);
 
-        console.log(sql)
-
         return await pool.query(sql);
     }
 };

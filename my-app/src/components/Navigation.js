@@ -36,7 +36,7 @@ export default function Navigation(){
                                 <NavDropdown.Item href="account">
                                     โปรไฟล์
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="/account/pets">ข้อมูลสัตว์เลี้ยง</NavDropdown.Item>
+                                <NavDropdown.Item href="/pets">ข้อมูลสัตว์เลี้ยง</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/" onClick={clearData}>
                                     ออกจากระบบ

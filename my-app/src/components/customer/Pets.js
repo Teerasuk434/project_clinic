@@ -11,9 +11,10 @@ export default function Pets(){
 
     const [pets, setPets] = useState([]);
     const [custId, setCustId] = useState(0);
+    
+    let StatusPets = false;
 
     let user_id = localStorage.getItem("user_id");
-
 
     useEffect(()=>{
 
@@ -30,15 +31,22 @@ export default function Pets(){
 
         async function fetchData(){
             let json = await API_GET("pets");
-            let listPets = [];
+            if(json.result == true){
+                let listPets = [];
+                json.data.map(item => {
+                    if(item.cust_id === custId){
+                        listPets.push(item)
+                    }
+                })
 
-            json.data.map(item => {
-                if(item.cust_id === custId){
-                    listPets.push(item)
+                if(listPets.length > 0){
+                    setPets(listPets);
+                   StatusPets = true;
                 }
-            })
-
-            setPets(listPets);
+            }else{
+                StatusPets = false;
+            }
+           
         }
         fetchData();
 
@@ -58,8 +66,6 @@ export default function Pets(){
         let json = await API_GET("pets");
         setPets(json.data);
     }
-
-
   
     return(
         <>
@@ -99,37 +105,42 @@ export default function Pets(){
 
                                 <div className="row mx-5 mt-5 mb-3">
                                     <div className="col m-auto text-center">
-                                    <Table>
-                                        <thead>
-                                            <tr>
-                                            <th>ชื่อสัตว์เลี้ยง</th>
-                                            <th>ประเภท</th>
-                                            <th>สายพันธุ์</th>
-                                            <th>เพศ</th>
-                                            <th>อายุ</th>
-                                            <th>action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                pets.map(item => (
-                                                    <PetsItems
-                                                    key={item.pet_id}
-                                                    data={item}
-                                                    onDelete={onDelete}
-                                                     />
-                                                ))
-                                            }
-                                        </tbody>
-                                    </Table>
+                                    {pets.length > 0 &&
+                                    <>
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                <th>ชื่อสัตว์เลี้ยง</th>
+                                                <th>ประเภท</th>
+                                                <th>สายพันธุ์</th>
+                                                <th>เพศ</th>
+                                                <th>อายุ</th>
+                                                <th>action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    pets.map(item => (
+                                                        <PetsItems
+                                                        key={item.pet_id}
+                                                        data={item}
+                                                        onDelete={onDelete}
+                                                        />
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </Table>
+                                    </>
+                                    }
+                                    {pets.length < 1 &&
+                                        <div className="text-center d-block mt-4 ms-5">
+                                            <h6 className="">ไม่พบข้อมูลสัตว์เลี้ยงของท่าน โปรดเพิ่มข้อมูลสัตว์เลี้ยง</h6>
+                                        </div>
+                                    }
                                     </div>
 
                                 </div>
                                 
-                            </div>
-
-                            <div className="profile-right-content">
-
                             </div>
 
                         </div>

@@ -800,7 +800,7 @@ app.get('/api/pets',(req, res) => {
         } else {
             res.json({
                 result: false,
-                message: "ไม่พบประเภทห้องรักษา"
+                message: "ไม่พบสัตว์เลี้ยง"
             });
         }
     });
