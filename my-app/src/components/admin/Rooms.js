@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
-import { Form, Row, Col, Table } from 'react-bootstrap';
+import { useEffect, useState } from "react"
+import { Form, Row, Col, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import RoomItem from "./RoomItem";
 import { API_GET,API_POST } from "../../api";
 
-import Sidebar from "./Sidebar";
 import './Admin.css';
-
+import Sidebar from './Sidebar';
 
 export default function Rooms(){
-    
-    let date = new Date().toLocaleDateString();
-    let pages = 7
 
-
-    const [room_type,setRoomTypes] = useState([]);
+    const [room,setRoom] = useState([]);
     const [search,setSearch] = useState("");
-    const [listroomtypes,setListRoomTypes] = useState([]);
+    const [listroom,setListRoom] = useState([]);
+
+    let date = new Date().toLocaleDateString();
+    let pages = 7;
 
     useEffect( () => {
         async function fetchData(){
             const response = await fetch(
-                "http://localhost:8080/api/room_type",
+                "http://localhost:8080/api/room",
                 {
                     method: "GET",
                     headers:{
@@ -31,15 +30,15 @@ export default function Rooms(){
             );
 
             let json = await response.json();
-            setRoomTypes(json.data);
-            setListRoomTypes(json.data);
+            setRoom(json.data);
+            setListRoom(json.data);
         }
         fetchData();
     },[]);
 
     useEffect(() => {
         if(search == ""){
-            setRoomTypes(listroomtypes);
+            setRoom(listroom);
         }
 
     }, [search]);
@@ -52,35 +51,34 @@ export default function Rooms(){
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchRoomTypes = [];
-                listroomtypes.filter(type => type.room_type_name.includes(search)).map(item => {
-                    searchRoomTypes.push(item);
+                let searchRoom = [];
+                listroom.filter(type => type.room_name.includes(search)).map(item => {
+                    searchRoom.push(item);
                 })
     
-                setRoomTypes(searchRoomTypes);
+                setRoom(searchRoom);
             }
         }
      }
 
      const onDelete = async (data) => {
-        let json = await API_POST("room_type/delete", {
-            room_type_id: data.room_type_id
+        let json = await API_POST("room/delete", {
+            room_id: data.room_id
         });
 
         if (json.result) {
-            fetchRoomTypes();
+            fetchRoom();
         }
     }
 
-    const fetchRoomTypes = async () => {
-        let json = await API_GET("room_type");
-        setRoomTypes(json.data);
-        setListRoomTypes(json.data);
+    const fetchRoom = async () => {
+        let json = await API_GET("room");
+        setRoom(json.data);
+        setListRoom(json.data);
     }
-    return(
+    return (
         <>
-
-        <div className="Main">
+           <div className="Main">
                 <div className='top row'>
                     <div className='col'>
                         สถานะ : แอดมิน
@@ -93,13 +91,14 @@ export default function Rooms(){
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
+
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content">
                             <div className="container m-auto">
                                 <div className="row">
                                     <div className="col">
                                         <div className="my-5">
-                                            <h2 className="header text-center text-white p-2">ข้อมูลประเภทห้องรักษา</h2>
+                                            <h2 className="header-content text-center text-white p-2">ข้อมูลห้องรักษา</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -138,16 +137,16 @@ export default function Rooms(){
                                         <Table striped>
                                             <thead>
                                                 <tr>
-                                                <th>รหัสประเภทห้องรักษา</th>
-                                                <th>ชื่อประเภทห้องรักษา</th>
+                                                <th>รหัสห้องรักษา</th>
+                                                <th>ชื่อห้องรักษา</th>
                                                 <th>action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    room_type.map(item => (
-                                                        <RoomTypesItem
-                                                        key={item.room_type_id}
+                                                    room.map(item => (
+                                                        <RoomItem
+                                                        key={item.room_id}
                                                         data={item}
                                                         onDelete={onDelete} />
                                                     ))
@@ -158,21 +157,19 @@ export default function Rooms(){
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
 
-            
                 <div className="row">              
                     <div className='bottom'>
                         <div>
-                            {/* <p>วันที่ : {date}</p> */}
+                            <p>วันที่ : {date}</p>
                         </div>
                     </div>
                 </div>
                 
             </div>
-        </>     
+        </>
     )
 }

@@ -27,9 +27,8 @@ import EditProfile from './components/customer/EditProfile';
 import Pets from './components/customer/Pets';
 import FormPets from './components/customer/FormPets';
 
-
 import Appointment from './components/Appointment';
-import Room from './components/admin/Room';
+import Rooms from './components/admin/Rooms';
 import FormRoom from './components/admin/FormRoom';
 import RoomTypes from './components/admin/RoomTypes';
 import FormRoomtypes from './components/admin/FormRoomTypes';
@@ -66,7 +65,7 @@ root.render(
       <Route path="/appointment" element={<Appointment />} />
 
 
-      <Route path="/rooms" element={<Room/>} />
+      <Route path="/rooms" element={<Rooms/>} />
       <Route path="/room/:room_id" element={<FormRoom />} />
       <Route path="/roomtypes" element={<RoomTypes/>} />
       <Route path="/roomtype/:room_type_id" element={<FormRoomtypes/>} />
