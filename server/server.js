@@ -615,7 +615,7 @@ app.get('/api/emp_types',(req, res) => {
         if(err){
             res.json({
                 result: false,
-                message: error.message
+                message: err.message
             });
         }
         if(results.length){
@@ -702,7 +702,7 @@ app.get('/api/room_type',(req, res) => {
         if(err){
             res.json({
                 result: false,
-                message: error.message
+                message: err.message
             });
         }
         if(results.length){

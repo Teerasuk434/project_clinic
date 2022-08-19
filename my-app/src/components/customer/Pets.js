@@ -98,7 +98,7 @@ export default function Pets(){
                                 <Link to="/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
 
                                 <div className="row mx-5 mt-5 mb-3">
-                                    <div className="col m-auto profile-label text-center">
+                                    <div className="col m-auto text-center">
                                     <Table>
                                         <thead>
                                             <tr>

@@ -136,7 +136,6 @@ export default function FormPets(){
                                 <div>
                                     <Link to="/account">ข้อมูลบัญชี</Link>
                                     <Link className="active" to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <a href="#">ข้อมูลสัตว์เลี้ยง</a>
                                     <a href="">ข้อมูลการนัดหมาย</a>
                                     <a href="">ประวัติการนัดหมาย</a>
                                     <a href="">ตั้งค่ารหัสผ่าน</a>
