@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { SERVER_URL } from "../../app.config";
 
 
-export default function UsersItem(props) {
+export default function ServiceItems(props) {
 
     const onDelete = async () => {
         props.onDelete(props.data)

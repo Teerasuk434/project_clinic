@@ -25,3 +25,11 @@
     margin:auto;
     padding: 0.5rem;
   }
+
+  .header-content{
+    background-color: #3171B0;
+  }
+
+  .content contanier {
+    width:70%;
+  }

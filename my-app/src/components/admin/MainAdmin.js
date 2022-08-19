@@ -1,9 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Admin.css'
 import Sidebar from './Sidebar'
-import AdminContent from './AdminContent';
 
-export default function Admin() {
+export default function MainAdmin() {
     let date = new Date().toLocaleDateString();
     let pages = 1;
 
@@ -26,7 +25,7 @@ export default function Admin() {
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content">
-                            <AdminContent pages={pages}/>
+                            <h2>Dashboard</h2>
                         </div>
                     </div>
                 </div>

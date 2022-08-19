@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export default function Emp_Type_Item(props){
+export default function EmployeeTypeItems(props){
 
     const onDelete = async () => {
         props.onDelete(props.data)

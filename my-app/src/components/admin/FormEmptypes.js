@@ -10,7 +10,6 @@ export default function FormEmptypes(){
     let navigate = useNavigate();
 
     const [validated,setValidated] = useState(false);
-    // const [emp_position_,setEmpTypes] = useState(false);
     const [emp_position_name,setEmpPositionName] = useState("");
     const [emp_position_id,setEmpPositionId] = useState("");
 

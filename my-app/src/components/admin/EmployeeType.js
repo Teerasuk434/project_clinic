@@ -1,47 +1,67 @@
-import { API_GET,API_POST } from "../../api";
-import { useEffect, useState } from "react"
-import { Form, Row, Col, Table } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Form, Row, Col, Table } from 'react-bootstrap';
+import { API_GET, API_POST } from '../../api';
 
-import './Admin.css'
 import Sidebar from "./Sidebar";
-import RoomTypesItem from "./RoomTypesItem";
+import './Admin.css';
+import EmployeeTypeItems from './EmployeeTypeItems';
 
-export default function RoomTypes(){
-    
+export default function EmployeeType(){
+
     let date = new Date().toLocaleDateString();
-    let pages = 6
+    let pages = 4;
 
-    const [room_type,setRoomTypes] = useState([]);
-    const [search,setSearch] = useState("");
-    const [listroomtypes,setListRoomTypes] = useState([]);
+    const [search, setSearch] = useState("");
+    const [empTypes, setEmpTypes] = useState([]);
+    const [listEmpTypes, setListEmpTypes] = useState([]);
 
-    useEffect( () => {
-        async function fetchData(){
+    useEffect(() => {
+        async function fetchData() {
             const response = await fetch(
-                "http://localhost:8080/api/room_type",
+                "http://localhost:8080/api/emp_types",
                 {
                     method: "GET",
-                    headers:{
-                        Accept:"application/json",
+                    headers: {
+                        Accept: "application/json",
                         'Content-Type': 'application/json',
+                        Authorization: "Bearer " + localStorage.getItem("access_token")
                     }
                 }
             );
 
             let json = await response.json();
-            setRoomTypes(json.data);
-            setListRoomTypes(json.data);
+            setEmpTypes(json.data);
+            setListEmpTypes(json.data);
         }
         fetchData();
-    },[]);
+
+    }, []);
 
     useEffect(() => {
         if(search == ""){
-            setRoomTypes(listroomtypes);
+            setEmpTypes(listEmpTypes);
         }
 
     }, [search]);
+
+
+    const fetchData = async () => {
+        let json = await API_GET("emp_types");
+        setEmpTypes(json.data);
+        setListEmpTypes(json.data);
+    }
+
+    const onDelete = async (data) => {
+        let json = await API_POST("emp_types/delete", {
+            emp_position_id: data.emp_position_id
+        });
+
+        if (json.result) {
+            fetchData();
+        }
+    }
 
     const onSearch = async (event) => {
         const form = event.currentTarget;
@@ -51,36 +71,19 @@ export default function RoomTypes(){
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchRoomTypes = [];
-                listroomtypes.filter(type => type.room_type_name.includes(search)).map(item => {
-                    searchRoomTypes.push(item);
+                let searchEmpTypes = [];
+                listEmpTypes.filter(empTypes => empTypes.emp_position_name.includes(search)).map(item => {
+                    searchEmpTypes.push(item);
                 })
     
-                setRoomTypes(searchRoomTypes);
+                setEmpTypes(searchEmpTypes);
             }
         }
      }
 
-     const onDelete = async (data) => {
-        let json = await API_POST("room_type/delete", {
-            room_type_id: data.room_type_id
-        });
-
-        if (json.result) {
-            fetchRoomTypes();
-        }
-    }
-
-    const fetchRoomTypes = async () => {
-        let json = await API_GET("room_type");
-        setRoomTypes(json.data);
-        setListRoomTypes(json.data);
-    }
-
     return(
         <>
-
-        <div className="Main">
+            <div className="Main">
                 <div className='top row'>
                     <div className='col'>
                         สถานะ : แอดมิน
@@ -93,19 +96,20 @@ export default function RoomTypes(){
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
+                    
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="container m-auto">
                             <div className="row">
                                 <div className="col">
                                     <div className="my-5">
-                                        <h2 className="header-content text-center text-white p-2">ข้อมูลประเภทห้องรักษา</h2>
+                                        <h2 className="header-content text-center text-white p-2">ข้อมูลประเภทพนักงาน</h2>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="row">
                                 <div className="col-2">
-                                    <Link to={"/roomtype/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
+                                    <Link to={"/emptypes/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
                                 </div>
                                 <div className="col-10">
                                     <Form>
@@ -137,16 +141,16 @@ export default function RoomTypes(){
                                     <Table striped>
                                         <thead>
                                             <tr>
-                                            <th>รหัสประเภทห้องรักษา</th>
-                                            <th>ชื่อประเภทห้องรักษา</th>
+                                            <th>รหัสประเภทพนักงาน</th>
+                                            <th>ชื่อประเภทพนักงาน</th>
                                             <th>action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                room_type.map(item => (
-                                                    <RoomTypesItem
-                                                    key={item.room_type_id}
+                                                empTypes.map(item => (
+                                                    <EmployeeTypeItems
+                                                    key={item.emp_position_id}
                                                     data={item}
                                                     onDelete={onDelete} />
                                                 ))
@@ -160,7 +164,6 @@ export default function RoomTypes(){
                     </div>
                 </div>
 
-            
                 <div className="row">              
                     <div className='bottom'>
                         <div>
@@ -168,8 +171,8 @@ export default function RoomTypes(){
                         </div>
                     </div>
                 </div>
-                
+                    
             </div>
-        </>     
+        </>
     )
 }

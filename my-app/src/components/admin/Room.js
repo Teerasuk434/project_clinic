@@ -1,66 +1,47 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
-import { API_GET, API_POST } from '../../api';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react"
 import { Form, Row, Col, Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
+import RoomItem from "./RoomItem";
+import { API_GET,API_POST } from "../../api";
 
-import './Admin.css'
-import Sidebar from './Sidebar'
-import UsersItem from './UsersItem';
+import './Admin.css';
+import Sidebar from './Sidebar';
 
-export default function Admin() {
+export default function Room(){
+
+    const [room,setRoom] = useState([]);
+    const [search,setSearch] = useState("");
+    const [listroom,setListRoom] = useState([]);
+
     let date = new Date().toLocaleDateString();
-    let pages = 2;
+    let pages = 7;
 
-    const [search, setSearch] = useState("");
-    const [users, setUsers] = useState([]);
-    const [listUsers, setListUsers] = useState([]);
-
-    useEffect(() => {
-        async function fetchData() {
+    useEffect( () => {
+        async function fetchData(){
             const response = await fetch(
-                "http://localhost:8080/api/users",
+                "http://localhost:8080/api/room",
                 {
                     method: "GET",
-                    headers: {
-                        Accept: "application/json",
+                    headers:{
+                        Accept:"application/json",
                         'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
                     }
                 }
             );
 
             let json = await response.json();
-            setListUsers(json.data);
-            setUsers(json.data);
-            console.log(json.data);
+            setRoom(json.data);
+            setListRoom(json.data);
         }
         fetchData();
-
-    }, []);
+    },[]);
 
     useEffect(() => {
         if(search == ""){
-            setUsers(listUsers);
+            setRoom(listroom);
         }
 
     }, [search]);
-
-    const fetchUsers = async () => {
-        let json = await API_GET("users");
-        setListUsers(json.data);
-        setUsers(json.data);
-    }
-
-    const onDelete = async (data) => {
-        let json = await API_POST("user/delete", {
-            user_id: data.user_id
-        });
-
-        if (json.result) {
-            fetchUsers();
-        }
-    }
 
     const onSearch = async (event) => {
         const form = event.currentTarget;
@@ -70,21 +51,34 @@ export default function Admin() {
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchUser = [];
-                listUsers.filter(user => user.username.includes(search)).map(item => {
-                    searchUser.push(item);
+                let searchRoom = [];
+                listroom.filter(type => type.room_name.includes(search)).map(item => {
+                    searchRoom.push(item);
                 })
     
-                setUsers(searchUser);
-            }else {
-                setUsers(listUsers);
+                setRoom(searchRoom);
             }
         }
      }
 
+     const onDelete = async (data) => {
+        let json = await API_POST("room/delete", {
+            room_id: data.room_id
+        });
+
+        if (json.result) {
+            fetchRoom();
+        }
+    }
+
+    const fetchRoom = async () => {
+        let json = await API_GET("room");
+        setRoom(json.data);
+        setListRoom(json.data);
+    }
     return (
         <>
-            <div className="Main">
+           <div className="Main">
                 <div className='top row'>
                     <div className='col'>
                         สถานะ : แอดมิน
@@ -97,20 +91,21 @@ export default function Admin() {
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
+
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content">
                             <div className="container m-auto">
                                 <div className="row">
                                     <div className="col">
                                         <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">ข้อมูลผู้ใช้งาน</h2>
+                                            <h2 className="header-content text-center text-white p-2">ข้อมูลห้องรักษา</h2>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="row">
                                     <div className="col-2">
-                                        <Link to={"/user/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
+                                        <Link to={"/room/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
                                     </div>
                                     <div className="col-10">
                                         <Form>
@@ -142,17 +137,16 @@ export default function Admin() {
                                         <Table striped>
                                             <thead>
                                                 <tr>
-                                                <th>รหัสผู้ใช้งาน</th>
-                                                <th>ชื่อผู้ใช้งาน</th>
-                                                <th>ประเภทผู้ใช้งาน</th>
+                                                <th>รหัสห้องรักษา</th>
+                                                <th>ชื่อห้องรักษา</th>
                                                 <th>action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    users.map(item => (
-                                                        <UsersItem
-                                                        key={item.user_id}
+                                                    room.map(item => (
+                                                        <RoomItem
+                                                        key={item.room_id}
                                                         data={item}
                                                         onDelete={onDelete} />
                                                     ))

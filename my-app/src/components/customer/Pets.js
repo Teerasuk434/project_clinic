@@ -33,7 +33,6 @@ export default function Pets(){
             let listPets = [];
 
             json.data.map(item => {
-                console.log(item)
                 if(item.cust_id === custId){
                     listPets.push(item)
                 }
@@ -44,6 +43,23 @@ export default function Pets(){
         fetchData();
 
     },[custId])
+
+    const onDelete = async (data) => {
+        let json = await API_POST("pets/delete", {
+            pet_id: data.pet_id
+        });
+
+        if (json.result) {
+            fetchPets();
+        }
+    }
+
+    const fetchPets = async () => {
+        let json = await API_GET("pets");
+        setPets(json.data);
+    }
+
+
   
     return(
         <>
@@ -64,9 +80,7 @@ export default function Pets(){
                             <div className="profile-sidebar">
                                 <div>
                                     <Link to="/account">ข้อมูลบัญชี</Link>
-                                    <Link className="active" to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    {/* <a href="/account">ข้อมูลบัญชี</a>
-                                    <a className="active" href="/account/pets">ข้อมูลสัตว์เลี้ยง</a> */}
+                                    <Link className="active" to="/pets">ข้อมูลสัตว์เลี้ยง</Link>
                                     <a href="">ข้อมูลการนัดหมาย</a>
                                     <a href="">ประวัติการนัดหมาย</a>
                                     <a href="">ตั้งค่ารหัสผ่าน</a>
@@ -81,6 +95,8 @@ export default function Pets(){
                             </div>
 
                             <div className="profile-details">
+                                <Link to="/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
+
                                 <div className="row mx-5 mt-5 mb-3">
                                     <div className="col m-auto profile-label text-center">
                                     <Table>
@@ -100,8 +116,8 @@ export default function Pets(){
                                                     <PetsItems
                                                     key={item.pet_id}
                                                     data={item}
+                                                    onDelete={onDelete}
                                                      />
-                                                    //  onDelete={onDelete}
                                                 ))
                                             }
                                         </tbody>

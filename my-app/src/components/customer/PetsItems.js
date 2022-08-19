@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 export default function PetsItems(props) {
 
-    // const onDelete = async () => {
-    //     props.onDelete(props.data)
-    // }
+    const onDelete = async () => {
+        props.onDelete(props.data)
+    }
 
     return (
         <>
@@ -25,7 +24,7 @@ export default function PetsItems(props) {
                        
 
                             <div className="d-inline-block">
-                                <button type="button" className="btn btn-danger btn-md" >{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</button>
+                                <button type="button" className="btn btn-danger btn-md" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</button>
                             </div>
                         </div>
                     </div>

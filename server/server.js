@@ -11,8 +11,9 @@ const Service = require('./libs/Service');
 const Customer = require('./libs/Customer');
 
 const EmployeeTypes = require('./libs/EmployeeTypes');
-const RoomTypes = require('./libs/RoomTypes')
-const Pets = require('./libs/Pets')
+const RoomTypes = require('./libs/RoomTypes');
+const Room = require('./libs/Room');
+const Pets = require('./libs/Pets');
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -232,7 +233,7 @@ app.get("/api/register/user", async (req, res) => {
         } else {
             res.json({
                 result:false,
-                message: "ไม่พบ Username"
+                message: "ไม่พบผู้ใช้งาน"
             });
         }
     });
@@ -241,7 +242,6 @@ app.get("/api/register/user", async (req, res) => {
 app.get("/api/customer/:user_id",async (req, res) =>{
     const user_id = req.params.user_id;
 
-    console.log(user_id);
     try {
         var result = await Customer.getByUserId(pool,user_id);
         res.json({
@@ -281,8 +281,6 @@ app.post("/api/account/editprofile", checkAuth, async (req, res) => {
     }
 });
 
-
-
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "
                 + "FROM users a JOIN roles b ON a.role_id = b.role_id ", function(error, results, fields){
@@ -301,7 +299,7 @@ app.get("/api/users", (req, res) =>{
         } else {
             res.json({
                 result:false,
-                message: "ไม่พบ Username"
+                message: "ไม่พบผู้ใช้งาน"
             });
         }
     });
@@ -420,7 +418,7 @@ app.get("/api/roles",checkAuth, async (req, res) => {
         } else {
             res.json({
                 result:false,
-                message: "ไม่พบ Username"
+                message: "ไม่พบประเภทผู้ใช้งาน"
             });
         }
     });
@@ -500,7 +498,6 @@ app.post("/api/service/add", checkAuth, async (req, res) => {
 });
 
 app.get("/api/service",async (req, res) => {
-
     pool.query("SELECT * FROM service a JOIN room_type b ON a.room_type_id = b.room_type_id", function(error, results, fields){
         if (error) {
             res.json({
@@ -516,7 +513,7 @@ app.get("/api/service",async (req, res) => {
         } else {
             res.json({
                 result:false,
-                message: "ไม่พบ Username"
+                message: "ไม่พบบริการของคลินิก"
             });
         }
     });
@@ -773,8 +770,6 @@ app.post('/api/room_type/delete',async(req, res) => {
 app.get('/api/room_type/:room_type_id', async(req, res) => {
     const room_type_id = req.params.room_type_id;
 
-    console.log(room_type_id)
-
     try{
         var result = await RoomTypes.getByroom_type_id(pool,room_type_id);
         res.json({
@@ -884,6 +879,93 @@ app.get('/api/pets/:pet_id', async(req, res) => {
         });
     }
 });
+
+app.get('/api/room',(req, res) => {
+    pool.query("SELECT * FROM rooms",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบข้อมูลห้องรักษา"
+            });
+        }
+    });
+});
+
+app.post('/api/room/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Room.createRoom(pool,input.room_name,input.room_type_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/room/update',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Room.updateRoom(pool,input.room_id, input.room_name,input.room_type_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/room/delete',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Room.deleteRoom(pool,input.room_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/room/:room_id', async(req, res) => {
+    const room_id = req.params.room_id;
+    try{
+        var result = await Room.getByroom_id(pool,room_id);
+        res.json({
+            result: true,
+            data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 
 app.listen(port, () => {
     console.log("Running");

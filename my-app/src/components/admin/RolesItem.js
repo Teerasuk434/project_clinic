@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-export default function UsersItem(props) {
+export default function RolesItem(props) {
 
     const onDelete = async () => {
         props.onDelete(props.data)
