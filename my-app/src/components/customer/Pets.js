@@ -10,47 +10,70 @@ import { useEffect, useState } from "react"
 export default function Pets(){
 
     const [pets, setPets] = useState([]);
-    const [custId, setCustId] = useState(0);
-    
-    let StatusPets = false;
 
     let user_id = localStorage.getItem("user_id");
+
+    // useEffect(()=>{
+
+    //     async function fetchData(user_id){
+    //         let json = await API_GET("customer/" + user_id);
+
+    //         if(json.result == true){
+    //             setCustId(json.data[0].cust_id);
+  
+    //         }
+    //     }
+    //     fetchData(user_id);
+                   
+    // },[])
 
     useEffect(()=>{
 
         async function fetchData(user_id){
-            let json = await API_GET("customer/" + user_id);
-            setCustId(json.data[0].cust_id);
+            let json = await API_POST("listpets/" + user_id);
 
+            setPets(json.data);
         }
         fetchData(user_id);
-
+                   
     },[])
 
-    useEffect(()=>{
 
-        async function fetchData(){
-            let json = await API_GET("pets");
-            if(json.result == true){
-                let listPets = [];
-                json.data.map(item => {
-                    if(item.cust_id === custId){
-                        listPets.push(item)
-                    }
-                })
+    // useEffect(()=>{
 
-                if(listPets.length > 0){
-                    setPets(listPets);
-                   StatusPets = true;
-                }
-            }else{
-                StatusPets = false;
-            }
+    //     async function fetchData(user_id){
+    //         let json = await API_GET("listpets" + user_id);
+    //         console.log(json)
+    //         // if(json.result == true){
+    //         //     setCustId(json.data[0].cust_id);
+  
+    //         // }
+    //     }
+    //     fetchData(user_id);
+                   
+    // },[])
+
+
+    
+    // useEffect(()=>{
+    //     async function fetchData(){
+    //         let json = await API_GET("pets");
+    //         if(json.result == true){
+    //             let listPets = [];
+    //             json.data.map(item => {
+    //                 if(item.cust_id === custId){
+    //                     listPets.push(item)
+    //                 }
+    //             })
+    //             if(listPets.length > 0){
+    //                 setPets(listPets);
+    //             }
+    //         }
            
-        }
-        fetchData();
+    //     }
+    //     fetchData();
 
-    },[custId])
+    // },[custId])
 
     const onDelete = async (data) => {
         let json = await API_POST("pets/delete", {
@@ -63,8 +86,9 @@ export default function Pets(){
     }
 
     const fetchPets = async () => {
-        let json = await API_GET("pets");
+        let json = await API_POST("listpets/" + user_id);
         setPets(json.data);
+
     }
   
     return(

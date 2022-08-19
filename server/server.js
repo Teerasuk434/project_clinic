@@ -880,6 +880,27 @@ app.get('/api/pets/:pet_id', async(req, res) => {
     }
 });
 
+app.post('/api/listpets/:user_id',async(req, res) => {
+    const user_id = req.params.user_id;
+    try{
+
+        var result = await Customer.getByUserId(pool,user_id)
+        let cust_id = result[0].cust_id
+        var result2 = await Pets.getListPets(pool,cust_id);
+
+        res.json({
+            result: true,
+            data: result2
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
 app.get('/api/room',(req, res) => {
     pool.query("SELECT * FROM rooms",(err, results, fields) => {
         if(err){
