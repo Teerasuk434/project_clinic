@@ -14,6 +14,8 @@ export default function AdminContent(props){
                 {props.pages === 3 && <Roles />}
                 {props.pages === 4 && <EmpTypeContent />}
                 {props.pages === 5 && <Service />}
+                {props.pages === 6 && <Service />}
+
             </>
     )
 }
