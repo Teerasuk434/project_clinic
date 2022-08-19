@@ -30,7 +30,6 @@ module.exports = {
     getListPets: async (pool, cust_id) => {
         var sql = "SELECT a.pet_id,a.pet_name,a.pet_type,a.pet_species,a.pet_gender,a.pet_age_year,a.pet_age_month FROM pets a JOIN customer_information b ON a.cust_id = b.cust_id WHERE a.cust_id = ?";
         sql = mysql.format(sql, [cust_id]);
-        console.log(sql);
         return await pool.query(sql);
     }
 }
