@@ -15,6 +15,8 @@ const RoomTypes = require('./libs/RoomTypes');
 const Room = require('./libs/Room');
 const Pets = require('./libs/Pets');
 
+
+
 const port = 8080;
 const bodyParser = require('body-parser');
 const app = express();
@@ -985,6 +987,35 @@ app.get('/api/room/:room_id', async(req, res) => {
             message: ex.message
         });
     }
+});
+
+app.get('/api/appointment',(req, res) => {
+    pool.query("SELECT * FROM SELECT  a.appoint_id,b.pet_name,b.pet_type,
+    b.pet_species,b.pet_gender,b.pet_age_year,b.pet_age_month,a.symtoms,a.date,a.time,
+    a.payment_image,
+    a.appoint_status,
+    c.cust_fname,
+    c.cust_lname,
+    d.service_name
+    FROM appointment a JOIN pets b On a.pet_id = b.pet_id JOIN customer_information c ON a.cust_id = c.cust_id JOIN service d ON a.service_id = d.service_id;",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบการนัดหมาย"
+            });
+        }
+    });
 });
 
 
