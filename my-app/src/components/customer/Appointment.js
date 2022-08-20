@@ -19,7 +19,7 @@ export default function Appointment(){
     const dayMax = ((parseInt(splitDate[2]))+9);
     const maxDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMax);
 
-
+    console.log(minDate);
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
     const [pet_type,setPetType] = useState("");
@@ -35,20 +35,18 @@ export default function Appointment(){
     const [listPets,setListPets] = useState([]);
     const [pet,setPet] = useState([]);
 
-    console.log(date);
     const [listServices,setListServices] = useState([]);
     const [service,setService] = useState('');
     const [validated,setValidated] = useState(false);
-
+    console.log(service);
     let navigate = useNavigate();
 
     let user_id = localStorage.getItem("user_id");
+    let role_id = localStorage.getItem("role_id");
     
-    if(user_id == null || user_id != 1){
+    if(user_id == null || role_id != 1){
         navigate("/login", { replace: true});
     }
-
-
 
     useEffect(()=>{
         async function fetchData(user_id){
@@ -57,6 +55,8 @@ export default function Appointment(){
 
             let json2 = await API_GET("service");
             setListServices(json2.data);
+
+            console.log(json2.data);
         }
         fetchData(user_id);
                    
@@ -208,9 +208,9 @@ export default function Appointment(){
                                             onChange={(e) => setTime(e.target.value)}
                                             required>
                                             <option label="กรุณาเลือกเวลา"></option> 
-                                            <option value="1">บูบู้</option>
-                                            <option value="2">จุ๊กกรู๊</option>
-                                            <option value="3">แมว</option>
+                                            <option value="1">13:00</option>
+                                            <option value="2">14:00</option>
+                                            <option value="3">15:00</option>
                                         </Form.Select>
                                             <Form.Control.Feedback type="invalid">
                                                 กรุณาเลือกเวลา
@@ -232,8 +232,18 @@ export default function Appointment(){
                                             </Form.Control.Feedback>
                                     </Form.Group>
                                 </Row>
+                                
+                                
+                                <div className="mb-3">
+                                    {service != 0 && <h6><b>ค่ามัดจำ :</b> {listServices[service-1].cost_deposit} บาท</h6>}
+                                </div>
 
-                                <Row className="mx-1 mt-5">
+                                <div class="mb-3">
+                                    <label for="formFile" clasName="form-label">อัพโหลดสลิป</label>
+                                    <input className="form-control" type="file" id="formFile" />
+                                </div>
+
+                                <Row className="mx-1 mt-2">
                                     <Button variant="primary" as="input" type="submit" value="นัดหมาย"/>
                                 </Row>
 

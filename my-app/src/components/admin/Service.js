@@ -97,7 +97,7 @@ export default function Service() {
                         </div>
                     </div>
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content">
+                        <div className="content" style={{height:"100%"}}>
                             <div className="container m-auto">
                                 <div className="row">
                                     <div className="col">
