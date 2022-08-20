@@ -148,6 +148,9 @@ export default function FormUser() {
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content p-5">
                             <div className='container m-auto'>
+
+                                <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
+
                                 <Form noValidate validated={validated} onSubmit={onSave}>
                                     <Row className="mb-3">
                                         <Form.Group as={Col} controlId="validateUserName">
@@ -202,7 +205,7 @@ export default function FormUser() {
                                         </Form.Group>
                                     </Row>
 
-                                    <Row className="mb-3">
+                                    <Row className="my-4">
                                         <Button variant="primary" as="input" type="submit" value="SAVE"/>
                                     </Row>
                                 </Form>
