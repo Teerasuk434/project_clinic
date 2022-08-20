@@ -24,7 +24,7 @@ export default function FormReqAppoint() {
     const [pet_age_month,setPetAgeMonth] = useState(0);
     const [symtoms,setSymtoms] = useState("");
 
-    const [appoint_status,setAppointStatus] = useState("");
+    const [appoint_status,setAppointStatus] = useState('');
     const [appoint_time,setAppointTime] = useState("");
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
@@ -32,6 +32,8 @@ export default function FormReqAppoint() {
     const [cost_deposit, setCostDeposit] = useState("");
 
     const [appointments, setAppointments] = useState([]);
+
+    console.log(appoint_status);
 
     useEffect(() => {
         async function fetchData() {
@@ -49,7 +51,6 @@ export default function FormReqAppoint() {
 
             let json = await response.json();
             setAppointments(json.data);
-            console.log(json.data);
         }
 
         fetchData();
@@ -104,7 +105,7 @@ export default function FormReqAppoint() {
                     </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content">
+                        <div className="content" style={{height:"100%"}}>
                             <div className="container m-auto">
 
                                 <div className='req-form-details mt-5 shadow'>
@@ -188,14 +189,14 @@ export default function FormReqAppoint() {
                                         {/*  */}
                                     </div>
 
-                                    <div className="row p-3 justify-content-between">
+                                    <div className="row p-3">
                                         
-                                        <div className="col-2">
-                                            <button className="btn btn-success">{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
-                                        </div>
-                                        
-                                        <div className="col-2">
-                                            <Form.Select required>
+                                        <div className="col-3">
+                                            <Form.Select 
+                                            value={appoint_status}
+                                            required
+                                            onChange={(e) => setAppointStatus(e.target.value)}
+                                            >
                                                 <option label="Action"></option>
                                                 <option value="1">รออนุมัติ</option>
                                                 <option value="2">รอแก้ไข</option>
@@ -203,10 +204,29 @@ export default function FormReqAppoint() {
                                             </Form.Select>
                                         </div>
 
+                                        <div className="col-6">
+                                            {appoint_status >1 &&
+                                            <>
+                                                <Form.Control
+                                                type="text"
+                                                placeholder="หมายเหตุ"
+                                                required>
+                                                </Form.Control>
+                                            </>}
+
+                                        </div>
+
+
+                                        <div className="col-3">
+                                            <button className="btn btn-success">{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
+                                        </div>
+                                        
                                     </div>
+                                    
+        
 
                                     <div className="text-center p-3">
-                                        <button className='btn btn-success' style={{width:"30%"}}>บันทึกข้อมูล</button>
+                                        <button className='btn btn-success' style={{width:"10%"}}>บันทึกข้อมูล</button>
                                     </div>
 
                                 </div>
