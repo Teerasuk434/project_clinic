@@ -17,7 +17,7 @@ export default function Navigation(){
             <div className='Navbar-container'>
                 <Navbar className="Navbar shadow-sm" bg="light" variant="light">    
                     <div className="ms-5">
-                        <Navbar.Brand href="#home"><img src={`http://localhost:8080/images/Logo2.png`} alt=""/></Navbar.Brand>
+                        <Navbar.Brand href="/"><img src={`http://localhost:8080/images/Logo2.png`} alt=""/></Navbar.Brand>
                     </div>
 
                     <div className="me-5">
