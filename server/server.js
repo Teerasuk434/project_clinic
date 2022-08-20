@@ -1005,10 +1005,15 @@ app.get('/api/appointment',(req, res) => {
                 a.appoint_status,
                 c.cust_fname,
                 c.cust_lname,
-                d.service_name
+                c.cust_tel,
+                c.email,
+                d.service_name,
+                d.cost_deposit,
+                e.room_name
                 FROM appointment a JOIN pets b On a.pet_id = b.pet_id 
                 JOIN customer_information c ON a.cust_id = c.cust_id 
-                JOIN service d ON a.service_id = d.service_id`,(err, results, fields) => {
+                JOIN service d ON a.service_id = d.service_id
+                JOIN rooms e ON a.room_id = e.room_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,

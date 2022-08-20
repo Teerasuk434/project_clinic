@@ -1,6 +1,7 @@
+import { useEffect } from 'react'
 import './Footer.css'
 
-export default function Footer(){
+export default function Footer(){    
 
     const iframe = '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpoonnakanpetclinic&tabs=timeline&width=370&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="370" height="130" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
 

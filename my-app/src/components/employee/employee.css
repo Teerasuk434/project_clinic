@@ -1,0 +1,53 @@
+.content{
+    height: 100vh;
+}
+
+.req-appoint-label{
+ background-color: #2980B9;
+ text-align: center;
+ color: white;
+ font-size: 16px;
+ font-weight: 600;
+}
+
+.req-form-details{
+    background-color: aliceblue;
+}
+
+.req-appoint-details{
+ background-color: #AED6F1; 
+}
+
+.form-header{
+    text-align: center;
+    background-color: #A9CCE3;
+}
+
+.box-label{
+    text-align: end;
+    
+}
+.box-label h6 {
+    font-weight: 600;
+}
+
+h6{
+    margin-top:10px;
+}
+
+.end{
+    background-color: #A9CCE3;
+    height: 40px;
+}
+
+.box-button button{
+    width: 20%;
+}
+
+.box-select select{
+    width: 30%;
+}
+
+.box-details select{
+    width: 30%;
+}
