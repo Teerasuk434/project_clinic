@@ -1,5 +1,5 @@
 import Owner from './components/owner/Owner';
-import Employee from './components/employee/Employee';
+import MainEmployee from './components/employee/MainEmployee';
 import MainAdmin from './components/admin/MainAdmin';
 import { useEffect, useState } from 'react';
 import { useNavigate} from 'react-router-dom';
@@ -51,7 +51,7 @@ export default function Home() {
     return (
         <>  
             {role_id === 2 && (<Owner />)}
-            {role_id === 3 && (<Employee />)}
+            {role_id === 3 && (<MainEmployee />)}
             {role_id === 4 && (<MainAdmin />)}
 
         </>

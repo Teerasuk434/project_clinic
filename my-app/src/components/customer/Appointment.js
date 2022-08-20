@@ -4,7 +4,7 @@ import Footer from "../Footer"
 import './Appointment.css'
 import { useEffect, useState } from "react";
 import {Form,Col,Row,Button} from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 
@@ -40,7 +40,15 @@ export default function Appointment(){
     const [service,setService] = useState('');
     const [validated,setValidated] = useState(false);
 
+    let navigate = useNavigate();
+
     let user_id = localStorage.getItem("user_id");
+    
+    if(user_id == null || user_id != 1){
+        navigate("/login", { replace: true});
+    }
+
+
 
     useEffect(()=>{
         async function fetchData(user_id){

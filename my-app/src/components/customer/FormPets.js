@@ -204,8 +204,8 @@ export default function FormPets(){
                                                 onChange={(e) => setPetGender(e.target.value)}
                                                 required>
                                                 <option label="กรุณาระบุเพศ"></option> 
-                                                <option value="ตัวผู้">ตัวผู้</option>
-                                                <option value="ตัวเมีย">ตัวเมีย</option>
+                                                <option value="ผู้">ผู้</option>
+                                                <option value="เมีย">เมีย</option>
                                             </Form.Select>
                                             <Form.Control.Feedback type="invalid">
                                                 กรุณาระบุเพศสัตว์เลี้ยง

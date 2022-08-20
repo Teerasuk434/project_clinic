@@ -1,9 +1,11 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Admin.css'
-import Sidebar from './Sidebar'
+import { useEffect, useState } from 'react';
+import { useNavigate} from 'react-router-dom';
+import Sidebar from './Sidebar';
+import './employee.css';
 
-export default function MainAdmin() {
-    
+
+export default function MainEmployee() {
+
     let date = new Date().toLocaleDateString();
     let pages = 1;
 
@@ -12,7 +14,7 @@ export default function MainAdmin() {
             <div className="container-fluid">
                 <div className='top row'>
                     <div className='col'>
-                        <p>สถานะ : แอดมิน</p>
+                        <p>สถานะ : พนักงาน</p>
                     </div>
                 </div>
 
@@ -25,7 +27,7 @@ export default function MainAdmin() {
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content">
-                            <h2>Dashboard</h2>
+                            <h5>หน้าแรก</h5>
                         </div>
                     </div>
                 </div>
