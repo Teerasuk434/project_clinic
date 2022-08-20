@@ -172,8 +172,8 @@ export default function FormUser() {
                                         <Form.Group as={Col} controlId="validatePassword">
                                             <Form.Label>รหัสผ่าน</Form.Label>
                                             <Form.Control
-                                                // required
-                                                type="text"
+                                                required
+                                                type="password"
                                                 value={newpassword}
                                                 placeholder="รหัสผ่าน"
                                                 onChange={(e) => setNewPassword(e.target.value)}
