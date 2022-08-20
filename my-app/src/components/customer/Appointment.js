@@ -1,11 +1,11 @@
-import BoxTop from "./Box-top"
-import Navigation from "./Navigation"
-import Footer from "./Footer"
+import BoxTop from "../Box-top"
+import Navigation from "../Navigation"
+import Footer from "../Footer"
 import './Appointment.css'
 import { useEffect, useState } from "react";
 import {Form,Col,Row,Button} from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { API_POST,API_GET} from '../api'
+import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 
 export default function Appointment(){
