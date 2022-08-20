@@ -33,8 +33,13 @@ import FormRoom from './components/admin/FormRoom';
 import RoomTypes from './components/admin/RoomTypes';
 import FormRoomtypes from './components/admin/FormRoomTypes';
 
+
 import RequestAppoint from './components/employee/RequestAppoint';
 import FormReqAppoint from './components/employee/FormReqAppoint';
+
+import Employee from './components/owner/Employee';
+import FormEmployee from './components/owner/FormEmployee';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -70,8 +75,13 @@ root.render(
       <Route path="/roomtypes" element={<RoomTypes/>} />
       <Route path="/roomtype/:room_type_id" element={<FormRoomtypes/>} />
 
+
       <Route path="/request-appoint" element={<RequestAppoint />} />
       <Route path="/request-appoint/:appoint_id" element={<FormReqAppoint/>} />
+
+      <Route path="/emp" element={<Employee/>} />
+      <Route path="/emp/:emp_id" element={<FormEmployee/>} />
+      
 
     </Routes> 
   </BrowserRouter>

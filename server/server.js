@@ -15,6 +15,8 @@ const RoomTypes = require('./libs/RoomTypes');
 const Room = require('./libs/Room');
 const Pets = require('./libs/Pets');
 
+const Employee = require('./libs/Employee');
+
 
 
 const port = 8080;
@@ -1032,6 +1034,92 @@ app.get('/api/appointment',(req, res) => {
             });
         }
     });
+});
+
+app.get('/api/emp',(req, res) => {
+    pool.query("SELECT * FROM employee",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบข้อมูลพนักงาน"
+            });
+        }
+    });
+});
+
+app.post('/api/emp/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Employee.createEmployee(pool,input.emp_fname,input.emp_lname, input.emp_position_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/emp/update',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Employee.updateEmployee(pool,input.emp_id, input.emp_fname,input.emp_lname, input.emp_position_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/emp/delete',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Employee.deleteEmployee(pool,input.emp_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/emp/:emp_id', async(req, res) => {
+    const emp_id = req.params.emp_id;
+    try{
+        var result = await Employee.getByEmpId(pool,emp_id);
+        res.json({
+            result: true,
+            data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
 });
 
 
