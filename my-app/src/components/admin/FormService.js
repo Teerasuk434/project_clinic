@@ -198,7 +198,7 @@ export default function FormService() {
     return (
         <>
             {
-                (params.serviceId != "add") ? 
+                (params.service_id != "add") ? 
                 getImageComponent() : <></>
             }
             <div className='container m-auto'>
