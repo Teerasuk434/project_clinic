@@ -990,14 +990,25 @@ app.get('/api/room/:room_id', async(req, res) => {
 });
 
 app.get('/api/appointment',(req, res) => {
-    pool.query("SELECT * FROM SELECT  a.appoint_id,b.pet_name,b.pet_type,
-    b.pet_species,b.pet_gender,b.pet_age_year,b.pet_age_month,a.symtoms,a.date,a.time,
-    a.payment_image,
-    a.appoint_status,
-    c.cust_fname,
-    c.cust_lname,
-    d.service_name
-    FROM appointment a JOIN pets b On a.pet_id = b.pet_id JOIN customer_information c ON a.cust_id = c.cust_id JOIN service d ON a.service_id = d.service_id;",(err, results, fields) => {
+    pool.query(`SELECT 
+                a.appoint_id,
+                b.pet_name,
+                b.pet_type,
+                b.pet_species,
+                b.pet_gender,
+                b.pet_age_year,
+                b.pet_age_month,
+                a.symtoms,
+                a.date,
+                a.time,
+                a.payment_image,
+                a.appoint_status,
+                c.cust_fname,
+                c.cust_lname,
+                d.service_name
+                FROM appointment a JOIN pets b On a.pet_id = b.pet_id 
+                JOIN customer_information c ON a.cust_id = c.cust_id 
+                JOIN service d ON a.service_id = d.service_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,

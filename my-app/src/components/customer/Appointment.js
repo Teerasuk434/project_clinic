@@ -1,13 +1,24 @@
-import BoxTop from "./Box-top"
-import Navigation from "./Navigation"
-import Footer from "./Footer"
+import BoxTop from "../Box-top"
+import Navigation from "../Navigation"
+import Footer from "../Footer"
 import './Appointment.css'
 import { useEffect, useState } from "react";
 import {Form,Col,Row,Button} from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { API_POST,API_GET} from '../api'
+import { API_POST,API_GET} from '../../api'
+import Moment from 'moment';
 
 export default function Appointment(){
+
+    const nowDate = Moment().format('YYYY-MM-DD')
+    const splitDate = nowDate.split("-")
+
+    const dayMin = ((parseInt(splitDate[2]))+2);
+    const minDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMin);
+
+    const dayMax = ((parseInt(splitDate[2]))+9);
+    const maxDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMax);
+
 
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
@@ -17,13 +28,14 @@ export default function Appointment(){
     const [pet_age_year,setPetAgeYear] = useState(0);
     const [pet_age_month,setPetAgeMonth] = useState(0);
 
-    const [date,setDate] = useState("");
+    const [date,setDate] = useState(minDate);
     const [time,setTime] = useState("");
     const [symptoms,setSymptoms] = useState("");
 
     const [listPets,setListPets] = useState([]);
     const [pet,setPet] = useState([]);
 
+    console.log(date);
     const [listServices,setListServices] = useState([]);
     const [service,setService] = useState('');
     const [validated,setValidated] = useState(false);
@@ -171,6 +183,9 @@ export default function Appointment(){
                                             required
                                             type="date"
                                             value={date}
+                                            min={minDate}
+                                            max={maxDate}
+                                            placeholder="เลือกวันที่"
                                             onChange={(e) => setDate(e.target.value)}
                                         />
                                             <Form.Control.Feedback type="invalid">
@@ -210,11 +225,10 @@ export default function Appointment(){
                                     </Form.Group>
                                 </Row>
 
-
                                 <Row className="mx-1 mt-5">
                                     <Button variant="primary" as="input" type="submit" value="นัดหมาย"/>
                                 </Row>
-                            
+
                         </div>
 
                     </div>
