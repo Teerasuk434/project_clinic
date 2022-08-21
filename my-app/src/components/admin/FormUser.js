@@ -172,7 +172,6 @@ export default function FormUser() {
                                         <Form.Group as={Col} controlId="validatePassword">
                                             <Form.Label>รหัสผ่าน</Form.Label>
                                             <Form.Control
-                                                required
                                                 type="password"
                                                 value={newpassword}
                                                 placeholder="รหัสผ่าน"
