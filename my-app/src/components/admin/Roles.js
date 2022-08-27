@@ -6,6 +6,7 @@ import { Form, Row, Col, Table } from 'react-bootstrap'
 
 import './Admin.css'
 import Sidebar from './Sidebar'
+import Top from './Top';
 import RolesItem from './RolesItem';
 
 export default function Admin() {
@@ -31,6 +32,8 @@ export default function Admin() {
                     }
                 }
             );
+
+            document.body.style.overflow = "hidden";
 
             let json = await response.json();
             setRoles(json.data);
@@ -83,21 +86,18 @@ export default function Admin() {
      
     return (
         <>
-            <div className="Main">
-                <div className='top row'>
-                    <div className='col'>
-                        สถานะ : แอดมิน
-                    </div>
-                </div>
-
+            <div className="container-fluid">
                 <div className='row'>
-                    <div className='p-0 col-12 col-lg-2 bg-primary'>
+
+                    <Top />
+
+                    <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
 
-                    <div className='p-0 m-0 col-12 col-lg-10'>
+                    <div className='p-0 col-12 col-lg-10'>
                         <div className="content">
                             <div className="container m-auto">
                                 <div className="row">
@@ -162,14 +162,6 @@ export default function Admin() {
 
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p>วันที่ : {date}</p>
                         </div>
                     </div>
                 </div>

@@ -30,6 +30,8 @@ export default function Service() {
                 }
             );
 
+            document.body.style.overflow = "hidden";
+
             let json = await response.json();
             setServices(json.data);
             setListServices(json.data)
@@ -83,21 +85,29 @@ export default function Service() {
 
     return (
         <>
-            <div className="Main">
-                <div className='top row'>
-                    <div className='col'>
-                        สถานะ : แอดมิน
-                    </div>
-                </div>
+            <div className="Main container-fluid">
 
                 <div className='row'>
+
+                    <div className='top d-flex justify-content-between px-3'>
+
+                        <div className="text">
+                             <p className='me-2'>วันที่ : {date}</p>
+                        </div>
+                        <div className='text'>
+                           <p> สถานะ : แอดมิน</p>
+                        </div>
+
+                    </div>
+
                     <div className='p-0 col-12 col-lg-2 sidebar-height'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
-                    <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content" style={{height:"100%"}}>
+
+                    <div className='p-0 col-12 col-lg-10'>
+                        <div className="content">
                             <div className="container m-auto">
                                 <div className="row">
                                     <div className="col">
@@ -168,14 +178,7 @@ export default function Service() {
                             </div>
                         </div>
                     </div>
-                </div>
-           
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p className='me-2'>วันที่ : {date}</p>
-                        </div>
-                    </div>
+
                 </div>
                 
             </div>

@@ -20,7 +20,7 @@ export default function Navigation(){
                         <Navbar.Brand href="/"><img src={`http://localhost:8080/images/Logo2.png`} alt=""/></Navbar.Brand>
                     </div>
 
-                    <div className="me-5">
+                    <div className="me-3">
                         <Nav>
                             <Nav.Link className="me-2" href="/">หน้าแรก</Nav.Link>
                             <Nav.Link className="me-2" href="#about">เกี่ยวกับเรา</Nav.Link>

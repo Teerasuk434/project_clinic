@@ -24,6 +24,9 @@ export default function Homepage(){
 
             let json = await response.json();
             setServices(json.data);
+
+            document.body.style.overflow = "auto";
+
         }
 
         fetchData();
