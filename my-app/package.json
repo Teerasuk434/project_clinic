@@ -14,6 +14,7 @@
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "moment": "^2.29.4",
+    "moment-range": "^4.0.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-confirm-alert": "^3.0.6",
@@ -21,6 +22,7 @@
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "timeslot-availability": "^1.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

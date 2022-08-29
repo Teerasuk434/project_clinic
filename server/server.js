@@ -1007,6 +1007,7 @@ app.get('/api/appointment',(req, res) => {
         c.cust_lname,
         c.cust_tel,
         c.email,
+        d.service_id,
         d.service_name,
         d.cost_deposit,
         e.room_name

@@ -7,19 +7,27 @@ import {Form,Col,Row,Button} from 'react-bootstrap';
 import { Link,useNavigate  } from "react-router-dom";
 import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 
 export default function Appointment(){
 
-    const nowDate = Moment().format('YYYY-MM-DD')
-    const splitDate = nowDate.split("-")
+    const nowDate = Moment().format('YYYY-MM-DD');
+    const moment = extendMoment(Moment);
+    // const splitDate = nowDate.split("-")
 
-    const dayMin = ((parseInt(splitDate[2]))+2);
-    const minDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMin);
+    // const dayMin = ((parseInt(splitDate[2]))+2);
+    // const minDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMin);
 
-    const dayMax = ((parseInt(splitDate[2]))+9);
-    const maxDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMax);
+    // const dayMax = ((parseInt(splitDate[2]))+9);
+    // const maxDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMax);
 
-    console.log(minDate);
+    const minDate = (Moment().add(2, 'days').format('YYYY-MM-DD'));
+    const maxDate = (Moment().add(8, 'days').format('YYYY-MM-DD'));
+    const timeStart = Moment().set('hour',13).set('minute',0).format('HH:mm');
+    const timeEnd = Moment().set('hour',19).set('minute',0).format('HH:mm');
+
+    // console.log(Moment().add(30,'minute'));
+
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
     const [pet_type,setPetType] = useState("");
@@ -30,15 +38,15 @@ export default function Appointment(){
 
     const [date,setDate] = useState(minDate);
     const [time,setTime] = useState("");
+    const [timeSlot,setTimeSlot] = useState([]);
     const [symptoms,setSymptoms] = useState("");
 
     const [listPets,setListPets] = useState([]);
-    const [pet,setPet] = useState([]);
-
     const [listServices,setListServices] = useState([]);
+    const [appointments,setAppointments] = useState([]);
+
     const [service,setService] = useState('');
     const [validated,setValidated] = useState(false);
-    console.log(service);
     let navigate = useNavigate();
 
     let user_id = localStorage.getItem("user_id");
@@ -56,9 +64,11 @@ export default function Appointment(){
             let json2 = await API_GET("service");
             setListServices(json2.data);
 
-            console.log(json2.data);
+            let json3 = await API_GET("appointment");
+            setAppointments(json3.data);
         }
         fetchData(user_id);
+        setTime(minDate);
                    
     },[])
 
@@ -79,6 +89,30 @@ export default function Appointment(){
             setPetAgeMonth(0);
         }
     },[pet_id])
+
+    useEffect(()=>{
+        if(service != [] && time != ""){
+            const range = moment.range(`2022-09-01 13:00`, `2022-09-01 18:45`);
+            let timeSlot = [];
+            let stepSlot = listServices[service-1].time_spent
+            const hours = Array.from(range.by('minute',{step:stepSlot}));
+            let index = 0;
+            // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
+            hours.map(time => 
+                {
+                    timeSlot.push(
+                        {
+                            "id":index++,
+                            "time":(time.format('HH:mm').toString())
+                        }
+                    )
+                }
+                
+            )
+            setTimeSlot(timeSlot)
+        }
+
+    },[service])
 
 
     const onSave = async (event) => {
@@ -208,9 +242,13 @@ export default function Appointment(){
                                             onChange={(e) => setTime(e.target.value)}
                                             required>
                                             <option label="กรุณาเลือกเวลา"></option> 
-                                            <option value="1">13:00</option>
-                                            <option value="2">14:00</option>
-                                            <option value="3">15:00</option>
+
+                                            {
+                                            timeSlot.map(item => (
+                                                <option key={item.id} value={item.time}> 
+                                                {item.time} </option>
+                                            ))
+                                            }
                                         </Form.Select>
                                             <Form.Control.Feedback type="invalid">
                                                 กรุณาเลือกเวลา
@@ -228,7 +266,7 @@ export default function Appointment(){
                                             onChange={(e) => setSymptoms(e.target.value)}
                                         />
                                             <Form.Control.Feedback type="invalid">
-                                                กรุณาเลือกวันที่
+                                                กรุณาระบุอาการเบื้องต้น
                                             </Form.Control.Feedback>
                                     </Form.Group>
                                 </Row>
@@ -240,7 +278,7 @@ export default function Appointment(){
 
                                 <div class="mb-3">
                                     <label for="formFile" clasName="form-label">อัพโหลดสลิป</label>
-                                    <input className="form-control" type="file" id="formFile" />
+                                    <input className="form-control" type="file" id="formFile" required/>
                                 </div>
 
                                 <Row className="mx-1 mt-2">
