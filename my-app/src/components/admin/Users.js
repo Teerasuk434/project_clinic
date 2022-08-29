@@ -36,7 +36,6 @@ export default function Admin() {
             let json = await response.json();
             setListUsers(json.data);
             setUsers(json.data);
-            console.log(json.data);
         }
         fetchData();
 

@@ -17,8 +17,6 @@ const Pets = require('./libs/Pets');
 
 const Employee = require('./libs/Employee');
 
-
-
 const port = 8080;
 const bodyParser = require('body-parser');
 const app = express();
