@@ -160,7 +160,6 @@ export default function Admin() {
                                             </tbody>
                                         </Table>
                                     </div>
-
                                 </div>
                             </div>
                         </div>

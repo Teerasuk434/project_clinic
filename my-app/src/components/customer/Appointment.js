@@ -26,7 +26,6 @@ export default function Appointment(){
     const timeStart = Moment().set('hour',13).set('minute',0).format('HH:mm');
     const timeEnd = Moment().set('hour',19).set('minute',0).format('HH:mm');
 
-    // console.log(Moment().add(30,'minute'));
 
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
