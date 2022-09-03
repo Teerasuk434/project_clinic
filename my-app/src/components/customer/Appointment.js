@@ -40,6 +40,10 @@ export default function Appointment(){
     const [timeSlot,setTimeSlot] = useState([]);
     const [symptoms,setSymptoms] = useState("");
 
+    const [available_room, setAvailableRoom] = useState([]);
+
+    const [schedules, setSchedules] = useState([]);
+
     const [listPets,setListPets] = useState([]);
     const [listServices,setListServices] = useState([]);
     const [appointments,setAppointments] = useState([]);
@@ -65,6 +69,9 @@ export default function Appointment(){
 
             let json3 = await API_GET("appointment");
             setAppointments(json3.data);
+
+            let json4 = await API_GET("schedules");
+            setSchedules(json4.data);
         }
         fetchData(user_id);
         setTime(minDate);
@@ -91,14 +98,43 @@ export default function Appointment(){
 
     useEffect(()=>{
         if(service != [] && time != ""){
-            const range = moment.range(`2022-09-01 13:00`, `2022-09-01 18:45`);
-            let timeSlot = [];
-            let stepSlot = listServices[service-1].time_spent
-            const hours = Array.from(range.by('minute',{step:stepSlot}));
-            let index = 0;
-            // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
-            hours.map(time => 
-                {
+            setTimeSlots();
+        }
+    },[service])
+
+
+    const setTimeSlots = async () => {
+
+        let service_time = listServices[service-1].time_spent;
+        let room_type_id = listServices[service-1].room_type_id;
+        let index = 0;
+        let count_room;
+        let rooms = [];
+
+        let json = await API_POST("room/room_types",{
+            room_type_id:room_type_id,
+            date:date,
+            time:time
+        });
+
+        rooms = json.data;
+
+        const range = moment.range(`${date} 13:00`, `${date} 18:45`);
+        let timeSlot = [];
+        let stepSlot = service_time;
+        const hours = Array.from(range.by('minute',{step:stepSlot}));
+        // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
+        hours.map(time => 
+            {
+                count_room = 0;
+
+                appointments.map(item => {
+                    if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
+                        count_room++;
+                    }
+                })
+
+                if(count_room< rooms.length){
                     timeSlot.push(
                         {
                             "id":index++,
@@ -107,12 +143,12 @@ export default function Appointment(){
                     )
                 }
                 
-            )
-            setTimeSlot(timeSlot)
-        }
+            }
+            
+        )
+        setTimeSlot(timeSlot)
 
-    },[service])
-
+    }
 
     const onSave = async (event) => {
         const form = event.currentTarget;

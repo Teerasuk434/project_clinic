@@ -989,20 +989,55 @@ app.get('/api/room/:room_id', async(req, res) => {
     }
 });
 
+app.post('/api/room/room_types',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Room.getByRoomType(pool,input.room_type_id,input.date,input.time);
+        res.json({
+            result: true,
+            data:result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get('/api/schedules',(req, res) => {
+    pool.query("SELECT * FROM schedules a JOIN rooms b ON a.room_id = b.room_id",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบข้อมูลตารางงาน"
+            });
+        }
+    });
+});
+
 app.get('/api/appointment',(req, res) => {
     pool.query(`SELECT  
         a.appoint_id,
-        b.pet_name,
-        b.pet_type,
-        b.pet_species,
-        b.pet_gender,
-        b.pet_age_year,
-        b.pet_age_month,
         a.symtoms,
         a.date,
         a.time,
         a.payment_image,
         a.appoint_status,
+        a.note,
+        b.*,
         c.cust_fname,
         c.cust_lname,
         c.cust_tel,
@@ -1010,7 +1045,7 @@ app.get('/api/appointment',(req, res) => {
         d.service_id,
         d.service_name,
         d.cost_deposit,
-        e.room_name
+        e.*
         FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
         JOIN customer_information c ON b.cust_id = c.cust_id
         JOIN service d ON a.service_id = d.service_id

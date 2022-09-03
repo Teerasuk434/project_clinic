@@ -24,5 +24,10 @@ module.exports = {
         var sql = "SELECT * FROM rooms WHERE room_id = ?";
         sql = mysql.format(sql,[room_id]);
         return await pool.query(sql);
+    },
+    getByRoomType: async(pool,room_type_id) =>{
+        var sql = "SELECT * FROM rooms WHERE room_type_id = ?";
+        sql = mysql.format(sql,[room_type_id]);
+        return await pool.query(sql)
     }
 };
