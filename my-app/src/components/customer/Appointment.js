@@ -108,7 +108,6 @@ export default function Appointment(){
         if(pet_id != 0 || pet_id != ""){
             setIsSelectPet(false);
             if(service !=""){
-                console.log("inservice");
                 setIsSelectService(false);
             }else{
                 setIsSelectService(true);
