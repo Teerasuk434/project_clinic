@@ -23,9 +23,6 @@ export default function Appointment(){
 
     const minDate = (Moment().add(2, 'days').format('YYYY-MM-DD'));
     const maxDate = (Moment().add(8, 'days').format('YYYY-MM-DD'));
-    const timeStart = Moment().set('hour',13).set('minute',0).format('HH:mm');
-    const timeEnd = Moment().set('hour',19).set('minute',0).format('HH:mm');
-
 
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
@@ -50,6 +47,10 @@ export default function Appointment(){
 
     const [service,setService] = useState('');
     const [validated,setValidated] = useState(false);
+
+    const [isSelectPet, setIsSelectPet] = useState(true);
+    const [isSelectService, setIsSelectService] = useState(false);
+
     let navigate = useNavigate();
 
     let user_id = localStorage.getItem("user_id");
@@ -100,8 +101,24 @@ export default function Appointment(){
         if(service != [] && time != ""){
             setTimeSlots();
         }
+
     },[service])
 
+    useEffect(()=>{
+        if(pet_id != 0 || pet_id != ""){
+            setIsSelectPet(false);
+            if(service !=""){
+                console.log("inservice");
+                setIsSelectService(false);
+            }else{
+                setIsSelectService(true);
+            }
+         }else{
+            setIsSelectPet(true);
+         }
+
+         
+    },[pet_id,service])
 
     const setTimeSlots = async () => {
 
@@ -181,7 +198,7 @@ export default function Appointment(){
                             <h6>เลือกข้อมูลสัตว์เลี้ยง</h6>
                         </div>
 
-                        <div className="form-pet-content p-3">
+                        <div className="form-pet-content py-3 ps-5">
                         <Form.Select
                             value={pet_id}
                             onChange={(e) => setPetId(e.target.value)}
@@ -225,7 +242,8 @@ export default function Appointment(){
                             }
                         </div>
                     </div>
-
+                
+                <fieldset disabled={isSelectPet}>
                     <div className="appoint-form mt-4 row">
                         <div className="form-appoint-header">
                             <h6>รายละเอียดการนัดหมาย</h6>
@@ -253,6 +271,8 @@ export default function Appointment(){
                                     </Form.Group>
                                 </Row>
 
+                            <fieldset disabled={isSelectService}>
+
                                 <Row className="mb-3">
                                     <Form.Group as={Col}controlId="validateRoleType">
                                         <Form.Label>วันที่</Form.Label>
@@ -272,10 +292,7 @@ export default function Appointment(){
 
                                     <Form.Group as={Col}controlId="validateRoleType">
                                         <Form.Label>เลือกเวลา</Form.Label>
-                                        <Form.Select
-                                            value={time}
-                                            onChange={(e) => setTime(e.target.value)}
-                                            required>
+                                        <Form.Select value={time} onChange={(e) => setTime(e.target.value)}>
                                             <option label="กรุณาเลือกเวลา"></option> 
 
                                             {
@@ -316,13 +333,18 @@ export default function Appointment(){
                                     <input className="form-control" type="file" id="formFile" required/>
                                 </div>
 
+                            </fieldset>
+
                                 <Row className="mx-1 mt-2">
                                     <Button variant="primary" as="input" type="submit" value="นัดหมาย"/>
                                 </Row>
 
                         </div>
+                        
 
                     </div>
+
+                </fieldset>
 
                     </Form>
                 </div>

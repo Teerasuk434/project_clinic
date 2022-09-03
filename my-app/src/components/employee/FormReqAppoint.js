@@ -199,8 +199,9 @@ export default function FormReqAppoint() {
                                             >
                                                 <option label="Action"></option>
                                                 <option value="1">รออนุมัติ</option>
-                                                <option value="2">รอแก้ไข</option>
-                                                <option value="3">ยกเลิก</option>
+                                                <option value="2">อนุมัติ</option>
+                                                <option value="3">รอแก้ไข</option>
+                                                <option value="4">ยกเลิก</option>
                                             </Form.Select>
                                         </div>
 
