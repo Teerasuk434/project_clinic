@@ -35,9 +35,9 @@ export default function Appointment(){
     const [date,setDate] = useState(minDate);
     const [time,setTime] = useState("");
     const [timeSlot,setTimeSlot] = useState([]);
-    const [symptoms,setSymptoms] = useState("");
+    const [symtoms,setSymtoms] = useState("ไม่มี");
 
-    const [available_room, setAvailableRoom] = useState([]);
+    const [rooms, setRooms] = useState([]);
 
     const [schedules, setSchedules] = useState([]);
 
@@ -128,12 +128,11 @@ export default function Appointment(){
         let rooms = [];
 
         let json = await API_POST("room/room_types",{
-            room_type_id:room_type_id,
-            date:date,
-            time:time
+            room_type_id:room_type_id
         });
 
         rooms = json.data;
+        setRooms(json.data);
 
         const range = moment.range(`${date} 13:00`, `${date} 18:45`);
         let timeSlot = [];
@@ -143,13 +142,14 @@ export default function Appointment(){
         hours.map(time => 
             {
                 count_room = 0;
-
                 appointments.map(item => {
                     if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
                         count_room++;
                     }
                 })
 
+                
+                
                 if(count_room< rooms.length){
                     timeSlot.push(
                         {
@@ -173,9 +173,38 @@ export default function Appointment(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-           console.log("บันทีกข้อมูล");
+            doCreateAppointment();
         }
         setValidated(true);
+    }
+
+    const doCreateAppointment = async () => {
+        // let room_used = [];
+
+        // appointments.map(item =>{
+        //     if(item.date == date){
+        //         room_used.push(item.room_id);
+        //     }
+        // })
+
+        // console.log(room_used)
+        console.log("date : " +date);
+        console.log("time : " +time);
+        const json = await API_POST("appointment/add", {
+            symtoms:symtoms,
+            date:date,
+            time:time,
+            payment_image:"paymentxxx.png",
+            appoint_status:"รอตรวจสอบ",
+            note:"ไม่มี",
+            pet_id:pet_id,
+            service_id:listServices[service-1].service_id,
+            room_id:3
+        });
+
+        // if (json.result) {
+        //     window.location = "/appointment";
+        // }
     }
 
     return (
@@ -313,8 +342,8 @@ export default function Appointment(){
                                         <Form.Control
                                             required
                                             as="textarea"
-                                            value={symptoms}
-                                            onChange={(e) => setSymptoms(e.target.value)}
+                                            value={symtoms}
+                                            onChange={(e) => setSymtoms(e.target.value)}
                                         />
                                             <Form.Control.Feedback type="invalid">
                                                 กรุณาระบุอาการเบื้องต้น
@@ -329,7 +358,7 @@ export default function Appointment(){
 
                                 <div class="mb-3">
                                     <label for="formFile" clasName="form-label">อัพโหลดสลิป</label>
-                                    <input className="form-control" type="file" id="formFile" required/>
+                                    <input className="form-control" type="file" id="formFile"/>
                                 </div>
 
                             </fieldset>

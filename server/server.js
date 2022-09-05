@@ -9,13 +9,12 @@ const Users = require('./libs/Users');
 const Roles = require('./libs/Roles');
 const Service = require('./libs/Service');
 const Customer = require('./libs/Customer');
-
 const EmployeeTypes = require('./libs/EmployeeTypes');
 const RoomTypes = require('./libs/RoomTypes');
 const Room = require('./libs/Room');
 const Pets = require('./libs/Pets');
-
 const Employee = require('./libs/Employee');
+const Appointment = require('./libs/Appointment')
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -993,7 +992,7 @@ app.post('/api/room/room_types',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.getByRoomType(pool,input.room_type_id,input.date,input.time);
+        var result = await Room.getByRoomType(pool,input.room_type_id);
         res.json({
             result: true,
             data:result
@@ -1068,6 +1067,31 @@ app.get('/api/appointment',(req, res) => {
             });
         }
     });
+});
+
+app.post('/api/appointment/add',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Appointment.addAppointment(pool,
+            input.symtoms,
+            input.date,
+            input.time,
+            input.payment_image,
+            input.appoint_status,
+            input.note,
+            input.pet_id,
+            input.service_id,
+            input.room_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
 });
 
 app.get('/api/emp',(req, res) => {
