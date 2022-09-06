@@ -6,7 +6,7 @@ module.exports = {
         var sql ="INSERT INTO employee (emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, user_id) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, user_id]);
-
+        console.log(sql)
         return await pool.query(sql);
     },
     updateEmployee: async (pool, emp_id,emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id) =>{

@@ -39,6 +39,7 @@ import FormReqAppoint from './components/employee/FormReqAppoint';
 
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
+import AppointTable from './components/owner/AppointTable';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -69,6 +70,7 @@ root.render(
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       
       <Route path="/appointment" element={<Appointment />} />
+      <Route path="/appointtable" element={<AppointTable />} />
 
       <Route path="/rooms" element={<Rooms/>} />
       <Route path="/room/:room_id" element={<FormRoom />} />

@@ -3,11 +3,14 @@ import {Button, Form , Row ,Col} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
+import Sidebar from "./Sidebar";
 
 export default function FormEmployee(){
 
     let params = useParams();
     let navigate = useNavigate();
+    let pages = 3;
+    let date = new Date().toLocaleDateString();
 
     const [validated,setValidated] = useState(false);
     const [emp_id,setEmpId] = useState([]);
@@ -38,7 +41,7 @@ export default function FormEmployee(){
         if(params.emp_id != "add"){
             fetchData([params.emp_id]);
         }
-    },[]);
+    },[params.emp_id])
 
     const onSave = async(event) =>{
         const form = event.currentTarget;
@@ -78,7 +81,6 @@ export default function FormEmployee(){
             }
         )
         let json = await response.json();
-
         if(json.result){
             navigate("/emp", { replace: true });
         }
@@ -102,110 +104,140 @@ export default function FormEmployee(){
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
                     emp_position_id: emp_position_id,
-
-                    
                 })
             }
-        )
+        );
         let json = await response.json();
-
         if(json.result){
             navigate("/emp", { replace: true });
         }
     }
     return(
         <>
-            <div className="container">
-            <Form noValidate validated={validated} onSubmit={onSave}>
-                    
-                        <Form.Group as={Col} controlId="validateFirstName" >
-                            <Form.Label>ชื่อ</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={emp_id}
-                                placeholder="ชื่อ"
-                                onChange={(e) => setEmpId(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ชื่อพนักงาน
-                            </Form.Control.Feedback>
-                        </Form.Group>
+            <div className="Main">
+                <div className='top row'>
+                    <div className='col'>
+                        สถานะ : เจ้าของคลินิก
+                    </div>
+                </div>
 
-                        <Form.Group as={Col} controlId="validateLastName" >
-                            <Form.Label>นามสกุล</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={emp_lname}
-                                placeholder="นามสกุล"
-                                onChange={(e) => setEmpLname(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก นามสกุลพนักงาน
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                <div className='row'>
+                    <div className='p-0 col-12 col-lg-2 bg-primary'>
+                        <div className='sidebar'>
+                            <Sidebar pages={pages}/>
+                        </div>
+                    </div>
 
-                        <Form.Group as={Col} controlId="validatePosition" >
-                            <Form.Label>ตำแหน่ง</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={emp_position_id}
-                                placeholder="ตำแหน่ง"
-                                onChange={(e) => setEmpPositionId(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ตำแหน่ง
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                    <div className='p-0 m-0 col-12 col-lg-10'>
+                        <div className="content p-5">
+                            <div className='container m-auto'>
 
-                        <Form.Group as={Col} controlId="validateAddress" >
-                            <Form.Label>ที่อยู่</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={emp_address}
-                                placeholder="ที่อยู่"
-                                onChange={(e) => setEmpAdress(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ที่อยู่
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                                <h4 className='text-center'>เพิ่มข้อมูลพนักงาน</h4>
 
-                        <Form.Group as={Col} controlId="validateTel" >
-                            <Form.Label>เบอร์โทร</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={emp_tel}
-                                placeholder="เบอร์โทร"
-                                onChange={(e) => setEmpTel(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก เบอร์โทร
-                            </Form.Control.Feedback>
-                        </Form.Group>
+                                <div className="container">
+                                <Form noValidate validated={validated} onSubmit={onSave}>
+                                        
+                                            <Form.Group as={Col} controlId="validateFirstName" >
+                                                <Form.Label>ชื่อ</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={emp_id}
+                                                    placeholder="ชื่อ"
+                                                    onChange={(e) => setEmpId(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก ชื่อพนักงาน
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
 
-                        <Form.Group as={Col} controlId="validateSalary" >
-                            <Form.Label>เงินเดือน</Form.Label>
-                            <Form.Control
-                                required
-                                type="number"
-                                value={emp_salary}
-                                placeholder="เงินเดือน"
-                                onChange={(e) => setEmpSalary(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก เงินเดือน
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                            
-                        <Row className="mb-3">
-                            <Button variant="primary" as="input" type="submit" value="SAVE"/>
-                        </Row>
-                </Form>
+                                            <Form.Group as={Col} controlId="validateLastName" >
+                                                <Form.Label>นามสกุล</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={emp_lname}
+                                                    placeholder="นามสกุล"
+                                                    onChange={(e) => setEmpLname(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก นามสกุลพนักงาน
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="validatePosition" >
+                                                <Form.Label>ตำแหน่ง</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={emp_position_id}
+                                                    placeholder="ตำแหน่ง"
+                                                    onChange={(e) => setEmpPositionId(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก ตำแหน่ง
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="validateAddress" >
+                                                <Form.Label>ที่อยู่</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={emp_address}
+                                                    placeholder="ที่อยู่"
+                                                    onChange={(e) => setEmpAdress(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก ที่อยู่
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="validateTel" >
+                                                <Form.Label>เบอร์โทร</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={emp_tel}
+                                                    placeholder="เบอร์โทร"
+                                                    onChange={(e) => setEmpTel(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก เบอร์โทร
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="validateSalary" >
+                                                <Form.Label>เงินเดือน</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="number"
+                                                    value={emp_salary}
+                                                    placeholder="เงินเดือน"
+                                                    onChange={(e) => setEmpSalary(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก เงินเดือน
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                                
+                                            <Row className="my-4">
+                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            </Row>
+                                    </Form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">              
+                        <div className='bottom'>
+                            <div>
+                                <p>วันที่ : {date}</p>
+                            </div>
+                        </div>
+                </div>
             </div>
         </>
     )

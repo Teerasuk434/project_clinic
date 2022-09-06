@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 import EmployeeItem from "./EmployeeItem";
 import { API_GET,API_POST } from "../../api";
 
-// import './Admin.css';
-// import Sidebar from './Sidebar';
+
+import Sidebar from "./Sidebar";
+
+
 
 export default function Employee(){
+    let date = new Date().toLocaleDateString();
+    let pages = 3;
 
     const [employee,setEmployee] = useState([]);
     const [search,setSearch] = useState("");
     const [listemployee,setListEmployee] = useState([]);
-
-    let date = new Date().toLocaleDateString();
-    let pages = 8;
 
     useEffect( () => {
         async function fetchData(){
@@ -25,6 +26,7 @@ export default function Employee(){
                     headers:{
                         Accept:"application/json",
                         'Content-Type': 'application/json',
+                        Authorization: "Bearer " + localStorage.getItem("access_token")
                     }
                 }
             );
@@ -88,7 +90,7 @@ export default function Employee(){
                 <div className='row'>
                     <div className='p-0 col-12 col-lg-2 bg-primary'>
                         <div className='sidebar'>
-                            {/* <Sidebar pages={pages}/> */}
+                            <Sidebar pages={pages}/>
                         </div>
                     </div>
 

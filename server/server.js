@@ -1120,7 +1120,13 @@ app.post('/api/emp/add',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Employee.createEmployee(pool,input.emp_fname,input.emp_lname, input.emp_position_id);
+        var result = await Employee.createEmployee(pool,
+            input.emp_fname,
+            input.emp_lname,
+            input.emp_address,
+            input.emp_tel,
+            input.emp_salary,
+            input.emp_position_id);
         res.json({
             result: true
         });

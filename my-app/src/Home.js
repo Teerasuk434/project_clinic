@@ -1,4 +1,5 @@
 import Owner from './components/owner/Owner';
+import MainOwner from './components/owner/MainOwner';
 import MainEmployee from './components/employee/MainEmployee';
 import MainAdmin from './components/admin/MainAdmin';
 import { useEffect, useState } from 'react';
@@ -50,10 +51,10 @@ export default function Home() {
 
     return (
         <>  
-            {role_id === 2 && (<Owner />)}
+            {role_id === 2 && (<MainOwner />)}
             {role_id === 3 && (<MainEmployee />)}
             {role_id === 4 && (<MainAdmin />)}
-
+            
         </>
     );    
 }
