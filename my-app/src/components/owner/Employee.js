@@ -80,10 +80,15 @@ export default function Employee(){
     }
     return (
         <>
-           <div className="Main">
-                <div className='top row'>
-                    <div className='col'>
-                        สถานะ : เจ้าของคลินิก
+           <div className="container-fluid">
+                <div className='row'>
+                    <div className='top d-flex justify-content-between px-3'>
+                        <div className="text">
+                            <p className="me-2">วันที่ : {date}</p>
+                        </div>
+                        <div className="text">
+                            <p>สถานะ : เจ้าของคลินิก</p>
+                        </div>
                     </div>
                 </div>
 
