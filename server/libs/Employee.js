@@ -2,10 +2,10 @@ const mysql = require('mysql');
 
 
 module.exports = {
-    createEmployee: async (pool, emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, user_id) => {
-        var sql ="INSERT INTO employee (emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, user_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, user_id]);
+    createEmployee: async (pool, emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id) => {
+        var sql ="INSERT INTO employee (emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id]);
         console.log(sql)
         return await pool.query(sql);
     },

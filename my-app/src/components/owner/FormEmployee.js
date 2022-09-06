@@ -75,8 +75,7 @@ export default function FormEmployee(){
                     emp_address: emp_address,
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
-                    emp_position_id: emp_position_id,
-                    user_id: user_id
+                    emp_position_id: 1,
                 })
             }
         )
@@ -147,9 +146,9 @@ export default function FormEmployee(){
                                                 <Form.Control
                                                     required
                                                     type="text"
-                                                    value={emp_id}
+                                                    value={emp_fname}
                                                     placeholder="ชื่อ"
-                                                    onChange={(e) => setEmpId(e.target.value)}
+                                                    onChange={(e) => setEmpFname(e.target.value)}
                                                 />
                                                 <Form.Control.Feedback type="invalid">
                                                     กรุณากรอก ชื่อพนักงาน

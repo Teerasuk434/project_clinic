@@ -1119,6 +1119,8 @@ app.get('/api/emp',(req, res) => {
 app.post('/api/emp/add',async(req, res) => {
     const input = req.body;
 
+    console.log("route add employee");
+
     try{
         var result = await Employee.createEmployee(pool,
             input.emp_fname,
