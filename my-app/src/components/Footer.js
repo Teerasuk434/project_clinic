@@ -40,20 +40,6 @@ export default function Footer(){
 
                     <div className="col-sm-12 col-lg-3 right">
                         
-                        
-                        <div class="fb-page" data-href="https://www.facebook.com/poonnakanpetclinic" 
-                            data-tabs="timeline" 
-                            data-width="370" 
-                            data-height="100" 
-                            data-small-header="false" 
-                            data-adapt-container-width="true" 
-                            data-hide-cover="false" 
-                            data-show-facepile="false">
-                                {/* <blockquote cite="https://www.facebook.com/poonnakanpetclinic" 
-                                    class="fb-xfbml-parse-ignore">
-                                        <a href="https://www.facebook.com/poonnakanpetclinic">ปุณณกัณฑ์สัตวแพทย์</a>
-                                </blockquote> */}
-                            </div>
 
 
                         <Iframe iframe={iframe} />

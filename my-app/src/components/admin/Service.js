@@ -148,7 +148,7 @@ export default function Service() {
 
                                 <div className='row mt-3'>
                                     <div className='col text-center'>
-                                        <Table striped>
+                                        <Table striped responsive>
                                             <thead>
                                                 <tr>
                                                 <th>รหัสบริการ</th>

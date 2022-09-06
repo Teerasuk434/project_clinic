@@ -38,6 +38,7 @@ export default function Appointment(){
     const [symtoms,setSymtoms] = useState("ไม่มี");
 
     const [rooms, setRooms] = useState([]);
+    const [room_available, setRoomAvailable] = useState([]);
 
     const [schedules, setSchedules] = useState([]);
 
@@ -139,18 +140,58 @@ export default function Appointment(){
         let stepSlot = service_time;
         const hours = Array.from(range.by('minute',{step:stepSlot}));
         // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
+        let room_available_temp = [];
+
+
         hours.map(time => 
             {
+
+                let room_used = [];
                 count_room = 0;
+
                 appointments.map(item => {
+                    // console.log(time.format("HH:mm"))
                     if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
                         count_room++;
+                        room_used.push(item.room_id);
                     }
                 })
 
-                
-                
-                if(count_room< rooms.length){
+                // console.log(count_room)
+
+                if(count_room == 0){
+                    console.log("count 0")
+                    
+                    rooms.map(item =>{
+                        room_available_temp.push({
+                            date:date,
+                            time:time.format("HH:mm"),
+                            room_id:item.room_id })
+                    })
+
+                    setRoomAvailable(room_available_temp);
+                }else if(count_room > 0){
+                    rooms.map(item => {
+                        let room_boolean = room_used.find(item2 => {
+                            if(item2 === item.room_id){
+                                return true
+                            }else{
+                                return false
+                            }
+                        });
+
+                        if(!room_boolean){
+                            room_available_temp.push({
+                                date:date,
+                                time:time.format("HH:mm"),
+                                room_id:item.room_id })
+                        }
+                    })
+
+                    setRoomAvailable(room_available_temp)
+
+                }
+                if(count_room < rooms.length){
                     timeSlot.push(
                         {
                             "id":index++,
@@ -163,6 +204,7 @@ export default function Appointment(){
             
         )
         setTimeSlot(timeSlot)
+
 
     }
 
@@ -179,17 +221,16 @@ export default function Appointment(){
     }
 
     const doCreateAppointment = async () => {
-        // let room_used = [];
 
-        // appointments.map(item =>{
-        //     if(item.date == date){
-        //         room_used.push(item.room_id);
-        //     }
-        // })
+        let room_id = [];
 
-        // console.log(room_used)
-        console.log("date : " +date);
-        console.log("time : " +time);
+        room_available.map(item=>{
+            if(item.date == date && item.time == time){
+                room_id.push(item.room_id)
+            }
+        })
+
+
         const json = await API_POST("appointment/add", {
             symtoms:symtoms,
             date:date,
@@ -199,12 +240,12 @@ export default function Appointment(){
             note:"ไม่มี",
             pet_id:pet_id,
             service_id:listServices[service-1].service_id,
-            room_id:3
+            room_id:room_id[0]
         });
 
-        // if (json.result) {
-        //     window.location = "/appointment";
-        // }
+        if (json.result) {
+            window.location = "/appointment";
+        }
     }
 
     return (
