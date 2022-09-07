@@ -8,18 +8,13 @@ import { Link,useNavigate  } from "react-router-dom";
 import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { SERVER_URL } from "../../app.config";
+
 
 export default function Appointment(){
 
     const nowDate = Moment().format('YYYY-MM-DD');
     const moment = extendMoment(Moment);
-    // const splitDate = nowDate.split("-")
-
-    // const dayMin = ((parseInt(splitDate[2]))+2);
-    // const minDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMin);
-
-    // const dayMax = ((parseInt(splitDate[2]))+9);
-    // const maxDate = (splitDate[0]+"-"+splitDate[1]+"-"+dayMax);
 
     const minDate = (Moment().add(2, 'days').format('YYYY-MM-DD'));
     const maxDate = (Moment().add(8, 'days').format('YYYY-MM-DD'));
@@ -51,6 +46,12 @@ export default function Appointment(){
 
     const [isSelectPet, setIsSelectPet] = useState(true);
     const [isSelectService, setIsSelectService] = useState(false);
+
+    const [selectedFile, setSelectedFile] = useState([]);
+
+    const [appoint_id, setAppointId] = useState(0);
+
+
 
     let navigate = useNavigate();
 
@@ -151,7 +152,7 @@ export default function Appointment(){
 
                 appointments.map(item => {
                     // console.log(time.format("HH:mm"))
-                    if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
+                    if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
                         count_room++;
                         room_used.push(item.room_id);
                     }
@@ -243,9 +244,36 @@ export default function Appointment(){
             room_id:room_id[0]
         });
 
+        let appoint_new_id = json.appoint_id;
+        onUploadImage(appoint_new_id);
+    
         if (json.result) {
             window.location = "/appointment";
         }
+    }
+
+    const onFileSelected = (e) => {
+        if (e.target.files.length > 0) {
+            setSelectedFile(e.target.files[0]);
+        }
+    }
+
+    const onUploadImage = async (appoint_new_id) => {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        let response = await fetch(
+            SERVER_URL + "api/appointment/upload/" + appoint_new_id,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: formData,
+            }
+        );
+        let json = await response.json();
     }
 
     return (
@@ -398,8 +426,13 @@ export default function Appointment(){
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="formFile" clasName="form-label">อัพโหลดสลิป</label>
-                                    <input className="form-control" type="file" id="formFile"/>
+                                    <Form.Group as={Col} controlId="formFile">
+                                        {/* <Form.Label>เลือกรูปภาพ</Form.Label> */}
+                                        <Form.Control
+                                            type="file"
+                                            name="file"
+                                            onChange={onFileSelected} />
+                                    </Form.Group>
                                 </div>
 
                             </fieldset>

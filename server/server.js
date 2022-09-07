@@ -1084,7 +1084,8 @@ app.post('/api/appointment/add',async(req, res) => {
             input.service_id,
             input.room_id);
         res.json({
-            result: true
+            result: true,
+            appoint_id:result.insertId
         });
     }catch(ex){
         res.json({
@@ -1092,6 +1093,39 @@ app.post('/api/appointment/add',async(req, res) => {
             message: ex.message
         });
     }
+});
+
+app.post("/api/appointment/upload/:appoint_new_id", checkAuth, (req, res) => {
+    var appoint_new_id = req.params.appoint_new_id;
+    var fileName;
+
+    var storage = multer.diskStorage({
+        destination: (req, file, cp) =>{
+            cp(null, "images");
+        },
+        filename: (req, file, cp) => {
+            let fileNames = file.originalname.split('.');
+            fileName = "appoint_payment-" + appoint_new_id +"."+fileNames[1];
+            cp(null, fileName);
+        }
+    });
+
+    var upload = multer({ storage: storage}).single('file');
+
+    upload(req, res, async (err) => {
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message
+            });
+        } else {
+            var result = Appointment.uploadImage(pool, appoint_new_id, fileName);
+            res.json({
+                result: true,
+                data: fileName
+            });
+        }
+    });
 });
 
 app.get('/api/emp',(req, res) => {
