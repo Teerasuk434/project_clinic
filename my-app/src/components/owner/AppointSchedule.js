@@ -3,7 +3,7 @@ import { Form, Col, Row, Table, Button} from "react-bootstrap";
 
 import Sidebar from "./Sidebar";
 
-export default function AppointTable() {
+export default function AppointSchedule() {
 
     let date = new Date().toLocaleDateString();
     let pages = 2;
@@ -115,7 +115,7 @@ export default function AppointTable() {
                                         </Form>
                                     </div>
                                 </div>
-
+                                
 
                                 </div>
                             </div>

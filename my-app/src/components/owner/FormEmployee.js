@@ -20,7 +20,10 @@ export default function FormEmployee(){
     const [emp_tel,setEmpTel] = useState("");
     const [emp_salary,setEmpSalary] = useState(0);
     const [emp_position_id,setEmpPositionId] = useState("");
+    const [emp_position_name,setEmpPositionName] = useState("");
+    const [emp_type,setEmpType] = useState([]);
     const [user_id,setUserId] = useState("");
+    
 
     useEffect(() =>{
         async function fetchData(emp_id){
@@ -34,14 +37,24 @@ export default function FormEmployee(){
             setEmpTel(data.emp_tel);
             setEmpSalary(data.emp_salary);
             setEmpPositionId(data.emp_position_id);
+            setEmpPositionName(data.emp_position_name);
             setUserId(data.user_id);
+            setEmpType(data.emp_type);
 
         }
 
-        if(params.emp_id != "add"){
+        if(params.emp_fname != "add"){
             fetchData([params.emp_id]);
         }
-    },[params.emp_id])
+    },[params.emp_id]);
+
+    useEffect(() => {
+        async function fetchData() {
+            let json = await API_GET("emp_type");
+            setEmpType(json.data);
+        }
+        fetchData();
+    },[]);
 
     const onSave = async(event) =>{
         const form = event.currentTarget;
@@ -75,7 +88,15 @@ export default function FormEmployee(){
                     emp_address: emp_address,
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
+<<<<<<< Updated upstream
                     emp_position_id: 1,
+=======
+                    emp_position_id: emp_position_id,
+                    emp_position_name: emp_position_name,
+                    emp_type: emp_type,
+                    user_id: user_id
+                    
+>>>>>>> Stashed changes
                 })
             }
         )
@@ -103,6 +124,8 @@ export default function FormEmployee(){
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
                     emp_position_id: emp_position_id,
+                    emp_position_name: emp_position_name,
+                    
                 })
             }
         );
@@ -133,9 +156,8 @@ export default function FormEmployee(){
                     </div>
 
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content p-5">
+                        <div className="content">
                             <div className='container m-auto'>
-
                                 <h4 className='text-center'>เพิ่มข้อมูลพนักงาน</h4>
 
                                 <div className="container">
@@ -171,15 +193,20 @@ export default function FormEmployee(){
 
                                             <Form.Group as={Col} controlId="validatePosition" >
                                                 <Form.Label>ตำแหน่ง</Form.Label>
-                                                <Form.Control
-                                                    required
-                                                    type="text"
-                                                    value={emp_position_id}
-                                                    placeholder="ตำแหน่ง"
+                                                <Form.Select
+                                                    value={emp_position_name}
                                                     onChange={(e) => setEmpPositionId(e.target.value)}
-                                                />
+                                                    required>
+                                                    <option label="ตำแหน่ง"></option>
+                                                    {
+                                                        emp_type.map(item => (
+                                                            <option key={item.emp_position_id} value={item.emp_position_id}>
+                                                            {item.emp_position_name}</option>
+                                                        ))
+                                                    }
+                                                </Form.Select>
                                                 <Form.Control.Feedback type="invalid">
-                                                    กรุณากรอก ตำแหน่ง
+                                                    กรุณาเลือก ตำแหน่งพนักงาน
                                                 </Form.Control.Feedback>
                                             </Form.Group>
 
@@ -236,7 +263,7 @@ export default function FormEmployee(){
                 </div>
 
                 <div className="row">              
-                        <div className='bottom'>
+                        <div className=''>
                             <div>
                                 <p>วันที่ : {date}</p>
                             </div>
