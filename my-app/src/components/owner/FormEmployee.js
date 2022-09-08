@@ -88,15 +88,7 @@ export default function FormEmployee(){
                     emp_address: emp_address,
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
-<<<<<<< Updated upstream
                     emp_position_id: 1,
-=======
-                    emp_position_id: emp_position_id,
-                    emp_position_name: emp_position_name,
-                    emp_type: emp_type,
-                    user_id: user_id
-                    
->>>>>>> Stashed changes
                 })
             }
         )
