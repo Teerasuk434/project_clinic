@@ -13,23 +13,23 @@ export default function FormEmployee(){
     let date = new Date().toLocaleDateString();
 
     const [validated,setValidated] = useState(false);
-    const [emp_id,setEmpId] = useState([]);
+    const [emp_id,setEmpId] = useState(0);
     const [emp_fname,setEmpFname] = useState("");
     const [emp_lname,setEmpLname] = useState("");
     const [emp_address,setEmpAdress] = useState("");
     const [emp_tel,setEmpTel] = useState("");
     const [emp_salary,setEmpSalary] = useState(0);
-    const [emp_position_id,setEmpPositionId] = useState("");
+    const [emp_position_id,setEmpPositionId] = useState(0);
     const [emp_position_name,setEmpPositionName] = useState("");
     const [emp_type,setEmpType] = useState([]);
-    const [user_id,setUserId] = useState("");
+    const [user_id,setUserId] = useState(0);
     
 
     useEffect(() =>{
         async function fetchData(emp_id){
             let json = await API_GET("emp/"+emp_id);
-            var data = json.data[0];
-
+            let data = json.data[0];
+            console.log(data)
             setEmpId(data.emp_id);
             setEmpFname(data.emp_fname);
             setEmpLname(data.emp_lname);
@@ -39,18 +39,17 @@ export default function FormEmployee(){
             setEmpPositionId(data.emp_position_id);
             setEmpPositionName(data.emp_position_name);
             setUserId(data.user_id);
-            setEmpType(data.emp_type);
 
         }
 
-        if(params.emp_fname != "add"){
+        if(params.emp_id != "add"){
             fetchData([params.emp_id]);
         }
     },[params.emp_id]);
 
     useEffect(() => {
         async function fetchData() {
-            let json = await API_GET("emp_type");
+            let json = await API_GET("emp_types");
             setEmpType(json.data);
         }
         fetchData();
@@ -88,15 +87,11 @@ export default function FormEmployee(){
                     emp_address: emp_address,
                     emp_tel: emp_tel,
                     emp_salary: emp_salary,
-<<<<<<< Updated upstream
-                    emp_position_id: 1,
-=======
                     emp_position_id: emp_position_id,
                     emp_position_name: emp_position_name,
                     emp_type: emp_type,
                     user_id: user_id
                     
->>>>>>> Stashed changes
                 })
             }
         )
@@ -194,7 +189,7 @@ export default function FormEmployee(){
                                             <Form.Group as={Col} controlId="validatePosition" >
                                                 <Form.Label>ตำแหน่ง</Form.Label>
                                                 <Form.Select
-                                                    value={emp_position_name}
+                                                    value={emp_position_id}
                                                     onChange={(e) => setEmpPositionId(e.target.value)}
                                                     required>
                                                     <option label="ตำแหน่ง"></option>

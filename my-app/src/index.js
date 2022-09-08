@@ -40,12 +40,8 @@ import FormReqAppoint from './components/employee/FormReqAppoint';
 
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
-<<<<<<< Updated upstream
 
-import AppointTable from './components/owner/AppointTable';
-=======
 import AppointSchedule from './components/owner/AppointSchedule';
->>>>>>> Stashed changes
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -76,12 +72,8 @@ root.render(
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       
       <Route path="/appointment" element={<Appointment />} />
-<<<<<<< Updated upstream
       <Route path="/account/appointments" element={<AppointmentList />} />
-      <Route path="/appointtable" element={<AppointTable />} />
-=======
       <Route path="/appointschedule" element={<AppointSchedule />} />
->>>>>>> Stashed changes
 
       <Route path="/rooms" element={<Rooms/>} />
       <Route path="/room/:room_id" element={<FormRoom />} />

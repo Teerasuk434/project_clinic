@@ -633,6 +633,7 @@ app.post("/api/service/upload/:service_id", checkAuth, (req, res) => {
 });
 
 app.get('/api/emp_types',(req, res) => {
+    
     pool.query("SELECT * FROM emp_type",(err, results, fields) => {
         if(err){
             res.json({
