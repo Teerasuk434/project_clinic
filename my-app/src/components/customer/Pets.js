@@ -125,7 +125,7 @@ export default function Pets(){
                             </div>
 
                             <div className="profile-details">
-                                <Link to="/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
+                                <Link to="/account/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
 
                                 <div className="row mx-5 mt-5 mb-3">
                                     <div className="col m-auto text-center">

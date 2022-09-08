@@ -92,7 +92,7 @@ export default function FormPets(){
         );
         let json = await response.json();
         if(json.result){
-            navigate("/pets", { replace: true });
+            navigate("/account/pets", { replace: true });
         }
 
     }

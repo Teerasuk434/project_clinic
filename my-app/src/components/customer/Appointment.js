@@ -245,6 +245,7 @@ export default function Appointment(){
         });
 
         let appoint_new_id = json.appoint_id;
+        console.log(appoint_new_id)
         onUploadImage(appoint_new_id);
     
         if (json.result) {
