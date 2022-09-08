@@ -33,10 +33,10 @@ export default function Navigation(){
                                 :
 
                                 <NavDropdown align="end" title={<><i className="fa-solid fa-user me-2"></i>{username}</>} id="basic-nav-dropdown">
-                                <NavDropdown.Item href="account">
+                                <NavDropdown.Item href="account/profile">
                                     โปรไฟล์
                                 </NavDropdown.Item>
-                                <NavDropdown.Item href="/pets">ข้อมูลสัตว์เลี้ยง</NavDropdown.Item>
+                                <NavDropdown.Item href="/account/pets">ข้อมูลสัตว์เลี้ยง</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="/" onClick={clearData}>
                                     ออกจากระบบ

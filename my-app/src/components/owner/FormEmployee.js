@@ -89,7 +89,6 @@ export default function FormEmployee(){
                     emp_salary: emp_salary,
                     emp_position_id: emp_position_id,
                     emp_position_name: emp_position_name,
-                    emp_type: emp_type,
                     user_id: user_id
                     
                 })

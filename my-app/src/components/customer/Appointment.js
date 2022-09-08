@@ -309,7 +309,7 @@ export default function Appointment(){
                             }
                         </Form.Select>
 
-                            <h6 className="mt-3 text-center">ยังไม่มีข้อมูลสัตว์เลี้ยง ? <Link to="/pets">เพิ่มข้อมูลสัตว์เลี้ยง</Link></h6>
+                            <h6 className="mt-3 text-center">ยังไม่มีข้อมูลสัตว์เลี้ยง ? <Link to="/account/pets">เพิ่มข้อมูลสัตว์เลี้ยง</Link></h6>
                         </div>
 
                     </div>
