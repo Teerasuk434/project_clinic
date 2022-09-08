@@ -11,8 +11,6 @@ module.exports = {
     uploadImage: async (pool, appoint_new_id, fileName) => {
         var sql = "UPDATE appointment SET payment_image = ? WHERE appoint_id = ?";
         sql = mysql.format(sql, [fileName,appoint_new_id]);
-    console.log(sql);
-
         return await pool.query(sql);
     }
 }
