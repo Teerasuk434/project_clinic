@@ -91,7 +91,7 @@ export default function AppointmentList(){
                                     }
                                     {Appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">
-                                            <h6 className="">ไม่พบข้อมูลสัตว์เลี้ยงของท่าน โปรดเพิ่มข้อมูลสัตว์เลี้ยง</h6>
+                                            <h6 className="">ไม่พบข้อมูลการนัดหมาย</h6>
                                         </div>
                                     }
                                     </div>
