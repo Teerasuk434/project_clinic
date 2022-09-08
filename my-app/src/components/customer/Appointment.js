@@ -245,7 +245,6 @@ export default function Appointment(){
         });
 
         let appoint_new_id = json.appoint_id;
-        console.log(appoint_new_id)
         onUploadImage(appoint_new_id);
     
         if (json.result) {
@@ -390,7 +389,8 @@ export default function Appointment(){
 
                                     <Form.Group as={Col}controlId="validateRoleType">
                                         <Form.Label>เลือกเวลา</Form.Label>
-                                        <Form.Select value={time} onChange={(e) => setTime(e.target.value)}>
+                                        <Form.Select value={time} onChange={(e) => setTime(e.target.value)}required>
+                                    
                                             <option label="กรุณาเลือกเวลา"></option> 
 
                                             {
@@ -430,6 +430,7 @@ export default function Appointment(){
                                     <Form.Group as={Col} controlId="formFile">
                                         {/* <Form.Label>เลือกรูปภาพ</Form.Label> */}
                                         <Form.Control
+                                            required
                                             type="file"
                                             name="file"
                                             onChange={onFileSelected} />

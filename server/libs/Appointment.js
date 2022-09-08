@@ -5,7 +5,7 @@ module.exports = {
         var sql = "INSERT INTO appointment (symtoms, date, time, payment_image, appoint_status, note, pet_id, service_id, room_id) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         sql = mysql.format(sql, [symtoms,date,time,payment_image,appoint_status,note,pet_id,service_id,room_id]);
-
+        console.log(sql)
         return await pool.query(sql);
     },  
     uploadImage: async (pool, appoint_new_id, fileName) => {
