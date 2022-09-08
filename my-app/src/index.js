@@ -28,17 +28,19 @@ import Pets from './components/customer/Pets';
 import FormPets from './components/customer/FormPets';
 
 import Appointment from './components/customer/Appointment';
+import AppointmentList from './components/customer/AppointmentList';
+
 import Rooms from './components/admin/Rooms';
 import FormRoom from './components/admin/FormRoom';
 import RoomTypes from './components/admin/RoomTypes';
 import FormRoomtypes from './components/admin/FormRoomTypes';
-
 
 import RequestAppoint from './components/employee/RequestAppoint';
 import FormReqAppoint from './components/employee/FormReqAppoint';
 
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
+
 import AppointTable from './components/owner/AppointTable';
 
 
@@ -61,15 +63,16 @@ root.render(
       <Route path="/services" element={<Service/>}/>
       <Route path="/service/:service_id" element={<FormService />}/>
 
-      <Route path="/account" element={<Account />}/>
+      <Route path="/account/profile" element={<Account />}/>
       <Route path="/account/editprofile" element={<EditProfile />}/>
-      <Route path="/pets" element={<Pets />} />
-      <Route path="/pet/:pet_id" element={<FormPets />} />
+      <Route path="/account/pets" element={<Pets />} />
+      <Route path="/account/pet/:pet_id" element={<FormPets />} />
 
       <Route path="/emptypes" element={<EmployeeType />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       
       <Route path="/appointment" element={<Appointment />} />
+      <Route path="/account/appointments" element={<AppointmentList />} />
       <Route path="/appointtable" element={<AppointTable />} />
 
       <Route path="/rooms" element={<Rooms/>} />

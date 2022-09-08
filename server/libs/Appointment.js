@@ -12,5 +12,11 @@ module.exports = {
         var sql = "UPDATE appointment SET payment_image = ? WHERE appoint_id = ?";
         sql = mysql.format(sql, [fileName,appoint_new_id]);
         return await pool.query(sql);
+    },
+    getListAppointment: async (pool, cust_id) => {
+        var sql = "SELECT a.* FROM appointment a JOIN pets b ON a.pet_id = b.pet_id WHERE b.cust_id = ?";
+        sql = mysql.format(sql, [cust_id]);
+        console.log(sql)
+        return await pool.query(sql);
     }
 }

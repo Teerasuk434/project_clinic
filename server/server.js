@@ -282,6 +282,27 @@ app.post("/api/account/editprofile", checkAuth, async (req, res) => {
     }
 });
 
+app.post('/api/account/appointments/:user_id',async(req, res) => {
+    const user_id = req.params.user_id;
+    try{
+
+        var result = await Customer.getByUserId(pool,user_id)
+        let cust_id = result[0].cust_id
+        var result2 = await Appointment.getListAppointment(pool,cust_id);
+        console.log(result2)
+
+        res.json({
+            result: true,
+            data: result2
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "
                 + "FROM users a JOIN roles b ON a.role_id = b.role_id ", function(error, results, fields){
@@ -900,7 +921,6 @@ app.post('/api/listpets/:user_id',async(req, res) => {
         });
     }
 });
-
 
 app.get('/api/room',(req, res) => {
     pool.query("SELECT * FROM rooms",(err, results, fields) => {

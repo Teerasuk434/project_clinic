@@ -1,96 +1,31 @@
-import BoxTop from "../Box-top"
+import BoxTop from "../Box-top";
+import Footer from "../Footer";
 import Navigation from "../Navigation"
-import Footer from "../Footer"
-import { Form, Row, Col, Table } from 'react-bootstrap'
 import { Link } from "react-router-dom"
-import PetsItems from "./PetsItems"
-import { API_GET, API_POST } from "../../api"
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react";
+import { Table } from "react-bootstrap";
+import { API_POST } from "../../api";
 
-export default function Pets(){
 
-    const [pets, setPets] = useState([]);
+export default function AppointmentList(){
 
     let user_id = localStorage.getItem("user_id");
 
-    // useEffect(()=>{
-
-    //     async function fetchData(user_id){
-    //         let json = await API_GET("customer/" + user_id);
-
-    //         if(json.result == true){
-    //             setCustId(json.data[0].cust_id);
-  
-    //         }
-    //     }
-    //     fetchData(user_id);
-                   
-    // },[])
+    const [Appointments, setAppointment] = useState([]);
 
     useEffect(()=>{
 
         async function fetchData(user_id){
-            let json = await API_POST("listpets/" + user_id);
+            let json = await API_POST("account/appointments/" + user_id);
 
-            setPets(json.data);
+            setAppointment(json.data);
+            console.log(json)
         }
         fetchData(user_id);
                    
     },[])
 
 
-    // useEffect(()=>{
-
-    //     async function fetchData(user_id){
-    //         let json = await API_GET("listpets" + user_id);
-    //         console.log(json)
-    //         // if(json.result == true){
-    //         //     setCustId(json.data[0].cust_id);
-  
-    //         // }
-    //     }
-    //     fetchData(user_id);
-                   
-    // },[])
-
-
-    
-    // useEffect(()=>{
-    //     async function fetchData(){
-    //         let json = await API_GET("pets");
-    //         if(json.result == true){
-    //             let listPets = [];
-    //             json.data.map(item => {
-    //                 if(item.cust_id === custId){
-    //                     listPets.push(item)
-    //                 }
-    //             })
-    //             if(listPets.length > 0){
-    //                 setPets(listPets);
-    //             }
-    //         }
-           
-    //     }
-    //     fetchData();
-
-    // },[custId])
-
-    const onDelete = async (data) => {
-        let json = await API_POST("pets/delete", {
-            pet_id: data.pet_id
-        });
-
-        if (json.result) {
-            fetchPets();
-        }
-    }
-
-    const fetchPets = async () => {
-        let json = await API_POST("listpets/" + user_id);
-        setPets(json.data);
-
-    }
-  
     return(
         <>
             <BoxTop/>
@@ -110,8 +45,8 @@ export default function Pets(){
                             <div className="profile-sidebar">
                                 <div>
                                     <Link to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link className="active" to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
+                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
+                                    <Link className="active" to="/account/appointments">ข้อมูลการนัดหมาย</Link>
                                     <Link to="#">ประวัติการนัดหมาย</Link>
                                     <Link to="#">ตั้งค่ารหัสผ่าน</Link>
                                     <Link to="/">ออกจากระบบ</Link>
@@ -121,15 +56,13 @@ export default function Pets(){
 
                         <div className="col-9 profile-right p-0 shadow-sm">
                             <div className="profile-right-header p-2 text-center">
-                                <h4>ข้อมูลสัตว์เลี้ยง</h4>
+                                <h4>ข้อมูลการนัดหมาย</h4>
                             </div>
 
                             <div className="profile-details">
-                                <Link to="/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
-
                                 <div className="row mx-5 mt-5 mb-3">
                                     <div className="col m-auto text-center">
-                                    {pets.length > 0 &&
+                                    {Appointments.length > 0 &&
                                     <>
                                         <Table>
                                             <thead>
@@ -143,7 +76,7 @@ export default function Pets(){
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {
+                                                {/* {
                                                     pets.map(item => (
                                                         <PetsItems
                                                         key={item.pet_id}
@@ -151,12 +84,12 @@ export default function Pets(){
                                                         onDelete={onDelete}
                                                         />
                                                     ))
-                                                }
+                                                } */}
                                             </tbody>
                                         </Table>
                                     </>
                                     }
-                                    {pets.length < 1 &&
+                                    {Appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">
                                             <h6 className="">ไม่พบข้อมูลสัตว์เลี้ยงของท่าน โปรดเพิ่มข้อมูลสัตว์เลี้ยง</h6>
                                         </div>
@@ -173,9 +106,7 @@ export default function Pets(){
                         </div>
                     </div>
                 </div>
-
             <Footer/>
         </>
-
     )
 }
