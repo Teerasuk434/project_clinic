@@ -34,12 +34,11 @@ export default function Homepage(){
 
     return (
         <>  
+            <BoxTop />
 
-        <BoxTop/>
-
-        <div className="sticky-top">
-            <Navigation />
-        </div>
+            <div className="sticky-top">
+                <Navigation />
+            </div>
             
             <div className="container" style={{width:"80%"}}>
                 <div className='homepage-picture py-5 px-3 '>
