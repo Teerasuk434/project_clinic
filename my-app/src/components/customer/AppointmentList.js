@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { API_POST } from "../../api";
 
+import AppointmentItem from "./AppointmentItem";
+
 
 export default function AppointmentList(){
 
@@ -60,31 +62,32 @@ export default function AppointmentList(){
                             </div>
 
                             <div className="profile-details">
-                                <div className="row mx-5 mt-5 mb-3">
+                                <div className="row mx-3 mt-5 mb-3">
                                     <div className="col m-auto text-center">
                                     {Appointments.length > 0 &&
                                     <>
                                         <Table>
                                             <thead>
                                                 <tr>
+                                                <th>รหัสการนัดหมาย</th>
                                                 <th>ชื่อสัตว์เลี้ยง</th>
-                                                <th>ประเภท</th>
-                                                <th>สายพันธุ์</th>
-                                                <th>เพศ</th>
-                                                <th>อายุ</th>
-                                                <th>action</th>
+                                                <th>บริการ</th>
+                                                <th>วันที่นัด</th>
+                                                <th>เวลา</th>
+                                                <th>ห้อง</th>
+                                                <th>สถานะ</th>
+                                                <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {/* {
-                                                    pets.map(item => (
-                                                        <PetsItems
-                                                        key={item.pet_id}
+                                                {
+                                                    Appointments.map(item => (
+                                                        <AppointmentItem
+                                                        key={item.appoint_id}
                                                         data={item}
-                                                        onDelete={onDelete}
                                                         />
                                                     ))
-                                                } */}
+                                                }
                                             </tbody>
                                         </Table>
                                     </>

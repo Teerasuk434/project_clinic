@@ -14,7 +14,15 @@ module.exports = {
         return await pool.query(sql);
     },
     getListAppointment: async (pool, cust_id) => {
-        var sql = "SELECT a.* FROM appointment a JOIN pets b ON a.pet_id = b.pet_id WHERE b.cust_id = ?";
+        var sql = `SELECT a.*,b.pet_name,c.service_name,d.room_name
+                        FROM appointment a 
+                        JOIN pets b 
+                        ON a.pet_id = b.pet_id 
+                        JOIN service c 
+                        ON a.service_id = c.service_id
+                        JOIN rooms d
+                        ON a.room_id = d.room_id
+                        WHERE b.cust_id = ?`;
         sql = mysql.format(sql, [cust_id]);
         console.log(sql)
         return await pool.query(sql);
