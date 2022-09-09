@@ -67,12 +67,12 @@ root.render(
       <Route path="/account/editprofile" element={<EditProfile />}/>
       <Route path="/account/pets" element={<Pets />} />
       <Route path="/account/pet/:pet_id" element={<FormPets />} />
+      <Route path="/account/appointments" element={<AppointmentList />} />
 
       <Route path="/emptypes" element={<EmployeeType />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       
       <Route path="/appointment" element={<Appointment />} />
-      <Route path="/account/appointments" element={<AppointmentList />} />
       <Route path="/appointschedule" element={<AppointSchedule />} />
 
       <Route path="/rooms" element={<Rooms/>} />

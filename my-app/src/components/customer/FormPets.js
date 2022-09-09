@@ -110,7 +110,7 @@ export default function FormPets(){
         });
 
         if(json.result){
-            navigate("/pets", { replace: true });
+            navigate("/account/pets", { replace: true });
         }
     }
 

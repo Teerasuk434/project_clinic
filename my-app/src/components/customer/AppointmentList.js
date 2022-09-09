@@ -74,7 +74,6 @@ export default function AppointmentList(){
                                                 <th>บริการ</th>
                                                 <th>วันที่นัด</th>
                                                 <th>เวลา</th>
-                                                <th>ห้อง</th>
                                                 <th>สถานะ</th>
                                                 <th></th>
                                                 </tr>

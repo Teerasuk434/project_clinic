@@ -19,7 +19,7 @@ export default function PetsItems(props) {
                     <div className="row">
                         <div className="col-12">
                             <div className="d-inline-block me-2">
-                                <Link to={`/pet/${props.data.pet_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
+                                <Link to={`/account/pet/${props.data.pet_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>
                        
 
