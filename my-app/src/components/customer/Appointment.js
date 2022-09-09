@@ -148,9 +148,9 @@ export default function Appointment(){
             {
 
                 let room_used = [];
-                count_room = 0;
-
-                if(appointments.length>0){
+                count_room = 0;     
+                
+                if(appointments != null){
                     appointments.map(item => {
                         // console.log(time.format("HH:mm"))
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
