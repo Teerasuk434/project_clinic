@@ -226,14 +226,14 @@ export default function Appointment(){
     const doCreateAppointment = async () => {
 
         let room_id = [];
-
+        console.log(room_available)
         room_available.map(item=>{
             if(item.date == date && item.time == time){
                 room_id.push(item.room_id)
             }
         })
 
-
+        console.log(room_id)
         const json = await API_POST("appointment/add", {
             symtoms:symtoms,
             date:date,

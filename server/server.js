@@ -1092,7 +1092,7 @@ app.get('/api/appointment',(req, res) => {
 
 app.post('/api/appointment/add',async(req, res) => {
     const input = req.body;
-
+    console.log(input)
     try{
         var result = await Appointment.addAppointment(pool,
             input.symtoms,
