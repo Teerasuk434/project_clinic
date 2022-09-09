@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import './employee.css';
-import { Form } from 'react-bootstrap';
+import { Form , Col} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { API_GET } from '../../api';
 import { ShowPaymentModal } from '../Modal';
@@ -10,6 +10,8 @@ export default function FormReqAppoint() {
     let date = new Date().toLocaleDateString();
     let pages = 2;
     let params = useParams();
+
+    
 
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
@@ -44,7 +46,8 @@ export default function FormReqAppoint() {
 
     const [appointments, setAppointments] = useState([]);
 
-    console.log(appoint_status);
+    const [employee, setEmployee] = useState([]);
+    const [emp_id, setEmpId] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -72,6 +75,8 @@ export default function FormReqAppoint() {
             let json = await API_GET("appointment");
             var data = json.data[appoint_id-1];
 
+
+
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
             setCustLname(data.cust_lname);
@@ -93,7 +98,13 @@ export default function FormReqAppoint() {
             setRoomName(data.room_name);
             setCostDeposit(data.cost_deposit);
             setPaymentImage(data.payment_image);
-            console.log(data.payment_image)
+
+            let json2 = await API_GET("emp");
+
+            setEmployee(json2.data);
+            
+            
+
         }
 
         if (params.appoint_id != "add") {
@@ -201,11 +212,22 @@ export default function FormReqAppoint() {
                                             <h6>{appoint_time}</h6>
                                             <h6>{roomName}</h6>
                                             <h6>
-                                                <Form.Select>
-                                                    <option label='เลือกผู้รับหน้าที่'></option>
-                                                    <option value="1">สพ.ญ.ณัฐิยา ไชยสุวรรณ</option>
-                                                    <option value="2">น.สพ.สาโรช ไชยสุวรรณ</option>
+                                            
+                                            <Form.Group as={Col} controlId="validateEmp">
+                                                <Form.Select
+                                                    value={emp_id}
+                                                    onChange={(e) => setEmpId(e.target.value)}
+                                                    required>
+                                                    <option label="เลือกผู้รับหน้าที่"></option>
+                                                    {
+                                                        employee.map(item => (
+                                                            <option key={item.emp_id} value={item.emp_id}>
+                                                                {item.emp_fname}   {item.emp_lname}
+                                                            </option>
+                                                        ))
+                                                    }
                                                 </Form.Select>
+                                            </Form.Group>
                                             </h6>
                                         </div>
                                     </div>
