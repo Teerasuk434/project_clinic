@@ -251,9 +251,9 @@ export default function Appointment(){
         let appoint_new_id = json.appoint_id;
         onUploadImage(appoint_new_id);
     
-        // if (json.result) {
-        //     window.location = "/appointment";
-        // }
+        if (json.result) {
+            window.location = "/appointment";
+        }
     }
 
     const onFileSelected = (e) => {
