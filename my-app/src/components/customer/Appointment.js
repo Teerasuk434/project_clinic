@@ -234,6 +234,8 @@ export default function Appointment(){
         })
 
 
+
+
         const json = await API_POST("appointment/add", {
             symtoms:symtoms,
             date:date,
