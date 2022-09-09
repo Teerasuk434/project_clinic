@@ -103,8 +103,11 @@ export default function Appointment(){
         if(service != [] && time != ""){
             setTimeSlots();
         }
-
     },[service])
+
+    useEffect(() => {
+        setTimeSlots();
+    },[date])
 
     useEffect(()=>{
         if(pet_id != 0 || pet_id != ""){
@@ -226,7 +229,7 @@ export default function Appointment(){
     const doCreateAppointment = async () => {
 
         let room_id = [];
-        console.log(room_available)
+        console.log(room_available);
         room_available.map(item=>{
             if(item.date == date && item.time == time){
                 room_id.push(item.room_id)
@@ -248,9 +251,9 @@ export default function Appointment(){
         let appoint_new_id = json.appoint_id;
         onUploadImage(appoint_new_id);
     
-        if (json.result) {
-            window.location = "/appointment";
-        }
+        // if (json.result) {
+        //     window.location = "/appointment";
+        // }
     }
 
     const onFileSelected = (e) => {
