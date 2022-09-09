@@ -4,6 +4,7 @@ import './employee.css';
 import { Form } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { API_GET } from '../../api';
+import { ShowPaymentModal } from '../Modal';
 
 export default function FormReqAppoint() {
     let date = new Date().toLocaleDateString();
@@ -30,6 +31,16 @@ export default function FormReqAppoint() {
     const [service_name,setServiceName] = useState("");
     const [roomName, setRoomName] = useState("");
     const [cost_deposit, setCostDeposit] = useState("");
+
+    const [paymentImage, setPaymentImage] = useState("");
+
+    //confirmModal
+
+    const [showImageModal, setShowImageModal] = useState(false);
+    const [paymentTitleModal, setPaymentTitleModal] = useState("");
+    const [paymentImageModal, setPaymentImageModal] = useState("");
+
+
 
     const [appointments, setAppointments] = useState([]);
 
@@ -81,12 +92,26 @@ export default function FormReqAppoint() {
             setAppointStatus(data.appoint_status);
             setRoomName(data.room_name);
             setCostDeposit(data.cost_deposit);
+            setPaymentImage(data.payment_image);
+            console.log(data.payment_image)
         }
 
         if (params.appoint_id != "add") {
             fetchData([params.appoint_id]);
         }
     },[params.appoint_id])
+
+
+    const onClickShow = () => {
+        setShowImageModal(true);
+        setPaymentImageModal(paymentImage);
+        setPaymentTitleModal("รูปภาพการชำระเงิน");
+    }
+
+    const onCloseImageModal = () => {
+        setShowImageModal(false);
+    }
+
 
     return (
         <>
@@ -219,9 +244,14 @@ export default function FormReqAppoint() {
 
 
                                         <div className="col-3">
-                                            <button className="btn btn-success">{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
+                                            <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
                                         </div>
-                                        
+                                        <ShowPaymentModal
+                                            show={showImageModal}
+                                            title={paymentTitleModal}
+                                            paymentImage={paymentImageModal}
+                                            onClose={onCloseImageModal}/>
+
                                     </div>
                                     
         

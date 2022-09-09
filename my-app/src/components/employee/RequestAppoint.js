@@ -3,11 +3,15 @@ import Sidebar from './Sidebar';
 import './employee.css';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
 
 export default function RequestAppoint() {
 
+    
     let date = new Date().toLocaleDateString();
     let pages = 2;
+
+   
 
     const [appointment, setAppointment] = useState([]);
 
