@@ -233,7 +233,6 @@ export default function Appointment(){
             }
         })
 
-        console.log(room_id)
         const json = await API_POST("appointment/add", {
             symtoms:symtoms,
             date:date,
