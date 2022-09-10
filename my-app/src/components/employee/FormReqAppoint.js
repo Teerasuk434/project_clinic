@@ -36,7 +36,6 @@ export default function FormReqAppoint() {
 
     const [paymentImage, setPaymentImage] = useState("");
 
-    //confirmModal
 
     const [showImageModal, setShowImageModal] = useState(false);
     const [paymentTitleModal, setPaymentTitleModal] = useState("");

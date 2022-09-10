@@ -15,6 +15,7 @@ export default function AppointmentList(){
 
     const [Appointments, setAppointment] = useState([]);
 
+
     useEffect(()=>{
 
         async function fetchData(user_id){
@@ -75,7 +76,8 @@ export default function AppointmentList(){
                                                 <th>วันที่นัด</th>
                                                 <th>เวลา</th>
                                                 <th>สถานะ</th>
-                                                <th></th>
+                                                <th><p></p></th>
+                                                <th><p></p></th>
                                                 </tr>
                                             </thead>
                                             <tbody>

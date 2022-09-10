@@ -83,12 +83,16 @@ export default function Appointment(){
 
     useEffect(()=>{
         if(pet_id != 0){
-            setPetName(listPets[0].pet_name);
-            setPetType(listPets[0].pet_type);
-            setPetSpecies(listPets[0].pet_species);
-            setPetGender(listPets[0].pet_gender);
-            setPetAgeYear(listPets[0].pet_age_year);
-            setPetAgeMonth(listPets[0].pet_age_month);
+            listPets.map(item => {
+                if(item.pet_id == pet_id){
+                    setPetName(item.pet_name);
+                    setPetType(item.pet_type);
+                    setPetSpecies(item.pet_species);
+                    setPetGender(item.pet_gender);
+                    setPetAgeYear(item.pet_age_year);
+                    setPetAgeMonth(item.pet_age_month);
+                }
+            })
         }else{
             setPetName("");
             setPetType("");
