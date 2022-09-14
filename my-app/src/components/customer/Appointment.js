@@ -152,46 +152,51 @@ export default function Appointment(){
         // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
         let room_available_temp = [];
 
-
         hours.map(time => 
             {
 
                 let room_used = [];
+                let check_time_between = false;
                 count_room = 0;     
                 
                 if(appointments != null){
                     appointments.map(item => {
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
                             count_room++;
-                            room_used.push(item.room_id);                            
+                            room_used.push(item.room_id);    
+                            
                         }
-                        // console.log(time.format("HH:mm"))
-
                         let time_spent = item.time_spent;
-
+                        let time_start = moment(`${date} ${item.time}`);
                         let time_end = moment(`${date} ${item.time}`).add(time_spent,'m');
-                        console.log(time_end)
-                        // moment(time.format("HH:mm")).isBetween(item.time, '2010-10-25');
-                        // let check_range = moment(time).isBetween(item.time, '2010-10-25');
 
-                        // if(){
-                        //     let time_end = moment(time).add(item.time_spent,'m')
-                        //     console.log("time end = " + time_end.format("HH:mm"))
-
-                        // }
-
-  
-                        // console.log(moment(time).format("HH:mm") + " " + item.time + " " + time_end.format("HH:mm"))
-                        // console.log(moment(time).isBetween(item.time, time_end));
+                        check_time_between = moment(time).isBetween(time_start, time_end);
 
                     })
+
+                    // for(let i=0;i<appointments.length;i++){
+                    //     console.log("time slot = " + time.format("HH:mm"));
+                    //     if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time & appointments[i].room_type_id == room_type_id & appointments[i].appoint_status != "ยกเลิก"){
+                    //         count_room++;
+                    //         room_used.push(appointments[i].room_id);    
+                            
+                    //     }
+                    //     let time_spent = appointments[i].time_spent;
+                    //     let time_start = moment(`${date} ${appointments[i].time}`);
+                    //     let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
+
+                    //     check_time_between = moment(time).isBetween(time_start, time_end);
+                    //     console.log("status : " + check_time_between)
+
+                    //     // if(check_time_between){
+                    //     //     i = appointments.length;
+                    //     // }
+                    // }
+
+
                 }
 
-                // console.log(count_room)
-
-                if(count_room == 0){
-                    console.log("count 0")
-                    
+                if(count_room == 0){ 
                     rooms.map(item =>{
                         room_available_temp.push({
                             date:date,
@@ -200,6 +205,7 @@ export default function Appointment(){
                     })
 
                     setRoomAvailable(room_available_temp);
+
                 }else if(count_room > 0){
                     rooms.map(item => {
                         let room_boolean = room_used.find(item2 => {
@@ -219,9 +225,11 @@ export default function Appointment(){
                     })
 
                     setRoomAvailable(room_available_temp)
+                    console.log(room_available_temp)
 
                 }
-                if(count_room < rooms.length){
+                
+                if(count_room < rooms.length  && check_time_between == false){
                     timeSlot.push(
                         {
                             "id":index++,

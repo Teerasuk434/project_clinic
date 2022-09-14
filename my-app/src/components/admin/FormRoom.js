@@ -75,7 +75,7 @@ export default function FormRoom(){
         let json = await response.json();
 
         if(json.result){
-            navigate("/room", { replace: true });
+            navigate("/rooms", { replace: true });
         }
     }
     
