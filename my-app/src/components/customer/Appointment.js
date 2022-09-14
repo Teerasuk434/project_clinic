@@ -110,7 +110,9 @@ export default function Appointment(){
     },[service])
 
     useEffect(() => {
-        setTimeSlots();
+        if(pet_id != 0){
+            setTimeSlots();
+        }
     },[date])
 
     useEffect(()=>{
@@ -159,11 +161,29 @@ export default function Appointment(){
                 
                 if(appointments != null){
                     appointments.map(item => {
-                        // console.log(time.format("HH:mm"))
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
                             count_room++;
-                            room_used.push(item.room_id);
+                            room_used.push(item.room_id);                            
                         }
+                        // console.log(time.format("HH:mm"))
+
+                        let time_spent = item.time_spent;
+
+                        let time_end = moment(`${date} ${item.time}`).add(time_spent,'m');
+                        console.log(time_end)
+                        // moment(time.format("HH:mm")).isBetween(item.time, '2010-10-25');
+                        // let check_range = moment(time).isBetween(item.time, '2010-10-25');
+
+                        // if(){
+                        //     let time_end = moment(time).add(item.time_spent,'m')
+                        //     console.log("time end = " + time_end.format("HH:mm"))
+
+                        // }
+
+  
+                        // console.log(moment(time).format("HH:mm") + " " + item.time + " " + time_end.format("HH:mm"))
+                        // console.log(moment(time).isBetween(item.time, time_end));
+
                     })
                 }
 

@@ -1065,6 +1065,7 @@ app.get('/api/appointment',(req, res) => {
         d.service_id,
         d.service_name,
         d.cost_deposit,
+        d.time_spent,
         e.*
         FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
         JOIN customer_information c ON b.cust_id = c.cust_id
