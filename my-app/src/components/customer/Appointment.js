@@ -149,7 +149,6 @@ export default function Appointment(){
         let timeSlot = [];
         let stepSlot = service_time;
         const hours = Array.from(range.by('minute',{step:stepSlot}));
-        // hours.map(item => timeSlot.push({"id":index++,"time":item.format('HH:mm')}))
         let room_available_temp = [];
 
         hours.map(time => 
@@ -230,7 +229,7 @@ export default function Appointment(){
                     })
 
                     setRoomAvailable(room_available_temp)
-                    console.log(room_available_temp)
+                    
 
                 }
                 if(count_room < rooms.length && check_time_between == false){
@@ -246,7 +245,6 @@ export default function Appointment(){
             
         )
         setTimeSlot(timeSlot)
-
 
     }
 
