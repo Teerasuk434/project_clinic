@@ -154,7 +154,6 @@ export default function Appointment(){
 
         hours.map(time => 
             {
-
                 let room_used = [];
                 let check_time_between = false;
                 count_room = 0;     
@@ -164,49 +163,55 @@ export default function Appointment(){
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
                             count_room++;
                             room_used.push(item.room_id);    
-                            
+
                         }
-                        let time_spent = item.time_spent;
-                        let time_start = moment(`${date} ${item.time}`);
-                        let time_end = moment(`${date} ${item.time}`).add(time_spent,'m');
-
-                        check_time_between = moment(time).isBetween(time_start, time_end);
-
                     })
-
-                    // for(let i=0;i<appointments.length;i++){
-                    //     console.log("time slot = " + time.format("HH:mm"));
-                    //     if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time & appointments[i].room_type_id == room_type_id & appointments[i].appoint_status != "ยกเลิก"){
-                    //         count_room++;
-                    //         room_used.push(appointments[i].room_id);    
-                            
-                    //     }
-                    //     let time_spent = appointments[i].time_spent;
-                    //     let time_start = moment(`${date} ${appointments[i].time}`);
-                    //     let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
-
-                    //     check_time_between = moment(time).isBetween(time_start, time_end);
-                    //     console.log("status : " + check_time_between)
-
-                    //     // if(check_time_between){
-                    //     //     i = appointments.length;
-                    //     // }
-                    // }
-
-
                 }
-
                 if(count_room == 0){ 
-                    rooms.map(item =>{
-                        room_available_temp.push({
-                            date:date,
-                            time:time.format("HH:mm"),
-                            room_id:item.room_id })
-                    })
+                    if(appointments != null){
+                        for(let i=0;i<appointments.length;i++){
+                            // console.log("time slot = " + time.format("HH:mm"));
+                            if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time & appointments[i].room_type_id == room_type_id & appointments[i].appoint_status != "ยกเลิก"){
+                                count_room++;
+                                room_used.push(appointments[i].room_id);    
+                                
+                            }
+                            let time_spent = appointments[i].time_spent;
+                            let time_start = moment(`${date} ${appointments[i].time}`);
+                            let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
+    
+                            check_time_between = moment(time).isBetween(time_start, time_end);
+                            // console.log("status : " + check_time_between)
+                            if(check_time_between){
+                                i = appointments.length;
+                            }
+                        }
+    
+                        if(!check_time_between){
+                            rooms.map(item =>{
+                                console.log("add : " + time.format("HH:mm") )
+                                room_available_temp.push({
+                                    date:date,
+                                    time:time.format("HH:mm"),
+                                    room_id:item.room_id })
+                            })
+                        }
+    
+                        setRoomAvailable(room_available_temp);
+                    }else{
+                        rooms.map(item =>{
+                            console.log("add : " + time.format("HH:mm") )
+                            room_available_temp.push({
+                                date:date,
+                                time:time.format("HH:mm"),
+                                room_id:item.room_id })
+                        })
+                        setRoomAvailable(room_available_temp);
 
-                    setRoomAvailable(room_available_temp);
+                    }
 
                 }else if(count_room > 0){
+                    // console.log("else if")
                     rooms.map(item => {
                         let room_boolean = room_used.find(item2 => {
                             if(item2 === item.room_id){
@@ -228,8 +233,7 @@ export default function Appointment(){
                     console.log(room_available_temp)
 
                 }
-                
-                if(count_room < rooms.length  && check_time_between == false){
+                if(count_room < rooms.length && check_time_between == false){
                     timeSlot.push(
                         {
                             "id":index++,
