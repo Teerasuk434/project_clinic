@@ -1,4 +1,4 @@
-import { Button, Modal,Form,Row,Col} from "react-bootstrap";
+import { Button, Modal,Form,Accordion} from "react-bootstrap";
 import { useState } from "react";
 
 
@@ -139,7 +139,6 @@ export function ShowAppointmentForm(props) {
 
                 </Modal.Body>
                 <Modal.Footer>
-
                     <Button variant="success" onClick={onClickShow}>ข้อมูลการชำระค่ามัดจำ</Button>
 
                     <Button variant="danger" onClick={props.onClose}>ปิด</Button>

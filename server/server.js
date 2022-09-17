@@ -1026,27 +1026,31 @@ app.post('/api/room/room_types',async(req, res) => {
     }
 });
 
-app.get('/api/schedules',(req, res) => {
-    pool.query("SELECT * FROM schedules a JOIN rooms b ON a.room_id = b.room_id",(err, results, fields) => {
-        if(err){
+app.post('/api/schedules/emp_available',(req, res) => {
+    const input = req.body;
+
+    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)", [input.date,input.time], function(error, results, fields){
+        if (error) {
             res.json({
                 result: false,
-                message: err.message
+                message: error.message
             });
         }
-        if(results.length){
+
+        if (results.length) {
             res.json({
                 result: true,
-                data: results
+                data:results
             });
         } else {
             res.json({
-                result: false,
-                message: "ไม่พบข้อมูลตารางงาน"
+                result:false,
+                message: "ไม่พบ Username หรือ Password ไม่ถูกต้อง"
             });
         }
     });
 });
+   
 
 app.get('/api/appointment',(req, res) => {
     pool.query(`SELECT  

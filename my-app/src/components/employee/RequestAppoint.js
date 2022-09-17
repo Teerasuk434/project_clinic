@@ -80,7 +80,7 @@ export default function RequestAppoint() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {
+                                                {appointment != null &&
                                                     appointment.map(item => (
                                                         <tr key={item.appoint_id}>
                                                             <td><p>{item.appoint_id}</p></td>

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import './employee.css';
-import { Form , Col} from 'react-bootstrap';
+import { Form , Col, Button} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { API_GET } from '../../api';
+import { API_GET, API_POST } from '../../api';
 import { ShowPaymentModal } from '../Modal';
 
 export default function FormReqAppoint() {
@@ -11,7 +11,13 @@ export default function FormReqAppoint() {
     let pages = 2;
     let params = useParams();
 
-    
+    let status = [
+        { id:1, status_name:"รออนุมัติ"},
+        { id:2, status_name:"อนุมัติ"},
+        { id:3, status_name:"รอแก้ไข"},
+        { id:4, status_name:"ยกเลิก"}
+    ];
+
 
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
@@ -36,45 +42,21 @@ export default function FormReqAppoint() {
 
     const [paymentImage, setPaymentImage] = useState("");
 
-
     const [showImageModal, setShowImageModal] = useState(false);
     const [paymentTitleModal, setPaymentTitleModal] = useState("");
     const [paymentImageModal, setPaymentImageModal] = useState("");
-
-
 
     const [appointments, setAppointments] = useState([]);
 
     const [employee, setEmployee] = useState([]);
     const [emp_id, setEmpId] = useState(0);
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/appointment",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setAppointments(json.data);
-        }
-
-        fetchData();
-    }, []);
+    const [validated,setValidated] = useState(false);   
 
     useEffect(() => {
         async function fetchData(appoint_id) {
             let json = await API_GET("appointment");
             var data = json.data[appoint_id-1];
-
-
 
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
@@ -98,19 +80,18 @@ export default function FormReqAppoint() {
             setCostDeposit(data.cost_deposit);
             setPaymentImage(data.payment_image);
 
-            let json2 = await API_GET("emp");
-
-            setEmployee(json2.data);
-            
-            
-
+            let json2 = await API_POST("schedules/emp_available",{
+                date:data.date,
+                time:data.time
+            })
+            setEmployee(json2.data)
         }
-
-        if (params.appoint_id != "add") {
-            fetchData([params.appoint_id]);
-        }
+        fetchData([params.appoint_id]);
     },[params.appoint_id])
 
+    useEffect(()=>{
+        console.log(appoint_status)
+    },[appoint_status])
 
     const onClickShow = () => {
         setShowImageModal(true);
@@ -120,6 +101,19 @@ export default function FormReqAppoint() {
 
     const onCloseImageModal = () => {
         setShowImageModal(false);
+    }
+
+    const onSave = async(event) =>{
+        const form = event.currentTarget;
+        event.preventDefault();
+
+        if(form.checkValidity()=== false){
+            event.stopPropagation();
+            console.log("55")
+        }else{
+            console.log("บันทึกข้อมูลแล้ว")
+        }
+        setValidated(true);
     }
 
 
@@ -194,92 +188,103 @@ export default function FormReqAppoint() {
                                         <p>รายละเอียดการนัดหมาย</p>
                                     </div>
 
-                                    <div className="row">
-                                        <div className="col-3 box-label">
-                                            <h6>บริการ :</h6>
-                                            <h6>ค่ามัดจำ :</h6>
-                                            <h6>วันที่ :</h6>
-                                            <h6>เวลา :</h6>
-                                            <h6>ห้องที่ใช้ :</h6>
-                                            <h6 className='mt-3'>ผู้รับหน้าที่ดูแล :</h6>
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
+                                        
+                                        <div className="row">
+                                            <div className="col-3 box-label">
+                                                <h6>บริการ :</h6>
+                                                <h6>ค่ามัดจำ :</h6>
+                                                <h6>วันที่ :</h6>
+                                                <h6>เวลา :</h6>
+                                                <h6>ห้องที่ใช้ :</h6>
+                                                <h6 className='mt-3'>ผู้รับหน้าที่ดูแล :</h6>
+                                            </div>
+
+                                            <div className="col-9 box-details mb-2">
+                                                <h6>{service_name}</h6>
+                                                <h6>{cost_deposit}</h6>
+                                                <h6>{new Date(appoint_date).toLocaleDateString()}</h6>
+                                                <h6>{appoint_time}</h6>
+                                                <h6>{roomName}</h6>
+                                                <h6>
+                                                
+                                                <Form.Group as={Col} controlId="validateEmp">
+                                                    <Form.Select
+                                                        value={emp_id}
+                                                        onChange={(e) => setEmpId(e.target.value)}
+                                                        required>
+                                                        <option label="เลือกผู้รับหน้าที่"></option>
+                                                        {
+                                                            employee.map(item => (
+                                                                <option key={item.emp_id} value={item.emp_id}>
+                                                                    {item.emp_fname}   {item.emp_lname}
+                                                                </option>
+                                                            ))
+                                                        }
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาเลือกผู้รับหน้าที่
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                                </h6>
+                                            </div>
                                         </div>
 
-                                        <div className="col-9 box-details mb-2">
-                                            <h6>{service_name}</h6>
-                                            <h6>{cost_deposit}</h6>
-                                            <h6>{new Date(appoint_date).toLocaleDateString()}</h6>
-                                            <h6>{appoint_time}</h6>
-                                            <h6>{roomName}</h6>
-                                            <h6>
+                                        <div className="end">
+                                            {/*  */}
+                                        </div>
+
+                                        <div className="row p-3">
                                             
-                                            <Form.Group as={Col} controlId="validateEmp">
-                                                <Form.Select
-                                                    value={emp_id}
-                                                    onChange={(e) => setEmpId(e.target.value)}
-                                                    required>
-                                                    <option label="เลือกผู้รับหน้าที่"></option>
+                                            <div className="col-3">
+                                            <Form.Group controlId="validateStatus">
+                                                <Form.Select 
+                                                value={appoint_status}
+                                                required
+                                                onChange={(e) => setAppointStatus(e.target.value)}
+                                                >
+                                                    <option label="กรุณาเลือกสถานะ"></option> 
                                                     {
-                                                        employee.map(item => (
-                                                            <option key={item.emp_id} value={item.emp_id}>
-                                                                {item.emp_fname}   {item.emp_lname}
-                                                            </option>
+                                                        status.map(item => (
+                                                            <option key={item.id} value={item.status_name}> {item.status_name} </option>
                                                         ))
                                                     }
                                                 </Form.Select>
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณาเลือกสถานะคำขอ
+                                                </Form.Control.Feedback>
                                             </Form.Group>
-                                            </h6>
+                                            </div>
+
+                                            <div className="col-6">
+                                                {appoint_status > 1  &&
+                                                <>
+                                                    <Form.Control
+                                                    type="text"
+                                                    placeholder="หมายเหตุ"
+                                                    required>
+                                                    </Form.Control>
+                                                </>}
+
+                                            </div>
+
+
+                                            <div className="col-3">
+                                                <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
+                                            </div>
+                                            <ShowPaymentModal
+                                                show={showImageModal}
+                                                title={paymentTitleModal}
+                                                paymentImage={paymentImageModal}
+                                                onClose={onCloseImageModal}/>
+
                                         </div>
-                                    </div>
-
-                                    <div className="end">
-                                        {/*  */}
-                                    </div>
-
-                                    <div className="row p-3">
                                         
-                                        <div className="col-3">
-                                            <Form.Select 
-                                            value={appoint_status}
-                                            required
-                                            onChange={(e) => setAppointStatus(e.target.value)}
-                                            >
-                                                <option label="Action"></option>
-                                                <option value="1">รออนุมัติ</option>
-                                                <option value="2">อนุมัติ</option>
-                                                <option value="3">รอแก้ไข</option>
-                                                <option value="4">ยกเลิก</option>
-                                            </Form.Select>
+                                        <div className="text-center p-3">
+                                            <Button variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
                                         </div>
-
-                                        <div className="col-6">
-                                            {appoint_status >1 &&
-                                            <>
-                                                <Form.Control
-                                                type="text"
-                                                placeholder="หมายเหตุ"
-                                                required>
-                                                </Form.Control>
-                                            </>}
-
-                                        </div>
-
-
-                                        <div className="col-3">
-                                            <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
-                                        </div>
-                                        <ShowPaymentModal
-                                            show={showImageModal}
-                                            title={paymentTitleModal}
-                                            paymentImage={paymentImageModal}
-                                            onClose={onCloseImageModal}/>
-
-                                    </div>
                                     
-        
-
-                                    <div className="text-center p-3">
-                                        <button className='btn btn-success' style={{width:"10%"}}>บันทึกข้อมูล</button>
-                                    </div>
+                                    </Form>
 
                                 </div>
                             </div>
