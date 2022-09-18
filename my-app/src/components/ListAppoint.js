@@ -1,29 +1,29 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
-import './employee.css';
+import Sidebar from './employee/Sidebar'
 import { Table,Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { API_GET } from '../../api';
+import { API_GET } from '../api';
 
-export default function RequestAppoint() {
+export default function ListAppoint(){
 
     let date = new Date().toLocaleDateString();
-    let pages = 2;
+    let pages = 3;
 
     const [appointment, setAppointment] = useState([]);
-    const [schedules, setSchedules] = useState([]);
 
     useEffect(() => {
+
         async function fetchData(){
-            let json = await API_GET("req_appointment");
+            let json = await API_GET("appointment");
             if(json.result){
-                setAppointment(json.data);      
+                setAppointment(json.data);
+                console.log(json.data)
             }
         }
         fetchData();
     }, []);
 
-    return(
+    return (
         <>
             <div className="container-fluid">
                 <div className='top row'>
@@ -75,7 +75,7 @@ export default function RequestAppoint() {
                                                             <td><p>{item.service_name}</p></td>
                                                             <td><p>{new Date(item.date).toLocaleDateString()}</p></td>
                                                             <td><p>{item.time}</p></td>
-                                                            <td><p>{item.status_name}</p></td>
+                                                            <td><p>{item.appoint_status}</p></td>
                                                             <td>
                                                                 <div>
                                                                     <Button  className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>

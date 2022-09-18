@@ -1068,7 +1068,7 @@ app.post('/api/schedules/emp_available',(req, res) => {
         } else {
             res.json({
                 result:false,
-                message: "ไม่พบ Username หรือ Password ไม่ถูกต้อง"
+                message: "ไม่พบพนักงานที่ว่าง"
             });
         }
     });
@@ -1105,7 +1105,7 @@ app.get('/api/req_appointment',(req, res) => {
     a.date,
     a.time,
     a.payment_image,
-    a.appoint_status,
+    a.status_id,
     a.note,
     b.*,
     c.cust_fname,
@@ -1116,12 +1116,14 @@ app.get('/api/req_appointment',(req, res) => {
     d.service_name,
     d.cost_deposit,
     d.time_spent,
-    e.*
+    e.*,
+    f.status_name
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
     JOIN service d ON a.service_id = d.service_id
     JOIN rooms e ON a.room_id = e.room_id
-    WHERE a.appoint_status ="รออนุมัติ" OR a.appoint_status = "รอแก้ไข"  OR appoint_status = "รอตรวจสอบ"
+    JOIN appoint_status f ON a.status_id = f.status_id
+    WHERE a.status_id = 1 OR a.status_id = 3
     GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({
@@ -1138,6 +1140,75 @@ app.get('/api/req_appointment',(req, res) => {
             res.json({
                 result: false,
                 message: "ไม่พบการนัดหมาย"
+            });
+        }
+    });
+});
+
+app.get('/api/appointment',(req, res) => {
+    pool.query(`SELECT  
+    a.appoint_id,
+    a.symtoms,
+    a.date,
+    a.time,
+    a.payment_image,
+    a.status_id,
+    a.note,
+    b.*,
+    c.cust_fname,
+    c.cust_lname,
+    c.cust_tel,
+    c.email,
+    d.service_id,
+    d.service_name,
+    d.cost_deposit,
+    d.time_spent,
+    e.*,
+    f.status_name
+    FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+    JOIN customer_information c ON b.cust_id = c.cust_id
+    JOIN service d ON a.service_id = d.service_id
+    JOIN rooms e ON a.room_id = e.room_id
+    JOIN appoint_status f ON a.status_id = f.status_id
+    WHERE a.status_id = 2
+    GROUP BY a.appoint_id`,(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบการนัดหมาย"
+            });
+        }
+    });
+});
+
+app.get('/api/appoint_status',(req, res) => {
+    pool.query(`SELECT * FROM appoint_status`,(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบข้อมูลสถานะการนัดหมาย"
             });
         }
     });

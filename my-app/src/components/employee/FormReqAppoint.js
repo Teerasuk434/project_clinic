@@ -11,13 +11,6 @@ export default function FormReqAppoint() {
     let pages = 2;
     let params = useParams();
 
-    let status = [
-        { id:1, status_name:"รออนุมัติ"},
-        { id:2, status_name:"อนุมัติ"},
-        { id:3, status_name:"รอแก้ไข"},
-        { id:4, status_name:"ยกเลิก"}
-    ];
-
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
     const [cust_lname,setCustLname] = useState("");
@@ -32,7 +25,8 @@ export default function FormReqAppoint() {
     const [pet_age_month,setPetAgeMonth] = useState(0);
     const [symtoms,setSymtoms] = useState("");
 
-    const [appoint_status,setAppointStatus] = useState("");
+    const [appoint_status,setAppointStatus] = useState(0);
+    const [status, setStatus] = useState([]);
     const [appoint_time,setAppointTime] = useState("");
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
@@ -47,8 +41,6 @@ export default function FormReqAppoint() {
     const [paymentTitleModal, setPaymentTitleModal] = useState("");
     const [paymentImageModal, setPaymentImageModal] = useState("");
 
-    const [appointments, setAppointments] = useState([]);
-
     const [employee, setEmployee] = useState([]);
     const [emp_id, setEmpId] = useState(0);
 
@@ -56,8 +48,16 @@ export default function FormReqAppoint() {
 
     useEffect(() => {
         async function fetchData(appoint_id) {
-            let json = await API_GET("appointment");
-            var data = json.data[appoint_id-1];
+            let json = await API_GET("req_appointment");
+            let data
+            
+            if(json.result){
+                json.data.map(item=>{
+                    if(item.appoint_id == appoint_id){
+                        data = item
+                    }
+                })
+            }
 
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
@@ -76,7 +76,8 @@ export default function FormReqAppoint() {
 
             setAppointTime(data.time);
             setAppointDate(data.date);
-            setAppointStatus(data.appoint_status);
+
+            setAppointStatus(data.status_id);
             setRoomId(data.room_id)
             setRoomName(data.room_name);
             setCostDeposit(data.cost_deposit);
@@ -99,13 +100,12 @@ export default function FormReqAppoint() {
                 })
             }
 
+            let json4 = await API_GET("appoint_status")
+            setStatus(json4.data);
+
         }
         fetchData([params.appoint_id]);
     },[params.appoint_id])
-
-    useEffect(()=>{
-        console.log(appoint_status)
-    },[appoint_status])
 
     const onClickShow = () => {
         setShowImageModal(true);
@@ -276,7 +276,7 @@ export default function FormReqAppoint() {
                                                     <option label="กรุณาเลือกสถานะ"></option> 
                                                     {
                                                         status.map(item => (
-                                                            <option key={item.id} value={item.status_name}> {item.status_name} </option>
+                                                            <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
                                                         ))
                                                     }
                                                 </Form.Select>
@@ -292,7 +292,7 @@ export default function FormReqAppoint() {
                                                     <Form.Control
                                                     type="text"
                                                     placeholder="หมายเหตุ"
-                                                    required>
+                                                    >
                                                     </Form.Control>
                                                 </>}
 

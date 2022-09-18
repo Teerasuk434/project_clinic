@@ -42,6 +42,7 @@ import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
 
 import AppointSchedule from './components/owner/AppointSchedule';
+import ListAppoint from './components/ListAppoint';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -83,6 +84,8 @@ root.render(
 
       <Route path="/request-appoint" element={<RequestAppoint />} />
       <Route path="/request-appoint/:appoint_id" element={<FormReqAppoint/>} />
+
+      <Route path="/list-appoint" element={<ListAppoint />} />
 
       <Route path="/emp" element={<Employee/>} />
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />

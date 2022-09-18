@@ -269,7 +269,7 @@ export default function Appointment(){
             symtoms:symtoms,
             date:date,
             time:time,
-            appoint_status:"รอตรวจสอบ",
+            appoint_status:1,
             note:"ไม่มี",
             pet_id:pet_id,
             service_id:listServices[service-1].service_id,

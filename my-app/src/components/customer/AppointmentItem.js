@@ -53,7 +53,7 @@
                 <td><p>{props.data.service_name}</p></td>
                 <td><p>{props.data.date}</p></td>
                 <td><p>{props.data.time}</p></td>
-                <td><p>{props.data.appoint_status}</p></td>
+                <td><p>{props.data.status_name}</p></td>
                 <td>
                     <div>
                         <Button onClick={onShowAppointment} className="btn btn-success me-3">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
