@@ -674,7 +674,6 @@ app.post('/api/emp_types/add',async(req, res) => {
 
 app.post('/api/emp_types/update',async(req, res) => {
     const input = req.body;
-
     try{
         var result = await EmployeeTypes.updateEmptypes(pool,input.emp_position_id, input.emp_position_name);
         res.json({
