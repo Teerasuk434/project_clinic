@@ -15,6 +15,7 @@ const Room = require('./libs/Room');
 const Pets = require('./libs/Pets');
 const Employee = require('./libs/Employee');
 const Appointment = require('./libs/Appointment')
+const Schedule = require('./libs/Schedule')
 
 const port = 8080;
 const bodyParser = require('body-parser');
@@ -1026,6 +1027,28 @@ app.post('/api/room/room_types',async(req, res) => {
     }
 });
 
+app.get('/api/schedules',(req, res) => {
+    pool.query("SELECT a.*,b.emp_fname,b.emp_lname FROM schedules a JOIN employee b ON a.emp_id = b.emp_id",(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบตารางงาน"
+            });
+        }
+    });
+});
+
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
 
@@ -1050,31 +1073,56 @@ app.post('/api/schedules/emp_available',(req, res) => {
         }
     });
 });
-   
 
-app.get('/api/appointment',(req, res) => {
+app.post('/api/schedules/add',async(req, res) => {
+    const input = req.body;
+    console.log(input);
+
+    try{
+        var result = await Schedule.addSchedule(pool,
+            input.emp_id,
+            input.appoint_id,
+            input.room_id,
+            input.appoint_date,
+            input.appoint_time);
+
+        var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+   
+app.get('/api/req_appointment',(req, res) => {
     pool.query(`SELECT  
-        a.appoint_id,
-        a.symtoms,
-        a.date,
-        a.time,
-        a.payment_image,
-        a.appoint_status,
-        a.note,
-        b.*,
-        c.cust_fname,
-        c.cust_lname,
-        c.cust_tel,
-        c.email,
-        d.service_id,
-        d.service_name,
-        d.cost_deposit,
-        d.time_spent,
-        e.*
-        FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
-        JOIN customer_information c ON b.cust_id = c.cust_id
-        JOIN service d ON a.service_id = d.service_id
-        JOIN rooms e ON a.room_id = e.room_id`,(err, results, fields) => {
+    a.appoint_id,
+    a.symtoms,
+    a.date,
+    a.time,
+    a.payment_image,
+    a.appoint_status,
+    a.note,
+    b.*,
+    c.cust_fname,
+    c.cust_lname,
+    c.cust_tel,
+    c.email,
+    d.service_id,
+    d.service_name,
+    d.cost_deposit,
+    d.time_spent,
+    e.*
+    FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+    JOIN customer_information c ON b.cust_id = c.cust_id
+    JOIN service d ON a.service_id = d.service_id
+    JOIN rooms e ON a.room_id = e.room_id
+    WHERE a.appoint_status ="รออนุมัติ" OR a.appoint_status = "รอแก้ไข"  OR appoint_status = "รอตรวจสอบ"
+    GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,
@@ -1103,7 +1151,6 @@ app.post('/api/appointment/add',async(req, res) => {
             input.symtoms,
             input.date,
             input.time,
-            input.payment_image,
             input.appoint_status,
             input.note,
             input.pet_id,

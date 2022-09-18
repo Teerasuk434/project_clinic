@@ -18,7 +18,6 @@ export default function FormReqAppoint() {
         { id:4, status_name:"ยกเลิก"}
     ];
 
-
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
     const [cust_lname,setCustLname] = useState("");
@@ -33,10 +32,12 @@ export default function FormReqAppoint() {
     const [pet_age_month,setPetAgeMonth] = useState(0);
     const [symtoms,setSymtoms] = useState("");
 
-    const [appoint_status,setAppointStatus] = useState('');
+    const [appoint_status,setAppointStatus] = useState("");
     const [appoint_time,setAppointTime] = useState("");
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
+
+    const [room_id, setRoomId] = useState(0);
     const [roomName, setRoomName] = useState("");
     const [cost_deposit, setCostDeposit] = useState("");
 
@@ -76,6 +77,7 @@ export default function FormReqAppoint() {
             setAppointTime(data.time);
             setAppointDate(data.date);
             setAppointStatus(data.appoint_status);
+            setRoomId(data.room_id)
             setRoomName(data.room_name);
             setCostDeposit(data.cost_deposit);
             setPaymentImage(data.payment_image);
@@ -85,6 +87,18 @@ export default function FormReqAppoint() {
                 time:data.time
             })
             setEmployee(json2.data)
+
+            let json3 = await API_GET("schedules")
+            
+            if(json3.result){
+                let schedules_data = json3.data;
+                schedules_data.map(item => {
+                    if(item.appoint_id == data.appoint_id){
+                        setEmpId(item.emp_id)
+                    }
+                })
+            }
+
         }
         fetchData([params.appoint_id]);
     },[params.appoint_id])
@@ -109,11 +123,27 @@ export default function FormReqAppoint() {
 
         if(form.checkValidity()=== false){
             event.stopPropagation();
-            console.log("55")
         }else{
-            console.log("บันทึกข้อมูลแล้ว")
+            createSchedule();
         }
         setValidated(true);
+    }
+
+    const createSchedule = async () => {
+        let json = await API_POST("schedules/add",{
+            emp_id:emp_id,
+            appoint_id:appoint_id,
+            room_id:room_id,
+            appoint_date:appoint_date,
+            appoint_time:appoint_time,
+            appoint_status:appoint_status
+        })
+
+        if(json.result){
+            if(json.result) {
+                window.location = "/request-appoint";
+            }
+        }
     }
 
 
@@ -214,7 +244,7 @@ export default function FormReqAppoint() {
                                                         onChange={(e) => setEmpId(e.target.value)}
                                                         required>
                                                         <option label="เลือกผู้รับหน้าที่"></option>
-                                                        {
+                                                        {employee != null &&
                                                             employee.map(item => (
                                                                 <option key={item.emp_id} value={item.emp_id}>
                                                                     {item.emp_fname}   {item.emp_lname}

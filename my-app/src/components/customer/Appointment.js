@@ -35,8 +35,6 @@ export default function Appointment(){
     const [rooms, setRooms] = useState([]);
     const [room_available, setRoomAvailable] = useState([]);
 
-    const [schedules, setSchedules] = useState([]);
-
     const [listPets,setListPets] = useState([]);
     const [listServices,setListServices] = useState([]);
     const [appointments,setAppointments] = useState([]);
@@ -72,9 +70,6 @@ export default function Appointment(){
 
             let json3 = await API_GET("appointment");
             setAppointments(json3.data);
-
-            let json4 = await API_GET("schedules");
-            setSchedules(json4.data);
         }
         fetchData(user_id);
         setTime(minDate);
@@ -274,13 +269,13 @@ export default function Appointment(){
             symtoms:symtoms,
             date:date,
             time:time,
-            payment_image:"paymentxxx.png",
             appoint_status:"รอตรวจสอบ",
             note:"ไม่มี",
             pet_id:pet_id,
             service_id:listServices[service-1].service_id,
             room_id:room_id[0]
         });
+        console.log(json)
 
         let appoint_new_id = json.appoint_id;
         onUploadImage(appoint_new_id);
@@ -291,6 +286,7 @@ export default function Appointment(){
     }
 
     const onFileSelected = (e) => {
+        console.log(e.target.files[0])
         if (e.target.files.length > 0) {
             setSelectedFile(e.target.files[0]);
         }
@@ -300,6 +296,7 @@ export default function Appointment(){
         const formData = new FormData();
         formData.append('file', selectedFile);
 
+        console.log(formData)
         let response = await fetch(
             SERVER_URL + "api/appointment/upload/" + appoint_new_id,
             {
@@ -466,7 +463,7 @@ export default function Appointment(){
 
                                 <div class="mb-3">
                                     <Form.Group as={Col} controlId="formFile">
-                                        {/* <Form.Label>เลือกรูปภาพ</Form.Label> */}
+                                        <Form.Label>อัพโหลดภาพการชำระเงิน</Form.Label>
                                         <Form.Control
                                             required
                                             type="file"
