@@ -7,15 +7,24 @@ import './Admin.css'
 import Sidebar from "./Sidebar";
 import Top from "./Top";
 import RoomTypesItem from "./RoomTypesItem";
+import { ConfirmModal } from "../ModalsAdmin";
 
 export default function RoomTypes(){
     
     let date = new Date().toLocaleDateString();
     let pages = 6
 
-    const [room_type,setRoomTypes] = useState([]);
+    const [room_type,setRoomType] = useState([]);
     const [search,setSearch] = useState("");
     const [listroomtypes,setListRoomTypes] = useState([]);
+
+
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [room_type_id, setRoomTypeId] = useState(0);
 
     useEffect( () => {
         async function fetchData(){
@@ -34,7 +43,7 @@ export default function RoomTypes(){
 
 
             let json = await response.json();
-            setRoomTypes(json.data);
+            setRoomType(json.data);
             setListRoomTypes(json.data);
         }
         fetchData();
@@ -42,7 +51,7 @@ export default function RoomTypes(){
 
     useEffect(() => {
         if(search == ""){
-            setRoomTypes(listroomtypes);
+            setRoomType(listroomtypes);
         }
 
     }, [search]);
@@ -60,26 +69,47 @@ export default function RoomTypes(){
                     searchRoomTypes.push(item);
                 })
     
-                setRoomTypes(searchRoomTypes);
+                setRoomType(searchRoomTypes);
             }
         }
      }
 
      const onDelete = async (data) => {
-        let json = await API_POST("room_type/delete", {
-            room_type_id: data.room_type_id
-        });
 
-        if (json.result) {
-            fetchRoomTypes();
+                setRoomTypeId(data.room_type_id);
+
+                setConfirmModalTitle("ยืนยันการลบข้อมูล");
+                setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+                setConfirmModal(true);
         }
-    }
+    
+        const onConfirmDelete = async () => {
+            setConfirmModal(false);
+            console.log(room_type_id);
+            let json = await API_POST("room_type/delete", {
+                room_type_id: room_type_id
+            });
+    
+            if (json.result) {
+                // setRoomType();
+                fetchData();
+            }
 
-    const fetchRoomTypes = async () => {
-        let json = await API_GET("room_type");
-        setRoomTypes(json.data);
-        setListRoomTypes(json.data);
-    }
+            
+        }
+    
+        const onCancelDelete = () => {
+            setConfirmModal(false);
+
+        }
+
+        const fetchData = async () => {
+            let json = await API_GET("room_type");
+            setRoomType(json.data);
+            setListRoomTypes(json.data);
+        }
+
+    
 
     return(
         <>
@@ -153,6 +183,14 @@ export default function RoomTypes(){
                                                         onDelete={onDelete} />
                                                     ))
                                                 }
+
+                                                <ConfirmModal
+                                                show={confirmModal}
+                                                title={confirmModalTitle}
+                                                message={confirmModalMessage}
+                                                onConfirm={onConfirmDelete}
+                                                onClose={onCancelDelete}/>
+
                                             </tbody>
                                         </Table>
                                     </div>

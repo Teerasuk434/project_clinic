@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function EmployeeTypeItems(props){
+ 
+    const onDelete = async (data) => {
 
-    const onDelete = async () => {
-        props.onDelete(props.data)
-    }
+         props.onDelete(props.data)
+     }
 
     return (
         <>
@@ -17,10 +19,12 @@ export default function EmployeeTypeItems(props){
                             <div className="d-inline-block me-2">
                                 <Link to={`/emptypes/${props.data.emp_position_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>
+                            
 
                             <div className="d-inline-block">
                                 <button type="button" className="btn btn-danger" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</button>
                             </div>
+                            
                         </div>
                     </div>
                 </td>

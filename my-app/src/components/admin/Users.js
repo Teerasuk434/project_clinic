@@ -97,6 +97,7 @@ export default function Admin() {
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
+                    
                     <div className='p-0 col-12 col-lg-10'>
                         <div className="content">
                             <div className="container m-auto">

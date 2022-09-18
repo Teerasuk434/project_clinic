@@ -1,22 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Row, Col, Table } from 'react-bootstrap';
+import { Form, Row, Col, Table} from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
 
 import Sidebar from "./Sidebar";
 import './Admin.css';
 import Top from './Top';
 import EmployeeTypeItems from './EmployeeTypeItems';
+import { ConfirmModal } from '../ModalsAdmin';
+import { useNavigate } from 'react-router-dom'; 
 
-export default function EmployeeType(){
+export default function EmployeeType(props){
 
     let date = new Date().toLocaleDateString();
     let pages = 4;
+    let navigate = useNavigate();
 
     const [search, setSearch] = useState("");
     const [empTypes, setEmpTypes] = useState([]);
     const [listEmpTypes, setListEmpTypes] = useState([]);
+
+    const [emp_position_id, setEmpPositionId] = useState(0);
+
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -56,16 +66,6 @@ export default function EmployeeType(){
         setListEmpTypes(json.data);
     }
 
-    const onDelete = async (data) => {
-        let json = await API_POST("emp_types/delete", {
-            emp_position_id: data.emp_position_id
-        });
-
-        if (json.result) {
-            fetchData();
-        }
-    }
-
     const onSearch = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
@@ -83,6 +83,35 @@ export default function EmployeeType(){
             }
         }
      }
+     
+     const onDelete = async (data) => {
+
+                setEmpPositionId(data.emp_position_id);
+
+                setConfirmModalTitle("ยืนยันการลบข้อมูล");
+                setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+                setConfirmModal(true);
+
+        }
+    
+        const onConfirmDelete = async () => {
+            setConfirmModal(false);
+            console.log(emp_position_id);
+            let json = await API_POST("emp_types/delete", {
+                emp_position_id: emp_position_id
+            })
+    
+            if (json.result) {
+                fetchData();
+            } 
+        }
+    
+        const onCancelDelete = () => {
+            setConfirmModal(false);
+
+        }
+        
+        
 
     return(
         <>
@@ -156,10 +185,19 @@ export default function EmployeeType(){
                                                         onDelete={onDelete} />
                                                     ))
                                                 }
+
+                                                <ConfirmModal
+                                                show={confirmModal}
+                                                title={confirmModalTitle}
+                                                message={confirmModalMessage}
+                                                onConfirm={onConfirmDelete}
+                                                onClose={onCancelDelete}/>
+                                                
+                                                
                                             </tbody>
                                         </Table>
                                     </div>
-
+                                    
                                 </div>
                             </div>
                         </div>

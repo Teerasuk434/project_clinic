@@ -11,7 +11,7 @@ module.exports = {
     updateEmptypes: async (pool,emp_position_id,emp_position_name) => {
         var sql = "UPDATE emp_type SET emp_position_name = ? WHERE emp_position_id = ?";
         sql = mysql.format(sql,[emp_position_name,emp_position_id]);
-
+        console.log(sql);
         return await pool.query(sql);
     },
 

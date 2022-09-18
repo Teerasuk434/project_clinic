@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 
 import Sidebar from './Sidebar';
+import Top from './Top';
 
 export default function FormUser() {
 
@@ -130,98 +131,99 @@ export default function FormUser() {
 
 
     return (
-        <>
-            <div className="Main">
-                <div className='top row'>
-                    <div className='col'>
-                        สถานะ : แอดมิน
-                    </div>
-                </div>
+    <>
+
+            <div className="container-fluid">
 
                 <div className='row'>
-                    <div className='p-0 col-12 col-lg-2 bg-primary'>
-                        <div className='sidebar'>
-                            <Sidebar pages={pages}/>
-                        </div>
-                    </div>
 
-                    <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content p-5">
-                            <div className='container m-auto'>
+                    <Top />
 
-                                <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
-
-                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} controlId="validateUserName">
-                                            <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="text"
-                                                value={username}
-                                                placeholder="ชื่อผู้ใช้งาน"
-                                                onChange={(e) => setUserName(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอก ชื่อผู้ใช้งาน
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} controlId="validatePassword">
-                                            <Form.Label>รหัสผ่าน</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                value={newpassword}
-                                                placeholder="รหัสผ่าน"
-                                                onChange={(e) => setNewPassword(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอก รหัสผ่าน
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} controlId="validateRoleType">
-                                            <Form.Label>ประเภทผู้ใช้งาน</Form.Label>
-                                            <Form.Select
-                                                value={role_id}
-                                                onChange={(e) => setRoleId(e.target.value)}
-                                                required>
-                                                <option label="กรุณาเลือกประเภทผู้ใช้งาน"></option> 
-                                                {
-                                                roles.map(item => (
-                                                    <option key={item.role_id} value={item.role_id}> 
-                                                    {item.role_name} </option>
-                                                ))
-                                                }
-                                            </Form.Select>
-                                                <Form.Control.Feedback type="invalid">
-                                                    กรุณาเลือก ประเภทผู้ใช้งาน
-                                                </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="my-4">
-                                        <Button variant="primary" as="input" type="submit" value="SAVE"/>
-                                    </Row>
-                                </Form>
+                        <div className='row'>
+                            <div className='p-0 col-12 col-lg-2 bg-primary'>
+                                <div className='sidebar'>
+                                    <Sidebar pages={pages}/>
+                                </div>
                             </div>
+
+                            <div className='p-0 m-0 col-12 col-lg-10'>
+                                <div className="content p-5">
+                                    <div className='container m-auto'>
+
+                                        <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
+
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateUserName">
+                                                    <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={username}
+                                                        placeholder="ชื่อผู้ใช้งาน"
+                                                        onChange={(e) => setUserName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก ชื่อผู้ใช้งาน
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validatePassword">
+                                                    <Form.Label>รหัสผ่าน</Form.Label>
+                                                    <Form.Control
+                                                        type="password"
+                                                        value={newpassword}
+                                                        placeholder="รหัสผ่าน"
+                                                        onChange={(e) => setNewPassword(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก รหัสผ่าน
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateRoleType">
+                                                    <Form.Label>ประเภทผู้ใช้งาน</Form.Label>
+                                                    <Form.Select
+                                                        value={role_id}
+                                                        onChange={(e) => setRoleId(e.target.value)}
+                                                        required>
+                                                        <option label="กรุณาเลือกประเภทผู้ใช้งาน"></option> 
+                                                        {
+                                                        roles.map(item => (
+                                                            <option key={item.role_id} value={item.role_id}> 
+                                                            {item.role_name} </option>
+                                                        ))
+                                                        }
+                                                    </Form.Select>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณาเลือก ประเภทผู้ใช้งาน
+                                                        </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="my-4">
+                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            </Row>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div className="row">              
+                                <div className='bottom'>
+                                    <div>
+                                        <p>วันที่ : {date}</p>
+                                    </div>
+                                </div>
                         </div>
                     </div>
                 </div>
-
-                    <div className="row">              
-                        <div className='bottom'>
-                            <div>
-                                <p>วันที่ : {date}</p>
-                            </div>
-                        </div>
-                </div>
-                
-            </div>
+            
         </>
     )
 }

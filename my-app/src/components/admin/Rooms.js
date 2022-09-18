@@ -7,12 +7,20 @@ import { API_GET,API_POST } from "../../api";
 import './Admin.css';
 import Sidebar from './Sidebar';
 import Top from "./Top";
+import { ConfirmModal } from "../ModalsAdmin";
 
 export default function Rooms(){
 
     const [room,setRoom] = useState([]);
     const [search,setSearch] = useState("");
     const [listroom,setListRoom] = useState([]);
+    const [room_id, setRoomId] = useState(0);
+
+     // confirmModal
+     const [confirmModal, setConfirmModal] = useState(false);
+     const [confirmModalTitle, setConfirmModalTitle] = useState("");
+     const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
 
     let date = new Date().toLocaleDateString();
     let pages = 7;
@@ -65,21 +73,39 @@ export default function Rooms(){
         }
      }
 
-     const onDelete = async (data) => {
-        let json = await API_POST("room/delete", {
-            room_id: data.room_id
-        });
 
-        if (json.result) {
-            fetchRoom();
+    const onDelete = async (data) => {
+
+                setRoomId(data.room_id);
+
+                setConfirmModalTitle("ยืนยันการลบข้อมูล");
+                setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+                setConfirmModal(true);
         }
-    }
+    
+        const onConfirmDelete = async () => {
+            setConfirmModal(false);
+            let json = await API_POST("room/delete", {
+                room_id: room_id
+            });
+    
+            if (json.result) {
+                // setRoomType();
+                fetchData();
+            }
+        }
+    
+        const onCancelDelete = () => {
+            setConfirmModal(false);
 
-    const fetchRoom = async () => {
-        let json = await API_GET("room");
-        setRoom(json.data);
-        setListRoom(json.data);
-    }
+        }
+
+        const fetchData = async () => {
+            let json = await API_GET("room");
+            setRoom(json.data);
+            setListRoom(json.data);
+        }
+
     return (
         <>
            <div className="container-fluid">
@@ -107,6 +133,7 @@ export default function Rooms(){
                                 <div className="row">
                                     <div className="col-2">
                                         <Link to={"/room/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
+                                        
                                     </div>
                                     <div className="col-10">
                                         <Form>
@@ -152,6 +179,12 @@ export default function Rooms(){
                                                         onDelete={onDelete} />
                                                     ))
                                                 }
+                                                <ConfirmModal
+                                                show={confirmModal}
+                                                title={confirmModalTitle}
+                                                message={confirmModalMessage}
+                                                onConfirm={onConfirmDelete}
+                                                onClose={onCancelDelete}/>
                                             </tbody>
                                         </Table>
                                     </div>

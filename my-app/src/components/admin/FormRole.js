@@ -3,9 +3,15 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 
+import Sidebar from './Sidebar';
+import Top from './Top';
+
 export default function FormRole() {
 
     let params = useParams();
+    let pages = 3;
+    let date = new Date().toLocaleDateString();
+
 
     const [role_id, setRoleId] = useState(0);
     const [role_name, setRoleName] = useState("");
@@ -102,29 +108,51 @@ export default function FormRole() {
 
     return (
         <>
-            <div className='container m-auto'>
-                <Form noValidate validated={validated} onSubmit={onSave}>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateUserName">
-                            <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={role_name}
-                                placeholder="ชื่อประเภทผู้ใช้งาน"
-                                onChange={(e) => setRoleName(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ประเภทผู้ใช้งาน
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+            <div className="container-fluid">
 
-                    <Row className="mb-3">
-                        <Button variant="primary" as="input" type="submit" value="SAVE"/>
-                    </Row>
-                </Form>
-            </div>
+                <div className='row'>
+
+                    <Top />
+                        <div className='row'>
+                            <div className='p-0 col-12 col-lg-2 bg-primary'>
+                                <div className='sidebar'>
+                                    <Sidebar pages={pages}/>
+                                </div>
+                            </div>
+
+                            <div className='p-0 m-0 col-12 col-lg-10'>
+                                <div className="content p-5">
+                                    <div className='container m-auto'>
+
+                                    <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateUserName">
+                                                    <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={role_name}
+                                                        placeholder="ชื่อประเภทผู้ใช้งาน"
+                                                        onChange={(e) => setRoleName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก ประเภทผู้ใช้งาน
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            </Row>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </>
     )
 }

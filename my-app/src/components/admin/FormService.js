@@ -4,9 +4,13 @@ import { useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 import { SERVER_URL } from "../../app.config";
 
+import Sidebar from './Sidebar';
+import Top from './Top';
+
 export default function FormService() {
 
     let params = useParams();
+    let pages = 5;
 
     const [serviceId, setServiceId] = useState(0);
     const [service_name, setServiceName] = useState("");
@@ -197,102 +201,125 @@ export default function FormService() {
 
     return (
         <>
-            {
-                (params.service_id != "add") ? 
-                getImageComponent() : <></>
-            }
-            <div className='container m-auto'>
-                <Form noValidate validated={validated} onSubmit={onSave}>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateServiceName">
-                            <Form.Label>ชื่อบริการ</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={service_name}
-                                placeholder="ชื่อบริการ"
-                                onChange={(e) => setServiceName(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ชื่อบริการ
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+        <div className="container-fluid">
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateCostService">
-                            <Form.Label>ค่าบริการ</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={cost_service}
-                                placeholder="ค่าบริการ"
-                                onChange={(e) => setCostService(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ค่าบริการ
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+                <div className='row'>
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateCostDeposit">
-                            <Form.Label>ค่ามัดจำ</Form.Label>
-                            <Form.Control
-                                required
-                                type="text"
-                                value={cost_deposit}
-                                placeholder="ค่ามัดจำ"
-                                onChange={(e) => setCostDeposit(e.target.value)}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                กรุณากรอก ค่ามัดจำ
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+                    <Top />
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateTimeSpent">
-                            <Form.Label>เวลาที่ใช้ (นาที) </Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    value={time_spent}
-                                    placeholder="เวลาที่ใช้"
-                                    onChange={(e) => setTimeSpent(e.target.value)}
-                            />
-                                <Form.Control.Feedback type="invalid">
-                                    กรุณากรอก เวลาที่ใช้
-                                </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+                        <div className='p-0 col-12 col-lg-2 bg-primary'>
+                            <div className='sidebar'>
+                                <Sidebar pages={pages}/>
+                            </div>
+                        </div>
 
-                    <Row className="mb-3">
-                        <Form.Group as={Col} controlId="validateRoomUse">
-                            <Form.Label>ห้องที่ใช้</Form.Label>
-                            <Form.Select
-                                value={room_type_id}
-                                onChange={(e) => setRoomTypeId(e.target.value)}
-                                required>
-                                <option label="กรุณาเลือกห้องที่ใช้"></option> 
-                                {
-                                   room_types.map(item => (
-                                    <option key={item.room_type_id} value={item.room_type_id}> 
-                                    {item.room_type_name} </option>
-                                ))
-                                }
-                            </Form.Select>
-                                <Form.Control.Feedback type="invalid">
-                                    กรุณากรอก ห้องที่ใช้
-                                </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
+                            <div className='p-0 m-0 col-12 col-lg-10'>
+                                <div className="content p-5">
+                                    <div className='container m-auto'>
 
-                    <Row className="mb-3">
-                        <Button variant="primary" as="input" type="submit" value="SAVE"/>
-                    </Row>
-                </Form>
-            </div>
+                                        <h4 className='text-center'>เพิ่มข้อมูลบริการของคลินิก</h4>
+
+                                    {
+                                        (params.service_id != "add") ? 
+                                        getImageComponent() : <></>
+                                    }
+                                    <div className='container m-auto'>
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateServiceName">
+                                                    <Form.Label>ชื่อบริการ</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={service_name}
+                                                        placeholder="ชื่อบริการ"
+                                                        onChange={(e) => setServiceName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก ชื่อบริการ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateCostService">
+                                                    <Form.Label>ค่าบริการ</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={cost_service}
+                                                        placeholder="ค่าบริการ"
+                                                        onChange={(e) => setCostService(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก ค่าบริการ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateCostDeposit">
+                                                    <Form.Label>ค่ามัดจำ</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={cost_deposit}
+                                                        placeholder="ค่ามัดจำ"
+                                                        onChange={(e) => setCostDeposit(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอก ค่ามัดจำ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateTimeSpent">
+                                                    <Form.Label>เวลาที่ใช้ (นาที) </Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            type="text"
+                                                            value={time_spent}
+                                                            placeholder="เวลาที่ใช้"
+                                                            onChange={(e) => setTimeSpent(e.target.value)}
+                                                    />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอก เวลาที่ใช้
+                                                        </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateRoomUse">
+                                                    <Form.Label>ห้องที่ใช้</Form.Label>
+                                                    <Form.Select
+                                                        value={room_type_id}
+                                                        onChange={(e) => setRoomTypeId(e.target.value)}
+                                                        required>
+                                                        <option label="กรุณาเลือกห้องที่ใช้"></option> 
+                                                        {
+                                                        room_types.map(item => (
+                                                            <option key={item.room_type_id} value={item.room_type_id}> 
+                                                            {item.room_type_name} </option>
+                                                        ))
+                                                        }
+                                                    </Form.Select>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอก ห้องที่ใช้
+                                                        </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            </Row>
+                                        </Form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </>
     )
 }

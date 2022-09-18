@@ -29,7 +29,6 @@ export default function FormEmployee(){
         async function fetchData(emp_id){
             let json = await API_GET("emp/"+emp_id);
             let data = json.data[0];
-            console.log(data)
             setEmpId(data.emp_id);
             setEmpFname(data.emp_fname);
             setEmpLname(data.emp_lname);
@@ -128,6 +127,8 @@ export default function FormEmployee(){
             navigate("/emp", { replace: true });
         }
     }
+
+
     return(
         <>
             <div className="container-fluid">
