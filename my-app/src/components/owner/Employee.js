@@ -146,6 +146,7 @@ export default function Employee(){
                                                 <tr>
                                                 <th>รหัสพนักงาน</th>
                                                 <th>ชื่อ-สกุล</th>
+                                                <th>ตำแหน่ง</th>
                                                 <th>action</th>
                                                 </tr>
                                             </thead>

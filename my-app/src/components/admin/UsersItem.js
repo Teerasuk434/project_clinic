@@ -16,7 +16,7 @@ export default function UsersItem(props) {
                 <td><p>{props.data.role_name}</p></td>
                 <td>
                     <div className="row">
-                        <div className="col-12">
+                        <div className="col">
                             <div className="d-inline-block me-2">
                                 <Link to={`/user/${props.data.user_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                             </div>

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function EmployeeItem(props){
 
+    console.log(props)
 
     const onDelete = async () => {
         props.onDelete(props.data)
@@ -12,7 +13,8 @@ export default function EmployeeItem(props){
         <>
         <tr>
             <td><p>{props.data.emp_id}</p></td>
-            <td><p>{props.data.emp_fname}</p></td>
+            <td><p>{props.data.emp_fname} {props.data.emp_lname}</p></td>
+            <td><p>{props.data.emp_position_name}</p></td>
             <td>
                 <div className="row">
                     <div className="col-12">

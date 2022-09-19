@@ -1,5 +1,6 @@
 import { Button, Modal,Form,Accordion} from "react-bootstrap";
 import { useState } from "react";
+import './Modal.css'
 
 
 export function ShowPaymentModal(props) {
@@ -26,24 +27,10 @@ export function ShowAppointmentDetails(props) {
 
     let appoint_status = props.data.appoint_status;
 
-    const [showImageModal, setShowImageModal] = useState(false);
-    const [paymentTitleModal, setPaymentTitleModal] = useState("");
-    const [paymentImageModal, setPaymentImageModal] = useState("");
-
-    const onClickShow = () => {
-        setShowImageModal(true);
-        setPaymentImageModal(props.data.payment_image);
-        setPaymentTitleModal("รูปภาพการชำระเงิน");
-    }
-
-    const onCloseImageModal = () => {
-        setShowImageModal(false);
-    }
-
     return (
         <>
             <Modal show={props.show} onHide={props.onClose}>
-                <Modal.Header closeButton>
+                <Modal.Header closeVariant="white" closeButton className="modal-header">
                     <Modal.Title>{props.title}</Modal.Title>
                 </Modal.Header>
 
@@ -60,24 +47,26 @@ export function ShowAppointmentDetails(props) {
                             <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
                         </>                        
                         }
+
+                    <Accordion className="mt-2">
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>ข้อมูลการชำระเงิน</Accordion.Header>
+                            <Accordion.Body>
+                                <img src={`http://localhost:8080/images/${props.data.payment_image}`} width="100%" height="100%" alt="" />
+                            </Accordion.Body>
+                        </Accordion.Item>
+                        </Accordion>
+
                     </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-
-                    <Button variant="success" onClick={onClickShow}>ข้อมูลการชำระค่ามัดจำ</Button>
 
                     <Button variant="danger" onClick={props.onClose}>ปิด</Button>
 
                 </Modal.Footer>
 
             </Modal>
-            <ShowPaymentModal 
-            show={showImageModal}
-            onClose={onCloseImageModal}
-            title={paymentTitleModal}
-            paymentImage={paymentImageModal}
-            />
         </>
     );
 };
