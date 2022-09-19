@@ -9,7 +9,7 @@ import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { SERVER_URL } from "../../app.config";
-
+import { ConfirmModal } from "../Modal";
 
 export default function Appointment(){
 
@@ -49,7 +49,9 @@ export default function Appointment(){
 
     const [appoint_id, setAppointId] = useState(0);
 
-
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     let navigate = useNavigate();
 
@@ -250,9 +252,20 @@ export default function Appointment(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            doCreateAppointment();
+            setConfirmModalTitle("ยืนยันการนัดหมาย");
+            setConfirmModalMessage("คุณต้องการจะทำการนัดหมายใช่หรือไม่")
+            setConfirmModal(true);
         }
         setValidated(true);
+    }
+
+    const onConfirm = async () => {
+        setConfirmModal(false);
+        doCreateAppointment();
+    }
+
+    const onCancle = () => {
+        setConfirmModal(false);
     }
 
     const doCreateAppointment = async () => {
@@ -431,7 +444,7 @@ export default function Appointment(){
                                             {
                                             timeSlot.map(item => (
                                                 <option key={item.id} value={item.time}> 
-                                                {item.time} </option>
+                                                {item.time} - {moment(`${date} ${item.time}`).add(30, 'm').format("HH:mm")}</option>
                                             ))
                                             }
                                         </Form.Select>
@@ -489,6 +502,14 @@ export default function Appointment(){
                 </div>
 
             <Footer/>
+
+            <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirm}
+                onClose={onCancle}
+            />
         </>
     )
 }

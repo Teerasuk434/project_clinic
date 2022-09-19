@@ -75,7 +75,7 @@ export default function ListAppoint(){
                                                             <td><p>{item.service_name}</p></td>
                                                             <td><p>{new Date(item.date).toLocaleDateString()}</p></td>
                                                             <td><p>{item.time}</p></td>
-                                                            <td><p>{item.appoint_status}</p></td>
+                                                            <td><p>{item.status_name}</p></td>
                                                             <td>
                                                                 <div>
                                                                     <Button  className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
