@@ -1414,6 +1414,25 @@ app.get('/api/emp/:emp_id', async(req, res) => {
     }
 });
 
+app.post("/api/payment/upload", checkAuth, (req, res) => {
+    var appoint_id = req.params.appoint_id;
+    var fileName;
+    
+    var storage = multer.diskStorage({
+        destination: (req, file, cp) => {
+            cp(null, "images");
+        },
+        filename: (req, file, cp) => {
+            let fileNames = file.originalname.split('.');
+            fileName = "appoint_payment-" + appoint_id +"."+fileNames[1];
+            cp(null, fileName);
+        }
+    })
+
+    console.log(storage)
+    
+});
+
 
 app.listen(port, () => {
     console.log("Running");

@@ -77,6 +77,7 @@ export function ShowAppointmentForm(props) {
     let appoint_status = props.data.appoint_status;
 
     const [pet_id,setPetId] = useState(0);
+    const [appoint_id, setAppointId] = useState(0);
     const [validated,setValidated] = useState(false);
     const [symtoms, setSymtoms] = useState("");
 
@@ -87,6 +88,7 @@ export function ShowAppointmentForm(props) {
         setPetId(props.data.pet_id);
         setSymtoms(props.data.symtoms)
         setImageUrl(props.data.payment_image)
+        setAppointId(props.data.appoint_id)
     },[])
 
     const onFileSelected = (e) => {
@@ -94,25 +96,27 @@ export function ShowAppointmentForm(props) {
         if (e.target.files.length > 0) {
             setSelectedFile(e.target.files[0]);
         }
+        onUploadImage(e.target.files[0])
     }
 
     const onUploadImage = async () => {
-        // const formData = new FormData();
-        // formData.append('file', selectedFile);
+        const formData = new FormData();
+        formData.append('file', selectedFile);
 
-        // let response = await fetch(
-        //     SERVER_URL + "api/product/upload/" + productId,
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             Accept: "application/json",
-        //             Authorization: "Bearer " + localStorage.getItem("access_token"),
-        //         },
-        //         body: formData,
-        //     }
-        // );
-        // let json = await response.json();
-        // setImageUrl(json.data);
+        let response = await fetch(
+            SERVER_URL + "/api/payment/upload" + appoint_id,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: formData,
+            }
+        );
+        let json = await response.json();
+        setImageUrl(json.data);
+        console.log(json.data)
     }
 
     const onSave = async (event) => {
