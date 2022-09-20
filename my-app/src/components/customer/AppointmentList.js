@@ -76,8 +76,7 @@ export default function AppointmentList(){
                                                 <th>วันที่นัด</th>
                                                 <th>เวลา</th>
                                                 <th>สถานะ</th>
-                                                <th><p></p></th>
-                                                <th><p></p></th>
+                                                <th colSpan={2}><p></p></th>
                                                 </tr>
                                             </thead>
                                             <tbody>

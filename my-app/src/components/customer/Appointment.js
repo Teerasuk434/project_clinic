@@ -441,10 +441,11 @@ export default function Appointment(){
                                     
                                             <option label="กรุณาเลือกเวลา"></option> 
 
-                                            {
+                                            {service != "" &&
                                             timeSlot.map(item => (
                                                 <option key={item.id} value={item.time}> 
-                                                {item.time} - {moment(`${date} ${item.time}`).add(30, 'm').format("HH:mm")}</option>
+                                                    {item.time} - {moment(`${date} ${item.time}`).add(listServices[service-1].time_spent, 'm').format("HH:mm")}
+                                                </option>
                                             ))
                                             }
                                         </Form.Select>

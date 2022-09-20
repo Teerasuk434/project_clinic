@@ -40,7 +40,7 @@ export function ShowAppointmentDetails(props) {
                         <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
                         <p><b>บริการ :</b> {props.data.service_name}</p>
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
-                        <p><b>เวลา :</b> {props.data.time}</p>
+                        <p><b>เวลา :</b> {props.data.time} - {props.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
                         {appoint_status == "รอแก้ไข" &&
                         <>

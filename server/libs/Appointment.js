@@ -19,16 +19,12 @@ module.exports = {
         return await pool.query(sql);
     },
     getListAppointment: async (pool, cust_id) => {
-        var sql = `SELECT a.*,b.pet_name,c.service_name,d.room_name,e.status_name
+        var sql = `SELECT a.*,b.pet_name,c.service_name,d.room_name,e.status_name,c.time_spent
                         FROM appointment a 
-                        JOIN pets b 
-                        ON a.pet_id = b.pet_id 
-                        JOIN service c 
-                        ON a.service_id = c.service_id
-                        JOIN rooms d
-                        ON a.room_id = d.room_id
-                        JOIN appoint_status e
-                        ON a.status_id = e.status_id
+                        JOIN pets b ON a.pet_id = b.pet_id 
+                        JOIN service c ON a.service_id = c.service_id
+                        JOIN rooms d ON a.room_id = d.room_id
+                        JOIN appoint_status e ON a.status_id = e.status_id
                         WHERE b.cust_id = ?
                         GROUP BY a.appoint_id`;
         sql = mysql.format(sql, [cust_id]);
