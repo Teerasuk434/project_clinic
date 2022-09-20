@@ -70,7 +70,7 @@ export default function AppointmentList(){
                                         <Table>
                                             <thead>
                                                 <tr>
-                                                <th>รหัสการนัดหมาย</th>
+                                                <th>รหัส</th>
                                                 <th>ชื่อสัตว์เลี้ยง</th>
                                                 <th>บริการ</th>
                                                 <th>วันที่นัด</th>

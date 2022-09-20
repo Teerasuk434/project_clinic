@@ -1,6 +1,7 @@
 import { Button, Modal,Form,Accordion} from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Modal.css'
+import { SERVER_URL } from "../app.config";
 
 
 export function ShowPaymentModal(props) {
@@ -55,7 +56,7 @@ export function ShowAppointmentDetails(props) {
                                 <img src={`http://localhost:8080/images/${props.data.payment_image}`} width="100%" height="100%" alt="" />
                             </Accordion.Body>
                         </Accordion.Item>
-                        </Accordion>
+                    </Accordion>
 
                     </div>
 
@@ -75,32 +76,71 @@ export function ShowAppointmentForm(props) {
 
     let appoint_status = props.data.appoint_status;
 
-    const [showImageModal, setShowImageModal] = useState(false);
-    const [paymentTitleModal, setPaymentTitleModal] = useState("");
-    const [paymentImageModal, setPaymentImageModal] = useState("");
     const [pet_id,setPetId] = useState(0);
+    const [validated,setValidated] = useState(false);
+    const [symtoms, setSymtoms] = useState("");
 
-    const onClickShow = () => {
-        setShowImageModal(true);
-        setPaymentImageModal(props.data.payment_image);
-        setPaymentTitleModal("รูปภาพการชำระเงิน");
+    const [selectedFile, setSelectedFile] = useState([]);
+    const [imageUrl, setImageUrl] = useState("");
+
+    useEffect(() =>{
+        setPetId(props.data.pet_id);
+        setSymtoms(props.data.symtoms)
+        setImageUrl(props.data.payment_image)
+    },[])
+
+    const onFileSelected = (e) => {
+        console.log(e.target.files[0])
+        if (e.target.files.length > 0) {
+            setSelectedFile(e.target.files[0]);
+        }
     }
 
-    const onCloseImageModal = () => {
-        setShowImageModal(false);
+    const onUploadImage = async () => {
+        // const formData = new FormData();
+        // formData.append('file', selectedFile);
+
+        // let response = await fetch(
+        //     SERVER_URL + "api/product/upload/" + productId,
+        //     {
+        //         method: 'POST',
+        //         headers: {
+        //             Accept: "application/json",
+        //             Authorization: "Bearer " + localStorage.getItem("access_token"),
+        //         },
+        //         body: formData,
+        //     }
+        // );
+        // let json = await response.json();
+        // setImageUrl(json.data);
     }
+
+    const onSave = async (event) => {
+        const form = event.currentTarget;
+        event.preventDefault();
+
+        if (form.checkValidity() === false) {
+            event.stopPropagation();
+        } else {
+            console.log("update data")
+        }
+        setValidated(true);
+    }
+
 
     return (
         <>
             <Modal show={props.show} onHide={props.onClose}>
-                <Modal.Header closeButton>
+                <Modal.Header closeVariant="white" closeButton>
                     <Modal.Title>{props.title}</Modal.Title>
-                </Modal.Header>
+                </Modal.Header> 
+
+                <Form noValidate validated={validated} onSubmit={onSave}>
 
                 <Modal.Body>
                     <div>
-                        <p className="d-inline-block"><b>สัตว์เลี้ยง :</b> </p>
-                        <p className="d-inline-block">
+                            <p ><b>สัตว์เลี้ยง :</b> </p>
+                        <Form.Group controlId="validatePets" >
                             <Form.Select
                                 value={pet_id}
                                 onChange={(e) => setPetId(e.target.value)}
@@ -113,34 +153,57 @@ export function ShowAppointmentForm(props) {
                                 ))
                                 }
                             </Form.Select>
-                        </p>
-                        <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
-                        <p><b>บริการ :</b> {props.data.service_name}</p>
-                        <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
-                        <p><b>เวลา :</b> {props.data.time}</p>
-                        <p><b>ห้อง :</b> {props.data.room_name}</p>
-                        {appoint_status == "รอแก้ไข" &&
-                        <>
-                            <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
-                        </>                        
-                        }
-                    </div>
+                            <Form.Control.Feedback type="invalid">
+                                กรุณาเลือกสัตว์เลี้ยง
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                            <p><b>อาการเบื้องต้น :</b></p>
+                                <Form.Group controlId="validateSymtoms" >
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        value={symtoms}
+                                        placeholder="กรอกอาการเบื้องต้น"
+                                        onChange={(e) => setSymtoms(e.target.value)}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        กรุณากรอกอาการเบื้องต้น
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            <p><b>บริการ :</b> {props.data.service_name}</p>
+                            <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
+                            <p><b>เวลา :</b> {props.data.time}</p>
+                            <p><b>ห้อง :</b> {props.data.room_name}</p>
+                            <p><b>หมายเหตุ :</b> {props.data.note}</p>
+                            {appoint_status == "รอแก้ไข" &&
+                            <>
+                                <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
+                            </>                        
+                            }
+                            <p><b>อัพโหลดภาพการชำระเงิน : </b></p>
+
+                            <Form.Group controlId="formFile">
+
+                                <Form.Control
+                                    required
+                                    type="file"
+                                    name="file"
+                                    onChange={onFileSelected} />
+                            </Form.Group>
+                </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="success" onClick={onClickShow}>ข้อมูลการชำระค่ามัดจำ</Button>
+                    <Button style={{width:"100%"}} variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
 
                     <Button variant="danger" onClick={props.onClose}>ปิด</Button>
 
                 </Modal.Footer>
 
+                </Form>
+
+
             </Modal>
-            <ShowPaymentModal 
-            show={showImageModal}
-            onClose={onCloseImageModal}
-            title={paymentTitleModal}
-            paymentImage={paymentImageModal}
-            />
         </>
     );
 };
