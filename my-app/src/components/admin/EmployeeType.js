@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table} from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
-
 import Sidebar from "./Sidebar";
 import './Admin.css';
 import Top from './Top';
@@ -86,13 +85,13 @@ export default function EmployeeType(props){
      
      const onDelete = async (data) => {
 
-                setEmpPositionId(data.emp_position_id);
+        setEmpPositionId(data.emp_position_id);
 
-                setConfirmModalTitle("ยืนยันการลบข้อมูล");
-                setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
-                setConfirmModal(true);
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModal(true);
 
-        }
+    }
     
         const onConfirmDelete = async () => {
             setConfirmModal(false);
@@ -111,8 +110,7 @@ export default function EmployeeType(props){
 
         }
         
-        
-
+    
     return(
         <>
             <div className="container-fluid">

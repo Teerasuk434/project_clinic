@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { API_GET, API_POST } from '../../api';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table } from 'react-bootstrap'
+import Fuse from 'fuse.js'
 
 import './Admin.css'
 import Sidebar from './Sidebar'
@@ -72,12 +73,21 @@ export default function Admin() {
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchUser = [];
-                listUsers.filter(user => user.username.includes(search)).map(item => {
-                    searchUser.push(item);
+
+                const fuse = new Fuse(listUsers, {
+                    keys: ['user_id','username','role_name']
                 })
-    
-                setUsers(searchUser);
+
+                let search_result = fuse.search(search)
+                let searchUser = []
+
+                search_result.map(item => {
+                    searchUser.push(item.item)
+                })
+
+                console.log(searchUser)
+
+                setUsers(searchUser.sort((a,b) => a.user_id - b.user_id));
             }else {
                 setUsers(listUsers);
             }
