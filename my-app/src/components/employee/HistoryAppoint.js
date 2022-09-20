@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './employee/Sidebar'
+import Sidebar from './Sidebar';
 import { Table,Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { API_GET } from '../api';
-
-export default function ListAppoint(){
+import { API_GET } from '../../api';
+export default function HistoryAppoint(){
 
     let date = new Date().toLocaleDateString();
-    let pages = 3;
+    let pages = 4;
 
     const [appointment, setAppointment] = useState([]);
 
     useEffect(() => {
 
         async function fetchData(){
-            let json = await API_GET("appointment");
+            let json = await API_GET("history_appoint");
             if(json.result){
                 setAppointment(json.data);
                 console.log(json.data)
@@ -45,7 +44,7 @@ export default function ListAppoint(){
                                 <div className="row">
                                     <div className="col">
                                         <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">คำขอนัดหมาย</h2>
+                                            <h2 className="header-content text-center text-white p-2">ประวัติการนัดหมาย</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +61,7 @@ export default function ListAppoint(){
                                                 <th>วันที่</th>
                                                 <th>เวลา</th>
                                                 <th>สถานะ</th>
-                                                <th colSpan={2}>action</th>
+                                                <th>action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -79,11 +78,6 @@ export default function ListAppoint(){
                                                             <td>
                                                                 <div>
                                                                     <Button  className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    <Link to={`${item.appoint_id}`} className="btn btn-warning">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                                                                 </div>
                                                             </td>
                                                         </tr>

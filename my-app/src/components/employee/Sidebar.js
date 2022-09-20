@@ -15,8 +15,8 @@ export default function Sidebar(props){
                 <Link className={pages === 1 && "active"} to="/home"><span><img src={`http://localhost:8080/images/img1.png`} alt=""></img></span>หน้าแรก</Link>
                 <Link className={pages === 2 && "active"} to="/request-appoint"><span><img src={`http://localhost:8080/images/appoint1.png`} alt=""></img></span>คำขอนัดหมาย</Link>
                 <Link className={pages === 3 && "active"} to="/list-appoint"><span><img src={`http://localhost:8080/images/appoint2.png`} alt=""></img></span>ตารางนัดหมาย</Link>
-
-                <Link className={pages === 4 && "active"} to="/"><span><img src={`http://localhost:8080/images/img7.png`} alt=""></img></span>ออกจากระบบ</Link> 
+                <Link className={pages === 4 && "active"} to="/history-appoint"><span><img src={`http://localhost:8080/images/appoint2.png`} alt=""></img></span>ประวัติการนัดหมาย</Link>
+                <Link className={pages === 5 && "active"} to="/"><span><img src={`http://localhost:8080/images/img7.png`} alt=""></img></span>ออกจากระบบ</Link> 
              </div>
         </div>
         

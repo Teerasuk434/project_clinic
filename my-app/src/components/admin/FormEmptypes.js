@@ -19,10 +19,7 @@ export default function FormEmptypes(){
     const [validated,setValidated] = useState(false);
     const [emp_position_name,setEmpPositionName] = useState("");
     const [emp_position_id,setEmpPositionId] = useState(0);
-    const [emp_type, setEmpType] = useState([]);
-    const [empTypes, setEmpTypes] = useState([]);
-    const [listEmpTypes, setListEmpTypes] = useState([]);
-
+ 
      // confirmModal
      const [confirmModal, setConfirmModal] = useState(false);
      const [confirmModalTitle, setConfirmModalTitle] = useState("");

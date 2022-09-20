@@ -1,24 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom"
 
 export default function RoomTypesItem(props){
-
-    const [room_type_id, setRoomTypeId] = useState(0);
-    const [room_type, setRoomType] = useState([]);
-    const [rooms, setRooms] = useState([]);
-    const [room_id, setRoomId] = useState(0);
-
-    const [confirmModal, setConfirmModal] = useState(false);
-    const [confirmModalTitle, setConfirmModalTitle] = useState("");
-    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
 
     const onDelete = async (data) => {
 
         props.onDelete(props.data)
     }
-
-
 
     return(
         <>

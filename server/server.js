@@ -17,6 +17,7 @@ const Employee = require('./libs/Employee');
 const Appointment = require('./libs/Appointment')
 const Schedule = require('./libs/Schedule')
 
+
 const port = 8080;
 const bodyParser = require('body-parser');
 const app = express();
@@ -1191,6 +1192,54 @@ app.get('/api/appointment',(req, res) => {
     });
 });
 
+app.get('/api/history_appoint',(req, res) => {
+    pool.query(`SELECT  
+    a.appoint_id,
+    a.symtoms,
+    a.date,
+    a.time,
+    a.payment_image,
+    a.status_id,
+    a.note,
+    b.*,
+    c.cust_fname,
+    c.cust_lname,
+    c.cust_tel,
+    c.email,
+    d.service_id,
+    d.service_name,
+    d.cost_deposit,
+    d.time_spent,
+    e.*,
+    f.status_name
+    FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+    JOIN customer_information c ON b.cust_id = c.cust_id
+    JOIN service d ON a.service_id = d.service_id
+    JOIN rooms e ON a.room_id = e.room_id
+    JOIN appoint_status f ON a.status_id = f.status_id
+    WHERE a.status_id = 4 OR a.status_id = 5 OR a.status_id = 6
+    GROUP BY a.appoint_id`,(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบการนัดหมาย"
+            });
+        }
+    });
+});
+
+
 app.get('/api/appoint_status',(req, res) => {
     pool.query(`SELECT * FROM appoint_status`,(err, results, fields) => {
         if(err){
@@ -1364,6 +1413,7 @@ app.get('/api/emp/:emp_id', async(req, res) => {
         });
     }
 });
+
 
 app.listen(port, () => {
     console.log("Running");

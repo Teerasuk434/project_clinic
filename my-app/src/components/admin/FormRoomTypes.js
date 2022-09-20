@@ -5,8 +5,7 @@ import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from "./Top";
-
-
+import { UpdateModal, ConfirmModal  } from "../ModalsAdmin";
 
 
 export default function FormRoomtypes(){
@@ -20,6 +19,11 @@ export default function FormRoomtypes(){
     const [room_type_name,setRoomTypesName] = useState("");
     const [room_type_id, setRoomTypeId] = useState(0);
    
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
 
 
     useEffect(() =>{
@@ -37,6 +41,7 @@ export default function FormRoomtypes(){
         }
     },[]);
 
+    // show modal
     const onSave = async(event) =>{
         const form = event.currentTarget;
         event.preventDefault();
@@ -44,12 +49,9 @@ export default function FormRoomtypes(){
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            if(params.room_type_id === "add"){
-                doCreateRoomtypes();
-            }else{
-                
-                doUpdateRoomtypes();
-            }
+
+            // onDelete();
+            onConfirm();
         }
     }
 
@@ -100,9 +102,41 @@ export default function FormRoomtypes(){
         }
     }
 
+    const onConfirm = async (data) => {
+        
+        
 
-   
-    
+        if(params.room_type_id === "add"){
+            
+            setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+        }else{
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+            
+        }
+        
+    }
+
+    const onConfirmUpdate = async () => {
+        setConfirmModal(false);
+
+        if(params.room_type_id === "add"){
+            doCreateRoomtypes();
+            
+        }else{
+            doUpdateRoomtypes();
+            
+        }
+    }
+    const onCancelUpdate = () => {
+        setConfirmModal(false);
+
+    }
+
     return(
         <>
             <div className="container-fluid">
@@ -141,6 +175,12 @@ export default function FormRoomtypes(){
                                                     <Row className="my-4">
                                                         <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
                                                     </Row>
+                                                    <UpdateModal
+                                                        show={confirmModal}
+                                                        title={confirmModalTitle}
+                                                        message={confirmModalMessage}
+                                                        onConfirm={onConfirmUpdate}
+                                                        onClose={onCancelUpdate}/>
                                                 </Form>
                                             </div>
                                         </div>

@@ -187,13 +187,12 @@ export default function EmployeeType(props){
                                                 }
 
                                                 <ConfirmModal
-                                                show={confirmModal}
-                                                title={confirmModalTitle}
-                                                message={confirmModalMessage}
-                                                onConfirm={onConfirmDelete}
-                                                onClose={onCancelDelete}/>
-                                                
-                                                
+                                                    show={confirmModal}
+                                                    title={confirmModalTitle}
+                                                    message={confirmModalMessage}
+                                                    onConfirm={onConfirmDelete}
+                                                    onClose={onCancelDelete}/>
+
                                             </tbody>
                                         </Table>
                                     </div>

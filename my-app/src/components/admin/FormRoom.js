@@ -5,8 +5,7 @@ import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from "./Top";
-
-
+import { UpdateModal } from "../ModalsAdmin";
 
 
 export default function FormRoom(){
@@ -17,11 +16,11 @@ export default function FormRoom(){
 
     const [validated,setValidated] = useState(false);
 
-    const [room_types, setRoomTypes] = useState([]);
     const [room_type_id, setRoomTypeId] = useState(0);
 
     const [room_name,setRoomName] = useState("");
     const [room_id,setRoomId] = useState("");
+    const [room, setRoom] = useState([]);
 
     // confirmModal
     const [confirmModal, setConfirmModal] = useState(false);
@@ -32,6 +31,7 @@ export default function FormRoom(){
         async function fetchData(room_id){
             let json = await API_GET("room/"+room_id);
             var data = json.data[0];
+            
             setRoomName(data.room_name);
             setRoomId(data.room_id);
 
@@ -40,17 +40,18 @@ export default function FormRoom(){
             fetchData([params.room_id]);
         }
 
-    },[params.room_id]);
+    },[]);
 
     useEffect(() =>{
         async function fetchData(){
-            let json = await API_GET("room_type");
-            setRoomTypes(json.data);
+            let json = await API_GET("room");
+            setRoom(json.data);
         }
         fetchData();
 
     },[]);
 
+    // show modal
     const onSave = async(event) =>{
         const form = event.currentTarget;
         event.preventDefault();
@@ -58,12 +59,9 @@ export default function FormRoom(){
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            if(params.room_id === "add"){
-                doCreateRoom();
-                
-            }else{
-                doUpdateRoom();
-            }
+
+            // onDelete();
+            onConfirm();
         }
     }
 
@@ -114,6 +112,41 @@ export default function FormRoom(){
             console.log("อัปเดตสำเร็จ");
         }
     }
+
+    const onConfirm = async (data) => {
+        
+        
+
+        if(params.room_id === "add"){
+            
+            setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+        }else{
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+            
+        }
+        
+    }
+
+    const onConfirmUpdate = async () => {
+        setConfirmModal(false);
+
+        if(params.room_id === "add"){
+            doCreateRoom();
+            
+        }else{
+            doUpdateRoom();
+            
+        }
+    }
+    const onCancelUpdate = () => {
+        setConfirmModal(false);
+
+    }
     return(
         <>
             <div className="container-fluid">
@@ -153,22 +186,28 @@ export default function FormRoom(){
                                                 value={room_type_id}
                                                 onChange={(e) => setRoomTypeId(e.target.value)}
                                                 required>
-                                                <option label="กรุณาเลือกประเภทห้องรักษา"></option> 
+                                                <option label="ประเภทห้องรักษา"></option> 
                                                 {
-                                                room_types.map(item => (
+                                                room.map(item => (
                                                     <option key={item.room_type_id} value={item.room_type_id}> 
-                                                    {item.room_type_name} </option>
+                                                    {item.room_name} </option>
                                                 ))
                                                 }
                                             </Form.Select>
                                                 <Form.Control.Feedback type="invalid">
-                                                    กรุณาเลือก ประเภทผู้ใช้งาน
+                                                    กรุณาเลือก ประเภทห้องรักษา
                                                 </Form.Control.Feedback>
                                         </Form.Group>
                                         
                                         <Row className="my-4">
-                                            <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
                                         </Row>
+                                        <UpdateModal
+                                            show={confirmModal}
+                                            title={confirmModalTitle}
+                                            message={confirmModalMessage}
+                                            onConfirm={onConfirmUpdate}
+                                            onClose={onCancelUpdate}/>
                                     </Form>
                                 </div>
                             </div>                    

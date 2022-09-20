@@ -17,14 +17,14 @@ export default function RoomTypes(){
     const [room_type,setRoomType] = useState([]);
     const [search,setSearch] = useState("");
     const [listroomtypes,setListRoomTypes] = useState([]);
-
+    const [room_type_id, setRoomTypeId] = useState(0);
 
     // confirmModal
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    const [room_type_id, setRoomTypeId] = useState(0);
+    
 
     useEffect( () => {
         async function fetchData(){
@@ -74,42 +74,39 @@ export default function RoomTypes(){
         }
      }
 
+     const fetchData = async () => {
+        let json = await API_GET("room_type");
+        setRoomType(json.data);
+        setListRoomTypes(json.data);
+    }
+
+
      const onDelete = async (data) => {
 
-                setRoomTypeId(data.room_type_id);
+        setRoomTypeId(data.room_type_id);
 
-                setConfirmModalTitle("ยืนยันการลบข้อมูล");
-                setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
-                setConfirmModal(true);
-        }
-    
-        const onConfirmDelete = async () => {
-            setConfirmModal(false);
-            console.log(room_type_id);
-            let json = await API_POST("room_type/delete", {
-                room_type_id: room_type_id
-            });
-    
-            if (json.result) {
-                // setRoomType();
-                fetchData();
-            }
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModal(true);
 
-            
-        }
-    
-        const onCancelDelete = () => {
-            setConfirmModal(false);
+    }
 
-        }
+    const onConfirmDelete = async () => {
+        setConfirmModal(false);
+        console.log(room_type_id);
+        let json = await API_POST("room_type/delete", {
+            room_type_id: room_type_id
+        })
 
-        const fetchData = async () => {
-            let json = await API_GET("room_type");
-            setRoomType(json.data);
-            setListRoomTypes(json.data);
-        }
+        if (json.result) {
+            fetchData();
+        } 
+    }
 
-    
+    const onCancelDelete = () => {
+        setConfirmModal(false);
+
+    }
 
     return(
         <>
@@ -185,11 +182,11 @@ export default function RoomTypes(){
                                                 }
 
                                                 <ConfirmModal
-                                                show={confirmModal}
-                                                title={confirmModalTitle}
-                                                message={confirmModalMessage}
-                                                onConfirm={onConfirmDelete}
-                                                onClose={onCancelDelete}/>
+                                                    show={confirmModal}
+                                                    title={confirmModalTitle}
+                                                    message={confirmModalMessage}
+                                                    onConfirm={onConfirmDelete}
+                                                    onClose={onCancelDelete}/>
 
                                             </tbody>
                                         </Table>
