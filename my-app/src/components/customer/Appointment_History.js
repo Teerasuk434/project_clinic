@@ -1,35 +1,30 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import BoxTop from "../Box-top";
 import Footer from "../Footer";
 import Navigation from "../Navigation"
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
 import { API_POST } from "../../api";
+import { Table } from "react-bootstrap";
+import AppointHistoryItem from "./AppointHistoryItem";
 
-import AppointmentItem from "./AppointmentItem";
+export default function Appointment_History () {
 
-
-export default function AppointmentList(){
-
-    let user_id = localStorage.getItem("user_id");
-
-    const [Appointments, setAppointment] = useState([]);
-
+    let user_id = localStorage.getItem("user_id")
+    const [appointments, setAppointments] = useState([]);
 
     useEffect(()=>{
 
         async function fetchData(user_id){
-            let json = await API_POST("account/appointments/" + user_id);
+            let json = await API_POST("account/history-appointment/" + user_id);
 
-            setAppointment(json.data);
+            setAppointments(json.data);
             console.log(json)
         }
         fetchData(user_id);
                    
     },[])
 
-
-    return(
+    return (
         <>
             <BoxTop/>
                 <div className="sticky-top">
@@ -49,8 +44,8 @@ export default function AppointmentList(){
                                 <div>
                                     <Link to="/account/profile">ข้อมูลบัญชี</Link>
                                     <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link className="active" to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
+                                    <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
+                                    <Link className="active" to="/account/history">ประวัติการนัดหมาย</Link>
                                     <Link to="#">ตั้งค่ารหัสผ่าน</Link>
                                     <Link to="/">ออกจากระบบ</Link>
                                 </div>
@@ -59,13 +54,13 @@ export default function AppointmentList(){
 
                         <div className="col-9 profile-right p-0 shadow-sm">
                             <div className="profile-right-header p-2 text-center">
-                                <h4>ข้อมูลการนัดหมาย</h4>
+                                <h4>ประวัติการนัดหมาย</h4>
                             </div>
 
                             <div className="profile-details">
                                 <div className="row mx-3 mt-5 mb-3">
                                     <div className="col m-auto text-center">
-                                    {Appointments.length > 0 &&
+
                                     <>
                                         <Table>
                                             <thead>
@@ -81,8 +76,8 @@ export default function AppointmentList(){
                                             </thead>
                                             <tbody>
                                                 {
-                                                    Appointments.map(item => (
-                                                        <AppointmentItem
+                                                    appointments.map(item => (
+                                                        <AppointHistoryItem
                                                         key={item.appoint_id}
                                                         data={item}
                                                         />
@@ -91,12 +86,12 @@ export default function AppointmentList(){
                                             </tbody>
                                         </Table>
                                     </>
-                                    }
-                                    {Appointments.length < 1 &&
+                                    
+                                    {/* {Appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">
                                             <h6 className="">ไม่พบข้อมูลการนัดหมาย</h6>
                                         </div>
-                                    }   
+                                    }     */}
                                     </div>
 
                                 </div>

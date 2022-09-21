@@ -35,7 +35,7 @@ export function ShowAppointmentDetails(props) {
                     <Modal.Title>{props.title}</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
+                <Modal.Body className="overflow-auto">
                     <div>
                         <p><b>สัตว์เลี้ยง :</b> {props.data.pet_name}</p>
                         <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
@@ -43,20 +43,23 @@ export function ShowAppointmentDetails(props) {
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
                         <p><b>เวลา :</b> {props.data.time} - {props.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
+                        <p><b>สถานะ :</b> {props.data.status_name}</p>
                         {appoint_status == "รอแก้ไข" &&
                         <>
                             <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
                         </>                        
                         }
 
-                    <Accordion className="mt-2">
-                        <Accordion.Item eventKey="0">
-                            <Accordion.Header>ข้อมูลการชำระเงิน</Accordion.Header>
-                            <Accordion.Body>
-                                <img src={`http://localhost:8080/images/${props.data.payment_image}`} width="100%" height="100%" alt="" />
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    </Accordion>
+                    <div className="mt-2 p-2">
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>ข้อมูลการชำระเงิน</Accordion.Header>
+                                <Accordion.Body>
+                                    <img src={`http://localhost:8080/images/${props.data.payment_image}`} width="100%" height="100%" alt="" />
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
 
                     </div>
 
@@ -76,10 +79,10 @@ export function ShowAppointmentForm(props) {
 
     let appoint_status = props.data.appoint_status;
 
-    const [pet_id,setPetId] = useState(0);
+    const [pet_id,setPetId] = useState(props.data.pet_id);
     const [appoint_id, setAppointId] = useState(0);
     const [validated,setValidated] = useState(false);
-    const [symtoms, setSymtoms] = useState("");
+    const [symtoms, setSymtoms] = useState(props.data.symtoms);
 
     const [selectedFile, setSelectedFile] = useState([]);
     const [imageUrl, setImageUrl] = useState("");
@@ -104,7 +107,7 @@ export function ShowAppointmentForm(props) {
         formData.append('file', selectedFile);
 
         let response = await fetch(
-            SERVER_URL + "/api/payment/upload" + appoint_id,
+            SERVER_URL + "api/payment/upload" + appoint_id,
             {
                 method: 'POST',
                 headers: {
@@ -116,7 +119,6 @@ export function ShowAppointmentForm(props) {
         );
         let json = await response.json();
         setImageUrl(json.data);
-        console.log(json.data)
     }
 
     const onSave = async (event) => {

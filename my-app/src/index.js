@@ -29,6 +29,7 @@ import FormPets from './components/customer/FormPets';
 
 import Appointment from './components/customer/Appointment';
 import AppointmentList from './components/customer/AppointmentList';
+import Appointment_History from './components/customer/Appointment_History';
 
 import Rooms from './components/admin/Rooms';
 import FormRoom from './components/admin/FormRoom';
@@ -70,7 +71,8 @@ root.render(
       <Route path="/account/pets" element={<Pets />} />
       <Route path="/account/pet/:pet_id" element={<FormPets />} />
       <Route path="/account/appointments" element={<AppointmentList />} />
-
+      <Route path="/account/history-appoint" element={<Appointment_History/>} />
+ 
       <Route path="/emptypes" element={<EmployeeType />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       

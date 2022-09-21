@@ -305,6 +305,28 @@ app.post('/api/account/appointments/:user_id',async(req, res) => {
     }
 });
 
+app.post('/api/account/history-appointment/:user_id',async(req, res) => {
+    const user_id = req.params.user_id
+    console.log(user_id)
+    try{
+        var result = await Customer.getByUserId(pool,user_id)
+        let cust_id = result[0].cust_id
+
+        var result2 = await Appointment.getHistoryAppointment(pool,cust_id);
+
+        res.json({
+            result: true,
+            data:result2
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "
                 + "FROM users a JOIN roles b ON a.role_id = b.role_id ", function(error, results, fields){
@@ -1432,7 +1454,6 @@ app.post("/api/payment/upload", checkAuth, (req, res) => {
     console.log(storage)
     
 });
-
 
 app.listen(port, () => {
     console.log("Running");
