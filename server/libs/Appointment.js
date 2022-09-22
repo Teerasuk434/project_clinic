@@ -25,7 +25,7 @@ module.exports = {
                         JOIN service c ON a.service_id = c.service_id
                         JOIN rooms d ON a.room_id = d.room_id
                         JOIN appoint_status e ON a.status_id = e.status_id
-                        WHERE b.cust_id = ?
+                        WHERE b.cust_id = ? AND a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
                         GROUP BY a.appoint_id`;
         sql = mysql.format(sql, [cust_id]);
         return await pool.query(sql);

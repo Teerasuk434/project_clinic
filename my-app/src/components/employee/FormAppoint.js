@@ -6,9 +6,9 @@ import { Link, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 import { ShowPaymentModal } from '../Modal';
 
-export default function FormReqAppoint() {
+export default function FormAppoint() {
     let date = new Date().toLocaleDateString();
-    let pages = 2;
+    let pages = 3;
     let params = useParams();
 
     const [appoint_id,setAppointId] = useState(0);
@@ -48,7 +48,7 @@ export default function FormReqAppoint() {
 
     useEffect(() => {
         async function fetchData(appoint_id) {
-            let json = await API_GET("req_appointment");
+            let json = await API_GET("appointment");
             let data
             
             if(json.result){
@@ -58,6 +58,8 @@ export default function FormReqAppoint() {
                     }
                 })
             }
+
+            console.log(data)
 
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
@@ -88,6 +90,8 @@ export default function FormReqAppoint() {
                 time:data.time
             })
             setEmployee(json2.data)
+            console.log(data)
+
 
             let json3 = await API_GET("schedules")
             
@@ -169,7 +173,7 @@ export default function FormReqAppoint() {
 
                                 <div className='req-form-details mt-5 shadow'>
                                     <div className='req-appoint-label p-3'>
-                                        <p>รายละเอียดคำขอนัดหมาย</p>
+                                        <p>รายละเอียดการนัดหมาย</p>
                                     </div>
 
                                     <div className="form-header">

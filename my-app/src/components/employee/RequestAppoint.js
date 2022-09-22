@@ -4,24 +4,35 @@ import './employee.css';
 import { Table,Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../../api';
+import ReqAppointItem from './ReqAppointItem';
 
 export default function RequestAppoint() {
 
     let date = new Date().toLocaleDateString();
+
     let pages = 2;
 
-    const [appointment, setAppointment] = useState([]);
+    const [appointments, setAppointments] = useState([]);
     const [schedules, setSchedules] = useState([]);
+
+
+    const [showAppointmentModal, setAppointmentModal] = useState(false);
+    const [appointModalTitle, setAppointModalTitle] = useState("");
+    const [AppointmentDetails, setAppointmentDetails] = useState({});
 
     useEffect(() => {
         async function fetchData(){
             let json = await API_GET("req_appointment");
             if(json.result){
-                setAppointment(json.data);      
+                setAppointments(json.data);      
             }
         }
         fetchData();
     }, []);
+
+    const onClose = () =>{
+        setAppointmentModal(false);
+    }
 
     return(
         <>
@@ -66,27 +77,12 @@ export default function RequestAppoint() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {appointment != null &&
-                                                    appointment.map(item => (
-                                                        <tr key={item.appoint_id}>
-                                                            <td><p>{item.appoint_id}</p></td>
-                                                            <td><p>{item.cust_fname} {item.cust_lname}</p></td>
-                                                            <td><p>{item.pet_name}</p></td>
-                                                            <td><p>{item.service_name}</p></td>
-                                                            <td><p>{new Date(item.date).toLocaleDateString()}</p></td>
-                                                            <td><p>{item.time}</p></td>
-                                                            <td><p>{item.status_name}</p></td>
-                                                            <td>
-                                                                <div>
-                                                                    <Button  className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>
-                                                                    <Link to={`${item.appoint_id}`} className="btn btn-warning">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                                {appointments != null &&
+                                                    appointments.map(item => (
+                                                        <ReqAppointItem 
+                                                        key={item.appoint_id}
+                                                        data={item}
+                                                        />
                                                     ))
                                                 }
                                             </tbody>
@@ -108,6 +104,7 @@ export default function RequestAppoint() {
                 </div>
 
             </div>
+
         </>
     )
 }

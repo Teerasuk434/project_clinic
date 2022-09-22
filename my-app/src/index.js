@@ -38,6 +38,7 @@ import FormRoomtypes from './components/admin/FormRoomTypes';
 
 import RequestAppoint from './components/employee/RequestAppoint';
 import FormReqAppoint from './components/employee/FormReqAppoint';
+import FormAppoint from './components/employee/FormAppoint';
 
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
@@ -87,6 +88,7 @@ root.render(
 
       <Route path="/request-appoint" element={<RequestAppoint />} />
       <Route path="/request-appoint/:appoint_id" element={<FormReqAppoint/>} />
+      <Route path="/list-appoint/:appoint_id" element={<FormAppoint />} />
 
       <Route path="/list-appoint" element={<ListAppoint />} />
 

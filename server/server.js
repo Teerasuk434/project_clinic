@@ -1096,6 +1096,25 @@ app.post('/api/schedules/emp_available',(req, res) => {
     });
 });
 
+app.post('/api/schedules/appointment',async(req, res) => {
+    const input = req.body;
+
+    try{
+        var result = await Schedule.addSchedule(pool,input.appoint_id);
+
+        res.json({
+            result: true,
+            data:result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
 app.post('/api/schedules/add',async(req, res) => {
     const input = req.body;
     console.log(input);
@@ -1436,6 +1455,7 @@ app.get('/api/emp/:emp_id', async(req, res) => {
     }
 });
 
+ 
 app.post("/api/payment/upload", checkAuth, (req, res) => {
     var appoint_id = req.params.appoint_id;
     var fileName;
@@ -1454,6 +1474,24 @@ app.post("/api/payment/upload", checkAuth, (req, res) => {
     console.log(storage)
     
 });
+
+app.post('/api/schedules/find-appoint', async(req, res) => {
+    const appoint_id = req.params.appoint_id;
+    try{
+        var result = await Schedule.findByAppointment(pool,appoint_id);
+        res.json({
+            result: true,
+            data: result
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log("Running");
