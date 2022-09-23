@@ -2,11 +2,15 @@ import { Button } from "react-bootstrap";
 import Moment from 'moment';
 import { useState } from "react";
 import { ShowAppointmentDetails } from "../Modal";
+import { extendMoment } from "moment-range";
 
 
 export default function HistoryItem(props) {
 
 let appoint_status = props.data.status_id
+const moment = extendMoment(Moment);
+let time_end = moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm");
+
 
 
 const [showAppointmentModal, setAppointmentModal] = useState(false);
@@ -36,7 +40,7 @@ return (
             <td><p>{props.data.pet_name}</p></td>
             <td><p>{props.data.service_name}</p></td>
             <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
-            <td><p>{props.data.time}</p></td>
+            <td><p>{props.data.time} - {moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm")}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
                 <div>
@@ -47,7 +51,7 @@ return (
                 title={appointModalTitle}
                 data={AppointmentDetails}
                 onClose={onClose}
-                />
+                time_end={time_end}/>
             </td>
         </tr>
 
