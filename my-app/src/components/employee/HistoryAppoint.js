@@ -2,13 +2,32 @@ import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Table,Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { API_GET } from '../../api';
+import { API_GET , API_POST} from '../../api';
+import { ShowAppointmentDetails } from '../Modal';
+import HistoryItem from './HistoryItem';
+
 export default function HistoryAppoint(){
 
     let date = new Date().toLocaleDateString();
     let pages = 4;
 
-    const [appointment, setAppointment] = useState([]);
+    const [appointments, setAppointment] = useState([]);
+    const [appoint_id, setAppointId] = useState(0);
+
+
+     // confirmModal
+     const [confirmModal, setConfirmModal] = useState(false);
+     const [confirmModalTitle, setConfirmModalTitle] = useState("");
+     const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+     const [pet_name, setPetName] = useState("");
+     const [symtoms, setSymtoms] = useState("");
+     const [service_name, setServiceName] = useState("");
+    //  const [Date, setDate] = useState(new Date);
+    //  const [time, setTime] = useState(time);
+     const [room_name, setRoomName] = useState([]);
+     const [status_name, setStatusName] = useState([]);
+
 
     useEffect(() => {
 
@@ -21,6 +40,42 @@ export default function HistoryAppoint(){
         }
         fetchData();
     }, []);
+
+    const onDetail = async (data) => {
+
+        setAppointId(data.appoint_id);
+
+        setConfirmModalTitle("รายละเอียด");
+        setConfirmModalMessage(pet_name, 
+                                symtoms, 
+                                service_name, 
+                                room_name,
+                                status_name);
+        setConfirmModal(true);
+}
+
+const onConfirmDelete = async () => {
+    setConfirmModal(false);
+    let json = await API_POST("history_appoint", {
+        appoint_id: appoint_id
+    });
+
+    if (json.result) {
+        // setRoomType();
+        fetchData();
+    }
+}
+
+const onCancelDelete = () => {
+    setConfirmModal(false);
+
+}
+
+const fetchData = async () => {
+    let json = await API_GET("appointment");
+    setAppointment(json.data);
+}
+
 
     return (
         <>
@@ -65,22 +120,11 @@ export default function HistoryAppoint(){
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {appointment != null &&
-                                                    appointment.map(item => (
-                                                        <tr key={item.appoint_id}>
-                                                            <td><p>{item.appoint_id}</p></td>
-                                                            <td><p>{item.cust_fname} {item.cust_lname}</p></td>
-                                                            <td><p>{item.pet_name}</p></td>
-                                                            <td><p>{item.service_name}</p></td>
-                                                            <td><p>{new Date(item.date).toLocaleDateString()}</p></td>
-                                                            <td><p>{item.time}</p></td>
-                                                            <td><p>{item.status_name}</p></td>
-                                                            <td>
-                                                                <div>
-                                                                    <Button  className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
+                                            {appointments != null &&
+                                                    appointments.map(item => (
+                                                        <HistoryItem
+                                                        data = {item} 
+                                                        />
                                                     ))
                                                 }
                                             </tbody>

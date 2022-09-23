@@ -1,0 +1,57 @@
+import { Button } from "react-bootstrap";
+import Moment from 'moment';
+import { useState } from "react";
+import { ShowAppointmentDetails } from "../Modal";
+
+
+export default function HistoryItem(props) {
+
+let appoint_status = props.data.status_id
+
+
+const [showAppointmentModal, setAppointmentModal] = useState(false);
+const [appointModalTitle, setAppointModalTitle] = useState("");
+const [AppointmentDetails, setAppointmentDetails] = useState({});
+
+
+let appoint_id = localStorage.getItem("appoint_id");
+
+
+const onShowAppointment = () =>{
+    setAppointmentModal(true);
+    setAppointModalTitle("รายละเอียดการนัดหมาย")
+    setAppointmentDetails(props.data);
+}
+
+
+const onClose = () =>{
+    setAppointmentModal(false);
+}
+
+return (
+    <>
+       <tr>
+            <td><p>{props.data.appoint_id}</p></td>
+            <td><p>{props.data.cust_fname} {props.data.cust_lname}</p></td>
+            <td><p>{props.data.pet_name}</p></td>
+            <td><p>{props.data.service_name}</p></td>
+            <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
+            <td><p>{props.data.time}</p></td>
+            <td><p>{props.data.status_name}</p></td>
+            <td>
+                <div>
+                    <Button  onClick={onShowAppointment} className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
+                </div>
+                <ShowAppointmentDetails
+                show={showAppointmentModal}
+                title={appointModalTitle}
+                data={AppointmentDetails}
+                onClose={onClose}
+                />
+            </td>
+        </tr>
+
+
+    </>
+)
+}
