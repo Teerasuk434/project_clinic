@@ -123,6 +123,7 @@ const fetchData = async () => {
                                             {appointments != null &&
                                                     appointments.map(item => (
                                                         <HistoryItem
+                                                        key={item.appoint_id}
                                                         data = {item} 
                                                         />
                                                     ))
