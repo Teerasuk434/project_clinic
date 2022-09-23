@@ -6,7 +6,6 @@ import { API_POST } from "../../api";
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 
-
 export default function ReqAppointItem(props) {
 
 let appoint_status = props.data.status_id
@@ -40,7 +39,7 @@ return (
             <td><p>{props.data.pet_name}</p></td>
             <td><p>{props.data.service_name}</p></td>
             <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
-            <td><p>{props.data.time} - {moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm")}</p></td>
+            <td><p>{props.data.time} - {time_end}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
                 <div>
