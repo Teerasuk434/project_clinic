@@ -4,6 +4,7 @@ import Navigation from "../Navigation"
 import { Link } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { ShowAppointmentDetails,ShowAppointmentForm } from "../Modal";
 import { API_POST } from "../../api";
 
 import AppointmentItem from "./AppointmentItem";
@@ -11,22 +12,51 @@ import AppointmentItem from "./AppointmentItem";
 
 export default function AppointmentList(){
 
-    let user_id = localStorage.getItem("user_id");
-
     const [Appointments, setAppointment] = useState([]);
+    const [listpets, setListPets] = useState([]);
+    
+    const [showAppointmentModal, setAppointmentModal] = useState(false);
+    const [showAppointmentForm, setAppointmentForm] = useState(false);
+    const [appointModalTitle, setAppointModalTitle] = useState("");
+    const [AppointmentDetails, setAppointmentDetails] = useState({});
 
 
     useEffect(()=>{
-
-        async function fetchData(user_id){
-            let json = await API_POST("account/appointments/" + user_id);
-
-            setAppointment(json.data);
-            console.log(json)
-        }
+        let user_id = localStorage.getItem("user_id");
         fetchData(user_id);
-                   
+        fetchPets(user_id);
     },[])
+
+    const fetchData = async (user_id) =>{
+        let json = await API_POST("account/appointments/" + user_id);
+        setAppointment(json.data);
+
+    }
+
+    const fetchPets = async (user_id) =>{
+        let json = await API_POST("listpets/" + user_id);   
+        setListPets(json.data);
+    }
+
+
+    const onShowAppointment = (data) =>{
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+        setAppointmentModal(true);
+
+    }
+
+    const onShowAppointmentForm = (data) => {
+        setAppointModalTitle("แก้ไขการนัดหมาย");
+        setAppointmentDetails(data);
+        setAppointmentForm(true);
+
+    }
+
+    const onClose = () =>{
+        setAppointmentModal(false);
+        setAppointmentForm(false);
+    }
 
 
     return(
@@ -85,13 +115,15 @@ export default function AppointmentList(){
                                                         <AppointmentItem
                                                         key={item.appoint_id}
                                                         data={item}
+                                                        onShow={onShowAppointment}
+                                                        onEdit={onShowAppointmentForm}
                                                         />
                                                     ))
                                                 }
                                             </tbody>
                                         </Table>
                                     </>
-                                    }
+                                    }   
                                     {Appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">
                                             <h6 className="">ไม่พบข้อมูลการนัดหมาย</h6>
@@ -110,6 +142,22 @@ export default function AppointmentList(){
                     </div>
                 </div>
             <Footer/>
+
+            <ShowAppointmentDetails 
+            show={showAppointmentModal}
+            title={appointModalTitle}
+            onClose={onClose}
+            data={AppointmentDetails}
+            />  
+
+            <ShowAppointmentForm 
+            show={showAppointmentForm}
+            title={appointModalTitle}
+            onClose={onClose}
+            onShow={onShowAppointmentForm}
+            data={AppointmentDetails}
+            pets={listpets}
+            />
         </>
     )
 }

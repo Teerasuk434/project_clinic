@@ -28,6 +28,7 @@ export default function FormReqAppoint() {
     const [appoint_status,setAppointStatus] = useState(0);
     const [status, setStatus] = useState([]);
     const [appoint_time,setAppointTime] = useState("");
+    const [appoint_time_end ,setAppointTimeEnd] = useState("");
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
 
@@ -75,6 +76,7 @@ export default function FormReqAppoint() {
             setSymtoms(data.symtoms);
 
             setAppointTime(data.time);
+            setAppointTimeEnd(data.time_end)
             setAppointDate(data.date);
 
             setAppointStatus(data.status_id);
@@ -136,8 +138,11 @@ export default function FormReqAppoint() {
             room_id:room_id,
             appoint_date:appoint_date,
             appoint_time:appoint_time,
+            appoint_time_end:appoint_time_end,
             appoint_status:appoint_status
         })
+
+        console.log(json)
 
         if(json.result){
             if(json.result) {
@@ -145,7 +150,6 @@ export default function FormReqAppoint() {
             }
         }
     }
-
 
     return (
         <>
@@ -234,7 +238,7 @@ export default function FormReqAppoint() {
                                                 <h6>{service_name}</h6>
                                                 <h6>{cost_deposit}</h6>
                                                 <h6>{new Date(appoint_date).toLocaleDateString()}</h6>
-                                                <h6>{appoint_time}</h6>
+                                                <h6>{appoint_time} - {appoint_time_end}</h6>
                                                 <h6>{roomName}</h6>
                                                 <h6>
                                                 
@@ -276,7 +280,9 @@ export default function FormReqAppoint() {
                                                     <option label="กรุณาเลือกสถานะ"></option> 
                                                     {
                                                         status.map(item => (
-                                                            <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
+                                                            (item.status_id < 4 && 
+                                                                <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
+                                                            )
                                                         ))
                                                     }
                                                 </Form.Select>

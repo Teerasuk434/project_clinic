@@ -8,12 +8,9 @@ import Top from './Top';
 
 export default function FormUser() {
 
-
-
     let params = useParams();
     let pages = 2;
     let date = new Date().toLocaleDateString();
-
 
     const [userId, setUserId] = useState(0);
     const [username, setUserName] = useState("");

@@ -1,10 +1,11 @@
 const mysql = require('mysql');
 
 module.exports = {
-    addSchedule: async (pool, emp_id, appoint_id, room_id, date, time) =>{
-        var sql = "INSERT INTO schedules (emp_id,appoint_id,room_id,date,time) "
-                    + "VALUES (?, ?, ?, ?, ?)";
-        sql = mysql.format(sql, [emp_id, appoint_id, room_id, date, time]);
+    addSchedule: async (pool, emp_id, appoint_id, room_id, appoint_date, appoint_time, appoint_time_end ) =>{
+        var sql = "INSERT INTO schedules (emp_id,appoint_id,room_id,date,time,time_end) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+        sql = mysql.format(sql, [emp_id, appoint_id, room_id, appoint_date, appoint_time, appoint_time_end]);
+        console.log(sql);
         return await pool.query(sql);
     },
     findByAppointment: async (pool, appoint_id) =>{

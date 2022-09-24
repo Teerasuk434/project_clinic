@@ -40,6 +40,7 @@ export default function Appointment(){
     const [appointments,setAppointments] = useState([]);
 
     const [service,setService] = useState('');
+    const [service_timespent, setServiceTimeSpent] = useState(0);
     const [validated,setValidated] = useState(false);
 
     const [isSelectPet, setIsSelectPet] = useState(true);
@@ -103,6 +104,7 @@ export default function Appointment(){
     useEffect(()=>{
         if(service != [] && time != ""){
             setTimeSlots();
+            setServiceTimeSpent(listServices[service-1].time_spent);
         }
     },[service])
 
@@ -110,7 +112,9 @@ export default function Appointment(){
         if(pet_id != 0){
             setTimeSlots();
         }
-    },[date])
+    },[date,time])
+
+
 
     useEffect(()=>{
         if(pet_id != 0 || pet_id != ""){
@@ -142,7 +146,7 @@ export default function Appointment(){
         rooms = json.data;
         setRooms(json.data);
 
-        const range = moment.range(`${date} 13:00`, `${date} 18:45`);
+        const range = moment.range(`${date} 13:00`, `${date} 19:00`);
         let timeSlot = [];
         let stepSlot = service_time;
         const hours = Array.from(range.by('minute',{step:stepSlot}));
@@ -153,17 +157,21 @@ export default function Appointment(){
                 let room_used = [];
                 let check_time_between = false;
                 count_room = 0;     
-                
-                if(appointments != null){
+                console.log(appointments)
+                if(appointments.length > 0){
+                    console.log("appointment")
                     appointments.map(item => {
-                        if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.appoint_status != "ยกเลิก"){
+                        console.log(item)
+                        if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
                             count_room++;
                             room_used.push(item.room_id);    
+                            console.log("count_room = " + count_room)
 
                         }
                     })
                 }
                 if(count_room == 0){ 
+                    console.log("count 0")
                     if(appointments != null){
                         for(let i=0;i<appointments.length;i++){
                             // console.log("time slot = " + time.format("HH:mm"));
@@ -196,7 +204,6 @@ export default function Appointment(){
                         setRoomAvailable(room_available_temp);
                     }else{
                         rooms.map(item =>{
-                            console.log("add : " + time.format("HH:mm") )
                             room_available_temp.push({
                                 date:date,
                                 time:time.format("HH:mm"),
@@ -229,7 +236,7 @@ export default function Appointment(){
                     
 
                 }
-                if(count_room < rooms.length && check_time_between == false){
+                if(count_room < rooms.length && check_time_between == false && time.format("HH:mm") != "19:00" ){
                     timeSlot.push(
                         {
                             "id":index++,
@@ -271,7 +278,9 @@ export default function Appointment(){
     const doCreateAppointment = async () => {
 
         let room_id = [];
-        console.log(room_available);
+        let time_end = moment(`${date} ${time}`).add(service_timespent, 'm').format("HH:mm");
+        console.log(time_end)
+
         room_available.map(item=>{
             if(item.date == date && item.time == time){
                 room_id.push(item.room_id)
@@ -282,16 +291,15 @@ export default function Appointment(){
             symtoms:symtoms,
             date:date,
             time:time,
+            time_end:time_end,
             appoint_status:1,
             note:"ไม่มี",
             pet_id:pet_id,
             service_id:listServices[service-1].service_id,
             room_id:room_id[0]
         });
-        console.log(json)
 
-        let appoint_new_id = json.appoint_id;
-        onUploadImage(appoint_new_id);
+        onUploadImage( json.appoint_id);
     
         if (json.result) {
             window.location = "/appointment";
@@ -309,7 +317,9 @@ export default function Appointment(){
         const formData = new FormData();
         formData.append('file', selectedFile);
 
-        console.log(formData)
+        console.log(formData);
+        console.log(appoint_new_id)
+
         let response = await fetch(
             SERVER_URL + "api/appointment/upload/" + appoint_new_id,
             {
@@ -322,6 +332,7 @@ export default function Appointment(){
             }
         );
         let json = await response.json();
+        console.log(json)
     }
 
     return (

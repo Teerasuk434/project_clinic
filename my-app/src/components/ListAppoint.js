@@ -50,7 +50,7 @@ export default function ListAppoint(){
                                 <div className="row">
                                     <div className="col">
                                         <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">คำขอนัดหมาย</h2>
+                                            <h2 className="header-content text-center text-white p-2">ตารางนัดหมาย</h2>
                                         </div>
                                     </div>
                                 </div>

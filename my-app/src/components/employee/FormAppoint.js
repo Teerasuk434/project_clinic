@@ -28,6 +28,7 @@ export default function FormAppoint() {
     const [appoint_status,setAppointStatus] = useState(0);
     const [status, setStatus] = useState([]);
     const [appoint_time,setAppointTime] = useState("");
+    const [appoint_time_end, setAppointTimeEnd] = useState("")
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
 
@@ -43,6 +44,8 @@ export default function FormAppoint() {
 
     const [employee, setEmployee] = useState([]);
     const [emp_id, setEmpId] = useState(0);
+    const [emp_firstname, setEmpFirstName] = useState("");
+    const [emp_lastname, setEmpLastName] = useState("");
 
     const [validated,setValidated] = useState(false);   
 
@@ -77,6 +80,7 @@ export default function FormAppoint() {
             setSymtoms(data.symtoms);
 
             setAppointTime(data.time);
+            setAppointTimeEnd(data.time_end);
             setAppointDate(data.date);
 
             setAppointStatus(data.status_id);
@@ -85,27 +89,29 @@ export default function FormAppoint() {
             setCostDeposit(data.cost_deposit);
             setPaymentImage(data.payment_image);
 
-            let json2 = await API_POST("schedules/emp_available",{
-                date:data.date,
-                time:data.time
-            })
-            setEmployee(json2.data)
-            console.log(data)
-
-
-            let json3 = await API_GET("schedules")
+            let json2 = await API_GET("schedules")
             
-            if(json3.result){
-                let schedules_data = json3.data;
+            if(json2.result){
+                let schedules_data = json2.data;
                 schedules_data.map(item => {
                     if(item.appoint_id == data.appoint_id){
                         setEmpId(item.emp_id)
+                        setEmpFirstName(item.emp_fname);
+                        setEmpLastName(item.emp_lname);
                     }
                 })
             }
 
-            let json4 = await API_GET("appoint_status")
-            setStatus(json4.data);
+            let json3 = await API_GET("appoint_status")
+
+            let appoint_status_temp = [];
+            json3.data.map(item=>{
+                if(item.status_id != 1 && item.status_id != 3){
+                    appoint_status_temp.push(item)
+                }
+            })
+
+            setStatus(appoint_status_temp);
 
         }
         fetchData([params.appoint_id]);
@@ -140,16 +146,18 @@ export default function FormAppoint() {
             room_id:room_id,
             appoint_date:appoint_date,
             appoint_time:appoint_time,
+            appoint_time_end:appoint_time_end,
             appoint_status:appoint_status
         })
 
+        console.log(json)
+
         if(json.result){
             if(json.result) {
-                window.location = "/request-appoint";
+                window.location = "/list-appoint";
             }
         }
     }
-
 
     return (
         <>
@@ -221,8 +229,6 @@ export default function FormAppoint() {
                                     <div className="form-header">
                                         <p>รายละเอียดการนัดหมาย</p>
                                     </div>
-
-                                    <Form noValidate validated={validated} onSubmit={onSave}>
                                         
                                         <div className="row">
                                             <div className="col-3 box-label">
@@ -238,35 +244,17 @@ export default function FormAppoint() {
                                                 <h6>{service_name}</h6>
                                                 <h6>{cost_deposit}</h6>
                                                 <h6>{new Date(appoint_date).toLocaleDateString()}</h6>
-                                                <h6>{appoint_time}</h6>
+                                                <h6>{appoint_time} - {appoint_time_end}</h6>
                                                 <h6>{roomName}</h6>
-                                                <h6>
-                                                
-                                                <Form.Group as={Col} controlId="validateEmp">
-                                                    <Form.Select
-                                                        value={emp_id}
-                                                        onChange={(e) => setEmpId(e.target.value)}
-                                                        required>
-                                                        <option label="เลือกผู้รับหน้าที่"></option>
-                                                        {employee != null &&
-                                                            employee.map(item => (
-                                                                <option key={item.emp_id} value={item.emp_id}>
-                                                                    {item.emp_fname}   {item.emp_lname}
-                                                                </option>
-                                                            ))
-                                                        }
-                                                    </Form.Select>
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณาเลือกผู้รับหน้าที่
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                                </h6>
+                                                <h6>{emp_firstname} {emp_lastname}</h6>
                                             </div>
                                         </div>
 
                                         <div className="end">
                                             {/*  */}
                                         </div>
+                                        
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
 
                                         <div className="row p-3">
                                             
@@ -280,7 +268,7 @@ export default function FormAppoint() {
                                                     <option label="กรุณาเลือกสถานะ"></option> 
                                                     {
                                                         status.map(item => (
-                                                            <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
+                                                             <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
                                                         ))
                                                     }
                                                 </Form.Select>
@@ -291,7 +279,7 @@ export default function FormAppoint() {
                                             </div>
 
                                             <div className="col-6">
-                                                {appoint_status > 1  &&
+                                                {appoint_status >3  &&
                                                 <>
                                                     <Form.Control
                                                     type="text"

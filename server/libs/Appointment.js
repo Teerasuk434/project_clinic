@@ -1,16 +1,16 @@
 const mysql = require('mysql');
 
 module.exports = {
-    addAppointment: async (pool, symtoms,date,time,appoint_status,note,pet_id,service_id,room_id) =>{
-        var sql = "INSERT INTO appointment (symtoms, date, time, status_id, note, pet_id, service_id, room_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        sql = mysql.format(sql, [symtoms,date,time,appoint_status,note,pet_id,service_id,room_id]);
-        console.log(sql)
+    addAppointment: async (pool, symtoms,date,time,time_end,appoint_status,note,pet_id,service_id,room_id) =>{
+        var sql = "INSERT INTO appointment (symtoms, date, time, time_end, status_id, note, pet_id, service_id, room_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        sql = mysql.format(sql, [symtoms,date,time,time_end,appoint_status,note,pet_id,service_id,room_id]);
         return await pool.query(sql);
     },  
     uploadImage: async (pool, appoint_new_id, fileName) => {
         var sql = "UPDATE appointment SET payment_image = ? WHERE appoint_id = ?";
         sql = mysql.format(sql, [fileName,appoint_new_id]);
+        console.log(sql);
         return await pool.query(sql);
     },
     updateStatus: async (pool, appoint_status, appoint_id) => {
@@ -36,6 +36,7 @@ module.exports = {
                 a.symtoms,
                 a.date,
                 a.time,
+                a.time_end,
                 a.payment_image,
                 a.status_id,
                 a.note,
@@ -59,6 +60,11 @@ module.exports = {
                 AND b.cust_id = ?
                 GROUP BY a.appoint_id`
         sql = mysql.format(sql,cust_id);
+        return await pool.query(sql);
+    },
+    updateAppointment: async (pool, pet_id,symtoms,payment_image,status_id, appoint_id) => {
+        var sql = "UPDATE appointment SET pet_id = ? , symtoms = ? , payment_image = ? , status_id = ? WHERE appoint_id = ?";
+        sql = mysql.format(sql, [pet_id,symtoms,payment_image,status_id, appoint_id]);
         return await pool.query(sql);
     }
 }

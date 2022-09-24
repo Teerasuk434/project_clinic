@@ -3,15 +3,12 @@ import { ShowAppointmentDetails } from "../Modal";
 import { useState,useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { API_POST } from "../../api";
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
 
 export default function ReqAppointItem(props) {
 
 let appoint_status = props.data.status_id
-const moment = extendMoment(Moment);
-let time_end = moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm");
 
+console.log(props)
 
 const [showAppointmentModal, setAppointmentModal] = useState(false);
 const [appointModalTitle, setAppointModalTitle] = useState("");
@@ -39,7 +36,7 @@ return (
             <td><p>{props.data.pet_name}</p></td>
             <td><p>{props.data.service_name}</p></td>
             <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
-            <td><p>{props.data.time} - {time_end}</p></td>
+            <td><p>{props.data.time} - {props.data.time_end}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
                 <div>
@@ -58,7 +55,6 @@ return (
         title={appointModalTitle}
         onClose={onClose}
         data={AppointmentDetails}
-        time_end={time_end}
         />
 
     </>

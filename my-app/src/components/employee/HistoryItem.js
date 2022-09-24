@@ -12,7 +12,6 @@ const moment = extendMoment(Moment);
 let time_end = moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm");
 
 
-
 const [showAppointmentModal, setAppointmentModal] = useState(false);
 const [appointModalTitle, setAppointModalTitle] = useState("");
 const [AppointmentDetails, setAppointmentDetails] = useState({});

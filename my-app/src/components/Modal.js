@@ -1,8 +1,10 @@
 import { Button, Modal,Form,Accordion} from "react-bootstrap";
 import { useEffect, useState } from "react";
 import './Modal.css'
-import { SERVER_URL } from "../app.config";
+import { useNavigate} from 'react-router-dom';
 
+import { SERVER_URL } from "../app.config";
+import { API_POST } from "../api";
 
 export function ShowPaymentModal(props) {
     return (
@@ -41,7 +43,7 @@ export function ShowAppointmentDetails(props) {
                         <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
                         <p><b>บริการ :</b> {props.data.service_name}</p>
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
-                        <p><b>เวลา :</b> {props.data.time} - {props.time_end}</p>
+                        <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
                         <p><b>สถานะ :</b> {props.data.status_name}</p>
                         {appoint_status == "รอแก้ไข" &&
@@ -78,21 +80,25 @@ export function ShowAppointmentDetails(props) {
 export function ShowAppointmentForm(props) {
 
     let appoint_status = props.data.appoint_status;
+    let navigate = useNavigate();
+
 
     const [pet_id,setPetId] = useState(props.data.pet_id);
-    const [appoint_id, setAppointId] = useState(0);
     const [validated,setValidated] = useState(false);
     const [symtoms, setSymtoms] = useState(props.data.symtoms);
 
     const [selectedFile, setSelectedFile] = useState([]);
     const [imageUrl, setImageUrl] = useState("");
 
-    useEffect(() =>{
+    const onClose = () =>{
+        props.onClose();
+    }
+
+    useEffect(()=>{
         setPetId(props.data.pet_id);
-        setSymtoms(props.data.symtoms)
-        setImageUrl(props.data.payment_image)
-        setAppointId(props.data.appoint_id)
-    },[])
+        setSymtoms(props.data.symtoms);
+    },[props.show])
+
 
     const onFileSelected = (e) => {
         console.log(e.target.files[0])
@@ -102,12 +108,12 @@ export function ShowAppointmentForm(props) {
         onUploadImage(e.target.files[0])
     }
 
-    const onUploadImage = async () => {
+    const onUploadImage = async (selectedFile) => {
         const formData = new FormData();
         formData.append('file', selectedFile);
 
         let response = await fetch(
-            SERVER_URL + "api/payment/upload" + appoint_id,
+            SERVER_URL + "api/payment/upload/" + props.data.appoint_id,
             {
                 method: 'POST',
                 headers: {
@@ -118,6 +124,7 @@ export function ShowAppointmentForm(props) {
             }
         );
         let json = await response.json();
+        console.log(json)
         setImageUrl(json.data);
     }
 
@@ -128,7 +135,18 @@ export function ShowAppointmentForm(props) {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            console.log("update data")
+            let json = await API_POST("account/edit-appointment",{
+                pet_id:pet_id,
+                symtoms:symtoms,
+                payment_image:imageUrl,
+                status_id:1,
+                appoint_id:props.data.appoint_id
+            })
+
+            if(json.result){
+                navigate("/account/appointments", { replace: true });
+                onClose();
+            }
         }
         setValidated(true);
     }
@@ -178,7 +196,7 @@ export function ShowAppointmentForm(props) {
                                 </Form.Group>
                             <p><b>บริการ :</b> {props.data.service_name}</p>
                             <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
-                            <p><b>เวลา :</b> {props.data.time}</p>
+                            <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                             <p><b>ห้อง :</b> {props.data.room_name}</p>
                             <p><b>หมายเหตุ :</b> {props.data.note}</p>
                             {appoint_status == "รอแก้ไข" &&
@@ -186,16 +204,33 @@ export function ShowAppointmentForm(props) {
                                 <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
                             </>                        
                             }
-                            <p><b>อัพโหลดภาพการชำระเงิน : </b></p>
+
+                            
+                            <div className="mt-2 p-2">
+                                <Accordion>
+                                    <Accordion.Item eventKey="0">
+                                        <Accordion.Header>ข้อมูลการชำระเงิน</Accordion.Header>
+                                        <Accordion.Body>
+                                            <img src={`http://localhost:8080/images/${props.data.payment_image}`} width="100%" height="100%" alt="" />
+                                        </Accordion.Body>
+                                    </Accordion.Item>
+                                </Accordion>
+                            </div>
+
+                            <p className="border-top border-secondary mt-2"><b>อัพโหลดภาพการชำระเงินใหม่ : </b></p>
 
                             <Form.Group controlId="formFile">
 
                                 <Form.Control
-                                    required
                                     type="file"
                                     name="file"
                                     onChange={onFileSelected} />
                             </Form.Group>
+                            {imageUrl != "" &&
+                                <div className="border border-secondary rounded mt-2 text-center">
+                                    <img src={`${SERVER_URL}images/${imageUrl}`} width="80%" alt="Upload Image"/>
+                                </div>
+                            }
                 </div>
 
                 </Modal.Body>

@@ -326,6 +326,28 @@ app.post('/api/account/history-appointment/:user_id',async(req, res) => {
     }
 });
 
+app.post("/api/account/edit-appointment", checkAuth, async (req, res) => {
+    const input = req.body;
+
+    try {
+        var result = await Appointment.updateAppointment(pool,
+            input.pet_id,
+            input.symtoms,
+            input.payment_image,
+            input.status_id, 
+            input.appoint_id);
+        
+        res.json({
+            result: true
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "
@@ -1117,17 +1139,20 @@ app.post('/api/schedules/appointment',async(req, res) => {
 
 app.post('/api/schedules/add',async(req, res) => {
     const input = req.body;
-    console.log(input);
-
     try{
         var result = await Schedule.addSchedule(pool,
             input.emp_id,
             input.appoint_id,
             input.room_id,
             input.appoint_date,
-            input.appoint_time);
+            input.appoint_time,
+            input.appoint_time_end);
 
-        var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id);
+        if(result){
+            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id);
+        }
+
+        console.log(result2)
         res.json({
             result: true
         });
@@ -1145,6 +1170,7 @@ app.get('/api/req_appointment',(req, res) => {
     a.symtoms,
     a.date,
     a.time,
+    a.time_end,
     a.payment_image,
     a.status_id,
     a.note,
@@ -1192,6 +1218,7 @@ app.get('/api/appointment',(req, res) => {
     a.symtoms,
     a.date,
     a.time,
+    a.time_end,
     a.payment_image,
     a.status_id,
     a.note,
@@ -1211,7 +1238,7 @@ app.get('/api/appointment',(req, res) => {
     JOIN service d ON a.service_id = d.service_id
     JOIN rooms e ON a.room_id = e.room_id
     JOIN appoint_status f ON a.status_id = f.status_id
-    WHERE a.status_id = 2
+    WHERE a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
     GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({
@@ -1239,6 +1266,7 @@ app.get('/api/history_appoint',(req, res) => {
     a.symtoms,
     a.date,
     a.time,
+    a.time_end,
     a.payment_image,
     a.status_id,
     a.note,
@@ -1305,17 +1333,18 @@ app.get('/api/appoint_status',(req, res) => {
 
 app.post('/api/appointment/add',async(req, res) => {
     const input = req.body;
-    console.log(input)
     try{
         var result = await Appointment.addAppointment(pool,
             input.symtoms,
             input.date,
             input.time,
+            input.time_end,
             input.appoint_status,
             input.note,
             input.pet_id,
             input.service_id,
             input.room_id);
+
         res.json({
             result: true,
             appoint_id:result.insertId
@@ -1456,22 +1485,37 @@ app.get('/api/emp/:emp_id', async(req, res) => {
 });
 
  
-app.post("/api/payment/upload", checkAuth, (req, res) => {
+app.post('/api/payment/upload/:appoint_id', checkAuth, (req, res) => {
     var appoint_id = req.params.appoint_id;
     var fileName;
-    
+
     var storage = multer.diskStorage({
-        destination: (req, file, cp) => {
+        destination: (req, file, cp) =>{
             cp(null, "images");
         },
         filename: (req, file, cp) => {
             let fileNames = file.originalname.split('.');
-            fileName = "appoint_payment-" + appoint_id +"."+fileNames[1];
+            fileName = "appoint_payment_edit-" + appoint_id +"."+fileNames[1];
             cp(null, fileName);
         }
-    })
+    });
 
-    console.log(storage)
+    var upload = multer({ storage: storage}).single('file');
+
+    upload(req, res, async (err) => {
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message
+            });
+        } else {
+            res.json({
+                result: true,
+                data: fileName
+            });
+        }
+    });
+
     
 });
 
@@ -1490,6 +1534,8 @@ app.post('/api/schedules/find-appoint', async(req, res) => {
         });
     }
 });
+
+
 
 
 
