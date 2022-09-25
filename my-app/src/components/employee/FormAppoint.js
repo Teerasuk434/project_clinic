@@ -254,7 +254,7 @@ export default function FormAppoint() {
                                             {/*  */}
                                         </div>
                                         
-                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
 
                                         <div className="row p-3">
                                             
@@ -294,11 +294,7 @@ export default function FormAppoint() {
                                             <div className="col-3">
                                                 <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
                                             </div>
-                                            <ShowPaymentModal
-                                                show={showImageModal}
-                                                title={paymentTitleModal}
-                                                paymentImage={paymentImageModal}
-                                                onClose={onCloseImageModal}/>
+
 
                                         </div>
                                         
@@ -323,6 +319,12 @@ export default function FormAppoint() {
                 </div>
 
             </div>
+
+            <ShowPaymentModal
+                show={showImageModal}
+                title={paymentTitleModal}
+                paymentImage={paymentImageModal}
+                onClose={onCloseImageModal}/>
         </>
     )
 }
