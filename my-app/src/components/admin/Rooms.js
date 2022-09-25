@@ -3,6 +3,7 @@ import { Form, Row, Col, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import RoomItem from "./RoomItem";
 import { API_GET,API_POST } from "../../api";
+import Fuse from "fuse.js";
 
 import './Admin.css';
 import Sidebar from './Sidebar';
@@ -63,12 +64,20 @@ export default function Rooms(){
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchRoom = [];
-                listroom.filter(type => type.room_name.includes(search)).map(item => {
-                    searchRoom.push(item);
+                const fuse = new Fuse(listroom, {
+                    keys: ['room_id', 'room_name']
                 })
-    
-                setRoom(searchRoom);
+
+                let search_result = fuse.search(search)
+                let searchRoom = []  
+                
+                search_result.map(item => {
+                    searchRoom.push(item.item)
+                })
+
+                setRoom(searchRoom.sort((a,b) => a.room_id - b.room_id));
+            }else {
+                setRoom(listroom);
             }
         }
      }
@@ -167,6 +176,7 @@ export default function Rooms(){
                                                 <tr>
                                                 <th>รหัสห้องรักษา</th>
                                                 <th>ชื่อห้องรักษา</th>
+                                                <th>ประเภทห้องรักษา</th>
                                                 <th>action</th>
                                                 </tr>
                                             </thead>
@@ -174,7 +184,7 @@ export default function Rooms(){
                                                 {
                                                     room.map(item => (
                                                         <RoomItem
-                                                        key={item.room_id}
+                                                        key={item.room_id} 
                                                         data={item}
                                                         onDelete={onDelete} />
                                                     ))
