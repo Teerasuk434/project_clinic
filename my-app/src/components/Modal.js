@@ -46,6 +46,7 @@ export function ShowAppointmentDetails(props) {
                         <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
                         <p><b>สถานะ :</b> {props.data.status_name}</p>
+                        <p><b>หมายเหตุ :</b> {props.data.note}</p>
                         {appoint_status == "รอแก้ไข" &&
                         <>
                             <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
