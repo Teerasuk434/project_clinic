@@ -111,9 +111,9 @@ export default function FormReqAppoint() {
     },[params.appoint_id])
 
     const onClickShow = () => {
-        setShowImageModal(true);
         setPaymentImageModal(paymentImage);
         setPaymentTitleModal("รูปภาพการชำระเงิน");
+        setShowImageModal(true);
     }
 
     const onCloseImageModal = () => {
@@ -312,11 +312,6 @@ export default function FormReqAppoint() {
                                             <div className="col-3">
                                                 <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
                                             </div>
-                                            <ShowPaymentModal
-                                                show={showImageModal}
-                                                title={paymentTitleModal}
-                                                paymentImage={paymentImageModal}
-                                                onClose={onCloseImageModal}/>
 
                                         </div>
                                         
@@ -341,6 +336,12 @@ export default function FormReqAppoint() {
                 </div>
 
             </div>
+
+            <ShowPaymentModal
+                show={showImageModal}
+                title={paymentTitleModal}
+                paymentImage={paymentImageModal}
+                onClose={onCloseImageModal}/>
         </>
     )
 }
