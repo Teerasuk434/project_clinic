@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import './employee.css';
 import { Form , Col, Button, Accordion} from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 import { ShowPaymentModal } from '../Modal';
 
@@ -10,6 +10,7 @@ export default function FormReqAppoint() {
     let date = new Date().toLocaleDateString();
     let pages = 2;
     let params = useParams();
+    let navigate = useNavigate();
 
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
@@ -104,7 +105,14 @@ export default function FormReqAppoint() {
             }
 
             let json4 = await API_GET("appoint_status")
-            setStatus(json4.data);
+            let appoint_status_temp = [];
+
+            json4.data.map(item=>{
+                if(item.status_id != 4 && item.status_id != 5){
+                    appoint_status_temp.push(item);
+                }
+            })
+            setStatus(appoint_status_temp);
 
         }
         fetchData([params.appoint_id]);
@@ -127,13 +135,17 @@ export default function FormReqAppoint() {
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            createSchedule();
+            if(appoint_status == 2){
+                createSchedule();
+            }else{
+                updateAppointment();
+            }
+            
         }
         setValidated(true);
     }
 
     const createSchedule = async () => {
-        if(appoint_status == 2){
             let json = await API_POST("schedules/add",{
                 emp_id:emp_id,
                 appoint_id:appoint_id,
@@ -145,12 +157,24 @@ export default function FormReqAppoint() {
                 appoint_note:appoint_note
             })
     
-            console.log(json)
-    
             if(json.result){
                 if(json.result) {
-                    window.location = "/request-appoint";
+                    navigate("/request-appoint", { replace: true });
                 }
+            }
+    }
+
+    const updateAppointment = async () => {
+        let json = await API_POST("req_appointment/update",{
+            appoint_status:appoint_status,
+            appoint_id:appoint_id,
+            appoint_note:appoint_note
+        })
+
+        if(json.result){
+            if(json.result) {
+                navigate("/request-appoint", { replace: true });
+
             }
         }
     }
@@ -267,9 +291,7 @@ export default function FormReqAppoint() {
                                                         <option label="กรุณาเลือกสถานะ"></option> 
                                                         {
                                                             status.map(item => (
-                                                                (item.status_id < 4 && 
-                                                                    <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
-                                                                )
+                                                                <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
                                                             ))
                                                         }
                                                     </Form.Select>

@@ -2,7 +2,6 @@
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
 
-
     export default function AppointmentItem(props) {
 
     let appoint_status = props.data.status_id

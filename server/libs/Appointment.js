@@ -66,6 +66,7 @@ module.exports = {
     updateAppointment: async (pool, pet_id,symtoms,payment_image,status_id, appoint_id) => {
         var sql = "UPDATE appointment SET pet_id = ? , symtoms = ? , payment_image = ? , status_id = ? WHERE appoint_id = ?";
         sql = mysql.format(sql, [pet_id,symtoms,payment_image,status_id, appoint_id]);
+        console.log(sql)
         return await pool.query(sql);
     }
 }

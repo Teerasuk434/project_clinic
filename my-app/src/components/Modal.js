@@ -137,20 +137,36 @@ export function ShowAppointmentForm(props) {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
+            let image_url
+
+            if(imageUrl == ""){
+                image_url = props.data.payment_image;
+            }else{
+                image_url = imageUrl;
+            }
+
+            console.log(image_url)
+
             let json = await API_POST("account/edit-appointment",{
                 pet_id:pet_id,
                 symtoms:symtoms,
-                payment_image:imageUrl,
+                payment_image:image_url,
                 status_id:1,
                 appoint_id:props.data.appoint_id
             })
 
             if(json.result){
+                fetchData();
                 navigate("/account/appointments", { replace: true });
                 onClose();
             }
         }
         setValidated(true);
+    }
+
+    const fetchData = () => {
+        let user_id = localStorage.getItem("user_id");
+        props.fetch(user_id)
     }
 
 

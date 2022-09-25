@@ -40,9 +40,6 @@ export default function HistoryAppoint(){
                 }
             );
 
-            document.body.style.overflow = "hidden";
-
-
             let json = await response.json();
             setAppointment(json.data);
             setListAppointment(json.data);

@@ -1395,6 +1395,21 @@ app.post("/api/appointment/upload/:appoint_new_id", checkAuth, (req, res) => {
     });
 });
 
+app.post('/api/req_appointment/update',async(req, res) => {
+    const input = req.body;
+    try{
+        var result = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 app.get('/api/emp',(req, res) => {
     pool.query("SELECT a.*,b.emp_position_name FROM employee a JOIN emp_type b ON a.emp_position_id = b.emp_position_id",(err, results, fields) => {
         if(err){

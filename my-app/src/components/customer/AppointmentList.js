@@ -157,6 +157,7 @@ export default function AppointmentList(){
             onShow={onShowAppointmentForm}
             data={AppointmentDetails}
             pets={listpets}
+            fetch={fetchData}
             />
         </>
     )

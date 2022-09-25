@@ -42,7 +42,7 @@ export default function EmployeeType(props){
                 }
             );
 
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden"
 
             let json = await response.json();
             setEmpTypes(json.data);
