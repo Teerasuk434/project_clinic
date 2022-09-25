@@ -13,20 +13,6 @@ export default function Pets(){
 
     let user_id = localStorage.getItem("user_id");
 
-    // useEffect(()=>{
-
-    //     async function fetchData(user_id){
-    //         let json = await API_GET("customer/" + user_id);
-
-    //         if(json.result == true){
-    //             setCustId(json.data[0].cust_id);
-  
-    //         }
-    //     }
-    //     fetchData(user_id);
-                   
-    // },[])
-
     useEffect(()=>{
 
         async function fetchData(user_id){
@@ -39,41 +25,6 @@ export default function Pets(){
     },[])
 
 
-    // useEffect(()=>{
-
-    //     async function fetchData(user_id){
-    //         let json = await API_GET("listpets" + user_id);
-    //         console.log(json)
-    //         // if(json.result == true){
-    //         //     setCustId(json.data[0].cust_id);
-  
-    //         // }
-    //     }
-    //     fetchData(user_id);
-                   
-    // },[])
-
-
-    
-    // useEffect(()=>{
-    //     async function fetchData(){
-    //         let json = await API_GET("pets");
-    //         if(json.result == true){
-    //             let listPets = [];
-    //             json.data.map(item => {
-    //                 if(item.cust_id === custId){
-    //                     listPets.push(item)
-    //                 }
-    //             })
-    //             if(listPets.length > 0){
-    //                 setPets(listPets);
-    //             }
-    //         }
-           
-    //     }
-    //     fetchData();
-
-    // },[custId])
 
     const onDelete = async (data) => {
         let json = await API_POST("pets/delete", {

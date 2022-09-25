@@ -68,5 +68,11 @@ module.exports = {
         sql = mysql.format(sql, [pet_id,symtoms,payment_image,status_id, appoint_id]);
         console.log(sql)
         return await pool.query(sql);
+    },
+    checkPassword: async (pool, user_id,password) => {
+        var sql = "SELECT * FROM users WHERE user_id = ? AND password = MD5(?)";
+        sql = mysql.format(sql, [user_id,password]);
+        console.log(sql);
+        return await pool.query(sql);
     }
 }

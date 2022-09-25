@@ -23,6 +23,7 @@ import EmployeeType from './components/admin/EmployeeType';
 
 import Account from './components/customer/Account';
 import EditProfile from './components/customer/EditProfile';
+import ResetPassword from './components/customer/ResetPassword';
 
 import Pets from './components/customer/Pets';
 import FormPets from './components/customer/FormPets';
@@ -73,6 +74,7 @@ root.render(
       <Route path="/account/pet/:pet_id" element={<FormPets />} />
       <Route path="/account/appointments" element={<AppointmentList />} />
       <Route path="/account/history-appoint" element={<Appointment_History/>} />
+      <Route path="/account/reset-password" element={<ResetPassword />} />
  
       <Route path="/emptypes" element={<EmployeeType />} />
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>

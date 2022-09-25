@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const jwt = require("jsonwebtoken");
 
 module.exports = {
     createUser: async (pool, username, password, role_id) => {
@@ -30,6 +29,12 @@ module.exports = {
     getByUserId: async (pool, user_id) => {
         var sql = "SELECT * FROM users WHERE user_id = ?";
         sql = mysql.format(sql, [user_id]);
+
+        return await pool.query(sql);
+    },
+    updatePassword : async (pool, password, user_id) => {
+        var sql = "UPDATE users SET password = MD5(?) WHERE user_id = ?";
+        sql = mysql.format(sql, [password,user_id]);
 
         return await pool.query(sql);
     }

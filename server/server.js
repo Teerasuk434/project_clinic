@@ -348,6 +348,42 @@ app.post("/api/account/edit-appointment", checkAuth, async (req, res) => {
     }
 });
 
+app.post("/api/account/checkpassword", checkAuth, async (req, res) =>{
+    const input = req.body;
+    try {
+        var result = await Appointment.checkPassword(pool,input.user_id,input.password)
+        let check_pwd_status = false;
+        if(result.length){
+            check_pwd_status = true;
+        }
+        res.json({
+            result:true,
+            data: check_pwd_status
+        })
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post("/api/account/reset-password", checkAuth, async (req, res) =>{
+    const input = req.body;
+    try {
+        var result = await Users.updatePassword(pool,input.password,input.user_id)
+
+        res.json({
+            result:true
+        })
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
 
 app.get("/api/users", (req, res) =>{
     pool.query("SELECT a.user_id, a.username, a.password ,b.role_id, b.role_name "

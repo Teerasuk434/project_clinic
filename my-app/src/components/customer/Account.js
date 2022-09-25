@@ -3,8 +3,7 @@ import Navigation from "../Navigation"
 import Footer from "../Footer"
 import './Account.css'
 import { useEffect, useState } from "react"
-import { API_GET,API_POST } from "../../api"
-import { Navigate } from "react-router-dom";
+import { API_GET} from "../../api"
 import Moment from 'moment';
 import { Link } from "react-router-dom"
 
@@ -25,7 +24,6 @@ export default function Account(){
 
         async function fetchData(){
             let json = await API_GET("customer/" + user_id);
-            console.log(json.data)
             setFirstName(json.data[0].cust_fname);
             setLastName(json.data[0].cust_lname);
             setTel(json.data[0].cust_tel);
@@ -62,7 +60,7 @@ export default function Account(){
                                     <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
                                     <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
                                     <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
-                                    <Link to="#">ตั้งค่ารหัสผ่าน</Link>
+                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
                                     <Link to="/">ออกจากระบบ</Link>
                                 </div>
                             </div>
