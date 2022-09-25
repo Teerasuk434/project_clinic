@@ -2,6 +2,7 @@ import { API_GET,API_POST } from "../../api";
 import { useEffect, useState } from "react"
 import { Form, Row, Col, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import Fuse from "fuse.js";
 
 import './Admin.css'
 import Sidebar from "./Sidebar";
@@ -64,12 +65,21 @@ export default function RoomTypes(){
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchRoomTypes = [];
-                listroomtypes.filter(type => type.room_type_name.includes(search)).map(item => {
-                    searchRoomTypes.push(item);
+                const fuse = new Fuse(listroomtypes, {
+                    keys: ['room_type_id', 'room_type_name']
+                })
+
+                let search_result = fuse.search(search)
+                let searchRoomType = []  
+                
+                search_result.map(item => {
+                    searchRoomType.push(item.item)
                 })
     
-                setRoomType(searchRoomTypes);
+                setRoomType(searchRoomType.sort((a,b) => a.room_type_id - b.room_type_id));
+            }else {
+                setRoomType(listroomtypes);
+
             }
         }
      }

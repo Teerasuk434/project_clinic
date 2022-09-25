@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { Table,Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table,Button , Form , Col, Row } from 'react-bootstrap';
 import { API_GET , API_POST} from '../../api';
-import { ShowAppointmentDetails } from '../Modal';
 import HistoryItem from './HistoryItem';
+import Fuse from 'fuse.js';
 
 export default function HistoryAppoint(){
 
@@ -12,22 +11,9 @@ export default function HistoryAppoint(){
     let pages = 4;
 
     const [appointments, setAppointment] = useState([]);
-    const [appoint_id, setAppointId] = useState(0);
+    const [listappointment ,setListAppointment] = useState([]);
 
-
-     // confirmModal
-     const [confirmModal, setConfirmModal] = useState(false);
-     const [confirmModalTitle, setConfirmModalTitle] = useState("");
-     const [confirmModalMessage, setConfirmModalMessage] = useState("");
-
-     const [pet_name, setPetName] = useState("");
-     const [symtoms, setSymtoms] = useState("");
-     const [service_name, setServiceName] = useState("");
-    //  const [Date, setDate] = useState(new Date);
-    //  const [time, setTime] = useState(time);
-     const [room_name, setRoomName] = useState([]);
-     const [status_name, setStatusName] = useState([]);
-
+     const [search,setSearch] = useState("");
 
     useEffect(() => {
 
@@ -41,41 +27,61 @@ export default function HistoryAppoint(){
         fetchData();
     }, []);
 
-    const onDetail = async (data) => {
+    useEffect( () => {
+        async function fetchData(){
+            const response = await fetch(
+                "http://localhost:8080/api/history_appoint",
+                {
+                    method: "GET",
+                    headers:{
+                        Accept:"application/json",
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
 
-        setAppointId(data.appoint_id);
+            document.body.style.overflow = "hidden";
 
-        setConfirmModalTitle("รายละเอียด");
-        setConfirmModalMessage(pet_name, 
-                                symtoms, 
-                                service_name, 
-                                room_name,
-                                status_name);
-        setConfirmModal(true);
-}
 
-const onConfirmDelete = async () => {
-    setConfirmModal(false);
-    let json = await API_POST("history_appoint", {
-        appoint_id: appoint_id
-    });
-
-    if (json.result) {
-        // setRoomType();
+            let json = await response.json();
+            setAppointment(json.data);
+            setListAppointment(json.data);
+        }
         fetchData();
+    },[]);
+
+useEffect(() => {
+    if(search == ""){
+        setAppointment(listappointment);
     }
-}
 
-const onCancelDelete = () => {
-    setConfirmModal(false);
+}, [search]);
 
-}
+const onSearch = async (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
 
-const fetchData = async () => {
-    let json = await API_GET("appointment");
-    setAppointment(json.data);
-}
+    if (form.checkValidity() === false) {
+        event.stopPropagation();
+    } else {
+        if(search != ""){
+            const fuse = new Fuse(listappointment, {
+                keys: ['appoint_id', 'cust_fname', 'cust_lname', 'pet_name']
+            })
 
+            let search_result = fuse.search(search)
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+
+            setAppointment(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else {
+            setAppointment(listappointment);
+        }
+    }
+ }
 
     return (
         <>
@@ -103,6 +109,30 @@ const fetchData = async () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                <div className="col-10">
+                                        <Form>
+                                            <Row>
+                                                <Form.Group as={Col} md="10" className="mb-2" controlId="validateFirstName">
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={search}
+                                                        placeholder="ค้นหา"
+                                                        onChange={(e) => setSearch(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกข้อมูลที่ต้องการค้นหา
+                                                    </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                <Form.Group as={Col} md="2">
+                                                    <div className="d-grid gap-2">
+                                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
+                                                    </div>
+                                                </Form.Group>
+                                            </Row>
+                                        </Form>
+                                    </div>
 
                                 <div className='row'>
                                     <div className='col text-center'>

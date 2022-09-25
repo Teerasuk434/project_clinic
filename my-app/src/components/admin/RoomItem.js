@@ -13,6 +13,8 @@ export default function RoomItem(props){
         <tr>
             <td><p>{props.data.room_id}</p></td>
             <td><p>{props.data.room_name}</p></td>
+            <td><p>{props.data.room_type_name}</p></td>
+
             <td>
                 <div className="row">
                     <div className="col-12">
