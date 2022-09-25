@@ -45,6 +45,7 @@ export function ShowAppointmentDetails(props) {
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
                         <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
+                        {props.data.status_id == 2 && <p><b>ผู้รับหน้าที่ :</b> {props.data.emp_name}</p>}
                         <p><b>สถานะ :</b> {props.data.status_name}</p>
                         <p><b>หมายเหตุ :</b> {props.data.note}</p>
                         {appoint_status == "รอแก้ไข" &&

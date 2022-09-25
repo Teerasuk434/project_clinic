@@ -40,6 +40,7 @@ return (
             <td><p>{props.data.service_name}</p></td>
             <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
             <td><p>{props.data.time} - {props.data.time_end}</p></td>
+            <td><p>{props.data.emp_name}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
                 <div>

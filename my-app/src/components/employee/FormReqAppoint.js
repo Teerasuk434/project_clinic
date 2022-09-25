@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import './employee.css';
-import { Form , Col, Button} from 'react-bootstrap';
+import { Form , Col, Button, Accordion} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 import { ShowPaymentModal } from '../Modal';
@@ -133,22 +133,24 @@ export default function FormReqAppoint() {
     }
 
     const createSchedule = async () => {
-        let json = await API_POST("schedules/add",{
-            emp_id:emp_id,
-            appoint_id:appoint_id,
-            room_id:room_id,
-            appoint_date:appoint_date,
-            appoint_time:appoint_time,
-            appoint_time_end:appoint_time_end,
-            appoint_status:appoint_status,
-            appoint_note:appoint_note
-        })
-
-        console.log(json)
-
-        if(json.result){
-            if(json.result) {
-                window.location = "/request-appoint";
+        if(appoint_status == 2){
+            let json = await API_POST("schedules/add",{
+                emp_id:emp_id,
+                appoint_id:appoint_id,
+                room_id:room_id,
+                appoint_date:appoint_date,
+                appoint_time:appoint_time,
+                appoint_time_end:appoint_time_end,
+                appoint_status:appoint_status,
+                appoint_note:appoint_note
+            })
+    
+            console.log(json)
+    
+            if(json.result){
+                if(json.result) {
+                    window.location = "/request-appoint";
+                }
             }
         }
     }
@@ -223,9 +225,6 @@ export default function FormReqAppoint() {
                                     <div className="form-header">
                                         <p>รายละเอียดการนัดหมาย</p>
                                     </div>
-
-                                    <Form noValidate validated={validated} onSubmit={onSave}>
-                                        
                                         <div className="row">
                                             <div className="col-3 box-label">
                                                 <h6>บริการ :</h6>
@@ -233,7 +232,7 @@ export default function FormReqAppoint() {
                                                 <h6>วันที่ :</h6>
                                                 <h6>เวลา :</h6>
                                                 <h6>ห้องที่ใช้ :</h6>
-                                                <h6 className='mt-3'>ผู้รับหน้าที่ดูแล :</h6>
+                                                <h6>หลักฐานการชำระเงิน :</h6>
                                             </div>
 
                                             <div className="col-9 box-details mb-2">
@@ -242,27 +241,11 @@ export default function FormReqAppoint() {
                                                 <h6>{new Date(appoint_date).toLocaleDateString()}</h6>
                                                 <h6>{appoint_time} - {appoint_time_end}</h6>
                                                 <h6>{roomName}</h6>
-                                                <h6>
+
+                                                <div className="col-3">
+                                                    <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
+                                                 </div>
                                                 
-                                                <Form.Group as={Col} controlId="validateEmp">
-                                                    <Form.Select
-                                                        value={emp_id}
-                                                        onChange={(e) => setEmpId(e.target.value)}
-                                                        required>
-                                                        <option label="เลือกผู้รับหน้าที่"></option>
-                                                        {employee != null &&
-                                                            employee.map(item => (
-                                                                <option key={item.emp_id} value={item.emp_id}>
-                                                                    {item.emp_fname}   {item.emp_lname}
-                                                                </option>
-                                                            ))
-                                                        }
-                                                    </Form.Select>
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณาเลือกผู้รับหน้าที่
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                                </h6>
                                             </div>
                                         </div>
 
@@ -270,55 +253,89 @@ export default function FormReqAppoint() {
                                             {/*  */}
                                         </div>
 
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
                                         <div className="row p-3">
-                                            
-                                            <div className="col-3">
-                                            <Form.Group controlId="validateStatus">
-                                                <Form.Select 
-                                                value={appoint_status}
-                                                required
-                                                onChange={(e) => setAppointStatus(e.target.value)}
-                                                >
-                                                    <option label="กรุณาเลือกสถานะ"></option> 
-                                                    {
-                                                        status.map(item => (
-                                                            (item.status_id < 4 && 
-                                                                <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
-                                                            )
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                                <Form.Control.Feedback type="invalid">
-                                                    กรุณาเลือกสถานะคำขอ
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
-                                            </div>
-
-                                            <div className="col-6">
-                                                {appoint_status > 1  &&
-                                                <>
-                                                    <Form.Control
-                                                    type="text"
-                                                    placeholder="หมายเหตุ"
-                                                    value={appoint_note}
-                                                    onChange={(e) => setAppointNote(e.target.value)}
+                                        
+                                            <div className="col-4">
+                                                <Form.Group controlId="validateStatus">
+                                                    <Form.Label><b>สถานะคำขอ :</b></Form.Label>
+                                                    <Form.Select 
+                                                    value={appoint_status}
+                                                    required
+                                                    onChange={(e) => setAppointStatus(e.target.value)}
                                                     >
+                                                        <option label="กรุณาเลือกสถานะ"></option> 
+                                                        {
+                                                            status.map(item => (
+                                                                (item.status_id < 4 && 
+                                                                    <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
+                                                                )
+                                                            ))
+                                                        }
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาเลือกสถานะคำขอ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </div>
+
+                                            <div className="col-4">
+                                                {appoint_status == 2 &&
+                                                    <Form.Group controlId="validateEmp">
+                                                        <Form.Label><b>ผู้รับหน้าที่ :</b></Form.Label>
+                                                        <Form.Select
+                                                            value={emp_id}
+                                                            onChange={(e) => setEmpId(e.target.value)}
+                                                            required>
+                                                            <option label="เลือกผู้รับหน้าที่"></option>
+                                                            {employee != null &&
+                                                                employee.map(item => (
+                                                                    <option key={item.emp_id} value={item.emp_id}>
+                                                                        {item.emp_fname}   {item.emp_lname}
+                                                                    </option>
+                                                                ))
+                                                            }
+                                                        </Form.Select>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณาเลือกผู้รับหน้าที่
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                }
+                                            </div>
+
+                                            <div className="col-4">
+                                                {appoint_status == 2  &&
+                                                    <Form.Group controlId="validateEmp">
+                                                        <Form.Label><b>หมายเหตุ :</b></Form.Label>
+                                                        <Form.Control
+                                                            type="text"
+                                                            placeholder="หมายเหตุ"
+                                                            value={appoint_note}
+                                                            onChange={(e) => setAppointNote(e.target.value)}
+                                                            >
+                                                        </Form.Control>
+                                                    </Form.Group>
+                                                    }
+
+                                                {appoint_status == 3 &&
+                                                <Form.Group controlId="validateEmp">
+                                                    <Form.Label><b>หมายเหตุ :</b></Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        placeholder="หมายเหตุ"
+                                                        value={appoint_note}
+                                                        onChange={(e) => setAppointNote(e.target.value)}
+                                                        >
                                                     </Form.Control>
-                                                </>}
-
+                                                </Form.Group>
+                                                }
                                             </div>
-
-
-                                            <div className="col-3">
-                                                <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
-                                            </div>
-
                                         </div>
                                         
                                         <div className="text-center p-3">
                                             <Button variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
                                         </div>
-                                    
                                     </Form>
 
                                 </div>

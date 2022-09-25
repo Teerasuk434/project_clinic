@@ -20,9 +20,14 @@ export default function ListAppoint(){
 
         async function fetchData(){
             let json = await API_GET("appointment");
+            let data_temp = [];
             if(json.result){
-                setAppointments(json.data);
-                console.log(json.data)
+                json.data.map(item=>{
+                    if(item.status_id == 2){
+                        data_temp.push(item);
+                    }
+                })
+                setAppointments(data_temp);
             }
         }
         fetchData();
@@ -66,6 +71,7 @@ export default function ListAppoint(){
                                                 <th>บริการ</th>
                                                 <th>วันที่</th>
                                                 <th>เวลา</th>
+                                                <th>ผู้รับหน้าที่</th>
                                                 <th>สถานะ</th>
                                                 <th colSpan={2}>action</th>
                                                 </tr>
