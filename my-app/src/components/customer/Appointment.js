@@ -157,9 +157,8 @@ export default function Appointment(){
                 let room_used = [];
                 let check_time_between = false;
                 count_room = 0;     
-                console.log(appointments)
-                if(appointments.length > 0){
-                    console.log("appointment")
+
+                if(appointments != null){
                     appointments.map(item => {
                         console.log(item)
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
@@ -170,6 +169,7 @@ export default function Appointment(){
                         }
                     })
                 }
+                console.log(count_room)
                 if(count_room == 0){ 
                     console.log("count 0")
                     if(appointments != null){
