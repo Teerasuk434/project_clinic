@@ -9,6 +9,7 @@ import Top from './Top';
 import EmployeeTypeItems from './EmployeeTypeItems';
 import { ConfirmModal } from '../ModalsAdmin';
 import { useNavigate } from 'react-router-dom'; 
+import Fuse from 'fuse.js';
 
 export default function EmployeeType(props){
 
@@ -73,12 +74,21 @@ export default function EmployeeType(props){
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchEmpTypes = [];
-                listEmpTypes.filter(empTypes => empTypes.emp_position_name.includes(search)).map(item => {
-                    searchEmpTypes.push(item);
+                const fuse = new Fuse(listEmpTypes, {
+                    keys: ['emp_position_id', 'emp_position_name']
+                })
+
+                let search_result = fuse.search(search)
+                let searchEmpType = []  
+                
+                search_result.map(item => {
+                    searchEmpType.push(item.item)
                 })
     
-                setEmpTypes(searchEmpTypes);
+                setEmpTypes(searchEmpType.sort((a,b) => a.emp_position_id - b.emp_position_id));
+            }else {
+                setEmpTypes(listEmpTypes);
+
             }
         }
      }
