@@ -1149,7 +1149,7 @@ app.post('/api/schedules/add',async(req, res) => {
             input.appoint_time_end);
 
         if(result){
-            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id);
+            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
         }
 
         console.log(result2)

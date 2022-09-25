@@ -31,6 +31,7 @@ export default function FormReqAppoint() {
     const [appoint_time_end ,setAppointTimeEnd] = useState("");
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
+    const [appoint_note ,setAppointNote] = useState("");
 
     const [room_id, setRoomId] = useState(0);
     const [roomName, setRoomName] = useState("");
@@ -139,7 +140,8 @@ export default function FormReqAppoint() {
             appoint_date:appoint_date,
             appoint_time:appoint_time,
             appoint_time_end:appoint_time_end,
-            appoint_status:appoint_status
+            appoint_status:appoint_status,
+            appoint_note:appoint_note
         })
 
         console.log(json)
@@ -298,6 +300,8 @@ export default function FormReqAppoint() {
                                                     <Form.Control
                                                     type="text"
                                                     placeholder="หมายเหตุ"
+                                                    value={appoint_note}
+                                                    onChange={(e) => setAppointNote(e.target.value)}
                                                     >
                                                     </Form.Control>
                                                 </>}

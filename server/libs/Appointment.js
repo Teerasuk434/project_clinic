@@ -13,9 +13,9 @@ module.exports = {
         console.log(sql);
         return await pool.query(sql);
     },
-    updateStatus: async (pool, appoint_status, appoint_id) => {
-        var sql = "UPDATE appointment SET status_id = ? WHERE appoint_id = ?";
-        sql = mysql.format(sql, [appoint_status,appoint_id]);
+    updateStatus: async (pool, appoint_status, appoint_id, appoint_note) => {
+        var sql = "UPDATE appointment SET status_id = ? , note = ? WHERE appoint_id = ?";
+        sql = mysql.format(sql, [appoint_status,appoint_note,appoint_id]);
         return await pool.query(sql);
     },
     getListAppointment: async (pool, cust_id) => {
