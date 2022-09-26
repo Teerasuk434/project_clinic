@@ -74,5 +74,16 @@ module.exports = {
         sql = mysql.format(sql, [user_id,password]);
         console.log(sql);
         return await pool.query(sql);
+    },
+    getAmountAppointByService: async (pool, date) =>{
+        var sql = `SELECT a.service_id,b.service_name,
+           COUNT(a.service_id) as count FROM appointment a
+           JOIN service b on a.service_id = b.service_id
+           WHERE a.date = "2022-09-28"
+           GROUP BY
+           a.service_id,
+           b.service_name;`
+        sql = mysql.format(sql, [date]);
+        return await pool.query(sql);
     }
 }
