@@ -49,6 +49,7 @@ import ListAppoint from './components/ListAppoint';
 import HistoryAppoint from './components/employee/HistoryAppoint';
 
 import Report from './components/owner/Report';
+import Report2 from './components/owner/Report2';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -100,7 +101,7 @@ root.render(
       <Route path="/history-appoint" element={<HistoryAppoint/>} />
       
       <Route path="/report" element={<Report />} />
-
+      <Route path="/report2" element={<Report2 />} />
 
     </Routes> 
   </BrowserRouter>

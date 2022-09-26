@@ -85,5 +85,17 @@ module.exports = {
            b.service_name;`
         sql = mysql.format(sql, [date]);
         return await pool.query(sql);
+    },
+
+    getCountAppointment: async (pool, date) => {
+        var sql = `SELECT date, 
+        COUNT(*) as appointment_count 
+        FROM appointment 
+        WHERE date = "2022-09-28" 
+        GROUP BY date;`
+
+        return await pool.query(sql);
     }
 }
+
+    
