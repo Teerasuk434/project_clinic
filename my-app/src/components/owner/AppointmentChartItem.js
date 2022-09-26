@@ -9,7 +9,7 @@ export default function AppointmentChartItem(props) {
 
     return (
         <>
-            <div className="row border rounded shadow-lg mt-3 mx-1 text-center p-2">
+            <div className="row border rounded shadow-lg mt-2 text-center mx-1">
                 <div className="col-1">
                     <p>{props.data.appoint_id}</p>
                 </div>
