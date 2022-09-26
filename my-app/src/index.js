@@ -48,7 +48,7 @@ import AppointSchedule from './components/owner/AppointSchedule';
 import ListAppoint from './components/ListAppoint';
 import HistoryAppoint from './components/employee/HistoryAppoint';
 
-import Dashboard from './components/owner/Dashboard';
+import Report from './components/owner/Report';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -99,7 +99,7 @@ root.render(
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />
       <Route path="/history-appoint" element={<HistoryAppoint/>} />
       
-      <Route path="dashboard" element={<Dashboard/>} />
+      <Route path="/report" element={<Report />} />
 
 
     </Routes> 

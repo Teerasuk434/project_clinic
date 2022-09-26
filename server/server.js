@@ -1288,7 +1288,7 @@ app.get('/api/appointment',(req, res) => {
     });
 });
 
-app.post("/api/report/amount-service", checkAuth, async (req, res) => {
+app.post("/api/report/byservice", checkAuth, async (req, res) => {
     let input = req.body
     try{
         var result = await Appointment.getAmountAppointByService(pool,input.date);
