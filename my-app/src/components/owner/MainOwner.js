@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import Report from "./Report";
 
 export default function MainOwner() {
 
@@ -32,7 +33,7 @@ export default function MainOwner() {
                 
                 <div className='p-0 col-12 col-lg-10'>
                     <div className="content">
-                        <h2>Dashboard</h2>
+                        <Report />
                     </div>
                 </div>
             </div>

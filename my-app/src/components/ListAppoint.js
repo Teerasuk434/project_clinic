@@ -19,7 +19,7 @@ export default function ListAppoint(){
     useEffect(() => {
 
         async function fetchData(){
-            let json = await API_GET("appointment");
+            let json = await API_GET("appointment/accept");
             let data_temp = [];
             if(json.result){
                 json.data.map(item=>{

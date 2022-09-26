@@ -39,7 +39,8 @@ export function ShowAppointmentDetails(props) {
 
                 <Modal.Body className="overflow-auto">
                     <div>
-                        <p><b>สัตว์เลี้ยง :</b> {props.data.pet_name}</p>
+                        <p><b>เจ้าของสัตว์ :</b> {props.data.cust_fname} {props.data.cust_lname}</p>
+                        <p><b>ชื่อสัตว์ :</b> {props.data.pet_name}</p>
                         <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
                         <p><b>บริการ :</b> {props.data.service_name}</p>
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>

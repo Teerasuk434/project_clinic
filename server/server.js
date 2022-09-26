@@ -17,11 +17,9 @@ const Employee = require('./libs/Employee');
 const Appointment = require('./libs/Appointment')
 const Schedule = require('./libs/Schedule')
 
-
 const port = 8080;
 const bodyParser = require('body-parser');
 const app = express();
-
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -1260,7 +1258,7 @@ app.get('/api/appointment',(req, res) => {
     d.cost_deposit,
     d.time_spent,
     e.*,
-    f.status_name
+    f.status_name   
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
     JOIN service d ON a.service_id = d.service_id
@@ -1287,6 +1285,98 @@ app.get('/api/appointment',(req, res) => {
         }
     });
 });
+
+app.get('/api/appointment/accept',(req, res) => {
+    pool.query(`SELECT  
+    a.*,
+    b.*,
+    c.cust_fname,
+    c.cust_lname,
+    d.service_name,
+    d.cost_deposit,
+    d.time_spent,
+    e.*,
+    f.status_name ,
+   	CONCAT(h.emp_fname," ",h.emp_lname) AS emp_name
+    FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+    JOIN customer_information c ON b.cust_id = c.cust_id
+    JOIN service d ON a.service_id = d.service_id
+    JOIN rooms e ON a.room_id = e.room_id
+    JOIN appoint_status f ON a.status_id = f.status_id
+    JOIN schedules g ON a.appoint_id = g.appoint_id
+    JOIN employee h ON h.emp_id = g.emp_id
+    WHERE a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
+    GROUP BY a.appoint_id;`,(err, results, fields) => {
+        if(err){
+            res.json({
+                result: false,
+                message: err.message
+            });
+        }
+        if(results.length){
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ไม่พบการนัดหมายที่อนุมัติ"
+            });
+        }
+    });
+});
+
+
+app.get('/api/appointment/service/:service_id',checkAuth,(req, res) => {
+    const service_id = req.params.service_id;
+    const sql = `SELECT a.*,
+                b.*,
+                c.cust_fname,
+                c.cust_lname,
+                d.service_name,
+                d.cost_deposit,
+                d.time_spent,
+                e.*,
+                f.status_name
+                FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+                JOIN customer_information c ON b.cust_id = c.cust_id
+                JOIN service d ON a.service_id = d.service_id
+                JOIN rooms e ON a.room_id = e.room_id
+                JOIN appoint_status f ON a.status_id = f.status_id ` ;
+
+    if (service_id == 0) {
+        pool.query(sql, (error, results) => {
+            if (error) {
+                res.json({
+                    result: false,
+                    message: error.message
+                });
+            } else {
+                res.json({
+                    result: true,
+                    data: results
+                });
+            }
+        });
+    } else {
+        pool.query(sql + "WHERE a.service_id = ? AND a.status_id <=3 GROUP BY a.appoint_id",
+        [service_id], (error, results) => {
+            if (error) {
+                res.json({
+                    result: false,
+                    message: error.message
+                });
+            } else {
+                res.json({
+                    result: true,
+                    data: results
+                });
+            }
+        });
+    }
+});
+
 
 app.post("/api/report/byservice", checkAuth, async (req, res) => {
     let input = req.body
