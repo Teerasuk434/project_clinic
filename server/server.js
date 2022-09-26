@@ -1288,6 +1288,22 @@ app.get('/api/appointment',(req, res) => {
     });
 });
 
+app.post("/api/report/amount-service", checkAuth, async (req, res) => {
+    let input = req.body
+    try{
+        var result = await Appointment.getAmountAppointByService(pool,input.date);
+        res.json({
+            result: true,
+            data: result
+        });
+        } catch (ex) {
+            res.json({
+            result: false,
+            message: ex.message
+            });
+        }
+    });
+
 app.get('/api/history_appoint',(req, res) => {
     pool.query(`SELECT  
     a.appoint_id,

@@ -79,7 +79,7 @@ module.exports = {
         var sql = `SELECT a.service_id,b.service_name,
            COUNT(a.service_id) as count FROM appointment a
            JOIN service b on a.service_id = b.service_id
-           WHERE a.date = "2022-09-28"
+           WHERE a.date = ?
            GROUP BY
            a.service_id,
            b.service_name;`
