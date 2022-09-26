@@ -160,8 +160,7 @@ export default function Appointment(){
 
                 console.log(appointments)
 
-                if(appointments.length != null){
-                    console.log("is here")
+                if(appointments != null){
                     appointments.map(item => {
                         console.log(item)
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
