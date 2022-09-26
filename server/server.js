@@ -1252,35 +1252,22 @@ app.get('/api/req_appointment',(req, res) => {
 
 app.get('/api/appointment',(req, res) => {
     pool.query(`SELECT  
-    a.appoint_id,
-    a.symtoms,
-    a.date,
-    a.time,
-    a.time_end,
-    a.payment_image,
-    a.status_id,
-    a.note,
+    a.*,
     b.*,
     c.cust_fname,
     c.cust_lname,
-    c.cust_tel,
-    c.email,
-    d.service_id,
     d.service_name,
     d.cost_deposit,
     d.time_spent,
     e.*,
-    f.status_name,
-    CONCAT(h.emp_fname ," ", emp_lname) AS emp_name
+    f.status_name
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
     JOIN service d ON a.service_id = d.service_id
     JOIN rooms e ON a.room_id = e.room_id
     JOIN appoint_status f ON a.status_id = f.status_id
-    JOIN schedules g ON g.appoint_id = a.appoint_id
-    JOIN employee h ON h.emp_id = g.emp_id
     WHERE a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
-    GROUP BY a.appoint_id;`,(err, results, fields) => {
+    GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,
