@@ -65,6 +65,7 @@ export default function ResetPassword (){
             
             setValidated(false);
         }
+
     }
 
     const checkNewPassword = async () => {
@@ -93,6 +94,7 @@ export default function ResetPassword (){
             setShowAlert(true);
             setAlertColor("success");
             setAlertMessage("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว")
+
         }
     }
 
