@@ -58,6 +58,7 @@ export default function Report() {
     const LineRef = useRef();
 
     useEffect(() =>{
+        console.log(appointmentStore)
         async function fetchData() {
             let json = await API_POST("report/byservice",{
                 date:"2022-09-28"
@@ -96,11 +97,11 @@ export default function Report() {
                         data: data,
                         backgroundColor: [
                             'rgba(49,113,176, 0.6)',
-                            'rgba(35,113,176, 0.7)',
+                            'rgba(35,113,176, 0.9)',
 
                           ]
                     }
-                ]
+                ],
             }
             setDoughData(dataset)
 
@@ -295,50 +296,50 @@ export default function Report() {
                             }
                         </div>
                     </div>
+                        { appointmentStore.length >0 &&
+                            <div className="container-fluid">
+                                <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
+                                    <div className="row text-center text-white">
+                                        <div className="col-1">
+                                            <p className="ms-4">#</p>
+                                        </div>
 
-                        <div className="container-fluid">
-                            <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
-                                <div className="row text-center text-white">
-                                    <div className="col-1">
-                                        <p className="ms-4">#</p>
+                                        <div className="col-2">
+                                            <p>ผู้นัดหมาย</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>บริการ</p>
+                                        </div>
+
+                                        <div className="col-1">
+                                            <p>วันที่</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>เวลา</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>สถานะ</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p></p>
+                                        </div>
                                     </div>
 
-                                    <div className="col-2">
-                                        <p>ผู้นัดหมาย</p>
-                                    </div>
-
-                                    <div className="col-2">
-                                        <p>บริการ</p>
-                                    </div>
-
-                                    <div className="col-1">
-                                        <p>วันที่</p>
-                                    </div>
-
-                                    <div className="col-2">
-                                        <p>เวลา</p>
-                                    </div>
-
-                                    <div className="col-2">
-                                        <p>สถานะ</p>
-                                    </div>
-
-                                    <div className="col-2">
-                                        <p></p>
-                                    </div>
                                 </div>
-
+                                {
+                                    appointmentStore.map(item=>(
+                                        <AppointmentChartItem
+                                            key={item.appoint_id}
+                                            data={item}
+                                        />
+                                    ))
+                                }
                             </div>
-                            {
-                                appointmentStore.map(item=>(
-                                    <AppointmentChartItem
-                                        key={item.appoint_id}
-                                        data={item}
-                                    />
-                                ))
-                            }
-
-                    </div>
+                        }
 
                 </div>
                 
