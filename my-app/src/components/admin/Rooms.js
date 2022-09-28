@@ -8,7 +8,7 @@ import Fuse from "fuse.js";
 import './Admin.css';
 import Sidebar from './Sidebar';
 import Top from "./Top";
-import { ConfirmModal } from "../ModalsAdmin";
+import { ConfirmModal } from "../Modal"; 
 
 export default function Rooms(){
 

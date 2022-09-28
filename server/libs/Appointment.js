@@ -87,13 +87,13 @@ module.exports = {
         return await pool.query(sql);
     },
 
-    getCountAppointment: async (pool, date) => {
+    getCountAppointmentByAppointment: async (pool, date) => {
         var sql = `SELECT date, 
         COUNT(*) as appointment_count 
         FROM appointment 
         WHERE date = "2022-09-28" 
         GROUP BY date;`
-
+        sql = mysql.format(sql, [date]);
         return await pool.query(sql);
     }
 }

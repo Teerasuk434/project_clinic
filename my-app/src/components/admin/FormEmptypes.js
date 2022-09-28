@@ -6,7 +6,7 @@ import { API_GET,API_POST } from "../../api";
 import Sidebar from "./Sidebar";
 import Top from "./Top";
 
-import { UpdateModal } from "../ModalsAdmin";
+import { UpdateModal } from "../Modal"; 
 
 export default function FormEmptypes(){
 
