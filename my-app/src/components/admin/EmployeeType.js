@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import './Admin.css';
 import Top from './Top';
 import EmployeeTypeItems from './EmployeeTypeItems';
-import { ConfirmModal } from '../ModalsAdmin';
+import { ConfirmModal } from '../Modal';
 import { useNavigate } from 'react-router-dom'; 
 import Fuse from 'fuse.js';
 

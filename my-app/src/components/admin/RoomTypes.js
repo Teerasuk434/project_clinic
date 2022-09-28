@@ -8,7 +8,7 @@ import './Admin.css'
 import Sidebar from "./Sidebar";
 import Top from "./Top";
 import RoomTypesItem from "./RoomTypesItem";
-import { ConfirmModal } from "../ModalsAdmin";
+import { ConfirmModal } from "../Modal"; 
 
 export default function RoomTypes(){
     

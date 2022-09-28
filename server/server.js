@@ -1684,9 +1684,10 @@ app.post('/api/schedules/find-appoint', async(req, res) => {
     }
 });
 
-app.get("/api/report2", checkAuth, async (req, res) => {
+app.post("/api/report2/byappointment", checkAuth, async (req, res) => {
+    let input = req.body
     try {
-        var result = await Appointment.getCountAppointment(pool, date);
+        var result = await Appointment.getCountAppointmentByAppointment(pool,input.date);
 
         res.json({
             result: true,
