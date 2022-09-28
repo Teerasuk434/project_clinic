@@ -21,13 +21,13 @@ module.exports = {
     },
     getListAppointment: async (pool, cust_id) => {
         var sql = `SELECT a.*,b.pet_name,c.service_name,d.room_name,e.status_name,c.time_spent
-                        FROM appointment a 
-                        JOIN pets b ON a.pet_id = b.pet_id 
-                        JOIN service c ON a.service_id = c.service_id
-                        JOIN rooms d ON a.room_id = d.room_id
-                        JOIN appoint_status e ON a.status_id = e.status_id
-                        WHERE b.cust_id = ? AND a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
-                        GROUP BY a.appoint_id`;
+                    FROM appointment a 
+                    JOIN pets b ON a.pet_id = b.pet_id 
+                    JOIN service c ON a.service_id = c.service_id
+                    JOIN rooms d ON a.room_id = d.room_id
+                    JOIN appoint_status e ON a.status_id = e.status_id
+                    WHERE b.cust_id = ? AND a.status_id <=3
+                    GROUP BY a.appoint_id`;
         sql = mysql.format(sql, [cust_id]);
         return await pool.query(sql);
     },
@@ -57,8 +57,7 @@ module.exports = {
                 JOIN service d ON a.service_id = d.service_id
                 JOIN rooms e ON a.room_id = e.room_id
                 JOIN appoint_status f ON a.status_id = f.status_id
-                WHERE a.status_id = 4 OR a.status_id = 5 OR a.status_id = 6
-                AND b.cust_id = ?
+                WHERE b.cust_id = ? AND a.status_id >=4
                 GROUP BY a.appoint_id`
         sql = mysql.format(sql,cust_id);
         return await pool.query(sql);
