@@ -3,6 +3,7 @@ import { Bar,getElementAtEvent,Doughnut,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
 import { Button,ButtonGroup,Form } from 'react-bootstrap'
 import AppointmentChartItem from './AppointmentChartItem';
+import moment from 'moment';
 
 import {
     Chart as ChartJS,
@@ -48,8 +49,10 @@ export default function Report() {
     const [doughnutData, setDoughData] = useState({});
     const [LineData, setLineData] = useState({});
 
+    const [dateRange, setDateRange] = useState(0); 
+
     const [services, setServices] = useState([]);
-    const [service_id, setService_id] = useState(0);
+    const [service_id, setService_id] = useState(1);
 
     const [store, setStore] = useState([]);
     const [appointmentStore, setAppointmentStore] = useState([]);
@@ -58,15 +61,31 @@ export default function Report() {
     const LineRef = useRef();
 
     useEffect(() =>{
-        console.log(appointmentStore)
         async function fetchData() {
+
             let json = await API_POST("report/byservice",{
                 date:"2022-09-28"
             });
+
             setStore(json.data);
 
             let json2 = await API_GET("service");
             setServices(json2.data)
+
+            let amount_day = moment().daysInMonth();
+            let lineLabel = []
+
+            for(let i=0;i< amount_day;i++){
+                lineLabel.push(i+1)
+            }
+
+            let dayOfWeek = []
+
+            for(let i=0;i<=6;i++){
+                dayOfWeek.push(moment().weekday(i).format("DD-MM"))
+            }
+
+            console.log(dayOfWeek)
 
             var labels = [];
             var data = [];
@@ -83,18 +102,6 @@ export default function Report() {
                     {
                         label: "จำนวนการนัดหมาย",
                         data: data,
-                        backgroundColor: "rgba(201, 138 , 218, 0.7)"
-                    }
-                ]
-            }
-            setChartData(dataset);
-
-            dataset = {
-                labels: labels,
-                datasets: [
-                    {
-                        label: "จำนวนการนัดหมาย",
-                        data: data,
                         backgroundColor: [
                             'rgba(49,113,176, 0.6)',
                             'rgba(35,113,176, 0.9)',
@@ -106,53 +113,7 @@ export default function Report() {
             setDoughData(dataset)
 
             dataset = {
-                // labels: [
-                //     'มกราคม',
-                //     'กุมภาพันธ์',
-                //     'มีนาคม',
-                //     'เมษายน',
-                //     'พฤษภาคม',
-                //     'มิถุนายน',
-                //     'กรกฎาคม',
-                //     'สิงหาคม',
-                //     'กันยายน',
-                //     'ตุลาคม',
-                //     'พฤศจิกายน',
-                //     'ธันวาคม'
-                //   ],
-                labels: [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7',
-                    '8',
-                    '9',
-                    '10',
-                    '11',
-                    '12',
-                    '13',
-                    '14',
-                    '15',
-                    '16',
-                    '17',
-                    '18',
-                    '19',
-                    '20',
-                    '21',
-                    '22',
-                    '23',
-                    '24',
-                    '25',
-                    '26',
-                    '27',
-                    '28',
-                    '29',
-                    '30',
-                    '31',
-                ],
+                labels: lineLabel,
                 datasets: [
                     {
                         label: "จำนวนการนัดหมาย",
@@ -174,17 +135,6 @@ export default function Report() {
         }
         fetchData();
     },[])
-
-    const getChart = () => {
-        if(isLoading) {
-            return <Bar 
-                option={options} 
-                data={chartData}
-                ref={chartRef}
-                onClick={onClickBar} />;
-        }
-        return <></>;
-    }
 
     const getDoughnut = () => {
         if(isLoading){
@@ -238,6 +188,17 @@ export default function Report() {
         console.log(json)
     }
 
+    const onClickWeek = () => {
+        setDateRange(1);
+    }
+    
+    const onClickMonth = () => {
+        setDateRange(2);
+    }
+
+    const onClickYear = () => {
+        setDateRange(3);
+    }
 
     return(
         <>
@@ -266,9 +227,9 @@ export default function Report() {
                                 
                                 <div className="col-6">
                                     <ButtonGroup className="shadow p-0 border-secondary w-100">
-                                        <Button variant="light" className="border">สัปดาห์</Button>
-                                        <Button variant="light" className="border">เดือน</Button>
-                                        <Button variant="light" className="border">ปี</Button>
+                                        <Button variant="light" className="border" onClick={onClickWeek}>สัปดาห์</Button>
+                                        <Button variant="light" className="border" onClick={onClickMonth}>เดือน</Button>
+                                        <Button variant="light" className="border" onClick={onClickYear}>ปี</Button>
                                     </ButtonGroup>
                                 </div>
                             </div>
@@ -281,10 +242,6 @@ export default function Report() {
                                     
                                 </div>
                             </div>
-                            {/* {
-                                getChart()
-                            } */}
-
                             {
                                 getLineChart()
                             }
