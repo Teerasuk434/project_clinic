@@ -1328,8 +1328,8 @@ app.get('/api/appointment/accept',(req, res) => {
 });
 
 
-app.get('/api/appointment/service/:service_id',checkAuth,(req, res) => {
-    const service_id = req.params.service_id;
+app.post('/api/appointment/service',checkAuth,(req, res) => {
+    const input = req.body;
     const sql = `SELECT a.*,
                 b.*,
                 c.cust_fname,
@@ -1345,7 +1345,7 @@ app.get('/api/appointment/service/:service_id',checkAuth,(req, res) => {
                 JOIN rooms e ON a.room_id = e.room_id
                 JOIN appoint_status f ON a.status_id = f.status_id ` ;
 
-    if (service_id == 0) {
+    if (input.service_id == 0) {
         pool.query(sql, (error, results) => {
             if (error) {
                 res.json({
@@ -1360,8 +1360,8 @@ app.get('/api/appointment/service/:service_id',checkAuth,(req, res) => {
             }
         });
     } else {
-        pool.query(sql + "WHERE a.service_id = ? AND a.status_id <=3 GROUP BY a.appoint_id",
-        [service_id], (error, results) => {
+        pool.query(sql + "WHERE date = ? AND a.service_id = ? AND a.status_id <=3 GROUP BY a.appoint_id",
+        [input.date,input.service_id], (error, results) => {
             if (error) {
                 res.json({
                     result: false,

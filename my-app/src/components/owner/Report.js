@@ -50,6 +50,7 @@ export default function Report() {
     const [LineData, setLineData] = useState({});
 
     const [dateRange, setDateRange] = useState(0); 
+    const [date, setDate] = useState("2022-09-30");
 
     const [services, setServices] = useState([]);
     const [service_id, setService_id] = useState(1);
@@ -64,7 +65,7 @@ export default function Report() {
         async function fetchData() {
 
             let json = await API_POST("report/byservice",{
-                date:"2022-09-28"
+                date:date
             });
 
             setStore(json.data);
@@ -183,7 +184,10 @@ export default function Report() {
     }
 
     const getAppointments = async (service_id) => {
-        let json = await API_GET("appointment/service/" + service_id);
+        let json = await API_POST("appointment/service/",{
+            service_id:service_id,
+            date:date
+        });
         setAppointmentStore(json.data);
         console.log(json)
     }
