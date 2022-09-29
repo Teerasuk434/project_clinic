@@ -1154,23 +1154,23 @@ app.post('/api/schedules/emp_available',(req, res) => {
     });
 });
 
-app.post('/api/schedules/appointment',async(req, res) => {
-    const input = req.body;
+// app.post('/api/schedules/appointment',async(req, res) => {
+//     const input = req.body;
 
-    try{
-        var result = await Schedule.addSchedule(pool,input.appoint_id);
+//     try{
+//         var result = await Schedule.addSchedule(pool,input.appoint_id);
 
-        res.json({
-            result: true,
-            data:result
-        });
-    }catch(ex){
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
+//         res.json({
+//             result: true,
+//             data:result
+//         });
+//     }catch(ex){
+//         res.json({
+//             result: false,
+//             message: ex.message
+//         });
+//     }
+// });
 
 
 app.post('/api/schedules/add',async(req, res) => {
@@ -1380,8 +1380,10 @@ app.post('/api/appointment/service',checkAuth,(req, res) => {
 
 app.post("/api/report/byservice", checkAuth, async (req, res) => {
     let input = req.body
+
     try{
-        var result = await Appointment.getAmountAppointByService(pool,input.date);
+
+        var result = await Appointment.getReportByService(pool,input.service_id,input.dateRange);
         res.json({
             result: true,
             data: result

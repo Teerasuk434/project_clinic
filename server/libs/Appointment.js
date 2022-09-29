@@ -74,15 +74,33 @@ module.exports = {
         console.log(sql);
         return await pool.query(sql);
     },
-    getAmountAppointByService: async (pool, date) =>{
-        var sql = `SELECT a.service_id,b.service_name,
-           COUNT(a.service_id) as count FROM appointment a
-           JOIN service b on a.service_id = b.service_id
-           WHERE a.date = ?
-           GROUP BY
-           a.service_id,
-           b.service_name;`
-        sql = mysql.format(sql, [date]);
+    getReportByService: async (pool, service_id, dateRange) =>{
+        var sql;
+
+        if(dateRange == 0){
+            sql = `SELECT a.service_id,b.service_name,a.date,
+                        COUNT(a.service_id) as count FROM appointment a
+                        JOIN service b on a.service_id = b.service_id
+                        WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE())
+                        AND a.service_id = ?
+                        GROUP BY a.date`
+        }else if(dateRange == 1){
+            sql = `SELECT a.service_id,b.service_name,a.date,
+                        COUNT(a.service_id) as count FROM appointment a
+                        JOIN service b on a.service_id = b.service_id
+                        WHERE a.date between  DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND CURDATE()
+                        AND a.service_id = ?
+                        GROUP BY a.date`
+        }else if(dateRange == 2){
+            sql = `SELECT a.service_id,b.service_name,a.date,
+                        COUNT(a.service_id) as count FROM appointment a
+                        JOIN service b on a.service_id = b.service_id
+                        WHERE a.date between DATE_FORMAT(CURDATE() ,'%Y-01-01') AND CURDATE()
+                        AND a.service_id = ?
+                        GROUP BY a.date`
+        }     
+           
+        sql = mysql.format(sql, [service_id]);
         return await pool.query(sql);
     },
 
@@ -91,7 +109,7 @@ module.exports = {
         COUNT(*) as appointment_count 
         FROM appointment 
         WHERE date = "2022-09-28" 
-        GROUP BY date;`
+        GROUP BY date`
         sql = mysql.format(sql, [date]);
         return await pool.query(sql);
     }

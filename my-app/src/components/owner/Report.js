@@ -15,7 +15,8 @@ import {
     Legend,
     ArcElement,
     PointElement,
-    LineElement
+    LineElement,
+    Filler
 } from 'chart.js';
 
 ChartJS.register(
@@ -27,7 +28,8 @@ ChartJS.register(
     Legend,
     ArcElement,
     PointElement,
-    LineElement
+    LineElement,
+    Filler
 );
 
 export const options = {
@@ -46,57 +48,67 @@ export const options = {
 export default function Report() {
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState({});
-    const [doughnutData, setDoughData] = useState({});
-    const [LineData, setLineData] = useState({});
 
     const [dateRange, setDateRange] = useState(0); 
-    const [date, setDate] = useState("2022-09-30");
 
     const [services, setServices] = useState([]);
     const [service_id, setService_id] = useState(1);
+    const [service_name, setServiceName] = useState("");
+
+    const [date, setDate] = useState("");
+
+    const [date_start, setDateStart] = useState("");
+    const [date_end, setDateEnd] = useState("");
 
     const [store, setStore] = useState([]);
     const [appointmentStore, setAppointmentStore] = useState([]);
     const chartRef = useRef();
-    const doughnutRef = useRef();
-    const LineRef = useRef();
+
 
     useEffect(() =>{
-        async function fetchData() {
+        fetchReportData();
+        fetchService();
+    },[service_id])
 
-            let json = await API_POST("report/byservice",{
-                date:date
-            });
+    useEffect(()=>{
+        setDataChart();
+    },[store])
 
-            setStore(json.data);
+    useEffect(()=>{
+        fetchReportData();
+        setDataChart();
+    },[dateRange])
 
-            let json2 = await API_GET("service");
-            setServices(json2.data)
+    const fetchReportData = async () =>{
+        let json = await API_POST("report/byservice",{
+            service_id,service_id,
+            dateRange:dateRange //0 == week  1 == month  2 == year
+        });
 
-            let amount_day = moment().daysInMonth();
-            let lineLabel = []
+        setStore(json.data);
+    }
 
-            for(let i=0;i< amount_day;i++){
-                lineLabel.push(i+1)
-            }
+    const fetchService = async () => {
+        let json = await API_GET("service");
+        setServices(json.data)
+        setServiceName(json.data[service_id-1].service_name)
+    }
 
-            let dayOfWeek = []
-
-            for(let i=0;i<=6;i++){
-                dayOfWeek.push(moment().weekday(i).format("DD-MM"))
-            }
-
-            console.log(dayOfWeek)
-
-            var labels = [];
+    const setDataChart = () => {
+        var labels = [];
             var data = [];
         
-            for(var i = 0; i< json.data.length; i++){
-                var item = json.data[i];
-                labels.push(item.service_name);
+            for(var i = 0; i< store.length; i++){
+                var item = store[i];
+                labels.push(moment(item.date).format("DD/MM"));
                 data.push(item.count);
-            }
 
+                if(i==0){
+                    setDateStart(moment(item.date).format("DD/MM/YYYY"))
+                }else if(i < store.length){
+                    setDateEnd(moment(item.date).format("DD/MM/YYYY"))
+                }
+            }
             var dataset = {
                 labels: labels,
                 datasets: [
@@ -104,82 +116,36 @@ export default function Report() {
                         label: "จำนวนการนัดหมาย",
                         data: data,
                         backgroundColor: [
-                            'rgba(49,113,176, 0.6)',
-                            'rgba(35,113,176, 0.9)',
-
-                          ]
-                    }
-                ],
-            }
-            setDoughData(dataset)
-
-            dataset = {
-                labels: lineLabel,
-                datasets: [
-                    {
-                        label: "จำนวนการนัดหมาย",
-                        data: data,
-                        backgroundColor: [
-                            'rgba(49,113,176, 0.6)',
-                            'rgba(35,113,176, 0.7)',
-
+                            'rgba(20,113,176, 0.2)',
                           ],
-                          fill: true,
-                          borderColor: 'rgb(75, 192, 192)',
+                          fill:true,
+                          borderColor: 'rgb(49,113,176)',
                           tension: 0.1
                     }
                 ]
             }
-            setLineData(dataset)
-
+            setChartData(dataset)
+            
             setIsLoading(true);
-        }
-        fetchData();
-    },[])
-
-    const getDoughnut = () => {
-        if(isLoading){
-            return  <Doughnut 
-                option={options} 
-                data={doughnutData}
-                ref={doughnutRef}
-                onClick={onClickDoughnut}
-                />
-        }
-        return <></>;
     }
 
     const getLineChart = () => {
         if(isLoading){
             return  <Line 
                 option={options} 
-                data={LineData}
-                ref={LineRef}
-                onClick={onClickLine}
+                data={chartData}
+                ref={chartRef}
+                onClick={onClickChart}
                 />
         }
         return <></>;
     }
 
-    const onClickBar = async (event) => {
+    const onClickChart = async (event) => {
         var element = getElementAtEvent(chartRef.current, event);
         console.log(element)
         var index = element[0].index;
-        
-        await getAppointments(store[index].service_id)
-    }
 
-    const onClickDoughnut = async (event) => {
-        var element = getElementAtEvent(doughnutRef.current, event);
-        var index = element[0].index;
-        
-        await getAppointments(store[index].service_id)
-    }
-
-    const onClickLine = async (event) => {
-        var element = getElementAtEvent(LineRef.current, event);
-        var index = element[0].index;
-        
         await getAppointments(store[index].service_id)
     }
 
@@ -193,15 +159,15 @@ export default function Report() {
     }
 
     const onClickWeek = () => {
-        setDateRange(1);
+        setDateRange(0);
     }
     
     const onClickMonth = () => {
-        setDateRange(2);
+        setDateRange(1);
     }
 
     const onClickYear = () => {
-        setDateRange(3);
+        setDateRange(2);
     }
 
     return(
@@ -210,7 +176,7 @@ export default function Report() {
                 <div className="rounded border shadow p-3" style={{backgroundColor:"#F2F3F4"}}>
                     <div className="row mx-2 my-3">
                         <div className="col-6">
-                        <h4>รายงานจำนวนการนัดหมายตามบริการของคลินิก</h4>
+                        <h4>รายงานยอดการนัดหมายตามบริการของคลินิก</h4>
                         </div>
                         <div className="col-6 p-0">
                             <div className="row">
@@ -219,7 +185,6 @@ export default function Report() {
                                         value={service_id}
                                         onChange={(e) => setService_id(e.target.value)}
                                         required>
-                                        <option label="กรุณาเลือกประเภทบริการ"></option> 
                                         {
                                         services.map(item => (
                                             <option key={item.service_id} value={item.service_id}> 
@@ -239,22 +204,25 @@ export default function Report() {
                             </div>
                         </div>
                     </div>
-                    <div className="row my-4 ms-5">
-                        <div className="col-7 shadow border rounded me-5" style={{backgroundColor:"#F2F3F4"}}>
-                            <div className="row mt-2">
-                                <div className="col-6">
-                                    
-                                </div>
-                            </div>
+                    <div className="row my-4 px-5">
+                        <div className="col-8 shadow border rounded me-5" style={{backgroundColor:"#F2F3F4"}}>
                             {
                                 getLineChart()
                             }
                         </div>
+                        <div className="col-3 shadow border rounded" style={{backgroundColor:"#F2F3F4"}}>
+                            <div className="p-3">
+                                <h5 className="text-center">สรุป</h5>
+                                <p><b>ชื่อบริการ :</b> {service_name}</p>
+                                <p><b>ประเภทช่วงเวลา :</b> รายสัปดาห์</p>
+                                <p><b>วันที่ : </b> {date_start} - {date_end}</p>
 
-                        <div className="col-4 shadow border rounded" style={{backgroundColor:"#F2F3F4"}} >
-                            {
-                                getDoughnut()
-                            }
+                                <div className="text-center mt-5 shadow p-2">
+                                    <h4>ยอดรวม</h4>
+                                    <h3 className="text-success">{store.length}</h3>
+                                    <h4>รายการ</h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
                         { appointmentStore.length >0 &&
