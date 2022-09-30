@@ -13,6 +13,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { Button, ButtonGroup, FormSelect, Row } from 'react-bootstrap';
 
 ChartJS.register(
     CategoryScale,
@@ -120,27 +121,50 @@ export default function Report2() {
 
     return(
         <>
-        <div className="container-fluid">
+            <div className="container-fluid">
                 <div className="mt-5 border mb-5 shadow rounded " style={{backgroundColor:"#F2F3F4"}}>
-                    <div className="row mx-4 my-4">
+                    <div className="mx-4 my-4 ">
                         <div className="col-6">
-                            <h2>รายงานจำนวนการนัดหมายบริการ</h2>
+                            <h4>รายงานจำนวนการนัดหมายบริการ</h4>
                         </div>
-                        
-                            <div className='container-fluid mt-3'>
-                                {
-                                    getChart()
-                                    
-                                }
-                                
+
+                        <div className="row">
+                            <div className='col-3'>
+                                <FormSelect
+                                    value={date}
+                                    onChange={(e) => setDate(e.target.value)}
+                                    required>
+                                        {
+                                        appointment.map(item => (
+                                            <option key={item.appoint_id} value={item.appoint_id}>
+                                                {item.date}
+                                            </option>
+                                        ))
+                                        }
+                                </FormSelect>
                             </div>
-                            {
-                                appointStore.map(item => (
-                                    <AppointmentChartItem
-                                    key={item.date}
-                                    data={item} />
-                                ))
-                            }
+
+                            <div className='col-6'>
+                                <ButtonGroup>
+                                    <Button variant='light' className='border' onClick={onClick}>สัปดาห์</Button>
+                                </ButtonGroup>
+                            </div>
+
+                        </div>               
+                                <div className='container-fluid mt-3'>
+                                    {
+                                        getChart()
+                                        
+                                    }
+                                    
+                                </div>
+                                {
+                                    appointStore.map(item => (
+                                        <AppointmentChartItem
+                                        key={item.date}
+                                        data={item} />
+                                    ))
+                                }
                     </div>
                 </div>
             </div>

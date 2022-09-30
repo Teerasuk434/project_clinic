@@ -106,10 +106,9 @@ module.exports = {
     },
 
     getCountAppointmentByAppointment: async (pool, date) => {
-        var sql = `SELECT date, 
-        COUNT(*) as appointment_count 
+        var sql = `SELECT date, COUNT(*) as appointment_count 
         FROM appointment 
-        WHERE date = "2022-09-28" 
+        WHERE date = "_____?___" 
         GROUP BY date`
         sql = mysql.format(sql, [date]);
         return await pool.query(sql);
