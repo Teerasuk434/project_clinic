@@ -582,15 +582,25 @@ app.get("/api/role/:role_id", async (req, res) => {
 
 app.post("/api/service/add", checkAuth, async (req, res) => {
     const input = req.body;
-
     try {
-        var result = await Service.createService(pool,
-            input.service_name,input.cost_service,
-            input.cost_deposit,input.time_spent,input.room_type_id);
+        var result = await Service.isDuplicate(pool, input.service_name, null);
 
-        res.json({
-            result: true
-        });
+        if(!result) {
+            await Service.createService(pool,
+                input.service_name,input.cost_service,
+                input.cost_deposit,input.time_spent,
+                input.room_type_id,input.service_image);
+
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result:false,
+                message: "ชื่อบริการนี้มีในระบบแล้ว"
+            })
+        }
+
     } catch (ex) {
         res.json({
             result: false,
@@ -626,14 +636,25 @@ app.post("/api/service/update", checkAuth, async (req, res) => {
 
 
     try {
-        var result = await Service.updateService(pool,
-            input.service_id,
-            input.service_name,input.cost_service,
-            input.cost_deposit,input.time_spent,input.room_type_id);
-        
-        res.json({
-            result: true
-        });
+
+        var result = await Service.isDuplicate(pool, input.service_name, input.service_id);
+
+        if(!result) {
+            await Service.updateService(pool,
+                input.service_id,
+                input.service_name,input.cost_service,
+                input.cost_deposit,input.time_spent,
+                input.room_type_id,input.service_image);
+
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result:false,
+                message: "ชื่อบริการนี้มีในระบบแล้ว"
+            })
+        }
     } catch (ex) {
         res.json({
             result: false,
@@ -1330,6 +1351,7 @@ app.get('/api/appointment/accept',(req, res) => {
 
 app.post('/api/appointment/service',checkAuth,(req, res) => {
     const input = req.body;
+    console.log(input)
     const sql = `SELECT a.*,
                 b.*,
                 c.cust_fname,
@@ -1360,7 +1382,7 @@ app.post('/api/appointment/service',checkAuth,(req, res) => {
             }
         });
     } else {
-        pool.query(sql + "WHERE date = ? AND a.service_id = ? AND a.status_id <=3 GROUP BY a.appoint_id",
+        pool.query(sql + "WHERE date = ? AND a.service_id = ? AND a.status_id = 5 GROUP BY a.appoint_id",
         [input.date,input.service_id], (error, results) => {
             if (error) {
                 res.json({

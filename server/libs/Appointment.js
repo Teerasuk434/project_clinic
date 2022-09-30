@@ -82,25 +82,26 @@ module.exports = {
                         COUNT(a.service_id) as count FROM appointment a
                         JOIN service b on a.service_id = b.service_id
                         WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE())
-                        AND a.service_id = ?
+                        AND a.service_id = ? AND a.status_id = 5
                         GROUP BY a.date`
         }else if(dateRange == 1){
             sql = `SELECT a.service_id,b.service_name,a.date,
                         COUNT(a.service_id) as count FROM appointment a
                         JOIN service b on a.service_id = b.service_id
                         WHERE a.date between  DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND CURDATE()
-                        AND a.service_id = ?
+                        AND a.service_id = ? AND a.status_id = 5
                         GROUP BY a.date`
         }else if(dateRange == 2){
             sql = `SELECT a.service_id,b.service_name,a.date,
                         COUNT(a.service_id) as count FROM appointment a
                         JOIN service b on a.service_id = b.service_id
                         WHERE a.date between DATE_FORMAT(CURDATE() ,'%Y-01-01') AND CURDATE()
-                        AND a.service_id = ?
+                        AND a.service_id = ? AND a.status_id = 5
                         GROUP BY a.date`
         }     
-           
+
         sql = mysql.format(sql, [service_id]);
+        console.log(sql)
         return await pool.query(sql);
     },
 

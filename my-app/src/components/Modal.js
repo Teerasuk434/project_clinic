@@ -308,3 +308,22 @@ export function UpdateModal(props) {
     );
 };
 
+export function MessageModal(props) {
+
+    return (
+        <Modal show={props.show} onHide={props.onClose}>
+            <Modal.Header closeVariant="white" closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <p className="text-center fs-5">{props.message}</p>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button className="btn-success" onClick={props.onClose}>ตกลง</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+

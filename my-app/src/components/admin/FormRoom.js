@@ -114,9 +114,7 @@ export default function FormRoom(){
     }
 
     const onConfirm = async (data) => {
-        
-        
-
+    
         if(params.room_id === "add"){
             
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
@@ -143,6 +141,7 @@ export default function FormRoom(){
             
         }
     }
+    
     const onCancelUpdate = () => {
         setConfirmModal(false);
 

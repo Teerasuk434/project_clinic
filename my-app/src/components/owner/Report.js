@@ -68,16 +68,12 @@ export default function Report() {
     useEffect(() =>{
         fetchReportData();
         fetchService();
-    },[service_id])
+        document.body.style.overflow = "hidden"
+    },[service_id,dateRange])
 
     useEffect(()=>{
         setDataChart();
     },[store])
-
-    useEffect(()=>{
-        fetchReportData();
-        setDataChart();
-    },[dateRange])
 
     const fetchReportData = async () =>{
         let json = await API_POST("report/byservice",{
@@ -143,16 +139,18 @@ export default function Report() {
 
     const onClickChart = async (event) => {
         var element = getElementAtEvent(chartRef.current, event);
-        console.log(element)
         var index = element[0].index;
+        console.log(index)
+        console.log(store)
 
-        await getAppointments(store[index].service_id)
+        await getAppointments(store[index].date)
     }
 
-    const getAppointments = async (service_id) => {
+    const getAppointments = async (date) => {
         let json = await API_POST("appointment/service/",{
             service_id:service_id,
-            date:date
+            date:date,
+            dateRange:dateRange
         });
         setAppointmentStore(json.data);
         console.log(json)

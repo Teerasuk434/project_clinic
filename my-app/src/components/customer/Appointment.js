@@ -310,7 +310,6 @@ export default function Appointment(){
     }
 
     const onFileSelected = (e) => {
-        console.log(e.target.files[0])
         if (e.target.files.length > 0) {
             setSelectedFile(e.target.files[0]);
         }

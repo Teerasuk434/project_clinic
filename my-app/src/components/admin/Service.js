@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table } from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
+import Fuse from 'fuse.js'
+
 
 import './Admin.css';
 import Sidebar from './Sidebar';
@@ -71,12 +73,19 @@ export default function Service() {
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchServices = [];
-                listServices.filter(Service => Service.service_name.includes(search)).map(item => {
-                    searchServices.push(item);
+
+                const fuse = new Fuse(listServices, {
+                    keys: ['service_id','service_name','room_type_name']
                 })
-    
-                setServices(searchServices);
+
+                let search_result = fuse.search(search)
+                let searchServices = []
+
+                search_result.map(item => {
+                    searchServices.push(item.item)
+                })
+
+                setServices(searchServices.sort((a,b) => a.service_id - b.service_id));
             }else {
                 setServices(listServices);
             }
