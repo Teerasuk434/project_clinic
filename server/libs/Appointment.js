@@ -107,8 +107,8 @@ module.exports = {
     getCountAppointmentByAppointment: async (pool, date) => {
         var sql = `SELECT date, COUNT(*) as appointment_count 
         FROM appointment 
-        WHERE date = "_____?___" 
-        GROUP BY date`
+        WHERE WEEKOFYEAR(date)=WEEKOFYEAR(CURDATE()) 
+        AND status_id = 5 GROUP BY date;`
         sql = mysql.format(sql, [date]);
         return await pool.query(sql);
     }

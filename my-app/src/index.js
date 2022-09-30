@@ -50,6 +50,7 @@ import HistoryAppoint from './components/employee/HistoryAppoint';
 
 import Report from './components/owner/Report';
 import Report2 from './components/owner/Report2';
+import FormAppointment from './components/owner/FormAppointment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -96,6 +97,8 @@ root.render(
 
       <Route path="/list-appoint" element={<ListAppoint />} />
       <Route path="/list-appointment" element={<AppointSchedule />} />
+      <Route path="/list-appointment/:appoint_id" element={<FormAppointment />} />
+
 
 
       <Route path="/emp" element={<Employee/>} />

@@ -32,18 +32,21 @@ export default function AppointSchedule(){
     return (
         <>
             <div className="container-fluid">
-                <div className='top row'>
-                    <div className='col'>
-                        <p>สถานะ : พนักงาน</p>
+            <div className='row'>
+                <div className='top d-flex justify-content-between px-3'>
+                    <div className="text">
+                        <p className='me-2'>วันที่ : {date}</p>
+                    </div>
+                    <div className='text'>
+                        <p> สถานะ : เจ้าของคลินิก</p>
                     </div>
                 </div>
 
-                <div className='row'>
-                    <div className='p-0 col-12 col-lg-2'>
-                        <div className='sidebar'>
-                            <Sidebar pages={pages}/>
-                        </div>
+                <div className='p-0 col-12 col-lg-2'>
+                    <div className='sidebar'>
+                           <Sidebar pages ={pages} />
                     </div>
+                </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content">
