@@ -92,12 +92,11 @@ module.exports = {
                         AND a.service_id = ? AND a.status_id = 5
                         GROUP BY a.date`
         }else if(dateRange == 2){
-            sql = `SELECT a.service_id,b.service_name,a.date,
-                        COUNT(a.service_id) as count FROM appointment a
-                        JOIN service b on a.service_id = b.service_id
-                        WHERE a.date between DATE_FORMAT(CURDATE() ,'%Y-01-01') AND CURDATE()
-                        AND a.service_id = ? AND a.status_id = 5
-                        GROUP BY a.date`
+            sql = `SELECT date_format(date,'%m') as date,COUNT(appoint_id) as count
+                        FROM appointment
+                        WHERE service_id = ? AND status_id = 5
+                        GROUP BY year(date),month(date)
+                        ORDER BY year(date),month(date)`
         }     
 
         sql = mysql.format(sql, [service_id]);

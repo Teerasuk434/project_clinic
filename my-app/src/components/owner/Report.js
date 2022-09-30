@@ -59,6 +59,7 @@ export default function Report() {
 
     const [date_start, setDateStart] = useState("");
     const [date_end, setDateEnd] = useState("");
+    const [sumData, setSumData] = useState(0);
 
     const [store, setStore] = useState([]);
     const [appointmentStore, setAppointmentStore] = useState([]);
@@ -97,13 +98,21 @@ export default function Report() {
     }
 
     const setDataChart = () => {
+
         var labels = [];
-            var data = [];
-        
+        var data = [];
+        let sumData_temp = 0;
+
             for(var i = 0; i< store.length; i++){
                 var item = store[i];
-                labels.push(moment(item.date).format("DD/MM"));
+
+                if(dateRange == 0  || dateRange == 1){
+                    labels.push(moment(item.date).format("DD/MM"));
+                }else{
+                    labels.push(moment().month(item.date-1).format("MMMM"));
+                }
                 data.push(item.count);
+                sumData_temp += item.count;
 
                 if(i==0){
                     setDateStart(moment(item.date).format("DD/MM/YYYY"))
@@ -111,6 +120,9 @@ export default function Report() {
                     setDateEnd(moment(item.date).format("DD/MM/YYYY"))
                 }
             }
+
+            setSumData(sumData_temp)
+            
             var dataset = {
                 labels: labels,
                 datasets: [
@@ -153,26 +165,36 @@ export default function Report() {
     }
 
     const getAppointments = async (date) => {
+        let year = moment().year();
+        let date_temp;
+
+        if(dateRange == 2){
+            date_temp = moment(`${year}-${date}-01`).format("YYYY-MM-DD");
+        }else{
+            date_temp = date;
+        }
+
+        console.log(date_temp)
         let json = await API_POST("appointment/service/",{
             service_id:service_id,
-            date:date,
+            date:date_temp,
             dateRange:dateRange
         });
         setAppointmentStore(json.data);
         console.log(json)
     }
 
-    const onClickWeek = () => {
-        setDateRange(0);
-    }
+    // const onClickWeek = () => {
+    //     setDateRange(0);
+    // }
     
-    const onClickMonth = () => {
-        setDateRange(1);
-    }
+    // const onClickMonth = () => {
+    //     setDateRange(1);
+    // }
 
-    const onClickYear = () => {
-        setDateRange(2);
-    }
+    // const onClickYear = () => {
+    //     setDateRange(2);
+    // }
 
     return(
         <>
@@ -231,7 +253,7 @@ export default function Report() {
                             }
                         </div>
                         <div className="col-3 shadow border rounded" style={{backgroundColor:"#F2F3F4"}}>
-                            <div className="p-3">
+                            <div className="px-1 pt-2">
                                 <h5 className="text-center">สรุป</h5>
                                 <p><b>ชื่อบริการ :</b> {service_name}</p>
                                 <p><b>ประเภทช่วงเวลา :</b> รายสัปดาห์</p>
@@ -239,7 +261,7 @@ export default function Report() {
 
                                 <div className="text-center mt-5 shadow p-2">
                                     <h4>ยอดรวม</h4>
-                                    <h3 className="text-success">{store.length}</h3>
+                                    <h3 className="text-success">{sumData}</h3>
                                     <h4>รายการ</h4>
                                 </div>
                             </div>

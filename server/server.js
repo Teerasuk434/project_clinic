@@ -1382,20 +1382,44 @@ app.post('/api/appointment/service',checkAuth,(req, res) => {
             }
         });
     } else {
-        pool.query(sql + "WHERE date = ? AND a.service_id = ? AND a.status_id = 5 GROUP BY a.appoint_id",
-        [input.date,input.service_id], (error, results) => {
-            if (error) {
-                res.json({
-                    result: false,
-                    message: error.message
+        let WHERE;
+
+        if(input.dateRange == 2){
+            WHERE = "WHERE a.date BETWEEN DATE_FORMAT(?,'%Y-%m-%d') AND LAST_DAY(?) AND a.service_id = ? AND a.status_id = 5 GROUP BY a.appoint_id"
+            pool.query(sql + WHERE,
+                [input.date,input.date,input.service_id], (error, results) => {
+                    console.log(sql+WHERE)
+                    if (error) {
+                        res.json({
+                            result: false,
+                            message: error.message
+                        });
+                    } else {
+                        res.json({
+                            result: true,
+                            data: results
+                        });
+                    }
                 });
-            } else {
-                res.json({
-                    result: true,
-                    data: results
+        }else {
+            WHERE =  "WHERE a.date = ? AND a.service_id = ? AND a.status_id = 5 GROUP BY a.appoint_id"
+            pool.query(sql + WHERE,
+                [input.date,input.service_id], (error, results) => {
+                    if (error) {
+                        res.json({
+                            result: false,
+                            message: error.message
+                        });
+                    } else {
+                        res.json({
+                            result: true,
+                            data: results
+                        });
+                    }
                 });
-            }
-        });
+        }
+
+        
     }
 });
 
