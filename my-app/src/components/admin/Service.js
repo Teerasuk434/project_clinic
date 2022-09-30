@@ -9,6 +9,7 @@ import Fuse from 'fuse.js'
 import './Admin.css';
 import Sidebar from './Sidebar';
 import ServiceItems from './ServiceItems';
+import { ConfirmModal } from '../Modal';
 
 export default function Service() {
     let date = new Date().toLocaleDateString();
@@ -16,7 +17,12 @@ export default function Service() {
 
     const [search, setSearch] = useState("");
     const [services, setServices] = useState([]);
+    const [service_id, setServiceId] = useState(0);
     const [listServices, setListServices] = useState([]);
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -55,16 +61,6 @@ export default function Service() {
         setListServices(json.data);
     }
 
-    const onDelete = async (data) => {
-        let json = await API_POST("service/delete", {
-            service_id: data.service_id
-        });
-
-        if (json.result) {
-            fetchServices();
-        }
-    }
-
     const onSearch = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
@@ -91,6 +87,29 @@ export default function Service() {
             }
         }
      }
+
+     const onDelete = async (data) => {
+
+        setServiceId(data.service_id);
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModal(true);
+    }
+
+     const onConfirmDelete = async () => {
+        setConfirmModal(false);
+        let json = await API_POST("service/delete", {
+            service_id: service_id
+        });
+
+        if (json.result) {
+            fetchServices();
+        } 
+    }
+
+    const onCancel = () => {
+        setConfirmModal(false);
+    }
 
     return (
         <>
@@ -191,6 +210,13 @@ export default function Service() {
                 </div>
                 
             </div>
+                <ConfirmModal
+                    show={confirmModal}
+                    title={confirmModalTitle}
+                    message={confirmModalMessage}
+                    onConfirm={onConfirmDelete}
+                    onClose={onCancel}
+                />
         </>
     )
 }

@@ -325,7 +325,7 @@ export default function FormService() {
                                         }
 
                                         <Row className="mb-3">
-                                            <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            <Button variant="primary" as="input" type="submit" value="บันทึก"/>
                                         </Row>
                                     </Form>
                                 </div>
