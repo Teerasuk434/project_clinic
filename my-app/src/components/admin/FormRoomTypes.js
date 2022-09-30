@@ -98,6 +98,7 @@ export default function FormRoomtypes(){
         let json = await response.json();
 
         if(json.result){
+            navigate("/roomtypes", { replace: true });
             console.log("อัปเดตสำเร็จ");
         }
     }

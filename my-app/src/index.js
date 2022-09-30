@@ -95,6 +95,8 @@ root.render(
       <Route path="/list-appoint/:appoint_id" element={<FormAppoint />} />
 
       <Route path="/list-appoint" element={<ListAppoint />} />
+      <Route path="/list-appointment" element={<AppointSchedule />} />
+
 
       <Route path="/emp" element={<Employee/>} />
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />
