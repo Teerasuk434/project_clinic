@@ -56,27 +56,29 @@ export default function Report2() {
                 date:date
             });
             setStore(json.data);
-
+            console.log(json.data)
             let json2 = await API_GET("appointment");
             setAppointment(json2.data)
             
 
             var labels = [];
             var data = [];
-
+            
             for (var i = 0; i<json.data.length; i++) {
                 var item = json.data[i];
-                labels.push(item.date);
-                data.push(item.appoint_count);
+                labels.push(json.data[i].date);
+                data.push(json.data[i].appointment_count);
+                
             }
-
+            console.log(data)
             var dataset = {
                 labels: labels,
                 datasets: [
                     {
                         label: "จำนวนการนัดหมายบริการ",
                         data: data,
-                        backgroundColor: "rgba(255, 99, 132, 0.5)" 
+                        backgroundColor: "rgba(255, 99, 132, 0.5)"
+
                     }
                     
                 ]
@@ -105,11 +107,13 @@ export default function Report2() {
         var element = getElementAtEvent(chartRef.current, event);
         var index = element[0].index;
 
-        await getAppointment(store[index].appoint_id);
+        await getAppointment(store[index].date);
     }
 
     const getAppointment = async (date) => {
-        let json = await API_GET("appointment"+ appoint_id);
+        let json = await API_GET("appointment/date/",{
+            date: date
+        })
         setAppointStore(json.data);
     }
 
@@ -133,7 +137,7 @@ export default function Report2() {
                             {
                                 appointStore.map(item => (
                                     <AppointmentChartItem
-                                    key={item.appoint_id}
+                                    key={item.date}
                                     data={item} />
                                 ))
                             }
