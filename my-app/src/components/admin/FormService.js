@@ -1,6 +1,6 @@
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 import { ConfirmModal,MessageModal } from '../Modal';
 import { SERVER_URL } from "../../app.config";
@@ -325,7 +325,10 @@ export default function FormService() {
                                         }
 
                                         <Row className="mb-3">
-                                            <Button variant="primary" as="input" type="submit" value="บันทึก"/>
+                                            <div className="text-end">
+                                                <Button variant="success" as="input" type="submit" value="บันทึก"/>
+                                                <Link to="service" className="btn btn-warning ms-2">ยกเลิก</Link>
+                                            </div>
                                         </Row>
                                     </Form>
                                 </div>

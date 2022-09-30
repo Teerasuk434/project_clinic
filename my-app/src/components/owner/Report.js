@@ -1,7 +1,7 @@
 import { useEffect,useRef,useState } from 'react';
 import { Bar,getElementAtEvent,Doughnut,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
-import { Button,ButtonGroup,Form } from 'react-bootstrap'
+import { Button,ButtonGroup,Form,ToggleButton } from 'react-bootstrap'
 import AppointmentChartItem from './AppointmentChartItem';
 import moment from 'moment';
 
@@ -63,6 +63,12 @@ export default function Report() {
     const [store, setStore] = useState([]);
     const [appointmentStore, setAppointmentStore] = useState([]);
     const chartRef = useRef();
+
+    const radios = [
+        { name: 'สัปดาห์', value: '0' },
+        { name: 'เดือน', value: '1' },
+        { name: 'ปี', value: '2' },
+      ];
 
 
     useEffect(() =>{
@@ -170,7 +176,7 @@ export default function Report() {
 
     return(
         <>
-            <div className="container-fluid">
+            <div className="container-fluid mt-3">
                 <div className="rounded border shadow p-3" style={{backgroundColor:"#F2F3F4"}}>
                     <div className="row mx-2 my-3">
                         <div className="col-6">
@@ -194,9 +200,25 @@ export default function Report() {
                                 
                                 <div className="col-6">
                                     <ButtonGroup className="shadow p-0 border-secondary w-100">
-                                        <Button variant="light" className="border" onClick={onClickWeek}>สัปดาห์</Button>
+                                        {/* <Button variant="light" className="border" onClick={onClickWeek}>สัปดาห์</Button>
                                         <Button variant="light" className="border" onClick={onClickMonth}>เดือน</Button>
-                                        <Button variant="light" className="border" onClick={onClickYear}>ปี</Button>
+                                        <Button variant="light" className="border" onClick={onClickYear}>ปี</Button> */}
+                                        {radios.map((radio, value) => (
+                                            <ToggleButton
+                                                key={value}
+                                                id={`radio-${value}`}
+                                                type="radio"
+                                                variant="light"
+                                                name="radio"
+                                                value={dateRange}
+                                                checked={dateRange === value }
+                                                onChange={(e) => setDateRange(value)}
+                                            >
+                                                {radio.name}
+                                            </ToggleButton>
+                                            ))}
+
+
                                     </ButtonGroup>
                                 </div>
                             </div>
