@@ -3,6 +3,7 @@ import { Bar,getElementAtEvent,Doughnut,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
 import { Button,ButtonGroup,Form,ToggleButton } from 'react-bootstrap'
 import AppointmentChartItem from './AppointmentChartItem';
+import { ShowAppointmentDetails } from '../Modal';
 import moment from 'moment';
 
 import {
@@ -50,6 +51,7 @@ export default function Report() {
     const [chartData, setChartData] = useState({});
 
     const [dateRange, setDateRange] = useState(0); 
+    const [RangeName, setRangeName] = useState("รายสัปดาห์");
 
     const [services, setServices] = useState([]);
     const [service_id, setService_id] = useState(1);
@@ -65,6 +67,11 @@ export default function Report() {
     const [appointmentStore, setAppointmentStore] = useState([]);
     const chartRef = useRef();
 
+    const [showAppointmentModal, setAppointmentModal] = useState(false);
+    const [appointModalTitle, setAppointModalTitle] = useState("");
+    const [AppointmentDetails, setAppointmentDetails] = useState({});
+
+
     const radios = [
         { name: 'สัปดาห์', value: '0' },
         { name: 'เดือน', value: '1' },
@@ -75,7 +82,14 @@ export default function Report() {
     useEffect(() =>{
         fetchReportData();
         fetchService();
-        document.body.style.overflow = "hidden"
+        // document.body.style.overflow = "hidden"
+        if(dateRange == 0){
+            setRangeName("รายสัปดาห์")
+        }else if(dateRange == 1){
+            setRangeName("รายเดือน")
+        }else{
+            setRangeName("รายปี");
+        }
     },[service_id,dateRange])
 
     useEffect(()=>{
@@ -87,7 +101,7 @@ export default function Report() {
             service_id,service_id,
             dateRange:dateRange //0 == week  1 == month  2 == year
         });
-
+        console.log(json.data)
         setStore(json.data);
     }
 
@@ -114,11 +128,27 @@ export default function Report() {
                 data.push(item.count);
                 sumData_temp += item.count;
 
-                if(i==0){
-                    setDateStart(moment(item.date).format("DD/MM/YYYY"))
-                }else if(i < store.length){
-                    setDateEnd(moment(item.date).format("DD/MM/YYYY"))
-                }
+                let year = moment().year();
+
+                // if(i==0){
+                //     if(dateRange == 2){
+                //         setDateStart(moment(`${year}-${item.date}-01`).format("DD/MM/YYYY"))
+                //     }else{
+                //         setDateStart(moment(item.date).format("DD/MM/YYYY"))
+                //     }
+                // }else if(i < store.length){
+                //     if(dateRange == 2){
+                //         setDateEnd(moment().clone().endOf('month').format('DD/MM/YYYY'))
+                //     }else{
+                //         setDateEnd(moment(item.date).format("DD/MM/YYYY"))
+
+                //     }
+                // }
+            }
+
+            if(store.length >0){
+                setDateStart(moment(store[0].date).format("DD/MM/YYYY"))
+                setDateEnd(moment(store[store.length-1].date).format("DD/MM/YYYY"))
             }
 
             setSumData(sumData_temp)
@@ -145,7 +175,7 @@ export default function Report() {
 
     const getLineChart = () => {
         if(isLoading){
-            return  <Line 
+            return  <Line
                 option={options} 
                 data={chartData}
                 ref={chartRef}
@@ -182,6 +212,17 @@ export default function Report() {
         });
         setAppointmentStore(json.data);
         console.log(json)
+    }
+
+    const onShowAppointment = (data) =>{
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+        setAppointmentModal(true);
+
+    }
+
+    const onClose = () =>{
+        setAppointmentModal(false);
     }
 
     // const onClickWeek = () => {
@@ -256,7 +297,7 @@ export default function Report() {
                             <div className="px-1 pt-2">
                                 <h5 className="text-center">สรุป</h5>
                                 <p><b>ชื่อบริการ :</b> {service_name}</p>
-                                <p><b>ประเภทช่วงเวลา :</b> รายสัปดาห์</p>
+                                <p><b>ประเภทช่วงเวลา :</b> {RangeName}</p>
                                 <p><b>วันที่ : </b> {date_start} - {date_end}</p>
 
                                 <div className="text-center mt-5 shadow p-2">
@@ -268,11 +309,11 @@ export default function Report() {
                         </div>
                     </div>
                         { appointmentStore.length >0 &&
-                            <div className="container-fluid">
+                            <div className="container-fluid px-5 w-80">
                                 <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
                                     <div className="row text-center text-white">
                                         <div className="col-1">
-                                            <p className="ms-4">#</p>
+                                            <p>#</p>
                                         </div>
 
                                         <div className="col-2">
@@ -292,10 +333,6 @@ export default function Report() {
                                         </div>
 
                                         <div className="col-2">
-                                            <p>สถานะ</p>
-                                        </div>
-
-                                        <div className="col-2">
                                             <p></p>
                                         </div>
                                     </div>
@@ -306,6 +343,7 @@ export default function Report() {
                                         <AppointmentChartItem
                                             key={item.appoint_id}
                                             data={item}
+                                            onShow={onShowAppointment}
                                         />
                                     ))
                                 }
@@ -315,6 +353,13 @@ export default function Report() {
                 </div>
                 
             </div>
+
+            <ShowAppointmentDetails 
+            show={showAppointmentModal}
+                title={appointModalTitle}
+                onClose={onClose}
+                data={AppointmentDetails}
+            />  
         </>
     )
 }

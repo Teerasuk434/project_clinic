@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 
 export default function AppointmentChartItem(props) {
 
-    const onShowAppointment = () =>{
-
+    const onShowAppointment = async () =>{
+        props.onShow(props.data);
     }
 
     return (
         <>
-            <div className="row border rounded shadow-lg mt-2 text-center mx-1">
+            <div className="row border rounded shadow-lg mt-2 mx-0 text-center">
                 <div className="col-1">
                     <p>{props.data.appoint_id}</p>
                 </div>
@@ -28,10 +28,6 @@ export default function AppointmentChartItem(props) {
 
                 <div className="col-2">
                     <p>{props.data.time} - {props.data.time_end}</p>
-                </div>
-
-                <div className="col-2">
-                    <p>{props.data.status_name}</p>
                 </div>
 
                 <div className="col-2">
