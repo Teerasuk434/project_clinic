@@ -1025,8 +1025,8 @@ app.post('/api/listpets/:user_id',async(req, res) => {
 
 app.get('/api/room',(req, res) => {
     pool.query(`SELECT rooms.room_id, rooms.room_name , room_type.room_type_id , room_type.room_type_name 
-    FROM rooms JOIN room_type 
-    ON rooms.room_id = room_type.room_type_id`,(err, results, fields) => {
+    FROM rooms  JOIN room_type 
+    ON rooms.room_type_id = room_type.room_type_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,
