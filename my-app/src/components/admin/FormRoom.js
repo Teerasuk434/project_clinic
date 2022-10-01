@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState  } from "react";
 import {Button, Form , Row ,Col} from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from "./Top";
-import { UpdateModal } from "../Modal"; 
+import { UpdateModal, MessageModal } from "../Modal"; 
 
 
 export default function FormRoom(){
@@ -27,28 +27,29 @@ export default function FormRoom(){
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    useEffect(() =>{
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+
+    useEffect(() => {
         async function fetchData(room_id){
             let json = await API_GET("room/"+room_id);
             var data = json.data[0];
-            
+
             setRoomName(data.room_name);
             setRoomId(data.room_id);
-
         }
-        if(params.room_name != "add"){
+        if(params.room_id != "add"){
             fetchData([params.room_id]);
         }
+    },[params.room_id])
 
-    },[]);
-
-    useEffect(() =>{
+    useEffect(() =>{ 
         async function fetchData(){
             let json = await API_GET("room");
             setRoom(json.data);
         }
         fetchData();
-
     },[]);
 
     // show modal
@@ -60,63 +61,45 @@ export default function FormRoom(){
             event.stopPropagation();
         }else{
 
-            // onDelete();
             onConfirm();
         }
+        setValidated(true);
     }
 
-    const doCreateRoom = async(res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/room/add",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    room_name: room_name,
-                    room_type_id:room_type_id
-                })
-            }
-        )
-        let json = await response.json();
+    const doCreateRoom = async () => {
 
-        if(json.result){
-            navigate("/rooms", { replace: true });
+        let json = await API_POST("room/add",{
+            room_name: room_name,
+            room_type_id:room_type_id
+        })
+
+        if(json.result) {
+            navigate("/rooms", { replace: false });
+        } else {
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลบริการ");
+            setModalMessage(json.message);
+            setShowModal(true);
+        }
+    }
+
+    const doUpdateRoom = async () => {
+        let json = await API_POST("room/update",{
+            room_id: room_id,
+            room_name: room_name,
+            room_type_id: room_type_id
+        })
+
+        if(json.result) {
+            navigate("/rooms", { replace: false });
+        } else {
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลบริการ");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
     
-    const doUpdateRoom = async(res) => {
-        console.log(room_name)
-        const response = await fetch(
-            "http://localhost:8080/api/room/update",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    room_id: room_id,
-                    room_name: room_name,
-                    room_type_id: room_type_id
-                })
-            }
-        )
-        let json = await response.json();
-
-        if(json.result){
-            console.log("อัปเดตสำเร็จ");
-        }
-    }
-
     const onConfirm = async (data) => {
-    
         if(params.room_id === "add"){
-            
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
             setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
             setConfirmModal(true);
@@ -125,9 +108,7 @@ export default function FormRoom(){
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
             setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
             setConfirmModal(true);
-            
         }
-        
     }
 
     const onConfirmUpdate = async () => {
@@ -146,72 +127,93 @@ export default function FormRoom(){
         setConfirmModal(false);
 
     }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
+    }
     return(
         <>
             <div className="container-fluid">
                 <div className="row">
                     <Top/>
             
-                            <div className="row">
-                                <div className="p-0 col-12 col-lg-2 bg-primary">
-                                    <div className="sidebar">
-                                        <Sidebar pages={pages}/>
-                                    </div>
-                                </div>
+                    <div className="row">
+                        <div className="p-0 col-12 col-lg-2 bg-primary">
+                            <div className="sidebar">
+                                <Sidebar pages={pages}/>
+                            </div>
+                        </div>
 
                             <div className="p-0 m-0 col-12 col-lg-10">
                                 <div className="content p-5">
                                     <div className="container m-auto">
+                                
+                                        <div className='col-8 bg-white rounded shadow p-3 m-auto'>
+                                            <h4 className="text-center mt-3">เพิ่มข้อมูลห้องรักษา</h4>
+                                            
+                                                <Form noValidate validated={validated} onSubmit={onSave}>
+                                                    <Row className="mb-3">
+                                                        <Form.Group as={Col} controlId="validateRoom" >
+                                                            <Form.Label>ข้อมูลห้องรักษา</Form.Label>
+                                                            <Form.Control
+                                                                required
+                                                                type="text"
+                                                                value={room_name}
+                                                                placeholder="ข้อมูลห้องรักษา"
+                                                                onChange={(e) => setRoomName(e.target.value)}
+                                                            />
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณากรอก ชื่อข้อมูลห้องรักษา
+                                                            </Form.Control.Feedback>
+                                                        </Form.Group>
+                                                    </Row>
+                                                    <Row className="mb-3">
+                                                    <Form.Group as={Col} controlId="validateRoomType">
+                                                        <Form.Label>ประเภทห้องรักษา</Form.Label>
+                                                        <Form.Select
+                                                            value={room_type_id}
+                                                            onChange={(e) => setRoomTypeId(e.target.value)}
+                                                            required>
+                                                            <option label="ประเภทห้องรักษา"></option> 
+                                                            {
+                                                            room.map(item => (
+                                                                <option key={item.room_type_id} value={item.room_type_id}> 
+                                                                {item.room_name} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณาเลือก ประเภทห้องรักษา
+                                                            </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    </Row>    
+                                                    <Row className="mb-5">
+                                                        <div className="text-end">
+                                                            <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                            <Link to="/rooms" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                        </div>
+                                                    </Row>
+                                                </Form>
 
-                                    <h4 className="text-center">เพิ่มข้อมูลห้องรักษา</h4>
-                                    <Form noValidate validated={validated} onSubmit={onSave}>
-                                        <Form.Group as={Col} controlId="validateRoom" >
-                                            <Form.Label>ข้อมูลห้องรักษา</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="text"
-                                                value={room_name}
-                                                placeholder="ข้อมูลห้องรักษา"
-                                                onChange={(e) => setRoomName(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอก ชื่อข้อมูลห้องรักษา
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
+                                                <UpdateModal
+                                                    show={confirmModal}
+                                                    title={confirmModalTitle}
+                                                    message={confirmModalMessage}
+                                                    onConfirm={onConfirmUpdate}
+                                                    onClose={onCancelUpdate}/>
+                                            
 
-                                        <Form.Group as={Col} controlId="validateRoomType">
-                                            <Form.Label>ประเภทห้องรักษา</Form.Label>
-                                            <Form.Select
-                                                value={room_type_id}
-                                                onChange={(e) => setRoomTypeId(e.target.value)}
-                                                required>
-                                                <option label="ประเภทห้องรักษา"></option> 
-                                                {
-                                                room.map(item => (
-                                                    <option key={item.room_type_id} value={item.room_type_id}> 
-                                                    {item.room_name} </option>
-                                                ))
-                                                }
-                                            </Form.Select>
-                                                <Form.Control.Feedback type="invalid">
-                                                    กรุณาเลือก ประเภทห้องรักษา
-                                                </Form.Control.Feedback>
-                                        </Form.Group>
-                                        
-                                        <Row className="my-4">
-                                            <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
-                                        </Row>
-                                        <UpdateModal
-                                            show={confirmModal}
-                                            title={confirmModalTitle}
-                                            message={confirmModalMessage}
-                                            onConfirm={onConfirmUpdate}
-                                            onClose={onCancelUpdate}/>
-                                    </Form>
+                                            <MessageModal
+                                                show={showModal}
+                                                title={modalTitle}
+                                                message={modalMessage}
+                                                onClose={onClose}/>
+                                            </div>
+                                        </div>
+                                    </div>                    
                                 </div>
-                            </div>                    
-                        </div>
-                    </div>                        
+                            </div>                        
                 </div>      
             </div>
         </>

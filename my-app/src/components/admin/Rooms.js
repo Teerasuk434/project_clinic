@@ -12,8 +12,8 @@ import { ConfirmModal } from "../Modal";
 
 export default function Rooms(){
 
-    const [room,setRoom] = useState([]);
     const [search,setSearch] = useState("");
+    const [room,setRoom] = useState([]);
     const [listroom,setListRoom] = useState([]);
     const [room_id, setRoomId] = useState(0);
 
@@ -35,6 +35,7 @@ export default function Rooms(){
                     headers:{
                         Accept:"application/json",
                         'Content-Type': 'application/json',
+                        Authorization: "Bearer" + localStorage.getItem("access_token")
                     }
                 }
             );
@@ -55,6 +56,12 @@ export default function Rooms(){
         }
 
     }, [search]);
+
+    const fetchData = async () => {
+        let json = await API_GET("room");
+        setRoom(json.data);
+        setListRoom(json.data);
+    }
 
     const onSearch = async (event) => {
         const form = event.currentTarget;
@@ -82,7 +89,6 @@ export default function Rooms(){
         }
      }
 
-
     const onDelete = async (data) => {
 
                 setRoomId(data.room_id);
@@ -99,20 +105,12 @@ export default function Rooms(){
             });
     
             if (json.result) {
-                // setRoomType();
                 fetchData();
             }
         }
     
         const onCancelDelete = () => {
             setConfirmModal(false);
-
-        }
-
-        const fetchData = async () => {
-            let json = await API_GET("room");
-            setRoom(json.data);
-            setListRoom(json.data);
         }
 
     return (

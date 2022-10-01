@@ -58,10 +58,7 @@ export default function Report2() {
             });
             setStore(json.data);
             console.log(json.data)
-            let json2 = await API_GET("appointment");
-            setAppointment(json2.data)
             
-
             var labels = [];
             var data = [];
             
@@ -78,14 +75,10 @@ export default function Report2() {
                     {
                         label: "จำนวนการนัดหมายบริการ",
                         data: data,
-                        backgroundColor: "rgba(255, 99, 132, 0.5)"
-
+                        backgroundColor: 'rgba(20,113,176, 0.2)'
                     }
-                    
                 ]
-                
             }
-
             setChartData(dataset);
             setIsLoading(true);
         }
@@ -112,59 +105,39 @@ export default function Report2() {
     }
 
     const getAppointment = async (date) => {
-        let json = await API_GET("appointment/date/",{
+        let json = await API_GET("appointment/date",{
             date: date
         })
         setAppointStore(json.data);
     }
 
+    const onWeek = async (event) => {
+
+    }
 
     return(
         <>
             <div className="container-fluid">
-                <div className="mt-5 border mb-5 shadow rounded " style={{backgroundColor:"#F2F3F4"}}>
+                <div className=" mt-4 shadow rounded border mb-5 col-9" style={{backgroundColor:"#F2F3F4"}}>
                     <div className="mx-4 my-4 ">
                         <div className="col-6">
                             <h4>รายงานจำนวนการนัดหมายบริการ</h4>
                         </div>
 
-                        <div className="row">
-                            <div className='col-3'>
-                                <FormSelect
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    required>
-                                        {
-                                        appointment.map(item => (
-                                            <option key={item.appoint_id} value={item.appoint_id}>
-                                                {item.date}
-                                            </option>
-                                        ))
-                                        }
-                                </FormSelect>
-                            </div>
-
-                            <div className='col-6'>
-                                <ButtonGroup>
-                                    <Button variant='light' className='border' onClick={onClick}>สัปดาห์</Button>
-                                </ButtonGroup>
-                            </div>
-
-                        </div>               
-                                <div className='container-fluid mt-3'>
-                                    {
-                                        getChart()
-                                        
-                                    }
-                                    
-                                </div>
-                                {
-                                    appointStore.map(item => (
-                                        <AppointmentChartItem
-                                        key={item.date}
-                                        data={item} />
-                                    ))
-                                }
+                        <div className='container-fluid mt-3'>
+                            {
+                                getChart()
+                                
+                            }
+                            
+                        </div>
+                        {
+                            appointStore.map(item => (
+                                <AppointmentChartItem
+                                key={item.date}
+                                data={item} />
+                            ))
+                        }
                     </div>
                 </div>
             </div>
