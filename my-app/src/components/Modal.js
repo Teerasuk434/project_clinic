@@ -272,7 +272,7 @@ export function ConfirmModal(props) {
 
     return (
         <Modal show={props.show} onHide={props.onClose}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton closeVariant="white">
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
 
@@ -281,8 +281,8 @@ export function ConfirmModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button className="btn-success" onClick={props.onConfirm}>ตกลง</Button>
-                <Button className="btn-danger" onClick={props.onClose}>ยกเลิก</Button>
+                <Button variant="primary" onClick={props.onConfirm}>ตกลง</Button>
+                <Button variant="danger" onClick={props.onClose}>ยกเลิก</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -301,8 +301,8 @@ export function UpdateModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button className="btn-success" onClick={props.onConfirm}>ตกลง</Button>
-                <Button className="btn-danger" onClick={props.onClose}>ยกเลิก</Button>
+                <Button variant="primary" onClick={props.onConfirm}>ตกลง</Button>
+                <Button variant="danger" onClick={props.onClose}>ยกเลิก</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -317,11 +317,11 @@ export function MessageModal(props) {
             </Modal.Header>
 
             <Modal.Body>
-                <p className="text-center fs-5">{props.message}</p>
+                <p className="text-center">{props.message}</p>
             </Modal.Body>
 
             <Modal.Footer>
-                <Button className="btn-success" onClick={props.onClose}>ตกลง</Button>
+                <Button variant="primary" onClick={props.onClose}>ตกลง</Button>
             </Modal.Footer>
         </Modal>
     );

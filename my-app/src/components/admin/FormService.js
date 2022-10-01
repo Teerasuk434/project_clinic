@@ -185,16 +185,16 @@ export default function FormService() {
         );
     }
 
-    const onConfirm = async (data) => {
+    const onConfirm = async () => {
     
         if(params.service_id === "add"){
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
-            setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลบริการใช่หรือไม่");
+            setConfirmModalMessage("คุณต้องการเพิ่มข้อมูลบริการใช่หรือไม่");
             setConfirmModal(true);
         }else{
 
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
-            setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลบริการใช่หรือไม่");
+            setConfirmModalMessage("คุณต้องการการแก้ไขข้อมูลบริการใช่หรือไม่");
             setConfirmModal(true);
         }
         

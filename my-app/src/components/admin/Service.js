@@ -92,7 +92,7 @@ export default function Service() {
 
         setServiceId(data.service_id);
         setConfirmModalTitle("ยืนยันการลบข้อมูล");
-        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModalMessage("คุณต้องการลบข้อมูลใช่หรือไม่");
         setConfirmModal(true);
     }
 

@@ -6,3 +6,7 @@
 .modal{
     border: 3px solid #3171B0;
 }
+
+button {
+    width:max-content;
+}
