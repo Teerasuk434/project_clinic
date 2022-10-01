@@ -121,16 +121,16 @@ export default function Login() {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                             </Row>
-                            <Row >
-                                <Col>
-                                    <Button className="btn btn-login btn-lg" type="submit" >เข้าสู่ระบบ</Button>
-                                </Col>
+                            <Row className="text-center">
+                                <div>
+                                    <Button className="btn btn-login me-2" type="submit" >เข้าสู่ระบบ</Button>
+
+                                    <Link to={"/register"} className="btn btn-register d-inline-block">สมัครสมาชิก </Link>
+
+                                </div>
                             </Row>
                         </Form>
 
-                        <div >
-                            <Link to={"/register"} className="btn btn-register btn-lg mt-3 d-block">สมัครสมาชิก </Link>
-                        </div>
                     </div>
                 </div>
             </div>  

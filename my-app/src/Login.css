@@ -6,14 +6,10 @@
     background-color: #DAECF5;
 }
 
-Button{
-    width: 100%;
-    display: block;
-}
-
 .btn-login {
     background-color: #3498DB;
     color:#FFFFFF;
+    width:max-content;
 }
 
 .btn-login:hover, .btn-login:focus, .btn-login.active{
@@ -22,6 +18,7 @@ Button{
 }
 
 .btn-register { 
+    width:max-content;
     color: #FFFFFF; 
     background-color: #27AE60; 
   } 

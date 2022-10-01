@@ -57,8 +57,6 @@ export default function Report() {
     const [service_id, setService_id] = useState(1);
     const [service_name, setServiceName] = useState("");
 
-    const [date, setDate] = useState("");
-
     const [date_start, setDateStart] = useState("");
     const [date_end, setDateEnd] = useState("");
     const [sumData, setSumData] = useState(0);
@@ -81,7 +79,7 @@ export default function Report() {
         { name: 'เดือน', value: '1' },
         { name: 'ปี', value: '2' },
       ];
-      
+
       document.body.style.overflow = "hidden";
 
 
