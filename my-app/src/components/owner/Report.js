@@ -1,5 +1,5 @@
 import { useEffect,useRef,useState } from 'react';
-import { Bar,getElementAtEvent,Doughnut,Line } from "react-chartjs-2";
+import { getElementAtEvent,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
 import { Button,ButtonGroup,Form,Pagination,ToggleButton } from 'react-bootstrap'
 import AppointmentChartItem from './AppointmentChartItem';
@@ -81,6 +81,8 @@ export default function Report() {
         { name: 'เดือน', value: '1' },
         { name: 'ปี', value: '2' },
       ];
+      
+      document.body.style.overflow = "hidden";
 
 
     useEffect(() =>{
