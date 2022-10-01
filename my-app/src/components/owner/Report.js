@@ -280,14 +280,14 @@ export default function Report() {
                                 getLineChart()
                             }
                         </div>
-                        <div className="shadow border rounded" style={{backgroundColor:"#F2F3F4",width:"30%"}}>
+                        <div className="shadow border rounded pt-3" style={{backgroundColor:"#F2F3F4",width:"30%"}}>
                             {/* <div className="px-1 pt-2"> */}
-                                <h5 className="text-center">สรุป</h5>
+                                <h5 className="text-center">สรุปข้อมูล</h5>
                                 <p><b>ชื่อบริการ :</b>{service_name}</p>
                                 <p><b>ประเภทช่วงเวลา :</b> {RangeName}</p>
                                 <p><b>ช่วงเวลา : </b>{date_start} - {date_end}</p>
 
-                                <div className="text-center mt-5 shadow p-2">
+                                <div className="text-center mt-3 mx-5 shadow p-2">
                                     <h4>ยอดรวม</h4>
                                     <h3 className="text-success">{sumData}</h3>
                                     <h4>รายการ</h4>
