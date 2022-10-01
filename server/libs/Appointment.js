@@ -78,25 +78,20 @@ module.exports = {
         var sql;
 
         if(dateRange == 0){
-            sql = `SELECT a.service_id,b.service_name,a.date,
-                        COUNT(a.service_id) as count FROM appointment a
-                        JOIN service b on a.service_id = b.service_id
-                        WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE())
-                        AND a.service_id = ? AND a.status_id = 5
-                        GROUP BY a.date`
+            sql = `SELECT date,COUNT(*) as count FROM appointment
+                        WHERE WEEKOFYEAR(date)=WEEKOFYEAR(CURDATE())
+                        AND service_id = ? AND status_id = 5
+                        GROUP BY date`
         }else if(dateRange == 1){
-            sql = `SELECT a.service_id,b.service_name,a.date,
-                        COUNT(a.service_id) as count FROM appointment a
-                        JOIN service b on a.service_id = b.service_id
-                        WHERE a.date between  DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND CURDATE()
-                        AND a.service_id = ? AND a.status_id = 5
-                        GROUP BY a.date`
+            sql = `SELECT date,COUNT(*) as count FROM appointment 
+                        WHERE date between  DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND LAST_DAY(CURDATE())
+                        AND service_id = ? AND status_id = 5
+                        GROUP BY date`
         }else if(dateRange == 2){
-            sql = `SELECT date_format(date,'%m') as date,COUNT(appoint_id) as count
+            sql = `SELECT date_format(date,'%M') as date,COUNT(*) as count
                         FROM appointment
                         WHERE service_id = ? AND status_id = 5
-                        GROUP BY year(date),month(date)
-                        ORDER BY year(date),month(date)`
+                        GROUP BY year(date),month(date)`
         }     
 
         sql = mysql.format(sql, [service_id]);

@@ -7,9 +7,11 @@ export default function AppointmentChartItem(props) {
         props.onShow(props.data);
     }
 
+    console.log(props)
+
     return (
         <>
-            <div className="row border rounded shadow-lg mt-2 mx-0 text-center">
+            <div className="row border rounded shadow-lg mt-2 mx-0 text-center p-1">
                 <div className="col-1">
                     <p>{props.data.appoint_id}</p>
                 </div>
@@ -31,7 +33,11 @@ export default function AppointmentChartItem(props) {
                 </div>
 
                 <div className="col-2">
-                    <Button  onClick={onShowAppointment} className="btn btn-success">รายละเอียด</Button>
+                    <p>{props.data.employee_fullname}</p>
+                </div>
+
+                <div className="col-2 m-auto">
+                    <Button  onClick={onShowAppointment} className="btn btn-success" size="sm">รายละเอียด</Button>
                 </div>
             </div>
         </>

@@ -82,7 +82,6 @@ export default function Report() {
     useEffect(() =>{
         fetchReportData();
         fetchService();
-        // document.body.style.overflow = "hidden"
         if(dateRange == 0){
             setRangeName("รายสัปดาห์")
         }else if(dateRange == 1){
@@ -123,32 +122,20 @@ export default function Report() {
                 if(dateRange == 0  || dateRange == 1){
                     labels.push(moment(item.date).format("DD/MM"));
                 }else{
-                    labels.push(moment().month(item.date-1).format("MMMM"));
+                    labels.push(item.date);
                 }
                 data.push(item.count);
                 sumData_temp += item.count;
-
-                let year = moment().year();
-
-                // if(i==0){
-                //     if(dateRange == 2){
-                //         setDateStart(moment(`${year}-${item.date}-01`).format("DD/MM/YYYY"))
-                //     }else{
-                //         setDateStart(moment(item.date).format("DD/MM/YYYY"))
-                //     }
-                // }else if(i < store.length){
-                //     if(dateRange == 2){
-                //         setDateEnd(moment().clone().endOf('month').format('DD/MM/YYYY'))
-                //     }else{
-                //         setDateEnd(moment(item.date).format("DD/MM/YYYY"))
-
-                //     }
-                // }
             }
 
             if(store.length >0){
-                setDateStart(moment(store[0].date).format("DD/MM/YYYY"))
-                setDateEnd(moment(store[store.length-1].date).format("DD/MM/YYYY"))
+                if(dateRange == 2){
+                    setDateStart(store[0].date)
+                    setDateEnd(store[store.length-1].date)
+                }else{
+                    setDateStart(moment(store[0].date).format("DD/MM/YYYY"))
+                    setDateEnd(moment(store[store.length-1].date).format("DD/MM/YYYY"))
+                }
             }
 
             setSumData(sumData_temp)
@@ -287,29 +274,29 @@ export default function Report() {
                             </div>
                         </div>
                     </div>
-                    <div className="row my-4 px-5">
-                        <div className="col-8 shadow border rounded me-5" style={{backgroundColor:"#F2F3F4"}}>
+                    <div className="row m-4 justify-content-between">
+                        <div className="shadow border rounded me-1" style={{backgroundColor:"#F2F3F4",width:"65%"}}>
                             {
                                 getLineChart()
                             }
                         </div>
-                        <div className="col-3 shadow border rounded" style={{backgroundColor:"#F2F3F4"}}>
-                            <div className="px-1 pt-2">
+                        <div className="shadow border rounded" style={{backgroundColor:"#F2F3F4",width:"30%"}}>
+                            {/* <div className="px-1 pt-2"> */}
                                 <h5 className="text-center">สรุป</h5>
-                                <p><b>ชื่อบริการ :</b> {service_name}</p>
+                                <p><b>ชื่อบริการ :</b>{service_name}</p>
                                 <p><b>ประเภทช่วงเวลา :</b> {RangeName}</p>
-                                <p><b>วันที่ : </b> {date_start} - {date_end}</p>
+                                <p><b>ช่วงเวลา : </b>{date_start} - {date_end}</p>
 
                                 <div className="text-center mt-5 shadow p-2">
                                     <h4>ยอดรวม</h4>
                                     <h3 className="text-success">{sumData}</h3>
                                     <h4>รายการ</h4>
-                                </div>
+                                {/* </div> */}
                             </div>
                         </div>
                     </div>
                         { appointmentStore.length >0 &&
-                            <div className="container-fluid px-5 w-80">
+                            <div className="container-fluid px-4 w-80">
                                 <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
                                     <div className="row text-center text-white">
                                         <div className="col-1">
@@ -330,6 +317,10 @@ export default function Report() {
 
                                         <div className="col-2">
                                             <p>เวลา</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>ผู้รับหน้าที่</p>
                                         </div>
 
                                         <div className="col-2">
