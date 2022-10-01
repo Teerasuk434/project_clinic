@@ -1,7 +1,7 @@
 import { useEffect,useRef,useState } from 'react';
 import { Bar,getElementAtEvent,Doughnut,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
-import { Button,ButtonGroup,Form,ToggleButton } from 'react-bootstrap'
+import { Button,ButtonGroup,Form,Pagination,ToggleButton } from 'react-bootstrap'
 import AppointmentChartItem from './AppointmentChartItem';
 import { ShowAppointmentDetails } from '../Modal';
 import moment from 'moment';
@@ -51,7 +51,7 @@ export default function Report() {
     const [chartData, setChartData] = useState({});
 
     const [dateRange, setDateRange] = useState(0); 
-    const [RangeName, setRangeName] = useState("รายสัปดาห์");
+    const [RangeName, setRangeName] = useState("");
 
     const [services, setServices] = useState([]);
     const [service_id, setService_id] = useState(1);
@@ -70,6 +70,10 @@ export default function Report() {
     const [showAppointmentModal, setAppointmentModal] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
     const [AppointmentDetails, setAppointmentDetails] = useState({});
+
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(2);
 
 
     const radios = [
@@ -100,7 +104,6 @@ export default function Report() {
             service_id,service_id,
             dateRange:dateRange //0 == week  1 == month  2 == year
         });
-        console.log(json.data)
         setStore(json.data);
     }
 
@@ -184,9 +187,11 @@ export default function Report() {
     const getAppointments = async (date) => {
         let year = moment().year();
         let date_temp;
+        console.log(date)
 
         if(dateRange == 2){
             date_temp = moment(`${year}-${date}-01`).format("YYYY-MM-DD");
+            console.log(date_temp)
         }else{
             date_temp = date;
         }
@@ -197,8 +202,9 @@ export default function Report() {
             date:date_temp,
             dateRange:dateRange
         });
+        setCurrentPage(0);
+
         setAppointmentStore(json.data);
-        console.log(json)
     }
 
     const onShowAppointment = (data) =>{
@@ -210,6 +216,41 @@ export default function Report() {
 
     const onClose = () =>{
         setAppointmentModal(false);
+    }
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(appointmentStore.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
     }
 
     // const onClickWeek = () => {
@@ -297,6 +338,16 @@ export default function Report() {
                     </div>
                         { appointmentStore.length >0 &&
                             <div className="container-fluid px-4 w-80">
+
+                                {/* <div className="my-3 border-bottom">
+                                    <div className="row pb-3">
+                                        <div className="col-4">จำนวนนัดหมายที่แสดงใน 1 หน้า</div>
+                                        <div className="col-8">
+                                            <input type="number" step={1} value={numPerPage} onChange={(e) => setNumPerPage(e.target.value)} /> 
+                                        </div>
+                                    </div>
+                                </div> */}
+
                                 <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
                                     <div className="row text-center text-white">
                                         <div className="col-1">
@@ -330,7 +381,7 @@ export default function Report() {
 
                                 </div>
                                 {
-                                    appointmentStore.map(item=>(
+                                    appointmentStore.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                         <AppointmentChartItem
                                             key={item.appoint_id}
                                             data={item}
@@ -338,6 +389,17 @@ export default function Report() {
                                         />
                                     ))
                                 }
+                                <div className="d-flex align-items-end flex-column mt-3">
+                                    <div>
+                                        <Pagination onSelect={onPageSelected}>
+                                            <Pagination.First onClick={firstPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            { getPagination()}
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Last onClick={lastPage} />
+                                        </Pagination>
+                                    </div>
+                                </div>
                             </div>
                         }
 
