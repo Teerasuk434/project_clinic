@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button,Alert} from 'react-bootstrap';
 import { useNavigate, Link} from 'react-router-dom';
 import './Login.css';
 import Navigation from './components/Navigation';
@@ -12,6 +12,9 @@ export default function Login() {
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const [alertMessage, setAlertMessage] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
 
     let navigate = useNavigate();
 
@@ -35,13 +38,21 @@ export default function Login() {
 
         const data2 = await getAccessToken(authToken);
 
-        localStorage.setItem("access_token", data2.data.access_token);
-        localStorage.setItem("user_id", data2.data.account_info.user_id);
-        localStorage.setItem("username", username);
-        localStorage.setItem("role_id", data2.data.account_info.role_id);
-        localStorage.setItem("role_name", data2.data.account_info.role_name);
+        console.log(data2)
 
-        navigate("/home", { replace: true });
+        if(data2.result == true || data2.results == true){
+            setShowAlert(false);
+            localStorage.setItem("access_token", data2.data.access_token);
+            localStorage.setItem("user_id", data2.data.account_info.user_id);
+            localStorage.setItem("username", username);
+            localStorage.setItem("role_id", data2.data.account_info.role_id);
+            localStorage.setItem("role_name", data2.data.account_info.role_name);
+            navigate("/home", { replace: true });
+        }else{
+            setAlertMessage(data2.message);
+            setShowAlert(true);
+        }
+
         // <Navigate replace to="/home" />
     }
 
@@ -97,6 +108,8 @@ export default function Login() {
                 <div className="Form-Login m-auto">
                     <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
                     <div className="box p-4">
+                        {showAlert == true &&
+                            <Alert key="danger" variant="danger">{alertMessage}</Alert>}
                         <Form noValidate validated={validated} onSubmit={onLogin}>
                             <Row className="mb-3">
                                 <Form.Group as={Col} controlId="validateUsername">
