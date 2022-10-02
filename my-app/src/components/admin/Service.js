@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Row, Col, Table } from 'react-bootstrap';
+import { Form, Row, Col, Table, Pagination } from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
 import Fuse from 'fuse.js'
 
@@ -19,6 +19,10 @@ export default function Service() {
     const [services, setServices] = useState([]);
     const [service_id, setServiceId] = useState(0);
     const [listServices, setListServices] = useState([]);
+
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(5);
 
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
@@ -111,9 +115,44 @@ export default function Service() {
         setConfirmModal(false);
     }
 
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(listServices.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
+
     return (
         <>
-            <div className="Main container-fluid">
+            <div className="container-fluid">
 
                 <div className='row'>
 
@@ -135,13 +174,11 @@ export default function Service() {
                     </div>
 
                     <div className='p-0 col-12 col-lg-10'>
-                        <div className="content">
+                        <div className="content overflow-hidden">
                             <div className="container m-auto">
-                                <div className="row">
+                                <div className="row my-2">
                                     <div className="col">
-                                        <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">ข้อมูลบริการ</h2>
-                                        </div>
+                                        <h2 className="header-content text-center text-white p-2">ข้อมูลบริการ</h2>
                                     </div>
                                 </div>
 
@@ -191,7 +228,7 @@ export default function Service() {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    services.map(item => (
+                                                    services.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <ServiceItems
                                                         key={item.service_id}
                                                         data={item}
@@ -201,6 +238,18 @@ export default function Service() {
                                             </tbody>
                                         </Table>
                                     </div>
+                                    <div className="mt-2">
+                                        <div className="float-end">
+                                            <Pagination onSelect={onPageSelected}>
+                                                <Pagination.First onClick={firstPage} />
+                                                <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                                { getPagination()}
+                                                <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                                <Pagination.Last onClick={lastPage} />
+                                            </Pagination>
+                                        </div>
+                                    </div>
+                                    
 
                                 </div>
                             </div>

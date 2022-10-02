@@ -1,4 +1,3 @@
-import Owner from './components/owner/Owner';
 import MainOwner from './components/owner/MainOwner';
 import MainEmployee from './components/employee/MainEmployee';
 import MainAdmin from './components/admin/MainAdmin';
