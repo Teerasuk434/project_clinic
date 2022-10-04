@@ -33,8 +33,7 @@ module.exports = {
 
     isDupicate: async (pool,room_type_name, room_type_id) => {
         var sql = "SELECT * FROM room_type WHERE room_type_name = ?";
-
-        if(room_id != null) {
+        if(room_type_id != null) {
             sql = sql + "AND room_type_id <> ?";
             sql = mysql.format(sql, [room_type_name, room_type_id])
         } else {

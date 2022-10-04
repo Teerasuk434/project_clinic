@@ -1,6 +1,6 @@
 import { API_GET,API_POST } from "../../api";
 import { useEffect, useState } from "react"
-import { Form, Row, Col, Table } from 'react-bootstrap'
+import { Form, Row, Col, Table , Pagination, Button , InputGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import Fuse from "fuse.js";
 import Sidebar from "./Sidebar";
@@ -23,7 +23,9 @@ export default function RoomTypes(){
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(10);
 
     useEffect( () => {
         async function fetchData(){
@@ -115,64 +117,86 @@ export default function RoomTypes(){
         setConfirmModal(false);
 
     }
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(listroomtypes.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+
+        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
 
     return(
         <>
             <div className="container-fluid">
                 <div className='row'>
-
                     <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
-
-                    <div className='p-0 col-12 col-lg-10'>
-                        <div className="content">
+                    
+                    <div className='p-0 m-0 col-12 col-lg-10'>
+                        <div className="content m-auto">
                             <Top />
-
-                            <div className="container m-auto">
-                                <div className="row">
-                                    <div className="col">
-                                        <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">ข้อมูลประเภทห้องรักษา</h2>
+                            <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
+                                <div className="border-bottom border-dark border-opacity-50 mb-2">
+                                    <h4 className="text-center">ข้อมูลประเภทห้องรักษา</h4>
+                                </div>
+                                <div className="my-3 ">
+                                    <div className="m-auto d-flex justify-content-between">
+                                        <div>
+						<Link to={"/roomtype/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลผู้ใช้งาน</Link>
+                                        </div>
+                                        <div className="form-search">
+                                            <Form noValidate onSubmit={onSearch}>
+                                                <InputGroup>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        required
+                                                        type="text"
+                                                        value={search}
+                                                        placeholder="ค้นหาประเภทผู้ใช้"
+                                                        onChange={(e) => setSearch(e.target.value)}
+                                                    />
+                                                    <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
+                                                </InputGroup>
+                                            </Form>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-2">
-                                        <Link to={"/roomtype/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
-                                    </div>
-                                    <div className="col-10">
-                                        <Form>
-                                            <Row>
-                                                <Form.Group as={Col} md="10" className="mb-2" controlId="validateFirstName">
-                                                    <Form.Control
-                                                        required
-                                                        type="text"
-                                                        value={search}
-                                                        placeholder="ค้นหา"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอกข้อมูลที่ต้องการค้นหา
-                                                    </Form.Control.Feedback>
-                                                    </Form.Group>
-                                                <Form.Group as={Col} md="2">
-                                                    <div className="d-grid gap-2">
-                                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
-                                                    </div>
-                                                </Form.Group>
-                                            </Row>
-                                        </Form>
-                                    </div>
-                                </div>
-
-                                <div className='row mt-3'>
-                                    <div className='col text-center'>
-                                        <Table striped>
-                                            <thead>
+                                <div className="mt-2">
+                                    <Table size="sm" responsive bordered hover className='text-center'>
+                                        <thead>
                                                 <tr>
                                                 <th>รหัสประเภทห้องรักษา</th>
                                                 <th>ชื่อประเภทห้องรักษา</th>
@@ -197,15 +221,23 @@ export default function RoomTypes(){
                                                     onClose={onCancelDelete}/>
 
                                             </tbody>
-                                        </Table>
-                                    </div>
-
+                                    </Table>
                                 </div>
+
+                                <div className="d-flex justify-content-end">
+                                    <Pagination onSelect={onPageSelected} size="sm">
+                                        <Pagination.First onClick={firstPage} />
+                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                        { getPagination()}
+                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                        <Pagination.Last onClick={lastPage} />
+                                    </Pagination>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-                    
             </div>
         </>     
     )

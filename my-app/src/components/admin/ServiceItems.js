@@ -18,8 +18,8 @@ export default function ServiceItems(props) {
                 <td><img src={`http://localhost:8080/images/${props.data.service_image}`} width={50}/></td>
                 <td><p>{props.data.room_type_name}</p></td>
                 <td>
-                    <Link to={`/service/${props.data.service_id}`} className="btn btn-warning btn-sm me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
-                    <Button variant="danger" size="sm" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</Button>
+                    <Link to={`/service/${props.data.service_id}`} className="btn btn-warning btn-sm me-3">{<i className="fa-solid fa-pen-to-square me-2 btn-sm"></i>}แก้ไข</Link>
+                    <Button variant="danger" size="sm" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2 btn-sm"></i>}ลบ</Button>
 
                 </td>
             </tr>

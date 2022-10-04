@@ -5,7 +5,7 @@ import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from '../Top';
-import { UpdateModal, confirmModal} from "../Modal";
+import { UpdateModal, MessageModal} from "../Modal";
 
 
 export default function FormRoomtypes(){
@@ -24,22 +24,24 @@ export default function FormRoomtypes(){
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
 
 
     useEffect(() =>{
         async function fetchData(room_type_id){
             let json = await API_GET("room_type/"+room_type_id);
             var data = json.data[0];
-
             setRoomTypesName(data.room_type_name);
             setRoomTypeId(data.room_type_id);
 
         }
 
-        if(params.room_type_name != "add"){
+        if(params.room_type_id != "add"){
             fetchData([params.room_type_id]);
         }
-    },[]);
+    },[params.room_type_id]);
 
     // show modal
     const onSave = async(event) =>{
@@ -55,51 +57,34 @@ export default function FormRoomtypes(){
         }
     }
 
-    const doCreateRoomtypes = async(res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/room_type/add",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    room_type_name: room_type_name
-                })
-            }
-        )
-        let json = await response.json();
-
+    const doCreateRoomtypes = async() => {
+        
+        let json = await API_POST("room_type/add",{
+            room_type_name: room_type_name
+        })
+                
         if(json.result){
             navigate("/roomtypes", { replace: true });
+        } else {
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลประเภทห้องรักษาได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
     
-    const doUpdateRoomtypes = async(res) => {
-        console.log(room_type_name)
-        const response = await fetch(
-            "http://localhost:8080/api/room_type/update",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    room_type_id: room_type_id,
-                    room_type_name: room_type_name
-                    
-                })
-            }
-        )
-        let json = await response.json();
+    const doUpdateRoomtypes = async() => {
+        let json = await API_POST("room_type/update",{
+
+            room_type_name: room_type_name,
+            room_type_id: room_type_id
+        })
 
         if(json.result){
             navigate("/roomtypes", { replace: true });
-            console.log("อัปเดตสำเร็จ");
+        }else {
+            setModalTitle("ไม่สามารถแก้ไขข้อมูลประเภทห้องรักษาได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
 
@@ -136,6 +121,10 @@ export default function FormRoomtypes(){
     const onCancelUpdate = () => {
         setConfirmModal(false);
 
+    }
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
     }
 
     return(
@@ -184,6 +173,11 @@ export default function FormRoomtypes(){
                                                         onClose={onCancelUpdate}/>
                                                 </Form>
                                             </div>
+                                                    <MessageModal
+                                                            show={showModal}
+                                                            title={modalTitle}
+                                                            message={modalMessage}
+                                                            onClose={onClose}/>
                                         </div>
                                     </div>
                                 </div>
