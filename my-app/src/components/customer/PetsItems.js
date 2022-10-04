@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export default function PetsItems(props) {
 
@@ -8,27 +9,21 @@ export default function PetsItems(props) {
 
     return (
         <>
-            <tr>
-                <td><p>{props.data.pet_name}</p></td>
-                <td><p>{props.data.pet_type}</p></td>
-                <td><p>{props.data.pet_species}</p></td>
-                <td><p>{props.data.pet_gender}</p></td>
-                <td><p>{props.data.pet_age_year} ปี {props.data.pet_age_month} เดือน</p></td>
-                <td>
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="d-inline-block me-2">
-                                <Link to={`/account/pet/${props.data.pet_id}`} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
-                            </div>
-                       
-
-                            <div className="d-inline-block">
-                                <button type="button" className="btn btn-danger btn-md" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2"></i>}ลบ</button>
-                            </div>
-                        </div>
+            <div className="box-pet bg-light shadow text-start col-3 me-3 my-3">
+                <div className="text-center border-bottom border-secondary border-opacity-50 p-2">
+                    <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
+                </div>
+                    <p>ชื่อสัตว์เลี้ยง : {props.data.pet_name}</p>
+                    <p>ประเภทสัตว์ : {props.data.pet_type}</p>
+                    <p>สายพันธุ์ : {props.data.pet_species}</p>
+                    <p>เพศ : {props.data.pet_gender}</p>
+                    <p className="border-bottom border-secondary border-opacity-25 ">อายุ : {props.data.pet_age_year} ปี {props.data.pet_age_month} เดือน</p>
+                    
+                    <div className="float-end p-2">
+                        <Button variant="warning" size="sm" className="me-2">แก้ไขข้อมูล</Button>
+                        <Button variant="danger" size="sm" onClick={onDelete}>ลบ</Button>
                     </div>
-                </td>
-            </tr>
+            </div>
         </>
     )
 }

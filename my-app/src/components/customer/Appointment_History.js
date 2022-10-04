@@ -52,7 +52,7 @@ export default function Appointment_History () {
                             </div>
                         </div>
 
-                        <div className="col-9 profile-right p-0 shadow-sm">
+                        <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">
                                 <h4>ประวัติการนัดหมาย</h4>
                             </div>

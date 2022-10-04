@@ -74,7 +74,7 @@ export default function EditProfile(){
         });
 
         if (json.result) {
-            window.location = "/account";
+            window.location = "/account/profile";
         }
     }
 

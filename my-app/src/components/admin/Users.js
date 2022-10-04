@@ -146,10 +146,11 @@ export default function Admin() {
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content m-auto">
                             <Top />
-                            <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
+                            <div className='mx-2 mt-2 pt-2 px-4 rounded shadow border bg-light'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ข้อมูลผู้ใช้งาน</h4>
                                 </div>
+
                                 <div className="my-3 ">
                                     <div className="m-auto d-flex justify-content-between">
                                         <div>

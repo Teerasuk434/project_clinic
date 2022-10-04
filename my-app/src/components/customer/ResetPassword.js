@@ -125,7 +125,7 @@ export default function ResetPassword (){
                             </div>
                         </div>
 
-                        <div className="col-9 profile-right p-0 shadow-sm">
+                        <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">
                                 <h4>ตั้งค่ารหัสผ่าน</h4>
                             </div>

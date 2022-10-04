@@ -65,7 +65,7 @@ export default function Account(){
                             </div>
                         </div>
 
-                        <div className="col-9 profile-right p-0 shadow-sm">
+                        <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">
                                 <h4>ข้อมูลบัญชีของฉัน</h4>
                             </div>
@@ -96,7 +96,7 @@ export default function Account(){
                                 <div className="row">
                                     <div className="col">
 
-                                        <Link to="editprofile" className="btn btn-success ms-5" style={{width:"30%"}}>{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
+                                        <Link to="/account/editprofile" className="btn btn-success ms-5" style={{width:"30%"}}>{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
                                     </div>
                                 </div>
 

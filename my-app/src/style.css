@@ -290,8 +290,8 @@ html, body, #fullheight {
 }
 
 .profile-right{
-    background-color: aliceblue;
-    border: 1px solid #CCD1D1;
+    box-shadow: 2px 2px 11px 5px rgba(0, 0, 0, 0.1);
+    padding: 0;
 }
 
 .profile-sidebar a{
@@ -376,6 +376,12 @@ html, body, #fullheight {
     background-color: #AED6F1;
 }
 
+.box-pet {
+    width: 30%;
+    border-radius: 10px;
+    position: relative;
+}
+
 
 /* Employee */
 .req-appoint-label{
@@ -438,6 +444,11 @@ html, body, #fullheight {
 
    table {
     overflow: hidden;
+    margin-bottom: 8px;
+   }
+
+   .pagination {
+    margin-bottom: 8px;
    }
 
 

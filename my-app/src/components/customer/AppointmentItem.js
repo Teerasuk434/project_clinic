@@ -25,13 +25,12 @@
                 <td><p>{props.data.time} - {props.data.time_end}</p></td>
                 <td><p>{props.data.status_name}</p></td>
                 <td>
-                    <Button onClick={onShowAppointment} className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
-                </td>
-                <td>
+                    <Button onClick={onShowAppointment} className="btn btn-success me-2" size="sm">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
+
                     {appoint_status == 3 ?
-                        <Button onClick={onShowAppointmentForm} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Button>
+                        <Button onClick={onShowAppointmentForm} className="btn btn-warning" size="sm">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Button>
                     :
-                        <Button disabled onClick={onShowAppointmentForm} className="btn btn-warning me-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Button>
+                        <Button disabled onClick={onShowAppointmentForm} className="btn btn-warning" size="sm">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Button>
 
                     }
                 </td>

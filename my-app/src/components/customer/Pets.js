@@ -1,7 +1,7 @@
 import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
-import { Form, Row, Col, Table } from 'react-bootstrap'
+import { Form, Row, Col, Table, Button,Pagination } from 'react-bootstrap'
 import { Link } from "react-router-dom"
 import PetsItems from "./PetsItems"
 import { API_GET, API_POST } from "../../api"
@@ -12,6 +12,10 @@ export default function Pets(){
     const [pets, setPets] = useState([]);
 
     let user_id = localStorage.getItem("user_id");
+
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(3);
 
     useEffect(()=>{
 
@@ -40,6 +44,43 @@ export default function Pets(){
         let json = await API_POST("listpets/" + user_id);
         setPets(json.data);
 
+    }
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(pets.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+
+        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
     }
   
     return(
@@ -70,19 +111,20 @@ export default function Pets(){
                             </div>
                         </div>
 
-                        <div className="col-9 profile-right p-0 shadow-sm">
+                        <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">
                                 <h4>ข้อมูลสัตว์เลี้ยง</h4>
                             </div>
 
                             <div className="profile-details">
-                                <Link to="/account/pet/add" className="btn btn-success mx-5 mt-5" style={{width:"20%"}}>{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
 
-                                <div className="row mx-5 mt-5 mb-3">
-                                    <div className="col m-auto text-center">
+                                    <Link to="/account/pet/add" className="btn btn-success btn-sm ms-5 mt-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
+                               
+                                <div className="mx-5 mt-3 mb-3">
+                                    <div className="m-auto text-center row ms-5">
                                     {pets.length > 0 &&
                                     <>
-                                        <Table>
+                                        {/* <Table size="sm" responsive bordered hover className='text-center'>
                                             <thead>
                                                 <tr>
                                                 <th>ชื่อสัตว์เลี้ยง</th>
@@ -104,7 +146,26 @@ export default function Pets(){
                                                     ))
                                                 }
                                             </tbody>
-                                        </Table>
+                                        </Table> */}
+                                            {pets.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
+                                                <PetsItems
+                                                key={item.pet_id}
+                                                data={item}
+                                                onDelete={onDelete}
+                                                />
+                                            ))}
+
+                                            {pets.length >3 &&
+                                                <div className="d-flex justify-content-end">
+                                                    <Pagination onSelect={onPageSelected} size="sm">
+                                                        <Pagination.First onClick={firstPage} />
+                                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                                        { getPagination()}
+                                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                                        <Pagination.Last onClick={lastPage} />
+                                                    </Pagination>
+                                                </div>
+                                            }
                                     </>
                                     }
                                     {pets.length < 1 &&

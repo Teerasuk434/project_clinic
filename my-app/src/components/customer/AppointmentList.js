@@ -87,7 +87,7 @@ export default function AppointmentList(){
                             </div>
                         </div>
 
-                        <div className="col-9 profile-right p-0 shadow-sm">
+                        <div className="col-9 profile-right p-0">
                             <div className="profile-right-header p-2 text-center">
                                 <h4>ข้อมูลการนัดหมาย</h4>
                             </div>
@@ -97,10 +97,10 @@ export default function AppointmentList(){
                                     <div className="col m-auto text-center">
                                     {Appointments.length > 0 &&
                                     <>
-                                        <Table>
+                                        <Table size="sm" responsive bordered hover variant="light" className='text-center'>
                                             <thead>
                                                 <tr>
-                                                <th>รหัส</th>
+                                                <th>รหัสการนัดหมาย</th>
                                                 <th>ชื่อสัตว์เลี้ยง</th>
                                                 <th>บริการ</th>
                                                 <th>วันที่นัด</th>
@@ -109,7 +109,7 @@ export default function AppointmentList(){
                                                 <th colSpan={2}><p></p></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className='table-group-divider align-middle'>
                                                 {
                                                     Appointments.map(item => (
                                                         <AppointmentItem
