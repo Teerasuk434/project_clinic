@@ -1,5 +1,3 @@
-
-import './Box-top.css'
 export default function BoxTop (){
     return (
 

@@ -36,12 +36,6 @@ export default function ListAppoint(){
     return (
         <>
             <div className="container-fluid">
-                <div className='top row'>
-                    <div className='col'>
-                        <p>สถานะ : พนักงาน</p>
-                    </div>
-                </div>
-
                 <div className='row'>
                     <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
@@ -94,15 +88,6 @@ export default function ListAppoint(){
                         </div>
                     </div>
                 </div>
-
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p>วันที่ : {date}</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </>
     )

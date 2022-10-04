@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 
 import Sidebar from './Sidebar';
-import Top from './Top';
+import Top from '../Top';
 
 export default function FormRole() {
 

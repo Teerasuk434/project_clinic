@@ -1,7 +1,6 @@
 import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
-import './Account.css'
 import { useEffect, useState } from "react"
 import { API_GET} from "../../api"
 import Moment from 'moment';

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import './employee.css';
 import { Form , Col, Button} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';

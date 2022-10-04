@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import './employee.css';
-import { Table,Button } from 'react-bootstrap';
+import { Table,Button,Pagination,Form,InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../../api';
 import ReqAppointItem from './ReqAppointItem';
+import Top from '../Top';
 
 export default function RequestAppoint() {
 
@@ -34,15 +34,50 @@ export default function RequestAppoint() {
         setAppointmentModal(false);
     }
 
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(10);
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(appointments.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+
+        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
+
     return(
         <>
             <div className="container-fluid">
-                <div className='top row'>
-                    <div className='col'>
-                        <p>สถานะ : พนักงาน</p>
-                    </div>
-                </div>
-
                 <div className='row'>
                     <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
@@ -51,58 +86,75 @@ export default function RequestAppoint() {
                     </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content">
-                            <div className="container m-auto">
-                                <div className="row">
-                                    <div className="col">
-                                        <div className="my-5">
-                                            <h2 className="header-content text-center text-white p-2">คำขอนัดหมาย</h2>
+                        <div className="content m-auto">
+                            <Top />
+                            <div className='m-4 p-4 rounded shadow border bg-light'>
+                                <div className="border-bottom border-dark border-opacity-50 mb-2">
+                                    <h4 className="text-center">คำขอนัดหมาย</h4>
+                                </div>
+                                {/* <div className="my-3 ">
+                                    <div className="m-auto d-flex justify-content-between">
+                                        <div>
+									        <Link to={"/user/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลผู้ใช้งาน</Link>
+                                        </div>
+                                        <div className="form-search">
+                                            <Form noValidate onSubmit={onSearch}>
+                                                <InputGroup>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        required
+                                                        type="text"
+                                                        value={search}
+                                                        placeholder="ค้นหาผู้ใช้งาน (รหัส,ชื่อผู้ใช้งาน,ประเภทผู้ใช้งาน)"
+                                                        onChange={(e) => setSearch(e.target.value)}
+                                                    />
+                                                    <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
+                                                </InputGroup>
+                                            </Form>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
-                                <div className='row'>
-                                    <div className='col text-center'>
-                                        <Table striped>
-                                            <thead>
+                                <div className="mt-3">
+                                    <Table size="sm" responsive bordered hover className='text-center'>
+                                        <thead>
                                                 <tr>
-                                                <th>รหัสนัดหมาย</th>
-                                                <th>ชื่อเจ้าของ</th>
-                                                <th>ชื่อสัตว์</th>
+                                                <th>รหัสคำขอ</th>
+                                                <th>ชื่อผู้นัดหมาย</th>
+                                                <th>ชื่อสัตว์เลี้ยง</th>
                                                 <th>บริการ</th>
                                                 <th>วันที่</th>
                                                 <th>เวลา</th>
                                                 <th>สถานะ</th>
-                                                <th colSpan={2}>action</th>
+                                                <th>action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                {appointments != null &&
-                                                    appointments.map(item => (
-                                                        <ReqAppointItem 
+                                            <tbody className='table-group-divider align-middle'>
+                                                {
+                                                    appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
+                                                        <ReqAppointItem
                                                         key={item.appoint_id}
-                                                        data={item}
-                                                        />
+                                                        data={item}/>
                                                     ))
                                                 }
                                             </tbody>
-                                        </Table>
-                                    </div>
+                                    </Table>
                                 </div>
 
+                                <div className="d-flex justify-content-end">
+                                    <Pagination onSelect={onPageSelected} size="sm">
+                                        <Pagination.First onClick={firstPage} />
+                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                        { getPagination()}
+                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                        <Pagination.Last onClick={lastPage} />
+                                    </Pagination>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p>วันที่ : {date}</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </>

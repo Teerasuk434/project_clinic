@@ -6,7 +6,7 @@ import { ConfirmModal,MessageModal } from '../Modal';
 import { SERVER_URL } from "../../app.config";
 
 import Sidebar from './Sidebar';
-import Top from './Top';
+import Top from '../Top';
 
 export default function FormService() {
 
@@ -223,6 +223,7 @@ export default function FormService() {
             <div className="container-fluid">
                 <div className='row'>
                     <Top />
+
                     <div className='p-0 col-12 col-lg-2 bg-primary'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
@@ -233,6 +234,7 @@ export default function FormService() {
                         <div className="content p-5">
                             <div className='shadow bg-light p-5 rounded'>
                                 <h4 className='text-center'>เพิ่มข้อมูลบริการของคลินิก</h4>
+
                                 <div className='container m-auto px-5 py-3 mt-3 border-top border-secondary'>
                                     <Form noValidate validated={validated} onSubmit={onSave}>
                                         <Row className="mb-3">
@@ -324,10 +326,10 @@ export default function FormService() {
                                             getImageComponent()
                                         }
 
-                                        <Row className="mb-3">
+                                        <Row className="mt-3">
                                             <div className="text-end">
                                                 <Button variant="success" as="input" type="submit" value="บันทึก"/>
-                                                <Link to="service" className="btn btn-warning ms-2">ยกเลิก</Link>
+                                                <Link to="/services" className="btn btn-warning ms-2">ยกเลิก</Link>
                                             </div>
                                         </Row>
                                     </Form>

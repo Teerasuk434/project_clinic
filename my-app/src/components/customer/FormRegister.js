@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
-import './FormRegister.css'
 
 export default function FormRegister(){
 

@@ -1,0 +1,442 @@
+
+/* Login & Register*/
+.header-box{
+    background-color: #3498DB;
+}
+
+
+.btn-login {
+    background-color: #3498DB;
+    color:#FFFFFF;
+}
+
+.btn-login:hover, .btn-login:focus, .btn-login.active{
+    background-color: #2874A6;
+    color:#FFFFFF;
+}
+
+.btn-register { 
+    color: #FFFFFF; 
+    background-color: #27AE60; 
+  } 
+
+  .btn-register:hover, .btn-register:focus, .btn-register.active{
+    background-color: #1E8449 ;
+    color:#FFFFFF;
+}
+
+.content-login{
+    background:aliceblue;
+    height: 100vh;
+}
+
+.Form-Login{
+    width: 50%;
+    background-color: #DAECF5;
+}
+
+
+/* Box-top*/
+
+.Box-top{
+    background-color: #3171B0;
+    color:#fff;
+    font-size: 10px;
+    padding: 5px;
+}
+
+/* Footer */
+
+.Footer{
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3171B0;
+    color:#fff;
+    height: fit-content;
+}
+
+.left{
+    border-right: 2px solid #D7DBDD ;
+}
+
+.center{
+    border-right: 2px solid #D7DBDD ;
+}
+
+.Title{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+p{
+    font-size: 14px;
+    padding:3px;
+    margin-left: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+      background-color: lightblue;
+    }
+  }
+
+/* Modal */
+
+.modal-header{
+    background-color: #3171B0;
+    color:white;
+}
+
+.modal{
+    border: 3px solid #3171B0;
+}
+
+
+/*  Navigation */
+
+.Navbar{
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.Navbar img {
+    padding:1px;
+    height: 60px;
+}
+
+.Btn-login{
+    border: 1px solid #3171B0;
+    border-radius: 5px;
+    color:#85349A;
+}
+
+.Btn-login:hover,.Box-top:active{
+    background-color: #3171B0;
+    color:white;
+}
+
+a:hover{
+    font-weight: 500;
+}
+
+.form-register{
+    width: 50%;
+}
+
+/* Admin */
+body{
+    margin: 0;
+    padding:0;
+    background-color: #E6E6EA; 
+  }
+
+  .top{
+    background-color: #3171B0;
+    color:white;
+  }
+
+  .text{
+    display: inline-block;
+  }
+
+  .bottom{
+    width: 100%;
+    background-color: #3171B0;
+    padding:0;
+    color:white;
+    text-align: end;
+  }
+
+  p{
+    margin:auto;
+    padding: 0.5rem;
+  }
+
+  .header-content{
+    background-color: #3171B0;
+  }
+
+  .content{
+    background-color: #F2F3F4 ;
+    width:100%;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+/* .table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #D6EAF8  ; 
+ } */
+
+ thead{
+    background-color: #D7DBDD ;
+ }
+
+tbody{
+    background-color: #EBEDEF;
+ }
+
+
+ /* Sidebar */
+ /* * { padding: 0; margin: 0; }
+html, body, #fullheight {
+    min-height: 100% !important;
+    height: 100%;
+} */
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #34495E;
+    height: 100%;
+  }
+
+  .sidebar-bottom a {
+    display: block;
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    text-align: start;
+  }
+
+  span{
+    margin-left: 2rem;
+  }
+
+  .sidebar-top{
+    width: 250px;
+    height: 150px;
+    margin: auto;
+  }
+
+  .sidebar-top img{
+    margin-top:2rem;
+    margin-left: 2rem;
+  }
+  
+  .sidebar-bottom img{
+    width: 25px;
+    margin-right: 5px;
+  }
+
+  .sidebar a.active {
+    background-color: #3171B0;
+    color: white;
+  }
+  
+  .sidebar a:hover:not(.active) {
+    background-color: #5D6D7C;
+    color: white;
+  }
+
+/* homepage */
+
+.homepage-picture a{
+    margin-top: -150px;
+    margin-left: -400px;
+    margin-bottom: -400px;
+    z-index: 1;
+    width: 30%;
+    padding: 1rem;
+    font-size: 20px;
+}
+
+.homepage-picture{
+  background-color: #CDEEFF;
+}
+
+.Services{
+  background-color: aliceblue;
+}
+
+.btn-appointment { 
+    color: #FFFFFF; 
+    background-color: #3498DB; 
+  } 
+
+  .btn-appointment:hover, .btn-appointment:focus, .btn-appointment.active{
+    background-color: #2874A6  ;
+    color:#FFFFFF;
+}
+
+.items img{
+  width: 150px;
+}
+
+.Text-title{
+  color:#85349A;
+}
+
+.img-service{
+  width: 100px;
+  height: 100px;
+}
+
+/* Account */
+.profile{
+    height: 100vh;
+    background-color: white;
+
+}
+
+.profile-left{
+    background-color: aliceblue;
+    border: 1px solid #CCD1D1;
+    padding: 0;
+}
+
+.profile-right{
+    background-color: aliceblue;
+    border: 1px solid #CCD1D1;
+}
+
+.profile-sidebar a{
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    width: 100%;
+    padding: 16px;
+    color:black;
+}
+
+.profile-sidebar a:hover{
+    background-color: #aeddf5;
+    color: black;
+    font-weight: 500;
+}
+
+.profile-sidebar a:active,a.active{
+    background-color: #4BB2E5;
+    color: white;
+    font-weight: 500;
+
+}
+
+.profile-right-header{
+    background-color: #3171B0;
+    color: white;
+    width: 100%;
+}
+
+.profile-label p{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Appointment */
+.appointment{
+    background-color: aliceblue;
+    height: 100%;
+}
+
+.appoint-header{
+    background-color: #3498DB;
+    color: white;
+    text-align: center;
+    padding:16px;
+}
+
+.appoint-form{
+    width: 70%;
+    margin:auto;
+}
+
+.form-pet-header,.form-appoint-header{
+    background-color: #4BB2E5;
+    color:white;
+    padding:14px;
+    text-align: center;
+    
+}
+
+.form-pet-content{
+    background-color: #AED6F1 ;
+}
+
+.form-pet-content select{
+    width: 90%;
+}
+
+.form-pet-label{
+    background-color: #AED6F1 ;
+    text-align: end;
+    font-weight: 600;
+}
+
+.form-pet-details{
+    background-color: #AED6F1 ;
+
+}
+
+.form-appoint-content{
+    background-color: #AED6F1;
+}
+
+
+/* Employee */
+.req-appoint-label{
+    background-color: #2980B9;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+   }
+   
+   .req-form-details{
+       background-color: aliceblue;
+   }
+   
+   .req-appoint-details{
+    background-color: #AED6F1; 
+   }
+   
+   .form-header{
+       text-align: center;
+       background-color: #A9CCE3;
+   }
+   
+   .box-label{
+       text-align: end;
+       
+   }
+   .box-label h6 {
+       font-weight: 600;
+   }
+   
+   h6{
+       margin-top:15px;
+   }
+   
+   .end{
+       background-color: #A9CCE3;
+       height: 10px;
+   }
+   
+   .box-button button{
+       width: 20%;
+   }
+   
+   .box-select select{
+       width: 30%;
+   }
+   
+   .box-details select{
+       width: 30%;
+   }
+
+   .form-search {
+    width: 50%;
+   }
+
+   .page-link span{
+    margin-left: 0;
+   }
+
+
+
+
+

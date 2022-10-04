@@ -105,6 +105,7 @@ export default function Report() {
             dateRange:dateRange //0 == week  1 == month  2 == year
         });
         setStore(json.data);
+
     }
 
     const fetchService = async () => {
@@ -142,6 +143,9 @@ export default function Report() {
             }
 
             setSumData(sumData_temp)
+
+            console.log(labels);
+            console.log(data);
             
             var dataset = {
                 labels: labels,
