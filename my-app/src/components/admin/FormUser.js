@@ -134,8 +134,6 @@ export default function FormUser() {
 
                 <div className='row'>
 
-                    <Top />
-
                         <div className='p-0 col-12 col-lg-2 bg-primary'>
                             <div className='sidebar'>
                                 <Sidebar pages={pages}/>
@@ -143,6 +141,7 @@ export default function FormUser() {
                         </div>
 
                         <div className='p-0 m-0 col-12 col-lg-10'>
+                        <Top />
                             <div className="content p-5">
                                 <div className='shadow bg-light p-5 rounded'>
 
