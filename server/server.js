@@ -488,7 +488,7 @@ app.post("/api/role/add", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Roles.isDupicate(pool,input.role_name);
+        var result = await Roles.isDuplicate(pool,input.role_name);
 
         if(!result){
             await Roles.createRole(pool,
@@ -538,7 +538,7 @@ app.post("/api/role/update", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Roles.isDupicate(pool,input.role_name, input.role_id);
+        var result = await Roles.isDuplicate(pool,input.role_name, input.role_id);
 
          if(!result){
             await Roles.updateRole(pool,
@@ -777,7 +777,7 @@ app.post('/api/emp_types/add',async(req, res) => {
 
     try{
 
-        var result = await EmployeeTypes.isDupicate(pool,
+        var result = await EmployeeTypes.isDuplicate(pool,
             input.emp_position_name,null);
         
         if(!result) {
@@ -803,9 +803,9 @@ app.post('/api/emp_types/add',async(req, res) => {
 app.post('/api/emp_types/update',async(req, res) => {
     const input = req.body;
     try{
-        var result = await EmployeeTypes.isDupicate(pool,
+        var result = await EmployeeTypes.isDuplicate(pool,
             input.emp_position_id,
-            input.emp_position_name,null);
+            input.emp_position_name);
 
         if(!result){
             await EmployeeTypes.updateEmptypes(pool,
@@ -887,7 +887,7 @@ app.post('/api/room_type/add',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await RoomTypes.isDupicate(pool, input.room_type_name, null);
+        var result = await RoomTypes.isDuplicate(pool, input.room_type_name, null);
 
         if(!result) {
             await RoomTypes.createRoomtypes(pool,
@@ -914,7 +914,7 @@ app.post('/api/room_type/update',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await RoomTypes.isDupicate(pool, input.room_type_name,input.room_type_id, null);
+        var result = await RoomTypes.isDuplicate(pool, input.room_type_name,input.room_type_id, null);
         if(!result){
             await RoomTypes.updateRoomtypes(pool, input.room_type_name,input.room_type_id);
             res.json({
@@ -1111,7 +1111,7 @@ app.post('/api/room/add',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.isDupicate(pool, input.room_name, null);
+        var result = await Room.isDuplicate(pool, input.room_name, null);
 
         if(!result) {
             await Room.createRoom(pool,
@@ -1139,7 +1139,7 @@ app.post('/api/room/update',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.isDupicate(pool, input.room_name, null);
+        var result = await Room.isDuplicate(pool, input.room_name, null);
         
         if(!result){
             var result = await Room.updateRoom(pool,input.room_id, input.room_name,input.room_type_id);

@@ -28,7 +28,7 @@ module.exports = {
 
         return await pool.query(sql);
     },
-    isDupicate: async (pool,emp_position_name,emp_position_id) => {
+    isDuplicate: async (pool,emp_position_id,emp_position_name) => {
         var sql = "SELECT * FROM emp_type WHERE emp_position_name = ?";
         if(emp_position_id != null) {
             sql = sql + "AND emp_position_id <> ?";
