@@ -123,18 +123,20 @@ export default function FormRole() {
 
                 <div className='row'>
 
-                    <Top />
+                    
                         <div className='row'>
                             <div className='p-0 col-12 col-lg-2 bg-primary'>
                                 <div className='sidebar'>
                                     <Sidebar pages={pages}/>
                                 </div>
                             </div>
-
+                            
                             <div className='p-0 m-0 col-12 col-lg-10'>
+                            <Top/>
                                 <div className="content p-5">
+                                
                                     <div className='container m-auto'>
-
+                                        
                                         <div className='col-8 bg-white rounded shadow p-3 m-auto'>
                                             <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
                                                 <Form noValidate validated={validated} onSubmit={onSave}>
