@@ -31,15 +31,14 @@ module.exports = {
         return await pool.query(sql)
     },
 
-    isDupicate: async (pool,room_name, room_id) => {
+    isDuplicate: async (pool,room_name,room_id) => {
         var sql = "SELECT * FROM rooms WHERE room_name = ?";
-        console.log(room_name)
+
         if(room_id != null) {
             sql = sql + "AND room_id <> ?";
             sql = mysql.format(sql, [room_name, room_id])
         } else {
             sql = mysql.format(sql, [room_name]);
-            console.log(sql)
         }
         var result = await pool.query(sql);
         if(result.length > 0) {
