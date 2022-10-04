@@ -39,14 +39,8 @@ return (
             <td><p>{props.data.time} - {props.data.time_end}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
-                <div>
-                    <Button onClick={onShowAppointment} className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <Link to={`${props.data.appoint_id}`} className="btn btn-warning">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
-                </div>
+                <Button onClick={onShowAppointment} variant="primary" size="sm">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
+                <Link to={`${props.data.appoint_id}`} className="btn btn-warning btn-sm ms-2">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
             </td>
         </tr>
 

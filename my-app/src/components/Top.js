@@ -1,8 +1,12 @@
-import './Admin.css'
+import { useEffect,useState } from "react";
 
 export default function Top(){
 
     let date = new Date().toLocaleDateString();
+    
+    let role_id = localStorage.getItem("role_id")
+
+
 
     return(
         <>
@@ -12,7 +16,9 @@ export default function Top(){
                     <p className='me-2'>วันที่ : {date}</p>
                 </div>
                 <div className='text'>
-                    <p> สถานะ : แอดมิน</p>
+                   {role_id == 2 &&  <p> สถานะ : เจ้าของคลินิก</p>}
+                   {role_id == 3 &&  <p> สถานะ : พนักงาน</p>}
+                   {role_id == 4 &&  <p> สถานะ : ผู้ดูแลระบบ</p>}
                 </div>
 
             </div>

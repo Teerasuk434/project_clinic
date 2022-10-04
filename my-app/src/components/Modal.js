@@ -1,6 +1,5 @@
 import { Button, Modal,Form,Accordion} from "react-bootstrap";
 import { useEffect, useState } from "react";
-import './Modal.css'
 import { useNavigate} from 'react-router-dom';
 
 import { SERVER_URL } from "../app.config";

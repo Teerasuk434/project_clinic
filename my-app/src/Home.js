@@ -4,7 +4,6 @@ import MainAdmin from './components/admin/MainAdmin';
 import { useEffect, useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 
-
 export default function Home() {             
 
     let [role_id, setRoleId] = useState(0);

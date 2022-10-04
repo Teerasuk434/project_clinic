@@ -1465,12 +1465,15 @@ app.get('/api/history_appoint',(req, res) => {
     d.cost_deposit,
     d.time_spent,
     e.*,
-    f.status_name
+    f.status_name,
+    CONCAT(h.emp_fname," ",h.emp_lname) AS employee_fullname
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
     JOIN service d ON a.service_id = d.service_id
     JOIN rooms e ON a.room_id = e.room_id
     JOIN appoint_status f ON a.status_id = f.status_id
+    JOIN schedules g ON a.appoint_id = g.appoint_id
+    JOIN employee h ON g.emp_id = h.emp_id 
     WHERE a.status_id = 4 OR a.status_id = 5 OR a.status_id = 6
     GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){

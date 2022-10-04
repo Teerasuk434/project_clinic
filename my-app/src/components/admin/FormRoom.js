@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
-import Top from "./Top";
+import Top from '../Top';
 import { UpdateModal, MessageModal } from "../Modal"; 
 
 
@@ -169,24 +169,24 @@ export default function FormRoom(){
                                                         </Form.Group>
                                                     </Row>
                                                     <Row className="mb-3">
-                                                    <Form.Group as={Col} controlId="validateRoomType">
-                                                        <Form.Label>ประเภทห้องรักษา</Form.Label>
-                                                        <Form.Select
-                                                            value={room_type_id}
-                                                            onChange={(e) => setRoomTypeId(e.target.value)}
-                                                            required>
-                                                            <option label="ประเภทห้องรักษา"></option> 
-                                                            {
-                                                            room.map(item => (
-                                                                <option key={item.room_type_id} value={item.room_type_id}> 
-                                                                {item.room_name} </option>
-                                                            ))
-                                                            }
-                                                        </Form.Select>
-                                                            <Form.Control.Feedback type="invalid">
-                                                                กรุณาเลือก ประเภทห้องรักษา
-                                                            </Form.Control.Feedback>
-                                                    </Form.Group>
+                                                        <Form.Group as={Col} controlId="validateRoomType">
+                                                            <Form.Label>ประเภทห้องรักษา</Form.Label>
+                                                            <Form.Select
+                                                                value={room_type_id}
+                                                                onChange={(e) => setRoomTypeId(e.target.value)}
+                                                                required>
+                                                                <option label="ประเภทห้องรักษา"></option> 
+                                                                {
+                                                                room.map(item => (
+                                                                    <option key={item.room_type_id} value={item.room_type_id}> 
+                                                                    {item.room_name} </option>
+                                                                ))
+                                                                }
+                                                            </Form.Select>
+                                                                <Form.Control.Feedback type="invalid">
+                                                                    กรุณาเลือก ประเภทห้องรักษา
+                                                                </Form.Control.Feedback>
+                                                        </Form.Group>
                                                     </Row>    
                                                     <Row className="mb-5">
                                                         <div className="text-end">

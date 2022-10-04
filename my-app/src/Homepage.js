@@ -1,7 +1,7 @@
 import Navigation from './components/Navigation';
 import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
-import './Homepage.css';
+import './style.css'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -24,9 +24,6 @@ export default function Homepage(){
 
             let json = await response.json();
             setServices(json.data);
-
-            document.body.style.overflow = "auto";
-
         }
 
         fetchData();
@@ -51,7 +48,7 @@ export default function Homepage(){
                     <div className="row mt-4">
                         {
                             services.map(item => (
-                                <div className="col-sm-12 col-lg-3 mt-4" key={item.service_id}>
+                                <div className="col-sm-12 col-lg-3 mt-4"  key={item.service_id}>
                                     <div>
                                         <img className="img-service" src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
 

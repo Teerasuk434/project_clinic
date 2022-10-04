@@ -1,7 +1,6 @@
 import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
-import './Appointment.css'
 import { useEffect, useState } from "react";
 import {Form,Col,Row,Button} from 'react-bootstrap';
 import { Link,useNavigate  } from "react-router-dom";

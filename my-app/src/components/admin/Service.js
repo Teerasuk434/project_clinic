@@ -1,15 +1,12 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Form, Row, Col, Table, Pagination } from 'react-bootstrap';
+import { Form, Row, Col, Table, Pagination,Button,InputGroup } from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
 import Fuse from 'fuse.js'
-
-
-import './Admin.css';
 import Sidebar from './Sidebar';
 import ServiceItems from './ServiceItems';
 import { ConfirmModal } from '../Modal';
+import Top from '../Top';
 
 export default function Service() {
     let date = new Date().toLocaleDateString();
@@ -22,34 +19,14 @@ export default function Service() {
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
-    const [numPerPage, setNumPerPage] = useState(5);
+    const [numPerPage, setNumPerPage] = useState(4);
 
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/service",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            document.body.style.overflow = "hidden";
-
-            let json = await response.json();
-            setServices(json.data);
-            setListServices(json.data)
-        }
-
-        fetchData();
+        fetchServices();
     }, []);
 
     useEffect(() => {
@@ -153,68 +130,46 @@ export default function Service() {
     return (
         <>
             <div className="container-fluid">
-
                 <div className='row'>
-
-                    <div className='top d-flex justify-content-between px-3'>
-
-                        <div className="text">
-                             <p className='me-2'>วันที่ : {date}</p>
-                        </div>
-                        <div className='text'>
-                           <p> สถานะ : แอดมิน</p>
-                        </div>
-
-                    </div>
-
-                    <div className='p-0 col-12 col-lg-2 sidebar-height'>
+                    <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
-
-                    <div className='p-0 col-12 col-lg-10'>
-                        <div className="content overflow-hidden">
-                            <div className="container m-auto">
-                                <div className="row my-2">
-                                    <div className="col">
-                                        <h2 className="header-content text-center text-white p-2">ข้อมูลบริการ</h2>
-                                    </div>
+                    
+                    <div className='p-0 m-0 col-12 col-lg-10'>
+                        <div className="content m-auto">
+                            <Top />
+                            <div className='m-4 p-4 rounded shadow border bg-light'>
+                                <div className="border-bottom border-dark border-opacity-50 mb-2">
+                                    <h4 className="text-center">ข้อมูลบริการ</h4>
                                 </div>
-
-                                <div className="row">
-                                    <div className="col-2">
-                                        <Link to={"/service/add"} className="btn btn-success ms-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูล</Link>
-                                    </div>
-                                    <div className="col-10">
-                                        <Form>
-                                            <Row>
-                                                <Form.Group as={Col} md="10" className="mb-2" controlId="validateFirstName">
+                                <div className="my-3 ">
+                                    <div className="m-auto d-flex justify-content-between">
+                                        <div>
+									        <Link to={"/service/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลบริการ</Link>
+                                        </div>
+                                        <div className="form-search">
+                                            <Form noValidate onSubmit={onSearch}>
+                                                <InputGroup>
                                                     <Form.Control
+                                                        size="sm"
                                                         required
                                                         type="text"
                                                         value={search}
                                                         placeholder="ค้นหา"
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอกข้อมูลที่ต้องการค้นหา
-                                                    </Form.Control.Feedback>
-                                                    </Form.Group>
-                                                <Form.Group as={Col} md="2">
-                                                    <div className="d-grid gap-2">
-                                                        <button className="btn btn-success" type="submit" onClick={onSearch}>{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</button>
-                                                    </div>
-                                                </Form.Group>
-                                            </Row>
-                                        </Form>
+                                                    <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
+                                                </InputGroup>
+                                            </Form>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className='row mt-3'>
-                                    <div className='col text-center'>
-                                        <Table striped responsive>
-                                            <thead>
+                                <div className="mt-2">
+                                    <Table size="sm" striped responsive bordered hover variant="light" className='text-center'>
+                                        <thead>
                                                 <tr>
                                                 <th>รหัสบริการ</th>
                                                 <th>ชื่อบริการ</th>
@@ -226,7 +181,7 @@ export default function Service() {
                                                 <th>action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className='table-group-divider align-middle'>
                                                 {
                                                     services.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <ServiceItems
@@ -236,36 +191,32 @@ export default function Service() {
                                                     ))
                                                 }
                                             </tbody>
-                                        </Table>
-                                    </div>
-                                    <div className="mt-2">
-                                        <div className="float-end">
-                                            <Pagination onSelect={onPageSelected}>
-                                                <Pagination.First onClick={firstPage} />
-                                                <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
-                                                { getPagination()}
-                                                <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
-                                                <Pagination.Last onClick={lastPage} />
-                                            </Pagination>
-                                        </div>
-                                    </div>
-                                    
-
+                                    </Table>
                                 </div>
+
+                                <div className="container d-flex justify-content-end">
+                                    <Pagination onSelect={onPageSelected} size="sm">
+                                        <Pagination.First onClick={firstPage} />
+                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                        { getPagination()}
+                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                        <Pagination.Last onClick={lastPage} />
+                                    </Pagination>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
-
                 </div>
-                
             </div>
-                <ConfirmModal
-                    show={confirmModal}
-                    title={confirmModalTitle}
-                    message={confirmModalMessage}
-                    onConfirm={onConfirmDelete}
-                    onClose={onCancel}
-                />
+			
+			 <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmDelete}
+                onClose={onCancel}
+            />
         </>
     )
 }

@@ -1,10 +1,10 @@
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 
 import Sidebar from './Sidebar';
-import Top from './Top';
+import Top from '../Top';
 
 export default function FormUser() {
 
@@ -26,25 +26,25 @@ export default function FormUser() {
     let statusPassword = false;
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/roles",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
+        fetchRoles();
+    },[]);
 
-            let json = await response.json();
-            setRoles(json.data);
+    const fetchRoles = async () => {
+        let json = await API_GET("roles");
+
+        if(json.result){
+            let role_temp = []
+
+            json.data.map(item =>{
+                if(item.role_id != 1){
+                    role_temp.push(item);
+                }
+            })
+
+            setRoles(role_temp);
         }
 
-        fetchData();
-    },[]);
+    }
 
     useEffect(() => {
         async function fetchData(user_id) {
@@ -136,20 +136,21 @@ export default function FormUser() {
 
                     <Top />
 
-                        <div className='row'>
-                            <div className='p-0 col-12 col-lg-2 bg-primary'>
-                                <div className='sidebar'>
-                                    <Sidebar pages={pages}/>
-                                </div>
+                        <div className='p-0 col-12 col-lg-2 bg-primary'>
+                            <div className='sidebar'>
+                                <Sidebar pages={pages}/>
                             </div>
+                        </div>
 
-                            <div className='p-0 m-0 col-12 col-lg-10'>
-                                <div className="content p-5">
-                                    <div className='container m-auto'>
+                        <div className='p-0 m-0 col-12 col-lg-10'>
+                            <div className="content p-5">
+                                <div className='shadow bg-light p-5 rounded'>
 
-                                        <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
+                                    <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
 
-                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                    <div className='container m-auto px-5 py-3 mt-3 border-top border-secondary'>
+
+                                        <Form className="w-50 m-auto" noValidate validated={validated} onSubmit={onSave}>
                                             <Row className="mb-3">
                                                 <Form.Group as={Col} controlId="validateUserName">
                                                     <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
@@ -202,8 +203,11 @@ export default function FormUser() {
                                                 </Form.Group>
                                             </Row>
 
-                                            <Row className="my-4">
-                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                            <Row className="mt-3">
+                                                <div className="text-end">
+                                                    <Button variant="success" as="input" type="submit" value="บันทึก"/>
+                                                    <Link to="/users" className="btn btn-warning ms-2">ยกเลิก</Link>
+                                                </div>
                                             </Row>
                                         </Form>
                                     </div>
@@ -211,13 +215,14 @@ export default function FormUser() {
                             </div>
                         </div>
 
-                            <div className="row">              
-                                <div className='bottom'>
-                                    <div>
-                                        <p>วันที่ : {date}</p>
-                                    </div>
+                        <div className="row">              
+                            <div className='bottom'>
+                                <div>
+                                    <p>วันที่ : {date}</p>
                                 </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             

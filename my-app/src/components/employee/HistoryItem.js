@@ -36,23 +36,22 @@ return (
        <tr>
             <td><p>{props.data.appoint_id}</p></td>
             <td><p>{props.data.cust_fname} {props.data.cust_lname}</p></td>
-            <td><p>{props.data.pet_name}</p></td>
             <td><p>{props.data.service_name}</p></td>
             <td><p>{new Date(props.data.date).toLocaleDateString()}</p></td>
             <td><p>{props.data.time} - {moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm")}</p></td>
+            <td><p>{props.data.employee_fullname}</p></td>
             <td><p>{props.data.status_name}</p></td>
-            <td>
-                <div>
-                    <Button  onClick={onShowAppointment} className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                </div>
-                <ShowAppointmentDetails
+            <td className="align-middle">
+                <Button  onClick={onShowAppointment} className="btn btn-primary" size="sm">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
+            </td>
+        </tr>
+
+        <ShowAppointmentDetails
                 show={showAppointmentModal}
                 title={appointModalTitle}
                 data={AppointmentDetails}
                 onClose={onClose}
                 time_end={time_end}/>
-            </td>
-        </tr>
 
 
     </>
