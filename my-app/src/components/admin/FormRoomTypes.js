@@ -54,6 +54,7 @@ export default function FormRoomtypes(){
 
             onConfirm();
         }
+        setValidated(true);
     }
 
     const doCreateRoomtypes = async() => {
@@ -159,7 +160,7 @@ export default function FormRoomtypes(){
                                         </Form.Group>
 
                                         <Row className="my-4">
-                                            <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
+                                            <Button variant="primary" as="input" type="submit" value="SAVE"/>
                                         </Row>
                                         
                                     </Form>

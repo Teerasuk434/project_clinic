@@ -55,6 +55,7 @@ export default function FormEmptypes(){
 
             onConfirm();
         }
+        setValidated(true);
     }
 
     const doCreateEmptypes = async() => {
@@ -141,7 +142,6 @@ export default function FormEmptypes(){
 
                                         <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
                                             <Form noValidate validated={validated} onSubmit={onSave}>
-                                            
                                                 <Form.Group as={Col} controlId="validateEmpTypes" >
                                                     <Form.Label>ประเภทพนักงาน</Form.Label>
                                                     <Form.Control
@@ -157,7 +157,7 @@ export default function FormEmptypes(){
                                                 </Form.Group>
 
                                                 <Row className="my-4">
-                                                    <Button variant="primary" as="input" type="submit" value="SAVE"  onClick={onSave} />
+                                                    <Button variant="primary" as="input" type="submit" value="SAVE"/>
                                                 </Row>
 
                                                 
