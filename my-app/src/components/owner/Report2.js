@@ -44,10 +44,8 @@ export default function Report2() {
     const [store, setStore] = useState([]);
 
     const [appointStore, setAppointStore] = useState([]);
-    const chartRef = useRef();
+    
 
-    const [appoint_id, setAppointId] = useState(0);
-    const [appointment, setAppointment] = useState([]);
     const [date, setDate] = useState("");
 
     useEffect(() => {
@@ -91,17 +89,10 @@ export default function Report2() {
             return <Bar 
             options={options} 
             data={chartData} 
-            ref={chartRef}
-            onClick={onClick}/>
+            />
+            
         }
         return <></>;
-    }
-
-    const onClick = async (event) => {
-        var element = getElementAtEvent(chartRef.current, event);
-        var index = element[0].index;
-
-        await getAppointment(store[index].date);
     }
 
     const getAppointment = async (date) => {
@@ -109,10 +100,6 @@ export default function Report2() {
             date: date
         })
         setAppointStore(json.data);
-    }
-
-    const onWeek = async (event) => {
-
     }
 
     return(
@@ -131,13 +118,7 @@ export default function Report2() {
                             }
                             
                         </div>
-                        {
-                            appointStore.map(item => (
-                                <AppointmentChartItem
-                                key={item.date}
-                                data={item} />
-                            ))
-                        }
+                        
                     </div>
                 </div>
             </div>

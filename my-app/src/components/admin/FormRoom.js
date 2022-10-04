@@ -17,6 +17,7 @@ export default function FormRoom(){
     const [validated,setValidated] = useState(false);
 
     const [room_type_id, setRoomTypeId] = useState(0);
+    const [room_type, setRoomType] = useState([]);
 
     const [room_name,setRoomName] = useState("");
     const [room_id,setRoomId] = useState("");
@@ -38,19 +39,24 @@ export default function FormRoom(){
 
             setRoomName(data.room_name);
             setRoomId(data.room_id);
+            setRoomTypeId(data.room_type_id);
         }
         if(params.room_id != "add"){
             fetchData([params.room_id]);
+
         }
     },[params.room_id])
 
     useEffect(() =>{ 
         async function fetchData(){
             let json = await API_GET("room");
+            let json2 = await API_GET("room_type");
             setRoom(json.data);
+            setRoomType(json2.data);
         }
         fetchData();
     },[]);
+    
 
     // show modal
     const onSave = async(event) =>{
@@ -76,7 +82,7 @@ export default function FormRoom(){
         if(json.result) {
             navigate("/rooms", { replace: false });
         } else {
-            setModalTitle("ไม่สามารถเพิ่มข้อมูลบริการ");
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลห้องรักษาได้");
             setModalMessage(json.message);
             setShowModal(true);
         }
@@ -92,7 +98,7 @@ export default function FormRoom(){
         if(json.result) {
             navigate("/rooms", { replace: false });
         } else {
-            setModalTitle("ไม่สามารถเพิ่มข้อมูลบริการ");
+            setModalTitle("ไม่สามารถแก้ไขข้อมูลห้องรักษาได้");
             setModalMessage(json.message);
             setShowModal(true);
         }
@@ -177,9 +183,9 @@ export default function FormRoom(){
                                                             required>
                                                             <option label="ประเภทห้องรักษา"></option> 
                                                             {
-                                                            room.map(item => (
+                                                            room_type.map(item => (
                                                                 <option key={item.room_type_id} value={item.room_type_id}> 
-                                                                {item.room_name} </option>
+                                                                {item.room_type_name} </option>
                                                             ))
                                                             }
                                                         </Form.Select>
@@ -204,11 +210,11 @@ export default function FormRoom(){
                                                     onClose={onCancelUpdate}/>
                                             
 
-                                            <MessageModal
-                                                show={showModal}
-                                                title={modalTitle}
-                                                message={modalMessage}
-                                                onClose={onClose}/>
+                                                <MessageModal
+                                                    show={showModal}
+                                                    title={modalTitle}
+                                                    message={modalMessage}
+                                                    onClose={onClose}/>
                                             </div>
                                         </div>
                                     </div>                    

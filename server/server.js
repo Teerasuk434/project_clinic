@@ -1051,10 +1051,22 @@ app.post('/api/room/add',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.createRoom(pool,input.room_name,input.room_type_id);
-        res.json({
-            result: true
-        });
+        var result = await Room.isDupicate(pool, input.room_name, null);
+
+        if(!result) {
+            await Room.createRoom(pool,
+                input.room_name,
+                input.room_type_id);
+            res.json({
+                result: true
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ชื่อห้องซ้ำ"
+            });
+        }
+         
     }catch(ex){
         res.json({
             result: false,
@@ -1067,10 +1079,20 @@ app.post('/api/room/update',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.updateRoom(pool,input.room_id, input.room_name,input.room_type_id);
-        res.json({
-            result: true
-        });
+        var result = await Room.isDupicate(pool, input.room_name, null);
+        
+        if(!result){
+            var result = await Room.updateRoom(pool,input.room_id, input.room_name,input.room_type_id);
+            res.json({
+                result: true
+            });
+        }else {
+            res.json({
+                result: false,
+                message: "ชื่อห้องซ้ำ"
+            });
+        }
+        
     }catch(ex){
         res.json({
             result: false,
