@@ -5,7 +5,7 @@ import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from '../Top';
-import { UpdateModal, MessageModal, ConfirmModal } from "../Modal"; 
+import { MessageModal, ConfirmModal } from "../Modal"; 
 
 
 export default function FormRoom(){

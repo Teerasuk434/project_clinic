@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {Button, Form , Row ,Col} from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 
@@ -140,6 +140,7 @@ export default function FormEmptypes(){
                                 <div className="content p-5">
                                     <div className='container m-auto'>
 
+                                    <div className='col-8 bg-white rounded shadow p-3 m-auto'>
                                         <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
                                             <Form noValidate validated={validated} onSubmit={onSave}>
                                                 <Form.Group as={Col} controlId="validateEmpTypes" >
@@ -156,12 +157,14 @@ export default function FormEmptypes(){
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
 
-                                                <Row className="my-4">
-                                                    <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                                <Row className="mb-2">
+                                                    <div className="text-end">
+                                                        <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                        <Link to="/emptypes" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                    </div>
                                                 </Row>
-
-                                                
                                             </Form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -24,7 +24,7 @@ export default function RoomItem(props){
                    
 
                         <div className="d-inline-block">
-                            <button type="button" className="btn btn-danger btn-sm" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2 btn-sm"></i>}ลบ</button>
+                            <button type="button" className="btn btn-danger btn-sm" onClick={onDelete}>{<i className="fa-solid fa-trash-can me-2 "></i>}ลบ</button>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
 
 import Sidebar from './Sidebar';
@@ -16,8 +16,6 @@ export default function FormRole() {
 
     const [role_id, setRoleId] = useState(0);
     const [role_name, setRoleName] = useState("");
-
-    const [roles, setRoles] = useState([]);
 
     const [validated, setValidated] = useState(false);
 
@@ -43,14 +41,6 @@ export default function FormRole() {
         }
     },[params.role_id])
 
-    // useEffect(() =>{ 
-    //     async function fetchData(){
-    //         let json = await API_GET("role");
-    //         setRoles(json.data);
-    //     }
-    //     fetchData();
-    // },[]);
-    
     const onSave = async (event) => {
         const form = event.currentTarget;
         event.preventDefault();
@@ -145,29 +135,33 @@ export default function FormRole() {
                                 <div className="content p-5">
                                     <div className='container m-auto'>
 
-                                    <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+                                        <div className='col-8 bg-white rounded shadow p-3 m-auto'>
+                                            <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+                                                <Form noValidate validated={validated} onSubmit={onSave}>
+                                                    <Row className="mb-3">
+                                                        <Form.Group as={Col} controlId="validateUserName">
+                                                            <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
+                                                            <Form.Control
+                                                                required
+                                                                type="text"
+                                                                value={role_name}
+                                                                placeholder="ชื่อประเภทผู้ใช้งาน"
+                                                                onChange={(e) => setRoleName(e.target.value)}
+                                                            />
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณากรอก ประเภทผู้ใช้งาน
+                                                            </Form.Control.Feedback>
+                                                        </Form.Group>
+                                                    </Row>
 
-                                        <Form noValidate validated={validated} onSubmit={onSave}>
-                                            <Row className="mb-3">
-                                                <Form.Group as={Col} controlId="validateUserName">
-                                                    <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
-                                                    <Form.Control
-                                                        required
-                                                        type="text"
-                                                        value={role_name}
-                                                        placeholder="ชื่อประเภทผู้ใช้งาน"
-                                                        onChange={(e) => setRoleName(e.target.value)}
-                                                    />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอก ประเภทผู้ใช้งาน
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                            </Row>
-
-                                            <Row className="mb-3">
-                                                <Button variant="primary" as="input" type="submit" value="SAVE"/>
-                                            </Row>
-                                        </Form>
+                                                    <Row className="mb-4">
+                                                        <div className="text-end">
+                                                            <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                            <Link to="/roles" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                        </div>
+                                                    </Row>
+                                                </Form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

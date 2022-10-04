@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {Button, Form , Row ,Col} from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams,Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
@@ -141,6 +141,7 @@ export default function FormRoomtypes(){
                         <div className="p-0 m-0 col-12 col-lg-10">
                             <div className="content p-5">
                                 <div className="container">
+                                <div className='col-8 bg-white rounded shadow p-3 m-auto'>
 
                                     <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
                                     <Form noValidate validated={validated} onSubmit={onSave}>
@@ -159,8 +160,11 @@ export default function FormRoomtypes(){
                                             </Form.Control.Feedback>
                                         </Form.Group>
 
-                                        <Row className="my-4">
-                                            <Button variant="primary" as="input" type="submit" value="SAVE"/>
+                                        <Row className="mb-3">
+                                            <div className="text-end">
+                                                <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                <Link to="/roomtypes" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                            </div>
                                         </Row>
                                         
                                     </Form>
@@ -171,6 +175,7 @@ export default function FormRoomtypes(){
                     </div>
                 </div>
             </div>
+        </div>
             <UpdateModal
                 show={confirmModal}
                 title={confirmModalTitle}
