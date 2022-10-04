@@ -3,10 +3,12 @@ import { API_GET, API_POST } from '../../api';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table, InputGroup, Button, Pagination } from 'react-bootstrap'
+import { ConfirmModal } from '../Modal';
 
 import Sidebar from './Sidebar'
 import Top from '../Top';
 import RolesItem from './RolesItem';
+import Fuse from 'fuse.js';
 
 export default function Admin() {
 
@@ -17,6 +19,12 @@ export default function Admin() {
     const [search, setSearch] = useState("");
     const [roles, setRoles] = useState([]);
     const [listRoles, setListRoles] = useState([]);
+    const [role_id, setRolesId] = useState(0);
+
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
@@ -58,13 +66,27 @@ export default function Admin() {
     }
 
     const onDelete = async (data) => {
+
+        setRolesId(data.role_id);
+
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModal(true);
+    }
+    
+    const onConfirmDelete = async () => {
+        setConfirmModal(false);
         let json = await API_POST("role/delete", {
-            role_id: data.role_id
+            role_id: role_id
         });
 
         if (json.result) {
             fetchRoles();
         }
+    }
+    
+    const onCancelDelete = () => {
+        setConfirmModal(false);
     }
 
     const onSearch = async (event) => {
@@ -75,12 +97,24 @@ export default function Admin() {
             event.stopPropagation();
         } else {
             if(search != ""){
-                let searchRoles = [];
+
+                const fuse = new Fuse(listRoles, {
+                    keys: ['role_id', 'role_name']
+                })
+                
+                let search_result = fuse.search(search)
+                let searchRoles = []
+
+                search_result.map(item => {
+                    searchRoles.push(item.item)
+                })
                 listRoles.filter(role => role.role_name.includes(search)).map(item => {
                     searchRoles.push(item);
                 })
     
-                setRoles(searchRoles);
+                setRoles(searchRoles.sort((a,b) => a.role_id - b.role_id));
+            }else {
+                setRoles(listRoles);
             }
         }
      }
@@ -193,12 +227,19 @@ export default function Admin() {
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>
-                                
+                                    
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmDelete}
+                onClose={onCancelDelete}/>
         </>
     )
 }

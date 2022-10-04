@@ -52,7 +52,6 @@ export default function FormRoomtypes(){
             event.stopPropagation();
         }else{
 
-            // onDelete();
             onConfirm();
         }
     }
@@ -88,9 +87,7 @@ export default function FormRoomtypes(){
         }
     }
 
-    const onConfirm = async (data) => {
-        
-        
+    const onConfirm = async (data) => {     
 
         if(params.room_type_id === "add"){
             
@@ -104,7 +101,6 @@ export default function FormRoomtypes(){
             setConfirmModal(true);
             
         }
-        
     }
 
     const onConfirmUpdate = async () => {
@@ -132,57 +128,60 @@ export default function FormRoomtypes(){
             <div className="container-fluid">
                 <div className="row">
             
-                            <Top />
+                <Top />
 
-                                <div className="row">
-                                    <div className="p-0 col-12 col-lg-2 bg-primary">
-                                        <div className="sidebar">
-                                            <Sidebar pages={pages}/>
-                                        </div>
-                                    </div>
+                    <div className="row">
+                        <div className="p-0 col-12 col-lg-2 bg-primary">
+                            <div className="sidebar">
+                                <Sidebar pages={pages}/>
+                            </div>
+                        </div>
+                        
+                        <div className="p-0 m-0 col-12 col-lg-10">
+                            <div className="content p-5">
+                                <div className="container">
+
+                                    <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
                                     
-                                    <div className="p-0 m-0 col-12 col-lg-10">
-                                        <div className="content p-5">
-                                            <div className="container">
+                                        <Form.Group as={Col} controlId="validateRoomTypes" >
+                                            <Form.Label>ประเภทห้องรักษา</Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="text"
+                                                value={room_type_name}
+                                                placeholder="ประเภทห้องรักษา"
+                                                onChange={(e) => setRoomTypesName(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                กรุณากรอก ชื่อประเภทห้องรักษา
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
 
-                                                <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
-                                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                                
-                                                    <Form.Group as={Col} controlId="validateRoomTypes" >
-                                                        <Form.Label>ประเภทห้องรักษา</Form.Label>
-                                                        <Form.Control
-                                                            required
-                                                            type="text"
-                                                            value={room_type_name}
-                                                            placeholder="ประเภทห้องรักษา"
-                                                            onChange={(e) => setRoomTypesName(e.target.value)}
-                                                        />
-                                                        <Form.Control.Feedback type="invalid">
-                                                            กรุณากรอก ชื่อประเภทห้องรักษา
-                                                        </Form.Control.Feedback>
-                                                    </Form.Group>
-
-                                                    <Row className="my-4">
-                                                        <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
-                                                    </Row>
-                                                    <UpdateModal
-                                                        show={confirmModal}
-                                                        title={confirmModalTitle}
-                                                        message={confirmModalMessage}
-                                                        onConfirm={onConfirmUpdate}
-                                                        onClose={onCancelUpdate}/>
-                                                </Form>
-                                            </div>
-                                                    <MessageModal
-                                                            show={showModal}
-                                                            title={modalTitle}
-                                                            message={modalMessage}
-                                                            onClose={onClose}/>
-                                        </div>
-                                    </div>
+                                        <Row className="my-4">
+                                            <Button variant="primary" as="input" type="submit" value="SAVE" onClick={onSave}/>
+                                        </Row>
+                                        
+                                    </Form>
                                 </div>
+                                        
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <UpdateModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmUpdate}
+                onClose={onCancelUpdate}/>
+                
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}/>
         </>
     )
 }

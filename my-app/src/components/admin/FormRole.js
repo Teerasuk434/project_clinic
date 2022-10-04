@@ -5,6 +5,7 @@ import { API_GET, API_POST } from '../../api';
 
 import Sidebar from './Sidebar';
 import Top from '../Top';
+import { ConfirmModal, MessageModal } from '../Modal';
 
 export default function FormRole() {
 
@@ -20,27 +21,14 @@ export default function FormRole() {
 
     const [validated, setValidated] = useState(false);
 
+  // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/roles",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setRoles(json.data);
-        }
-
-        fetchData();
-    },[]);
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
 
     useEffect(() => {
         async function fetchData(role_id) {
@@ -54,6 +42,14 @@ export default function FormRole() {
             fetchData([params.role_id]);
         }
     },[params.role_id])
+
+    // useEffect(() =>{ 
+    //     async function fetchData(){
+    //         let json = await API_GET("role");
+    //         setRoles(json.data);
+    //     }
+    //     fetchData();
+    // },[]);
     
     const onSave = async (event) => {
         const form = event.currentTarget;
@@ -62,36 +58,23 @@ export default function FormRole() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if (params.role_id === "add") {
-                doCreateRole();
-            } else {
-                doUpdateRole();
-
-            }
+           onConfirm();
         }
         setValidated(true);
     }
 
-    const doCreateRole = async (res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/role/add",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer " + localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    role_name:role_name
-                })
-            }
-        );
-        let json = await response.json();
+    const doCreateRole = async () => {
+        let json = await API_POST("role/add",{
+            role_name:role_name
+        })
+        
         if(json.result) {
             window.location = "/roles";
+        } else {
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลประเภทผู้ใช้ได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
-
     }
 
     const doUpdateRole = async () => {
@@ -102,9 +85,47 @@ export default function FormRole() {
 
         if (json.result) {
             window.location = "/roles";
+        }else {
+            setModalTitle("ไม่สามารถแก้ไขข้อมูลประเภทผู้ใช้ได้");
+            setModalMessage(json.message);
+            setShowModal(true);
+        }
+    }
+    
+    const onConfirm = async (data) => {
+        if(params.role_id === "add"){
+            setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+        }else{
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
         }
     }
 
+    const onConfirmUpdate = async () => {
+        setConfirmModal(false);
+
+        if(params.role_id === "add"){
+            doCreateRole();
+            
+        }else{
+            doUpdateRole();
+            
+        }
+    }
+    
+    const onCancelUpdate = () => {
+        setConfirmModal(false);
+
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
+    }
 
     return (
         <>
@@ -153,6 +174,20 @@ export default function FormRole() {
                         </div>
                     </div>
                 </div>
+
+                <ConfirmModal
+                    show={confirmModal}
+                    title={confirmModalTitle}
+                    message={confirmModalMessage}
+                    onConfirm={onConfirmUpdate}
+                    onClose={onCancelUpdate}/>
+
+                <MessageModal
+                    show={showModal}
+                    title={modalTitle}
+                    message={modalMessage}
+                    onClose={onClose}/>
+                
         </>
     )
 }

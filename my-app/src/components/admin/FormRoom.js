@@ -5,7 +5,7 @@ import { API_GET,API_POST } from "../../api";
 
 import Sidebar from "./Sidebar";
 import Top from '../Top';
-import { UpdateModal, MessageModal } from "../Modal"; 
+import { UpdateModal, MessageModal, ConfirmModal } from "../Modal"; 
 
 
 export default function FormRoom(){
@@ -202,7 +202,7 @@ export default function FormRoom(){
                                                     </Row>
                                                 </Form>
 
-                                                <UpdateModal
+                                                <ConfirmModal
                                                     show={confirmModal}
                                                     title={confirmModalTitle}
                                                     message={confirmModalMessage}

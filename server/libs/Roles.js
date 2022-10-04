@@ -25,5 +25,20 @@ module.exports = {
         sql = mysql.format(sql, [role_id]);
 
         return await pool.query(sql);
+    },
+    isDupicate: async (pool,role_name,role_id) => {
+        var sql = "SELECT * FROM roles WHERE role_name = ?";
+        if(role_id != null) {
+            sql = sql + "AND role_id <> ?";
+            sql = mysql.format(sql, [role_name, role_id])
+        } else {
+            sql = mysql.format(sql, [role_name]);
+        }
+        var result = await pool.query(sql);
+        if(result.length > 0) {
+            return true;
+        }
+        
+        return false;
     }
 }

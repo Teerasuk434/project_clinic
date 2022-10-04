@@ -187,7 +187,7 @@ export default function EmployeeType(props){
                                                         required
                                                         type="text"
                                                         value={search}
-                                                        placeholder="ค้นหาประเภทผู้ใช้"
+                                                        placeholder="ค้นหาประเภทพนักงาน"
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
                                                     <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>

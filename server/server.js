@@ -488,12 +488,20 @@ app.post("/api/role/add", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Roles.createRole(pool,
-            input.role_name);
+        var result = await Roles.isDupicate(pool,input.role_name);
 
-        res.json({
-            result: true
-        });
+        if(!result){
+            await Roles.createRole(pool,
+                input.role_name);
+            res.json({
+                result: true
+            });
+        } else {
+            res.json({
+                result: false,
+                message: "ชื่อประเภทผู้ใช้ซ้ำ"
+            });
+        }
     } catch (ex) {
         res.json({
             result: false,
@@ -530,12 +538,20 @@ app.post("/api/role/update", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Roles.updateRole(pool,
+        var result = await Roles.isDupicate(pool,input.role_name, input.role_id);
+
+         if(!result){
+            await Roles.updateRole(pool,
             input.role_id,input.role_name);
-        
         res.json({
             result: true
         });
+    }else {
+        res.json({
+            result:false,
+            message: "ชื่อประเภทผู้ใช้ซ้ำ"
+        })
+    }
     } catch (ex) {
         res.json({
             result: false,
@@ -760,10 +776,22 @@ app.post('/api/emp_types/add',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await EmployeeTypes.createEmptypes(pool,input.emp_position_name);
-        res.json({
-            result: true
-        });
+
+        var result = await EmployeeTypes.isDupicate(pool,
+            input.emp_position_name,null);
+        
+        if(!result) {
+            await EmployeeTypes.createEmptypes(pool,
+                input.emp_position_name);
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result: false,
+                message: "ชื่อประเภทพนักงานซ้ำ"
+            });
+        }
     }catch(ex){
         res.json({
             result: false,
@@ -775,10 +803,23 @@ app.post('/api/emp_types/add',async(req, res) => {
 app.post('/api/emp_types/update',async(req, res) => {
     const input = req.body;
     try{
-        var result = await EmployeeTypes.updateEmptypes(pool,input.emp_position_id, input.emp_position_name);
-        res.json({
-            result: true
-        });
+        var result = await EmployeeTypes.isDupicate(pool,
+            input.emp_position_id,
+            input.emp_position_name,null);
+
+        if(!result){
+            await EmployeeTypes.updateEmptypes(pool,
+                input.emp_position_id, 
+                input.emp_position_name);
+            res.json({
+                result: true
+            });
+        } else{
+            res.json({
+                result: false,
+                message: "ชื่อประเภทพนักงานซ้ำ"
+            });
+        }
     }catch(ex){
         res.json({
             result: false,
@@ -858,7 +899,7 @@ app.post('/api/room_type/add',async(req, res) => {
         } else {
             res.json({
                 result: false,
-                message: "ชื่อประเภทห้องซ้ำ"
+                message: "ชื่อประเภทห้องรักษาซ้ำ"
             });
         }
     }catch(ex){
@@ -873,10 +914,18 @@ app.post('/api/room_type/update',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await RoomTypes.updateRoomtypes(pool, input.room_type_name,input.room_type_id);
-        res.json({
-            result: true
-        });
+        var result = await RoomTypes.isDupicate(pool, input.room_type_name,input.room_type_id, null);
+        if(!result){
+            await RoomTypes.updateRoomtypes(pool, input.room_type_name,input.room_type_id);
+            res.json({
+                result: true
+            });
+        } else{
+            res.json({
+                result: false,
+                message: "ชื่อประเภทห้องรักษาซ้ำ"
+            })
+        }
     }catch(ex){
         res.json({
             result: false,

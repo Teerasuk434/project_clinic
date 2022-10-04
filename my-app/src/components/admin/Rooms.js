@@ -181,7 +181,7 @@ export default function Rooms(){
                                                         required
                                                         type="text"
                                                         value={search}
-                                                        placeholder="ค้นหาประเภทผู้ใช้"
+                                                        placeholder="ค้นหาห้องรักษา"
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
                                                     <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>

@@ -3,10 +3,11 @@ import {Button, Form , Row ,Col} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
+
 import Sidebar from "./Sidebar";
 import Top from '../Top';
 
-import { UpdateModal } from "../Modal"; 
+import { ConfirmModal,MessageModal } from "../Modal"; 
 
 export default function FormEmptypes(){
 
@@ -25,7 +26,11 @@ export default function FormEmptypes(){
      const [confirmModalTitle, setConfirmModalTitle] = useState("");
      const [confirmModalMessage, setConfirmModalMessage] = useState("");
  
-
+     const [showModal, setShowModal] = useState(false);
+     const [modalTitle, setModalTitle] = useState("");
+     const [modalMessage, setModalMessage] = useState("");
+ 
+ 
     useEffect(() =>{
         async function fetchData(emp_position_id){
             let json = await API_GET("emp_types/"+emp_position_id);
@@ -33,14 +38,11 @@ export default function FormEmptypes(){
             
             setEmpPositionName(data.emp_position_name);
             setEmpPositionId(data.emp_position_id);
-            console.log(json)
-            
         }
-
         if(params.emp_position_name != "add"){
             fetchData([params.emp_position_id]);
         }
-    },[]);
+    },[params.emp_position_id]);
 
     // show modal
     const onSave = async(event) =>{
@@ -51,60 +53,39 @@ export default function FormEmptypes(){
             event.stopPropagation();
         }else{
 
-            // onDelete();
             onConfirm();
         }
     }
 
-    const doCreateEmptypes = async(res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/emp_types/add",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    emp_position_name: emp_position_name
-                })
-            }
-        )
-        let json = await response.json();
-
+    const doCreateEmptypes = async() => {
+        let json = await API_POST("emp_types/add",{
+            emp_position_name: emp_position_name
+        })
         if(json.result){
             navigate("/emptypes", { replace: true });
+        }else {
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลประเภทพนักงานได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
     
     const doUpdateEmptypes = async(res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/emp_types/update",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer "+ localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    emp_position_id: emp_position_id,
-                    emp_position_name: emp_position_name
-                    
-                })
-            }
-        )
-        let json = await response.json();
-
+        let json = await API_POST("emp_types/update",{
+            emp_position_id: emp_position_id,
+            emp_position_name: emp_position_name
+        })
+        
         if(json.result){
             navigate("/emptypes", { replace: true });
+        }else {
+            setModalTitle("ไม่สามารถแก้ไขข้อมูลประเภทพนักงานได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
 
     const onConfirm = async (data) => {
-        
-        
 
         if(params.emp_position_id === "add"){
             
@@ -116,9 +97,7 @@ export default function FormEmptypes(){
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
             setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
             setConfirmModal(true);
-            
         }
-        
     }
 
     const onConfirmUpdate = async () => {
@@ -131,33 +110,17 @@ export default function FormEmptypes(){
             doUpdateEmptypes();
             
         }
-
-        
-        // let json = await API_POST("emp_types/update", {
-        //     emp_position_name:emp_position_name,
-        //     emp_position_id: emp_position_id
-            
-        // });
-
-        // if (json.result) {
-        //     setEmpType();
-        //     fetchData();
-        //     navigate("/emptypes", { replace: true });
-        // }
     }
     const onCancelUpdate = () => {
         setConfirmModal(false);
 
     }
 
-    // const fetchData = async () => {
-    //     let json = await API_GET("emp_types");
-    //     setEmpTypes(json.data);
-    //     setListEmpTypes(json.data);
-    //     doUpdateEmptypes();
-        
-    // }
-    
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
+    }
+
     return (
     <>
             <div className="container-fluid">
@@ -197,12 +160,7 @@ export default function FormEmptypes(){
                                                     <Button variant="primary" as="input" type="submit" value="SAVE"  onClick={onSave} />
                                                 </Row>
 
-                                                <UpdateModal
-                                                    show={confirmModal}
-                                                    title={confirmModalTitle}
-                                                    message={confirmModalMessage}
-                                                    onConfirm={onConfirmUpdate}
-                                                    onClose={onCancelUpdate}/>
+                                                
                                             </Form>
                                     </div>
                                 </div>
@@ -216,6 +174,19 @@ export default function FormEmptypes(){
                                 </div>
                             </div>
                 </div>
+
+                <ConfirmModal
+                    show={confirmModal}
+                    title={confirmModalTitle}
+                    message={confirmModalMessage}
+                    onConfirm={onConfirmUpdate}
+                    onClose={onCancelUpdate}/>
+
+                <MessageModal
+                    show={showModal}
+                    title={modalTitle}
+                    message={modalMessage}
+                    onClose={onClose}/>
         </>
     )
 }
