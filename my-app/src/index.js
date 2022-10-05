@@ -44,12 +44,9 @@ import FormAppoint from './components/employee/FormAppoint';
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';
 
-import AppointSchedule from './components/owner/AppointSchedule';
 import ListAppoint from './components/ListAppoint';
 import HistoryAppoint from './components/employee/HistoryAppoint';
 
-import Report from './components/owner/Report';
-import Report2 from './components/owner/Report2';
 import FormAppointment from './components/owner/FormAppointment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -83,7 +80,6 @@ root.render(
       <Route path="/emptypes/:emp_position_id" element={<FormEmptypes/>}/>
       
       <Route path="/appointment" element={<Appointment />} />
-      <Route path="/appointschedule" element={<AppointSchedule />} />
 
       <Route path="/rooms" element={<Rooms/>} />
       <Route path="/room/:room_id" element={<FormRoom />} />
@@ -96,17 +92,13 @@ root.render(
       <Route path="/list-appoint/:appoint_id" element={<FormAppoint />} />
 
       <Route path="/list-appoint" element={<ListAppoint />} />
-      <Route path="/list-appointment" element={<AppointSchedule />} />
+     
       <Route path="/list-appointment/:appoint_id" element={<FormAppointment />} />
-
-
 
       <Route path="/emp" element={<Employee/>} />
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />
       <Route path="/history-appoint" element={<HistoryAppoint/>} />
-      
-      <Route path="/report" element={<Report />} />
-      <Route path="/report2" element={<Report2 />} />
+
 
     </Routes> 
   </BrowserRouter>

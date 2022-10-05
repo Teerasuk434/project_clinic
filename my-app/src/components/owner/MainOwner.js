@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Report from "./Report";
-import Report2 from "./Report2";
+import ReportAppointment from "../Report/ReportAppointment";
+import ReportByServices from "../Report/ReportByServices";
+import Top from "../Top";
 
 export default function MainOwner() {
 
@@ -17,15 +18,7 @@ export default function MainOwner() {
     
         <div className="container-fluid">
             <div className='row'>
-                <div className='top d-flex justify-content-between px-3'>
-                    <div className="text">
-                        <p className='me-2'>วันที่ : {date}</p>
-                    </div>
-                    <div className='text'>
-                        <p> สถานะ : เจ้าของคลินิก</p>
-                    </div>
-                </div>
-
+            
                 <div className='p-0 col-12 col-lg-2'>
                     <div className='sidebar'>
                            <Sidebar pages ={pages} />
@@ -34,8 +27,9 @@ export default function MainOwner() {
                 
                 <div className='p-0 col-12 col-lg-10'>
                     <div className="content p-0">
-                        <Report />
-                        <Report2 />
+                    <Top />
+                        <ReportByServices />
+                        <ReportAppointment />
                     </div>
                 </div>
             </div>
