@@ -1,7 +1,9 @@
 import { Button, Form, Row, Col } from 'react-bootstrap'
 import { useEffect, useState } from 'react';
-import { useParams,Link } from 'react-router-dom';
+import { useParams,Link, useNavigate } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
+import { ConfirmModal,MessageModal } from '../Modal';
+
 
 import Sidebar from './Sidebar';
 import Top from '../Top';
@@ -12,18 +14,29 @@ export default function FormUser() {
     let pages = 2;
     let date = new Date().toLocaleDateString();
 
+    let navigate = useNavigate();
+
     const [userId, setUserId] = useState(0);
     const [username, setUserName] = useState("");
-    const [newpassword, setNewPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
     const [password,setPassword] = useState("");
     const [role_id, setRoleId] = useState(0);
     const [role_name, setRoleName] = useState("");
 
     const [roles, setRoles] = useState([]);
 
+    const [checkTypeForm, setCheckTypeForm] = useState(true);
+
     const [validated, setValidated] = useState(false);
 
-    let statusPassword = false;
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+
 
     useEffect(() => {
         fetchRoles();
@@ -47,12 +60,19 @@ export default function FormUser() {
     }
 
     useEffect(() => {
+
+        if(params.user_id === "add"){
+            setCheckTypeForm(true);
+        }else{
+            setCheckTypeForm(false);
+        }
+
         async function fetchData(user_id) {
             let json = await API_GET("user/" + user_id);
             var data = json.data[0];
             setUserId(data.user_id);
             setUserName(data.username);
-            setPassword(data.password);
+            setCurrentPassword(data.password);
             setRoleId(data.role_id);
             setRoleName(data.role_name)
         }
@@ -69,61 +89,90 @@ export default function FormUser() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if (params.user_id === "add") {
-                await setPassword(newpassword);
-                doCreateUser();
-
-            } else {
-                if(newpassword === ""){
-                    statusPassword = false;
-                    doUpdateUser();
-                }else{
-                    statusPassword = true;
-                    setPassword(newpassword);
-                    doUpdateUser();
-
-                }
-            }
+                onConfirm();
         }
         setValidated(true);
     }
 
-    const doCreateUser = async (res) => {
-        const response = await fetch(
-            "http://localhost:8080/api/user/add",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer " + localStorage.getItem("access_token")
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                    role_id: role_id
-                })
-            }
-        );
-        let json = await response.json();
+    const doCreateUser = async () => {
+        
+        let json = await API_POST("user/add",{
+            username: username,
+            password: password,
+            role_id: role_id
+        });
+
         if(json.result) {
-            window.location = "/users";
+            navigate("/users", {replace: false });
+        }else{
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลผู้ใช้งาน");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
 
     }
 
     const doUpdateUser = async () => {
+
+        let update_password
+        let status_password = false;
+
+        if(password == ""){
+            update_password = currentPassword;
+            status_password = false;
+        }else{
+            update_password = password;
+            status_password = true;
+        }
+
         const json = await API_POST("user/update", {
             user_id: userId,
             username: username,
-            password: password,
+            password: update_password,
             role_id: role_id,
-            status: statusPassword
+            status: status_password
         });
 
-        if (json.result) {
-            window.location = "/users";
+
+        if(json.result) {
+            navigate("/users", {replace: false });
+        }else{
+            setModalTitle("ไม่สามารถเพิ่มข้อมูลผู้ใช้งาน");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
+    }
+
+    const onConfirm = async () => {
+    
+        if(params.user_id === "add"){
+            setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
+            setConfirmModalMessage("คุณต้องการเพิ่มข้อมูลผู้ใช้งานใช่หรือไม่");
+            setConfirmModal(true);
+        }else{
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณต้องการการแก้ไขข้อมูลผู้ใช้งานใช่หรือไม่");
+            setConfirmModal(true);
+        }
+        
+    }
+
+    const onClickConfirm = async () => {
+        setConfirmModal(false);
+
+        if(params.user_id === "add"){
+            doCreateUser();
+            
+        }else{
+            doUpdateUser();
+            
+        }
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
     }
 
 
@@ -170,10 +219,11 @@ export default function FormUser() {
                                                 <Form.Group as={Col} controlId="validatePassword">
                                                     <Form.Label>รหัสผ่าน</Form.Label>
                                                     <Form.Control
+                                                        required={checkTypeForm}
                                                         type="password"
-                                                        value={newpassword}
+                                                        value={password}
                                                         placeholder="รหัสผ่าน"
-                                                        onChange={(e) => setNewPassword(e.target.value)}
+                                                        onChange={(e) => setPassword(e.target.value)}
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         กรุณากรอก รหัสผ่าน
@@ -224,6 +274,21 @@ export default function FormUser() {
 
                     </div>
                 </div>
+
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
             
         </>
     )

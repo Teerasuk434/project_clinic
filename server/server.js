@@ -409,15 +409,25 @@ app.get("/api/users", (req, res) =>{
 
 app.post("/api/user/add", checkAuth, async (req, res) => {
     const input = req.body;
-
+    console.log(input)
     try {
-        var result = await Users.createUser(pool,
-            input.username, input.password,
-            input.role_id);
 
-        res.json({
-            result: true
-        });
+        var result = await Users.isDuplicate(pool, input.username, null);
+
+        if(!result){
+            await Users.createUser(pool,
+                input.username, input.password,
+                input.role_id);
+
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result:false,
+                message: "ชื่อบริการนี้มีในระบบแล้ว"
+            })
+        }
     } catch (ex) {
         res.json({
             result: false,
@@ -430,16 +440,25 @@ app.post("/api/user/update", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Users.updateUser(pool,
-            input.user_id,
-            input.username,
-            input.password,
-            input.role_id,
-            input.status);
-        
-        res.json({
-            result: true
-        });
+
+        var result = await Users.isDuplicate(pool, input.username, input.user_id);
+
+        if(!result){
+            await Users.updateUser(pool,
+                input.user_id,
+                input.username,
+                input.password,
+                input.role_id,
+                input.status);
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result:false,
+                message: "ชื่อบริการนี้มีในระบบแล้ว"
+            })
+        }
     } catch (ex) {
         res.json({
             result: false,

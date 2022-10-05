@@ -2,7 +2,6 @@ const mysql = require('mysql');
 
 module.exports = {
     createUser: async (pool, username, password, role_id) => {
-        console.log(password);
         var sql ="INSERT INTO users (username, password, role_id) "
                     + "VALUES (?, MD5(?), ?)";
         sql = mysql.format(sql, [username, password, role_id]);
@@ -13,7 +12,6 @@ module.exports = {
         if(status == true){
             var sql = "UPDATE users SET username = ?,password = MD5(?),role_id = ? WHERE user_id = ?";
         }else{
-            console.log("else");
             var sql = "UPDATE users SET username = ?,password = ?,role_id = ? WHERE user_id = ?";
         }
         sql = mysql.format(sql, [username,password,role_id,user_id]);
@@ -37,5 +35,23 @@ module.exports = {
         sql = mysql.format(sql, [password,user_id]);
 
         return await pool.query(sql);
+    },
+    isDuplicate: async (pool, username, user_id) => {
+        var sql = "SELECT * FROM users WHERE username = ?";
+
+        if (user_id != null){
+            sql = sql + "AND user_id <> ?";
+            sql = mysql.format(sql, [username, user_id])
+        }else {
+            sql = mysql.format(sql, [username])
+        }
+
+        var result = await pool.query(sql);
+
+        if(result.length > 0){
+            return true;
+        }
+
+        return false;
     }
 }
