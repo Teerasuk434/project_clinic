@@ -1,7 +1,7 @@
 import { Bar, getElementAtEvent } from 'react-chartjs-2';
 import { API_GET, API_POST } from '../../api';
 import { useEffect, useRef, useState } from 'react';
-import AppointmentChartItem from './AppointmentChartItem';
+import AppointmentChartItem from '../owner/AppointmentChartItem';
 
 
 import {
@@ -37,7 +37,7 @@ export const options = {
     },
 };
 
-export default function Report2() {
+export default function ReportAppointment() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState({});

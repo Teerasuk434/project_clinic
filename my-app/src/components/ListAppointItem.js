@@ -44,12 +44,12 @@ return (
             <td><p>{props.data.status_name}</p></td>
             <td>
                 <div>
-                    <Button  onClick={onShowAppointment} className="btn btn-success">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
+                    <Button  onClick={onShowAppointment} className="btn btn-success btn-sm">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
                 </div>
             </td>
             <td>
                 <div>
-                    <Link to={`${props.data.appoint_id}`} className="btn btn-warning">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
+                    <Link to={`${props.data.appoint_id}`} className="btn btn-warning btn-sm">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
                 </div>
             </td>
         </tr>

@@ -1,8 +1,8 @@
 import { useEffect,useRef,useState } from 'react';
-import { getElementAtEvent,Line } from "react-chartjs-2";
+import { Bar, getElementAtEvent,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
 import { Button,ButtonGroup,Form,Pagination,ToggleButton } from 'react-bootstrap'
-import AppointmentChartItem from './AppointmentChartItem';
+import AppointmentChartItem from '../owner/AppointmentChartItem';
 import { ShowAppointmentDetails } from '../Modal';
 import moment from 'moment';
 
@@ -46,7 +46,7 @@ export const options = {
     },
 };
 
-export default function Report() {
+export default function ReportByServices() {
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState({});
 
@@ -169,7 +169,7 @@ export default function Report() {
 
     const getLineChart = () => {
         if(isLoading){
-            return  <Line
+            return  <Bar
                 option={options} 
                 data={chartData}
                 ref={chartRef}
