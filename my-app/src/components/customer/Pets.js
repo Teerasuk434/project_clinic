@@ -103,10 +103,10 @@ export default function Pets(){
                             <div className="profile-sidebar">
                                 <div>
                                     <Link to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link className="active" to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
+                                    <Link to="/account/pets" className="active">ข้อมูลสัตว์เลี้ยง</Link>
                                     <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="#">ประวัติการนัดหมาย</Link>
-                                    <Link to="#">ตั้งค่ารหัสผ่าน</Link>
+                                    <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
+                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
                                     <Link to="/">ออกจากระบบ</Link>
                                 </div>
                             </div>

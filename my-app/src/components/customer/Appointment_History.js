@@ -45,8 +45,8 @@ export default function Appointment_History () {
                                     <Link to="/account/profile">ข้อมูลบัญชี</Link>
                                     <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
                                     <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link className="active" to="/account/history">ประวัติการนัดหมาย</Link>
-                                    <Link to="#">ตั้งค่ารหัสผ่าน</Link>
+                                    <Link to="/account/history-appoint" className="active">ประวัติการนัดหมาย</Link>
+                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
                                     <Link to="/">ออกจากระบบ</Link>
                                 </div>
                             </div>
