@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table, Pagination,Button,InputGroup } from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
 import Fuse from 'fuse.js'
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import ServiceItems from './ServiceItems';
 import { ConfirmModal } from '../Modal';
 import Top from '../Top';

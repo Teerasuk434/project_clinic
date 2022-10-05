@@ -23,6 +23,7 @@ export default function Pets(){
             let json = await API_POST("listpets/" + user_id);
 
             setPets(json.data);
+            console.log(json.data)
         }
         fetchData(user_id);
                    
@@ -121,7 +122,7 @@ export default function Pets(){
                                     <Link to="/account/pet/add" className="btn btn-success btn-sm ms-5 mt-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
                                
                                 <div className="mx-5 mt-3 mb-3">
-                                    <div className="m-auto text-center row ms-5">
+                                    <div className="m-auto text-center row">
                                     {pets.length > 0 &&
                                     <>
                                         {/* <Table size="sm" responsive bordered hover className='text-center'>

@@ -1,4 +1,4 @@
-import Sidebar from './Sidebar'
+import Sidebar from '../Sidebar';
 import Top from '../Top';
 
 export default function MainAdmin() {

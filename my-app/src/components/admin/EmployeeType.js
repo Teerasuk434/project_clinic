@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table, Pagination, Button , InputGroup} from 'react-bootstrap';
 import { API_GET, API_POST } from '../../api';
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import Top from '../Top';
 import EmployeeTypeItems from './EmployeeTypeItems';
 import { ConfirmModal } from '../Modal';

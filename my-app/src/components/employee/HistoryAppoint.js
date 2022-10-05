@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import { Table, Button , Form , Col, Row, InputGroup} from 'react-bootstrap';
 import { API_GET , API_POST} from '../../api';
 import HistoryItem from './HistoryItem';

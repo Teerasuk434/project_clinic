@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import RoomItem from "./RoomItem";
 import { API_GET,API_POST } from "../../api";
 import Fuse from "fuse.js";
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import Top from '../Top';
 import { ConfirmModal } from "../Modal"; 
 

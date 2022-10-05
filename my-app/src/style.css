@@ -382,6 +382,16 @@ html, body, #fullheight {
     position: relative;
 }
 
+.box-pet-image {
+    width: 100%;
+    height: 170px;
+}
+
+.box-pet-image img{
+    max-width: 150px;
+    max-height: 150px;
+}
+
 
 /* Employee */
 .req-appoint-label{

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Form, Row, Col, Table, InputGroup, Button, Pagination } from 'react-bootstrap'
 import { ConfirmModal } from '../Modal';
 
-import Sidebar from './Sidebar'
+import Sidebar from '../Sidebar';
 import Top from '../Top';
 import RolesItem from './RolesItem';
 import Fuse from 'fuse.js';

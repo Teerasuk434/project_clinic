@@ -5,7 +5,7 @@ import { API_GET, API_POST } from '../../api';
 import { ConfirmModal,MessageModal } from '../Modal';
 
 
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import Top from '../Top';
 
 export default function FormUser() {

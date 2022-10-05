@@ -80,9 +80,6 @@ export default function ReportByServices() {
         { name: 'ปี', value: '2' },
       ];
 
-      document.body.style.overflow = "hidden";
-
-
     useEffect(() =>{
         fetchReportData();
         fetchService();
@@ -169,7 +166,7 @@ export default function ReportByServices() {
 
     const getLineChart = () => {
         if(isLoading){
-            return  <Bar
+            return  <Line
                 option={options} 
                 data={chartData}
                 ref={chartRef}

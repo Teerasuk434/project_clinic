@@ -25,6 +25,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use('/images', express.static('images'));
+app.use('/images/pets', express.static('images/pets'));
+
 
 var mysql = require('mysql');
 const { response } = require('express');
@@ -1015,7 +1017,7 @@ app.post('/api/pets/add',async(req, res) => {
         var result = await Pets.createPet(pool,
             input.pet_name,input.pet_type,
             input.pet_species,input.pet_gender,
-            input.pet_age_year,input.pet_age_month,
+            input.pet_age_year,input.pet_age_month,input.image,
             input.cust_id);
         res.json({
             result: true
@@ -1080,6 +1082,42 @@ app.get('/api/pets/:pet_id', async(req, res) => {
             message: ex.message
         });
     }
+});
+
+app.post("/api/pets/upload/:pet_id", checkAuth, (req, res) => {
+    var pet_id = req.params.pet_id;
+    var fileName;
+
+    var storage = multer.diskStorage({
+        destination: (req, file, cp) =>{
+            cp(null, "images/pets");
+        },
+        filename: (req, file, cp) => {
+            let fileNames = file.originalname.split('.');
+            fileName = "pets-" + pet_id +"-"+"."+fileNames[1];
+            cp(null, fileName);
+        }
+    });
+
+    var upload = multer({ storage: storage}).single('file');
+
+
+    upload(req, res, async (err) => {
+        if (err) {
+            res.json({
+                result: false,
+                message: err.message
+            });
+        } else {
+            console.log(fileName)
+            var result = Pets.uploadImage(pool, pet_id, fileName);
+
+            res.json({
+                result: true,
+                data: fileName
+            });
+        }
+    });
 });
 
 app.post('/api/listpets/:user_id',async(req, res) => {

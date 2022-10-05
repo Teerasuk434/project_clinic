@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import { Table,Button,Pagination,Form,InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../../api';

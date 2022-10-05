@@ -3,7 +3,7 @@ import {Button, Form , Row ,Col} from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 
 export default function FormEmployee(){
 

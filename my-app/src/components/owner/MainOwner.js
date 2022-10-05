@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import ReportAppointment from "../Report/ReportAppointment";
 import ReportByServices from "../Report/ReportByServices";
 import Top from "../Top";

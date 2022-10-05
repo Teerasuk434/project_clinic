@@ -3,7 +3,7 @@ import {Button, Form , Row ,Col} from "react-bootstrap";
 import { useNavigate, useParams,Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import Top from '../Top';
 import { UpdateModal, MessageModal} from "../Modal";
 

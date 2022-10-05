@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Form, Row, Col, Table , Pagination, Button , InputGroup} from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import Fuse from "fuse.js";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import Top from '../Top';
 import RoomTypesItem from "./RoomTypesItem";
 import { ConfirmModal } from "../Modal"; 

@@ -4,7 +4,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { API_GET,API_POST } from "../../api";
 
 
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 import Top from '../Top';
 
 import { ConfirmModal,MessageModal } from "../Modal"; 

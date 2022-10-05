@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from '../Sidebar';
 import { Form , Col, Button, Accordion} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';

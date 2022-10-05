@@ -9,9 +9,13 @@ export default function PetsItems(props) {
 
     return (
         <>
-            <div className="box-pet bg-light shadow text-start col-3 me-3 my-3">
-                <div className="text-center border-bottom border-secondary border-opacity-50 p-2">
-                    <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
+            <div className="box-pet bg-light shadow text-start col-3 mx-2 my-3">
+                <div className="text-center border-bottom border-secondary border-opacity-50 p-2 box-pet-image">
+                    {props.data.image == "" ?
+                        <img src={`http://localhost:8080/images/pets/default.png`} alt=""/>
+                        :
+                        <img src={`http://localhost:8080/images/pets/${props.data.image}`} alt=""/>    
+                    }
                 </div>
                     <p>ชื่อสัตว์เลี้ยง : {props.data.pet_name}</p>
                     <p>ประเภทสัตว์ : {props.data.pet_type}</p>

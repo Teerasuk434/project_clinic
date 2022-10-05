@@ -6,7 +6,7 @@ import { API_GET,API_POST } from "../../api";
 import Top from "../Top";
 
 
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
 
 export default function Employee(){
     let date = new Date().toLocaleDateString();

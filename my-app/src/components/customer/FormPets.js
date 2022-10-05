@@ -6,6 +6,8 @@ import { API_GET, API_POST} from "../../api"
 import { Form,Button,Col,Row,InputGroup } from "react-bootstrap"
 import { Link,useParams,useNavigate } from "react-router-dom"
 
+import { SERVER_URL } from "../../app.config"
+
 export default function FormPets(){
 
     const [pet_id, setPetId] = useState(0);
@@ -16,6 +18,9 @@ export default function FormPets(){
     const [pet_age_year, setPetAgeYear] = useState(0);
     const [pet_age_month, setPetAgeMonth] = useState(0);
     const [custId, setCustId] = useState(0);
+
+    const [imageUrl, setImageUrl] = useState("");
+
     let user_id = localStorage.getItem("user_id");
 
     let params = useParams();
@@ -86,6 +91,7 @@ export default function FormPets(){
                     pet_gender:pet_gender,
                     pet_age_year:pet_age_year,
                     pet_age_month:pet_age_month,
+                    image:imageUrl,
                     cust_id: custId
                 })
             }
@@ -112,6 +118,54 @@ export default function FormPets(){
         if(json.result){
             navigate("/account/pets", { replace: true });
         }
+    }
+
+    const onFileSelected = (e) => {
+        if (e.target.files.length > 0) {
+            onUploadImage(e.target.files[0])
+        }
+            
+    }
+
+    const onUploadImage = async (selectedFile) => {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        let response = await fetch(
+            SERVER_URL + "api/pets/upload/" + pet_id,
+            {
+                method: 'POST',
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: formData,
+            }
+        );
+        let json = await response.json();
+        console.log(json)
+        setImageUrl(json.data);
+    }
+
+    const getImageComponent = () => {
+        return (
+            <div className="container-fluid p-0 m-0 mt-3">
+
+                <Form>
+                    <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Label>อัพโหลดรูปภาพสัตว์เลี้ยง</Form.Label>
+                        <Form.Control
+                            type="file"
+                            name="file"
+                            onChange={onFileSelected} />
+                        <Form.Control.Feedback type="invalid">
+                            กรุณาอัพโหลดรูปภาพ
+                        </Form.Control.Feedback>
+                    </Form.Group> 
+                </Form>
+
+            </div>
+        );
     }
 
 
@@ -151,97 +205,122 @@ export default function FormPets(){
 
                             <div className="profile-details">
                                 <div className="row mx-5 mt-5 mb-3">
-                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validatePetName">
-                                            <Form.Label>ชื่อสัตว์เลี้ยง</Form.Label>
-                                            <Form.Control
-                                                required
-                                                type="text"
-                                                value={pet_name}
-                                                placeholder="กรอกชื่อสัตว์เลี้ยง"
-                                                onChange={(e) => setPetName(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกชื่อสัตว์เลี้ยง
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
+                                    <div className="overflow-auto">
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                            <Row>
+                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetName">
+                                                    <Form.Label>ชื่อสัตว์เลี้ยง</Form.Label>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        value={pet_name}
+                                                        placeholder="กรอกชื่อสัตว์เลี้ยง"
+                                                        onChange={(e) => setPetName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกชื่อสัตว์เลี้ยง
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
 
-                                        <Form.Group as={Col}  sm="12" md="6" controlId="validatePetType">
-                                            <Form.Label>ประเภทสัตว์เลี้ยง</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="text"
-                                                value={pet_type}
-                                                placeholder="กรอกประเภทสัตว์เลี้ยง (สุนัข,แมว,...)"
-                                                onChange={(e) => setPetType(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกประเภทสัตว์เลี้ยง
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
+                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetType">
+                                                    <Form.Label>ประเภทสัตว์เลี้ยง</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="text"
+                                                        value={pet_type}
+                                                        placeholder="กรอกประเภทสัตว์เลี้ยง (สุนัข,แมว,...)"
+                                                        onChange={(e) => setPetType(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกประเภทสัตว์เลี้ยง
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
 
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validatePetSpecies">
-                                            <Form.Label>สายพันธุ์</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="text"
-                                                value={pet_species}
-                                                placeholder="กรอกสายพันธุ์"
-                                                onChange={(e) => setPetSpecies(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกสายพันธุ์
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
+                                            </Row>
 
-                                        <Form.Group as={Col} sm="12" md="6" controlId="validateGender">
-                                            <Form.Label>เพศ</Form.Label>
-                                            <Form.Select
-                                                value={pet_gender}
-                                                onChange={(e) => setPetGender(e.target.value)}
-                                                required>
-                                                <option label="กรุณาระบุเพศ"></option> 
-                                                <option value="ผู้">ผู้</option>
-                                                <option value="เมีย">เมีย</option>
-                                            </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาระบุเพศสัตว์เลี้ยง
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-                                    
-                                    <div className="d-flex flex-row">
-                                        <InputGroup style={{width:"20%"}} className="me-3">
-                                            <Form.Label className="me-3">อายุ</Form.Label>
-                                            <Form.Control 
-                                                    type="number"
-                                                    value={pet_age_year}
-                                                    min="0"
-                                                    max="20"
-                                                    onChange={(e) => setPetAgeYear(e.target.value)}/>
-                                            <InputGroup.Text>ปี</InputGroup.Text>
-                                        </InputGroup>
+                                            <Row>
+                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetSpecies">
+                                                    <Form.Label>สายพันธุ์</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="text"
+                                                        value={pet_species}
+                                                        placeholder="กรอกสายพันธุ์"
+                                                        onChange={(e) => setPetSpecies(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกสายพันธุ์
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
 
-                                        <InputGroup style={{width:"20%"}}>
-                                            <Form.Control 
-                                                    required
-                                                    type="number"
-                                                    value={pet_age_month}
-                                                    min="1"
-                                                    max="12"
-                                                    onChange={(e) => setPetAgeMonth(e.target.value)}/>
-                                            <InputGroup.Text>เดือน</InputGroup.Text>
-                                        </InputGroup>
+                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validateGender">
+                                                    <Form.Label>เพศ</Form.Label>
+                                                    <Form.Select
+                                                        value={pet_gender}
+                                                        onChange={(e) => setPetGender(e.target.value)}
+                                                        required>
+                                                        <option label="กรุณาระบุเพศ"></option> 
+                                                        <option value="ผู้">ผู้</option>
+                                                        <option value="เมีย">เมีย</option>
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาระบุเพศสัตว์เลี้ยง
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+                                            
+                                            <div className="row">
+                                                <div className="col-6">
+                                                    <div className="d-flex flex-row mt-3">
+                                                        <InputGroup className="me-3">
+                                                            <Form.Label className="m-auto me-2">อายุ</Form.Label>
+                                                            <Form.Control 
+                                                                    type="number"
+                                                                    value={pet_age_year}
+                                                                    min="0"
+                                                                    max="20"
+                                                                    onChange={(e) => setPetAgeYear(e.target.value)}/>
+                                                            <InputGroup.Text>ปี</InputGroup.Text>
+                                                        </InputGroup>
+
+                                                        <InputGroup >
+                                                            <Form.Control 
+                                                                    required
+                                                                    type="number"
+                                                                    value={pet_age_month}
+                                                                    min="1"
+                                                                    max="12"
+                                                                    onChange={(e) => setPetAgeMonth(e.target.value)}/>
+                                                            <InputGroup.Text>เดือน</InputGroup.Text>
+                                                        </InputGroup>
+                                                    </div>
+
+                                                    {
+                                                        getImageComponent()
+                                                    }
+
+                                                    
+                                                    <Row className="mx-1 mt-4">
+                                                        <Button variant="success p-2 w-25" size="sm" as="input" type="submit" value="บันทึกข้อมูล"></Button>
+                                                    </Row>
+                                                </div>
+
+                                                <div className="col-6"> 
+                                                    {imageUrl != "" && 
+                                                            <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
+                                                                <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
+
+                                                            </div>                        
+                                                        }
+                                                </div>
+
+                                            </div>
+
+
+                                        </Form>
+
+                                        
                                     </div>
-
-
-                                    <Row className="mx-1 mt-4">
-                                        <Button variant="success p-2" as="input" type="submit" value="บันทึกข้อมูล"></Button>
-                                    </Row>
-                                </Form>
                                 </div>
 
                                 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Sidebar from './employee/Sidebar'
+import Sidebar from './Sidebar';
 import { Table,Button, InputGroup, Form, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../api';
@@ -10,7 +10,7 @@ import Fuse from 'fuse.js';
 export default function ListAppoint(){
 
     let date = new Date().toLocaleDateString();
-    let pages = 3;
+    let pages = 2;
 
     const [appointments, setAppointments] = useState([]);
     const [search, setSearch] = useState("");
@@ -136,7 +136,7 @@ export default function ListAppoint(){
                                                         required
                                                         type="text"
                                                         value={search}
-                                                        placeholder="ค้นหาประเภทห้องรักษา"
+                                                        placeholder="ค้นหานัดหมาย"
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
                                                     <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
