@@ -5,9 +5,6 @@ export default function Sidebar(props){
     let pages = props.pages;
     let role_id = localStorage.getItem("role_id")
 
-    console.log(role_id)
-
-
     const clearData = () => {
         localStorage.clear();
     }

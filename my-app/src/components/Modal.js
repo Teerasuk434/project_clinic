@@ -28,7 +28,6 @@ export function ShowPaymentModal(props) {
 export function ShowAppointmentDetails(props) {
 
     let appoint_status = props.data.appoint_status;
-    console.log(props)
 
     return (
         <>
@@ -104,7 +103,6 @@ export function ShowAppointmentForm(props) {
 
 
     const onFileSelected = (e) => {
-        console.log(e.target.files[0])
         if (e.target.files.length > 0) {
             setSelectedFile(e.target.files[0]);
         }
@@ -127,7 +125,6 @@ export function ShowAppointmentForm(props) {
             }
         );
         let json = await response.json();
-        console.log(json)
         setImageUrl(json.data);
     }
 
@@ -145,8 +142,6 @@ export function ShowAppointmentForm(props) {
             }else{
                 image_url = imageUrl;
             }
-
-            console.log(image_url)
 
             let json = await API_POST("account/edit-appointment",{
                 pet_id:pet_id,

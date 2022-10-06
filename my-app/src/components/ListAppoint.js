@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { Table,Button, InputGroup, Form, Pagination } from 'react-bootstrap';
+import { Table,Button, InputGroup, Form, Pagination, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../api';
 import ListAppointItem from './ListAppointItem';
@@ -10,10 +10,27 @@ import Fuse from 'fuse.js';
 export default function ListAppoint(){
 
     let date = new Date().toLocaleDateString();
-    let pages = 2;
+    let pages;
+
+    let role_id = localStorage.getItem("role_id")
+
+    if(role_id == 2){
+        pages = 2;
+    }else if (role_id == 3){
+        pages = 3;
+    }
 
     const [appointments, setAppointments] = useState([]);
     const [search, setSearch] = useState("");
+
+    const [rooms, setRooms] = useState([]);
+    const [room_id, setRoomId] = useState(0);
+
+    const [services, setServices] = useState([]);
+    const [service_id, setServiceId] = useState(0);
+
+    const [employees, setEmployees] = useState([]);
+    const [emp_id, setEmpId] = useState(0);
     
     const [showAppointmentModal, setAppointmentModal] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
@@ -26,25 +43,57 @@ export default function ListAppoint(){
     const [numPerPage, setNumPerPage] = useState(10);
 
     useEffect(() => {
-
-        async function fetchData(){
-            let json = await API_GET("appointment/accept");
-            let data_temp = [];
-            if(json.result){
-                json.data.map(item=>{
-                    if(item.status_id == 2){
-                        data_temp.push(item);
-                    }
-                })
-                setAppointments(data_temp);
-                setListAppoint(data_temp);
-                console.log(data_temp)
-            }
-        }
-        fetchData();
+        fetchAppointment();
+        fetchRooms();
+        fetchServices();
+        fetchEmployee();
     }, []);
 
+    useEffect(() => {
+        searchByFilter();
+        
+        if(room_id == 0 && service_id == 0 && emp_id == 0 && search == ""){
+            setAppointments(listAppoint);
+        }
+    },[room_id,service_id,emp_id,search])
+
+    const fetchAppointment = async () =>{
+        let json = await API_GET("appointment/accept");
+
+        if(json.result){
+            setAppointments(json.data);
+            setListAppoint(json.data);
+        }
+
+        console.log(json.data)
+    }
+
+    const fetchRooms = async () =>{
+        let json = await API_GET("room");
+
+        if(json.result){
+            setRooms(json.data);
+        }
+    }
+
+    const fetchServices = async () =>{
+        let json = await API_GET("service");
+
+        if(json.result){
+            setServices(json.data);
+        }
+    }
+
+    const fetchEmployee = async () =>{
+        let json = await API_GET("emp");
+
+        if(json.result){
+            setEmployees(json.data);
+        }
+    }
+
     const onSearch = async (event) => {
+        clearFilter();
         const form = event.currentTarget;
         event.preventDefault();
 
@@ -68,6 +117,112 @@ export default function ListAppoint(){
                 setAppointments(listAppoint);
             }
         }
+     }
+
+     const searchByFilter = () =>{
+        if(room_id != 0 && service_id == 0 && emp_id == 0){
+            const fuse = new Fuse(listAppoint, {
+                keys: ['room_id']
+            })
+    
+            let search_result = fuse.search(room_id)
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+    
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else if (room_id == 0 && service_id !=0 && emp_id == 0) {
+            const fuse = new Fuse(listAppoint, {
+                keys: ['service_id']
+            })
+    
+            let search_result = fuse.search(service_id)
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+    
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else if (room_id == 0 && service_id == 0 && emp_id != 0) {
+            const fuse = new Fuse(listAppoint, {
+                keys: ['emp_id']
+            })
+    
+            let search_result = fuse.search(emp_id)
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+    
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else if (room_id != 0 && service_id !=0 && emp_id == 0) {
+            const fuse = new Fuse(listAppoint, {
+                keys: ['room_id','service_id']
+            })
+    
+            let search_result = fuse.search({
+                $and: [{ room_id: `=${room_id}` },
+                       { service_id: `=${service_id}`}]
+              })
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+    
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else if (room_id != 0 && service_id != 0 && emp_id != 0){
+            const fuse = new Fuse(listAppoint, {
+                keys: ['room_id','emp_id','service_id']
+            })
+
+            let search_result = fuse.search({
+                $and: [{ room_id: `=${room_id}` },
+                    { emp_id: `=${emp_id}` }, 
+                    { service_id: `=${service_id}`}]
+            })
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else if (room_id == 0 && service_id !=0 && emp_id != 0) {
+            const fuse = new Fuse(listAppoint, {
+                keys: ['service_id','emp_id']
+            })
+    
+            let search_result = fuse.search({
+                $and: [{ service_id: `=${service_id}` },
+                       { emp_id: `=${emp_id}`}]
+              })
+
+            let searchAppointment = []  
+            
+            search_result.map(item => {
+                searchAppointment.push(item.item)
+            })
+    
+            setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
+        }else{
+            setAppointments(listAppoint);
+        }
+     }
+
+     const clearFilter = () =>{
+        setRoomId(0);
+        setServiceId(0);
+        setEmpId(0);
      }
 
     const getPagination = () => {
@@ -125,9 +280,76 @@ export default function ListAppoint(){
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ตารางนัดหมาย</h4>
                                 </div>
-                                <div className="my-3 ">
-                                    <div className="m-auto d-flex justify-content-between">
-                               
+                                <div className="my-4">
+                                    <div className="m-auto d-flex justify-content-between shadow px-3 py-2 rounded border">
+                                        <div>
+                                            <Form>
+                                                <Row>
+                                                    <Form.Group as={Col} md="3">
+                                                        <Form.Label>ห้อง :</Form.Label>
+                                                        <Form.Select
+                                                            size="sm"
+                                                            value={room_id}
+                                                            onChange={(e) => setRoomId(e.target.value)}
+                                                            required>
+
+                                                            <option value={0}>ทั้งหมด</option> 
+                                                            {
+                                                            rooms.map(item => (
+                                                                <option key={item.room_id} value={item.room_id}> 
+                                                                {item.room_name} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} md="3">
+                                                        <Form.Label>บริการ :</Form.Label>
+                                                        <Form.Select
+                                                            
+                                                            size="sm"
+                                                            value={service_id}
+                                                            onChange={(e) => setServiceId(e.target.value)}
+                                                            required>
+
+                                                            <option value={0}>ทั้งหมด</option> 
+                                                            {
+                                                            services.map(item => (
+                                                                <option key={item.service_id} value={item.service_id}> 
+                                                                {item.service_name} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} md="3">
+                                                        <Form.Label>ผู้รับหน้าที่ :</Form.Label>
+                                                        <Form.Select
+                                                            
+                                                            size="sm"
+                                                            value={emp_id}
+                                                            onChange={(e) => setEmpId(e.target.value)}
+                                                            required>
+
+                                                            <option value={0}>ทั้งหมด</option> 
+                                                            {
+                                                            employees.map(item => (
+                                                                <option key={item.emp_id} value={item.emp_id}> 
+                                                                {item.emp_fname} {item.emp_lname} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
+                                                    </Form.Group>
+
+                                                    <div className="col-3 box-clear-filter">
+                                                        <Button size="sm" variant="warning" onClick={clearFilter}>เคลียร์</Button>
+                                                    </div>
+                                                </Row>
+                                            </Form>
+
+                                        </div>
+
+
                                         <div className="form-search">
                                             <Form noValidate onSubmit={onSearch}>
                                                 <InputGroup>
@@ -152,10 +374,10 @@ export default function ListAppoint(){
                                                 <tr>
                                                 <th>รหัสนัดหมาย</th>
                                                 <th>ชื่อเจ้าของ</th>
-                                                <th>ชื่อสัตว์</th>
                                                 <th>บริการ</th>
                                                 <th>วันที่</th>
                                                 <th>เวลา</th>
+                                                <th>ห้องที่ใช้</th>
                                                 <th>ผู้รับหน้าที่</th>
                                                 <th>สถานะ</th>
                                                 <th colSpan={2}>action</th>

@@ -1457,6 +1457,7 @@ app.get('/api/appointment/accept',(req, res) => {
     d.time_spent,
     e.*,
     f.status_name ,
+    h.emp_id,
    	CONCAT(h.emp_fname," ",h.emp_lname) AS emp_name
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
@@ -1465,7 +1466,7 @@ app.get('/api/appointment/accept',(req, res) => {
     JOIN appoint_status f ON a.status_id = f.status_id
     JOIN schedules g ON a.appoint_id = g.appoint_id
     JOIN employee h ON h.emp_id = g.emp_id
-    WHERE a.status_id = 1 OR a.status_id = 2 OR a.status_id = 3
+    WHERE a.status_id = 2
     GROUP BY a.appoint_id;`,(err, results, fields) => {
         if(err){
             res.json({

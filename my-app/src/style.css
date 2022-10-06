@@ -446,6 +446,11 @@ html, body, #fullheight {
 
    .form-search {
     width: 50%;
+    align-self: end;
+   }
+
+   .box-clear-filter{
+    align-self:end;
    }
 
    .page-link span{
