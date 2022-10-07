@@ -473,29 +473,26 @@ html, body, #fullheight {
     padding:16px;
    }
 
+
    .box1-contact-about{
     background-color: #4BB2E5;
     color: white;
-    width: 350px;
-    height: 250px;
-    margin-left: 300px;
-    
+    padding: 50px;
    }
+
    .box2-contact-about{
     background-color: lightblue;
-    width: 350px;
-    height: 250px;
-
    }
 
    .box3-contact-about{
     background-color: #4BB2E5;
     color: white;
-    width: 350px;
-    height: 100px;
-    margin-left: 300px;
-
+    padding: 10px;
    }
+
+
+   /* 
+
    .box4-contact-about{
     background-color: lightblue;
     width: 350px;
@@ -524,7 +521,7 @@ html, body, #fullheight {
     background-color: lightblue;
     height: 50px;
     text-align: center;
-   }
+   } */
 
 
 
