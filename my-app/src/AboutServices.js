@@ -12,18 +12,18 @@ import { API_GET } from "./api"
 export default function AboutServices (){
 
     const [services, setServices] = useState([]);
-    const [service_id, setServiceId] = useState(0);
+    const [service_name, setServiceName] = useState("");
     const [listServices, setListServices] = useState([]);
 
-    useEffect(() => {
-        fetchServices();
-    }, [service_id]);
+    // useEffect(() => {
+    //     fetchServices();
+    // }, [service_name]);
 
-    const fetchServices = async () => {
-        let json = await API_GET("services");
-        setServices(json.data);
-        setListServices(json.data);
-    }
+    // const fetchServices = async () => {
+    //     let json = await API_GET("services");
+    //     setServices(json.data);
+    //     setListServices(json.data);
+    // }
 
     return(
         <>
@@ -51,7 +51,7 @@ export default function AboutServices (){
                                 {
                                     services.map(item => (
                                         <ServiceItems
-                                        key={item.service_id} 
+                                        key={item.service_name} 
                                         data={item}
                                             />
                                     ))
