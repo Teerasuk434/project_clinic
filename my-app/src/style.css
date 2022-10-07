@@ -477,19 +477,29 @@ html, body, #fullheight {
    .box1-contact-about{
     background-color: #4BB2E5;
     color: white;
-    padding: 50px;
+    padding: 120px;
+
    }
 
    .box2-contact-about{
     background-color: lightblue;
+    padding: 30px;
+
    }
 
    .box3-contact-about{
     background-color: #4BB2E5;
     color: white;
-    padding: 10px;
+    padding: 30px;
    }
 
+   .box4-about{
+    color: rgb(204, 33, 33);
+   }
+
+   .map{
+    padding: 100px;
+   }
 
    /* 
 
@@ -500,9 +510,7 @@ html, body, #fullheight {
 
    }
 
-   .box4-about{
-    color: rgb(204, 33, 33);
-   }
+   
    
    .about-text {
     background-color: light;

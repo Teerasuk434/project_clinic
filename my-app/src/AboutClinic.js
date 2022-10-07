@@ -25,34 +25,34 @@ export default function AboutClinic (){
                     <h4>เกี่ยวกับเรา</h4>
                 </div>
 
-                    <h5 className="about-text shadow mt-5 py-5 px-3">
-                        คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ
-                        ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว 
-                        อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</h5>
-                
+                    <div className="text-center pt-5">
+                        <p><h5>คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง</h5></p>
+                            <h5> จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</h5>
+                            <h5></h5>
+                    </div>
+
                     <div className="text-center px-5 mt-5">
                         <div className="row mx-5 mb-2" >
                             <div className="col-6 box1-contact-about shadow" >
                                 <h4>ช่องทางการติดต่อ</h4>
                             </div>
                             <div className="col-6 box2-contact-about shadow">
-                                <div className="mt-2">
-                                    <p>ปุณณกัณฑ์สัตวแพทย์</p>
-                                    <p>081-622-7293</p>
-                                    <p>081-622-7293</p>
+                                <div className="mt-2 p-5">
+                                    <h6>ปุณณกัณฑ์สัตวแพทย์</h6>
+                                    <h6>081-622-7293</h6>
+                                    <h6>081-622-7293</h6>
                                 </div>
                             </div>
                         </div>
 
                         <div className="row mx-5 mb-2" >
                             <div className="col-6 box3-contact-about shadow" >
-                                <h4 className=" "> เวลาเปิดทำการ </h4>
-                                
+                                 <div className="mt-2">
+                                    <h4>เวลาเปิดทำการ</h4>
+                                </div>
                             </div>
-                            <div className="col-6 box4-contact-about shadow">
-                                    13.00 - 19.00 น. 
-                                    <h6 className="box4-about">หยุดทุกวันเสาร์</h6>
-                                    
+                            <div className="col-6 box2-contact-about shadow">
+                                <h6 className="box4-about">13.00 - 19.00 น. หยุดทุกวันเสาร์ </h6>
                             </div>
                         </div>
                         <div className="row mx-5" >
@@ -60,11 +60,11 @@ export default function AboutClinic (){
                                 <h4> ที่อยู่ </h4>
                                 
                             </div>
-                            <div className="col-6 box4-contact-about shadow">
-                                    <p>382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</p>
+                            <div className="col-6 box2-contact-about shadow">
+                                    <h6>382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
                             </div>
                         </div>
-                        <div className="mt-5">
+                        <div className="map">
                             <Iframe iframe={iframe}/>
                         </div>
                     </div>
