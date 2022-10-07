@@ -48,6 +48,8 @@ import ListAppoint from './components/ListAppoint';
 import HistoryAppoint from './components/employee/HistoryAppoint';
 
 import FormAppointment from './components/owner/FormAppointment';
+import AboutClinic from './AboutClinic';
+import AboutServices from './AboutServices';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -58,6 +60,7 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register/>} />
+
 
       <Route path="/users" element={<Users />}/>
       <Route path="/user/:user_id" element={<FormUser />}/>
@@ -99,6 +102,8 @@ root.render(
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />
       <Route path="/history-appoint" element={<HistoryAppoint/>} />
 
+      <Route path="/about" element={<AboutClinic/>} />
+      <Route path="/service" element={<AboutServices/>} />
 
     </Routes> 
   </BrowserRouter>

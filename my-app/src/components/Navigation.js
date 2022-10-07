@@ -22,8 +22,8 @@ export default function Navigation(){
                     <div className="me-4">
                         <Nav>
                             <Nav.Link className="me-2" href="/">หน้าแรก</Nav.Link>
-                            <Nav.Link className="me-2" href="#about">เกี่ยวกับเรา</Nav.Link>
-                            <Nav.Link className="me-2" href="#services">บริการของเรา</Nav.Link>
+                            <Nav.Link className="me-2" href="/about">เกี่ยวกับเรา</Nav.Link>
+                            <Nav.Link className="me-2" href="/service">บริการของเรา</Nav.Link>
                             <Nav.Link className="me-2" href="/appointment">นัดหมาย</Nav.Link>
                             {role_id != 1 
                                 ?
