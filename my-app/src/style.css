@@ -476,10 +476,11 @@ html, body, #fullheight {
    .box1-contact-about{
     background-color: #4BB2E5;
     color: white;
+    align-items: ;
     width: 350px;
     height: 250px;
     margin-left: 300px;
-    
+    padding: auto;
    }
    .box2-contact-about{
     background-color: lightblue;
@@ -512,6 +513,7 @@ html, body, #fullheight {
     padding: auto;
     height: 150px;
     padding: 16px;
+    
    }
    .header-service{
     background-color: #3498DB;
@@ -525,6 +527,11 @@ html, body, #fullheight {
     height: 50px;
     text-align: center;
    }
+
+   .bg-about{
+    background-color: aliceblue;
+   }
+
 
 
 

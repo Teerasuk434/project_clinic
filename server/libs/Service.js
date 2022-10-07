@@ -48,6 +48,13 @@ module.exports = {
         }
 
         return false;
+    },
+
+    getByService: async (pool, service_name , cost_service , time_spent) => {
+        var sql = "SELECT service_name , cost_service , time_spent FROM service";
+        sql = mysql.format(sql, [service_name , cost_service , time_spent]);
+
+        return await pool.query(sql);
     }
 
 }
