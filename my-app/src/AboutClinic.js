@@ -20,46 +20,47 @@ export default function AboutClinic (){
                 <Navigation />
             </div>
             
-            <div className="container py-5 px-3 bg-about ">
+            <div className="container py-5 px-3 bg-light">
                 <div className="header-about shadow" >
                     <h4>เกี่ยวกับเรา</h4>
                 </div>
+
+                    <h5 className="about-text shadow mt-5 py-5 px-3">
+                        คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ
+                        ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว 
+                        อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</h5>
                 
-                    <div className="mt-5 mb-5 text-center">
-                        <p><h5>คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ</h5> </p>
-                        <p><h5> ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว</h5></p>
-                        <p><h5>อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</h5></p>
-                    </div>
-                    <div className="text-center ">
-                        <div className="row mt-lg-3" >
-                            <div className=" box1-contact-about shadow " >
-                                <div className="align-middle"><h4> ช่องทางการติดต่อ</h4></div>
-                                
+                    <div className="text-center px-5 mt-5">
+                        <div className="row mx-5 mb-2" >
+                            <div className="col-6 box1-contact-about shadow" >
+                                <h4>ช่องทางการติดต่อ</h4>
                             </div>
-                            <div className=" box2-contact-about shadow">
-                            <a href="https://www.facebook.com/poonnakanpetclinic" class="fa-brands fa-facebook" target="_bank" >ปุณณกัณฑ์สัตวแพทย์</a>
+                            <div className="col-6 box2-contact-about shadow">
+                                <div className="mt-2">
+                                    <p>ปุณณกัณฑ์สัตวแพทย์</p>
                                     <p>081-622-7293</p>
                                     <p>081-622-7293</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="row pt-3" >
-                            <div className="box3-contact-about shadow" >
+                        <div className="row mx-5 mb-2" >
+                            <div className="col-6 box3-contact-about shadow" >
                                 <h4 className=" "> เวลาเปิดทำการ </h4>
                                 
                             </div>
-                            <div className="box4-contact-about shadow">
+                            <div className="col-6 box4-contact-about shadow">
                                     13.00 - 19.00 น. 
                                     <h6 className="box4-about">หยุดทุกวันเสาร์</h6>
                                     
                             </div>
                         </div>
-                        <div className="row pt-3" >
-                            <div className="box3-contact-about shadow " >
+                        <div className="row mx-5" >
+                            <div className="col-6 box3-contact-about shadow" >
                                 <h4> ที่อยู่ </h4>
                                 
                             </div>
-                            <div className="box4-contact-about shadow">
+                            <div className="col-6 box4-contact-about shadow">
                                     <p>382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</p>
                             </div>
                         </div>
