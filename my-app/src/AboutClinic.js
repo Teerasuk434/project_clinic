@@ -33,10 +33,10 @@ export default function AboutClinic (){
 
                     <div className="text-center px-5 mt-5">
                         <div className="row mx-5 mb-2" >
-                            <div className="col-6 box1-contact-about shadow" >
+                            <div className="col-5 box1-contact-about shadow" >
                                 <h4>ช่องทางการติดต่อ</h4>
                             </div>
-                            <div className="col-6 box2-contact-about shadow">
+                            <div className="col-7 box2-contact-about shadow">
                                 <div className="mt-2 p-5">
                                     <h6>ปุณณกัณฑ์สัตวแพทย์</h6>
                                     <h6>081-622-7293</h6>
@@ -46,21 +46,21 @@ export default function AboutClinic (){
                         </div>
 
                         <div className="row mx-5 mb-2" >
-                            <div className="col-6 box3-contact-about shadow" >
-                                 <div className="mt-2">
+                            <div className="col-5 box3-contact-about shadow mt-3" >
+                                 
                                     <h4>เวลาเปิดทำการ</h4>
-                                </div>
+                                
                             </div>
-                            <div className="col-6 box2-contact-about shadow">
+                            <div className="col-7 box2-contact-about shadow mt-3">
                                 <h6 className="box4-about">13.00 - 19.00 น. หยุดทุกวันเสาร์ </h6>
                             </div>
                         </div>
-                        <div className="row mx-5" >
-                            <div className="col-6 box3-contact-about shadow" >
+                        <div className="row mx-5 " >
+                            <div className="col-5 box3-contact-about shadow mt-3" >
                                 <h4> ที่อยู่ </h4>
                                 
                             </div>
-                            <div className="col-6 box2-contact-about shadow">
+                            <div className="col-7 box2-contact-about shadow mt-3">
                                     <h6>382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
                             </div>
                         </div>
