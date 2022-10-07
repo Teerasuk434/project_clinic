@@ -12,6 +12,7 @@ import { API_GET } from "./api"
 export default function AboutServices (){
 
     const [services, setServices] = useState([]);
+    const [service_id, setServiceId] = useState(0);
     const [service_name, setServiceName] = useState("");
     const [listServices, setListServices] = useState([]);
 
