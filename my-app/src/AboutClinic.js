@@ -6,7 +6,7 @@ import './style.css'
 
 export default function AboutClinic (){
 
-    const iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0643858828334!2d100.497089114721!3d7.001700594942183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d29bbd7c26a99%3A0xdb01ab12c69b72bd!2z4Lib4Li44LiT4LiT4LiB4Lix4LiT4LiR4LmM4Liq4Lix4LiV4Lin4LmB4Lie4LiX4Lii4LmM!5e0!3m2!1sth!2sth!4v1665118736354!5m2!1sth!2sth" width="1100" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';      
+    const iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0643858828334!2d100.497089114721!3d7.001700594942183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d29bbd7c26a99%3A0xdb01ab12c69b72bd!2z4Lib4Li44LiT4LiT4LiB4Lix4LiT4LiR4LmM4Liq4Lix4LiV4Lin4LmB4Lie4LiX4Lii4LmM!5e0!3m2!1sth!2sth!4v1665118736354!5m2!1sth!2sth" width="1100" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';      
     
     function Iframe(props){
         return (<div dangerouslySetInnerHTML={ {__html:  props.iframe?props.iframe:""}} />);

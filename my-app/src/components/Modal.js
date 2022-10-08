@@ -322,3 +322,26 @@ export function MessageModal(props) {
     );
 };
 
+
+export function SuccessModal(props) {
+
+    return (
+        <Modal show={props.show} onHide={props.onClose}>
+            <Modal.Header closeVariant="white" closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <div className="text-center">
+                    <img src={`http://localhost:8080/images/success.png`} alt="" width={150}/>
+                </div>
+                <h4 className="text-center mt-2">{props.message}</h4>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button variant="primary" onClick={props.onClose}>ตกลง</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+

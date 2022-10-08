@@ -24,7 +24,7 @@ export default function PetsItems(props) {
                     <p className="border-bottom border-secondary border-opacity-25 ">อายุ : {props.data.pet_age_year} ปี {props.data.pet_age_month} เดือน</p>
                     
                     <div className="float-end p-2">
-                        <Button variant="warning" size="sm" className="me-2"><i className="fa-solid fa-pen-to-square"></i></Button>
+                    <Link to={`/account/pet/${props.data.pet_id}`} className="btn btn-warning btn-sm me-2">{<i className="fa-solid fa-pen-to-square"></i>}</Link>
                         <Button variant="danger" size="sm" onClick={onDelete}><i className="fa-solid fa-trash-can"></i></Button>
                     </div>
             </div>

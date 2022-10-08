@@ -35,8 +35,8 @@ export default function Navigation(){
                                     <NavDropdown.Item href="account/profile">ข้อมูลบัญชี</NavDropdown.Item>
                                     <NavDropdown.Item href="/account/pets">สัตว์เลี้ยง</NavDropdown.Item>
                                     <NavDropdown.Item href="/account/appointments">การนัดหมาย</NavDropdown.Item>
-                                    <NavDropdown.Item href="">ประวัติการนัดหมาย</NavDropdown.Item>
-                                    <NavDropdown.Item href="">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
+                                    <NavDropdown.Item href="/account/history-appoint">ประวัติการนัดหมาย</NavDropdown.Item>
+                                    <NavDropdown.Item href="/account/reset-password">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item href="/" onClick={clearData}>
                                         ออกจากระบบ

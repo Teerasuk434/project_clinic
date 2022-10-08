@@ -3,9 +3,9 @@ import Navigation from "../Navigation"
 import Footer from "../Footer"
 import { useEffect, useState } from "react"
 import { API_GET, API_POST} from "../../api"
-import Moment from 'moment';
 import { Link, useNavigate } from "react-router-dom"
 import { Form,Row,Button,Col,Alert } from "react-bootstrap"
+import { ConfirmModal,SuccessModal } from "../Modal"
 
 export default function ResetPassword (){
 
@@ -21,7 +21,14 @@ export default function ResetPassword (){
     const [alertColor, setAlertColor] = useState("");
 
     let user_id = localStorage.getItem("user_id");
-    let username = localStorage.getItem("username");
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [successModal, setSuccessModal] = useState(false);
+    const [successModalTitle, setSuccessModalTitle] = useState("");
+    const [successModalMessage, setSuccessModalMessage] = useState("");
 
     let navigate = useNavigate();
 
@@ -44,13 +51,13 @@ export default function ResetPassword (){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            setShowAlert(false);
-            checkPassword();
+            onConfirm();
         }
         setValidated(true);
     }
 
     const checkPassword = async () =>{
+        setConfirmModal(false);
         let json = await API_POST("account/checkpassword",{
             user_id:user_id,
             password:curr_pwd
@@ -69,12 +76,16 @@ export default function ResetPassword (){
 
     const checkNewPassword = async () => {
         if(new_pwd.length >= 6 && confirm_new_pwd.length >= 6){
-            if(new_pwd === confirm_new_pwd){
+            if(new_pwd === confirm_new_pwd && new_pwd != curr_pwd){
                 updatePassword();
-            }else{
+            }else if (new_pwd != confirm_new_pwd){
                 setShowAlert(true);
                 setAlertColor("danger");
                 setAlertMessage("รหัสผ่านใหม่ และยืนยันรหัสผ่านใหม่ไม่ตรงกัน โปรดลองใหม่") 
+            }else if (new_pwd == curr_pwd){
+                setShowAlert(true);
+                setAlertColor("danger");
+                setAlertMessage("รหัสผ่านใหม่ต้องไม่ตรงกับรหัสผ่านเก่า โปรดลองใหม่") 
             }
         }else{
             setShowAlert(true);
@@ -90,12 +101,36 @@ export default function ResetPassword (){
         })
 
         if(json.result){
-            setShowAlert(true);
-            setAlertColor("success");
-            setAlertMessage("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว")
+            setSuccessModal(true);
+            setSuccessModalTitle("เปลี่ยนรหัสผ่าน");
+            setSuccessModalMessage("เปลี่ยนรหัสผ่านสำเร็จแล้ว")
 
         }
     }
+
+    const onConfirm = async () => {
+        setConfirmModalTitle("ยืนยันการเปลี่ยนรหัสผ่าน");
+        setConfirmModalMessage("คุณต้องการเปลี่ยนรหัสผ่านใหม่ใช่หรือไม่");
+        setConfirmModal(true);
+        
+    }
+
+    const onClickConfirm = async () => {
+        setShowAlert(false);
+        checkPassword();
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
+    }
+
+    const onCloseSuccess = () => {
+        setSuccessModal(false);
+        navigate("/account/profile", {replace: false });
+
+    }
+
+
 
     return (
         <>
@@ -200,6 +235,22 @@ export default function ResetPassword (){
                 </div>
 
             <Footer/>
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
+
+            
+            <SuccessModal
+                show={successModal}
+                title={successModalTitle}
+                message={successModalMessage}
+                onClose={onCloseSuccess}
+            />
         </>
     )
 }

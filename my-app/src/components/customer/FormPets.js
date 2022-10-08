@@ -1,10 +1,11 @@
-import BoxTop from "../Box-top"
-import Navigation from "../Navigation"
-import Footer from "../Footer"
-import { useEffect, useState } from "react"
-import { API_GET, API_POST} from "../../api"
-import { Form,Button,Col,Row,InputGroup } from "react-bootstrap"
-import { Link,useParams,useNavigate } from "react-router-dom"
+import BoxTop from "../Box-top";
+import Navigation from "../Navigation";
+import Footer from "../Footer";
+import { useEffect, useState } from "react";
+import { API_GET, API_POST} from "../../api";
+import { Form,Button,Col,Row,InputGroup } from "react-bootstrap";
+import { Link,useParams,useNavigate } from "react-router-dom";
+import { ConfirmModal } from '../Modal'
 
 import { SERVER_URL } from "../../app.config"
 
@@ -50,6 +51,7 @@ export default function FormPets(){
             setPetGender(data.pet_gender);
             setPetAgeYear(data.pet_age_year);
             setPetAgeMonth(data.pet_age_month);
+            setImageUrl(data.image)
         }
 
         if (params.pet_id != "add") {
@@ -307,11 +309,11 @@ export default function FormPets(){
 
                                                 <div className="col-6"> 
                                                     {imageUrl != "" && 
-                                                            <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
-                                                                <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
+                                                        <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
+                                                            <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
 
-                                                            </div>                        
-                                                        }
+                                                        </div>                        
+                                                    }
                                                 </div>
 
                                             </div>
