@@ -9,7 +9,7 @@ import { useState , useEffect } from "react"
 import { API_GET } from "./api"
 import AboutServicesItems from "./AboutServiceItem"
 
-export default function AboutServices (){
+export default function AboutServices (props){
 
     const [services, setServices] = useState([]);
     const [service_id, setServiceId] = useState(0);
@@ -18,7 +18,7 @@ export default function AboutServices (){
 
 
     useEffect(() => {
-        async function fetchData() {
+        async function fetchServices() {
             const response = await fetch(
                 "http://localhost:8080/api/service",
                 {
@@ -54,32 +54,27 @@ export default function AboutServices (){
             </div>
             
             <div className="container py-5 px-3 ">
-                <div className=" header-service" >
+                <div className=" header-service mb-5 " >
                     <h4>บริการของเรา</h4>
                 </div>
                 
                 <div className="mt-2">
-                    <Table size="sm" responsive bordered hover className='text-center mt-5 '>
-                        <thead className="thead-service p-5">
-                                <tr>
-                                <th>ชื่อบริการ</th>
-                                <th>ราคา (บาท)</th>
-                                <th>เวลาที่ใช้ (นาที)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <Table size="sm" responsive bordered hover className='text-center  '>
+                        
+                                <div className="row thead-service shadow mb-3">
+                                    <b className="col-4 border-0 m-auto " >ชื่อบริการ</b>
+                                    <b className=" col-4 border-0 m-auto ">ราคา (บาท)</b>
+                                    <b className=" col-4 border-0  m-auto ">เวลาที่ใช้ (นาที)</b>
+                                </div>
+                            
+                    </Table>
+                    
                                 {
                                     services.map(item => (
                                         <AboutServicesItems
-                                        key={item.service_name} 
-                                        data={item}
-                                            />
+                                        data={item}/>
                                     ))
-                                }
-                                    
-
-                            </tbody>
-                    </Table>
+                                } 
                 </div>
             </div>
             
