@@ -6,10 +6,12 @@ import Navigation from "../Navigation"
 import { API_POST } from "../../api";
 import { Table,Pagination } from "react-bootstrap";
 import AppointHistoryItem from "./AppointHistoryItem";
+import ProfileSidebar from "./ProfileSidebar";
 
 export default function Appointment_History () {
 
     let user_id = localStorage.getItem("user_id")
+    let pages = 4;
 
     var pageCount = 0;
 
@@ -84,14 +86,7 @@ export default function Appointment_History () {
                             <div className="border border-bottom-5 mx-2 mb-3"></div>
 
                             <div className="profile-sidebar">
-                                <div>
-                                    <Link to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="/account/history-appoint" className="active">ประวัติการนัดหมาย</Link>
-                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
-                                    <Link to="/">ออกจากระบบ</Link>
-                                </div>
+                                <ProfileSidebar pages={pages}/>
                             </div>
                         </div>
 

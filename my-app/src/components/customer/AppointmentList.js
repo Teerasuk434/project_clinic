@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { ShowAppointmentDetails,ShowAppointmentForm } from "../Modal";
 import { API_POST } from "../../api";
-
 import AppointmentItem from "./AppointmentItem";
+import ProfileSidebar from "./ProfileSidebar";
 
 
 export default function AppointmentList(){
@@ -19,7 +19,9 @@ export default function AppointmentList(){
     const [showAppointmentForm, setAppointmentForm] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
     const [AppointmentDetails, setAppointmentDetails] = useState({});
-    const [user_id, setUserId] = useState(0);
+    
+    let pages = 3;
+
 
 
     useEffect(()=>{
@@ -77,14 +79,7 @@ export default function AppointmentList(){
                             <div className="border border-bottom-5 mx-2 mb-3"></div>
 
                             <div className="profile-sidebar">
-                                <div>
-                                    <Link to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link to="/account/appointments" className="active">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
-                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
-                                    <Link to="/">ออกจากระบบ</Link>
-                                </div>
+                                <ProfileSidebar pages={pages}/>
                             </div>
                         </div>
 

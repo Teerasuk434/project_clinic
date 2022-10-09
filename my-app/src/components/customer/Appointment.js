@@ -8,7 +8,7 @@ import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { SERVER_URL } from "../../app.config";
-import { ConfirmModal } from "../Modal";
+import { ConfirmModal,SuccessAppointmentModal } from "../Modal";
 
 export default function Appointment(){
 
@@ -29,7 +29,7 @@ export default function Appointment(){
     const [date,setDate] = useState(minDate);
     const [time,setTime] = useState("");
     const [timeSlot,setTimeSlot] = useState([]);
-    const [symtoms,setSymtoms] = useState("ไม่มี");
+    const [symtoms,setSymtoms] = useState("");
 
     const [rooms, setRooms] = useState([]);
     const [room_available, setRoomAvailable] = useState([]);
@@ -52,6 +52,10 @@ export default function Appointment(){
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [successAppoint, setSuccessAppoint] = useState(false);
+    const [successAppointTitle, setSuccessAppointTitle] = useState("");
+    const [successAppointMessage, setSuccessAppointMessage] = useState("");
 
     let navigate = useNavigate();
 
@@ -304,7 +308,9 @@ export default function Appointment(){
         onUploadImage( json.appoint_id);
     
         if (json.result) {
-            window.location = "/appointment";
+            setSuccessAppointTitle("นัดหมาย");
+            setSuccessAppointMessage("นัดหมายสำเร็จแล้ว");
+            setSuccessAppoint(true);
         }
     }
 
@@ -334,6 +340,12 @@ export default function Appointment(){
         );
         let json = await response.json();
         console.log(json)
+    }
+
+    const onCloseSuccess = () => {
+        setSuccessAppoint(false);
+        navigate("/", {replace: false });
+
     }
 
     return (
@@ -522,6 +534,13 @@ export default function Appointment(){
                 message={confirmModalMessage}
                 onConfirm={onConfirm}
                 onClose={onCancle}
+            />
+
+            <SuccessAppointmentModal
+                show={successAppoint}
+                title={successAppointTitle}
+                message={successAppointMessage}
+                onClose={onCloseSuccess}
             />
         </>
     )

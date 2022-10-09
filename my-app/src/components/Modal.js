@@ -1,6 +1,6 @@
 import { Button, Modal,Form,Accordion} from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 import { SERVER_URL } from "../app.config";
 import { API_POST } from "../api";
@@ -212,7 +212,7 @@ export function ShowAppointmentForm(props) {
                             <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
                             <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                             <p><b>ห้อง :</b> {props.data.room_name}</p>
-                            <p><b>หมายเหตุ :</b> {props.data.note}</p>
+                            <p><b>หมายเหตุ :</b> <b className="text-danger">{props.data.note}</b></p>
                             {appoint_status == "รอแก้ไข" &&
                             <>
                                 <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
@@ -344,4 +344,29 @@ export function SuccessModal(props) {
         </Modal>
     );
 };
+
+export function SuccessAppointmentModal(props) {
+
+    return (
+        <Modal show={props.show} onHide={props.onClose}>
+            <Modal.Header closeVariant="white" closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <div className="text-center">
+                    <img src={`http://localhost:8080/images/success.png`} alt="" width={150}/>
+                </div>
+                <h4 className="text-center mt-2">{props.message}</h4>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Link className="btn btn-primary btn-sm" to="/account/appointments">หน้านัดหมาย</Link>
+                <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+
 

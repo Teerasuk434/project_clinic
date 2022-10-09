@@ -5,7 +5,8 @@ import { useEffect, useState } from "react"
 import { API_GET} from "../../api"
 import Moment from 'moment';
 import { Link } from "react-router-dom"
-
+import ProfileSidebar from "./ProfileSidebar"
+import CustName from "./CustomerName"
 
 export default function Account(){
     
@@ -19,6 +20,7 @@ export default function Account(){
 
     let user_id = localStorage.getItem("user_id");
     let username = localStorage.getItem("username");
+    let pages = 1;
 
     useEffect(()=>{
 
@@ -50,20 +52,14 @@ export default function Account(){
                         <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
                             <div className="Profile-Name text-center">
                                 <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <h5 className="text-center mt-3">{firstname} {lastname}</h5>
+                                <CustName />                            
                             </div>
                             <div className="border border-bottom-5 mx-2 mb-3"></div>
 
                             <div className="profile-sidebar">
-                                <div>
-                                    <Link className="active" to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
-                                    <Link to="/account/reset-password">ตั้งค่ารหัสผ่าน</Link>
-                                    <Link to="/">ออกจากระบบ</Link>
-                                </div>
+                                <ProfileSidebar pages={pages}/>
                             </div>
+
                         </div>
 
                         <div className="col-9 profile-right">

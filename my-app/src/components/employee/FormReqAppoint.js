@@ -3,7 +3,8 @@ import Sidebar from '../Sidebar';
 import { Form , Col, Button, Accordion} from 'react-bootstrap';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../../api';
-import { ShowPaymentModal } from '../Modal';
+import { ShowPaymentModal,ConfirmModal } from '../Modal';
+import Top from '../Top';
 
 export default function FormReqAppoint() {
     let date = new Date().toLocaleDateString();
@@ -47,6 +48,10 @@ export default function FormReqAppoint() {
     const [emp_id, setEmpId] = useState(0);
 
     const [validated,setValidated] = useState(false);   
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     useEffect(() => {
         async function fetchData(appoint_id) {
@@ -134,12 +139,7 @@ export default function FormReqAppoint() {
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            if(appoint_status == 2){
-                createSchedule();
-            }else{
-                updateAppointment();
-            }
-            
+            onConfirm();
         }
         setValidated(true);
     }
@@ -178,15 +178,57 @@ export default function FormReqAppoint() {
         }
     }
 
+    const onConfirm = async () => {
+        setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+        setConfirmModalMessage("คุณต้องการแก้ไขสถานะคำขอนัดหมายใช่หรือไม่");
+        setConfirmModal(true);
+        
+    }
+
+    const onClickConfirm = async () => {
+        if(appoint_status == 2){
+            createSchedule();
+        }else{
+            updateAppointment();
+        }
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
+    }
+
+    const getNote = () =>{
+        if(appoint_status == 2 || appoint_status == 3 || appoint_status == 6){
+
+            let required_boolean;
+            if(appoint_status == 3){
+                required_boolean = true;
+            }else{
+                required_boolean = false;
+            }
+
+
+
+            return (
+                <Form.Group controlId="validateEmp">
+                    <Form.Label><b>หมายเหตุ :</b></Form.Label>
+                        <Form.Control
+                        required={required_boolean}
+                        type="text"
+                        placeholder="หมายเหตุ"
+                        value={appoint_note}
+                        onChange={(e) => setAppointNote(e.target.value)}
+                        ></Form.Control>
+                    
+                </Form.Group>
+            )
+        }
+    }
+
+
     return (
         <>
             <div className="container-fluid">
-                <div className='top row'>
-                    <div className='col'>
-                        <p>สถานะ : พนักงาน</p>
-                    </div>
-                </div>
-
                 <div className='row'>
                     <div className='p-0 col-12 col-lg-2'>
                         <div className='sidebar'>
@@ -195,10 +237,11 @@ export default function FormReqAppoint() {
                     </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content" style={{height:"100%"}}>
+                        <div className="content m-auto">
+                            <Top />
                             <div className="container m-auto">
 
-                                <div className='req-form-details mt-5 shadow'>
+                                <div className='req-form-details my-5 mx-5 shadow'>
                                     <div className='req-appoint-label p-3'>
                                         <p>รายละเอียดคำขอนัดหมาย</p>
                                     </div>
@@ -325,31 +368,8 @@ export default function FormReqAppoint() {
                                             </div>
 
                                             <div className="col-4">
-                                                {appoint_status == 2  &&
-                                                    <Form.Group controlId="validateEmp">
-                                                        <Form.Label><b>หมายเหตุ :</b></Form.Label>
-                                                        <Form.Control
-                                                            type="text"
-                                                            placeholder="หมายเหตุ"
-                                                            value={appoint_note}
-                                                            onChange={(e) => setAppointNote(e.target.value)}
-                                                            >
-                                                        </Form.Control>
-                                                    </Form.Group>
-                                                    }
-
-                                                {appoint_status == 3 &&
-                                                <Form.Group controlId="validateEmp">
-                                                    <Form.Label><b>หมายเหตุ :</b></Form.Label>
-                                                    <Form.Control
-                                                        required
-                                                        type="text"
-                                                        placeholder="หมายเหตุ"
-                                                        value={appoint_note}
-                                                        onChange={(e) => setAppointNote(e.target.value)}
-                                                        >
-                                                    </Form.Control>
-                                                </Form.Group>
+                                                {
+                                                    getNote()
                                                 }
                                             </div>
                                         </div>
@@ -364,15 +384,6 @@ export default function FormReqAppoint() {
                         </div>
                     </div>
                 </div>
-
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p>วันที่ : {date}</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <ShowPaymentModal
@@ -380,6 +391,15 @@ export default function FormReqAppoint() {
                 title={paymentTitleModal}
                 paymentImage={paymentImageModal}
                 onClose={onCloseImageModal}/>
+
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
         </>
     )
 }

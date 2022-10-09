@@ -6,8 +6,11 @@ import { API_GET, API_POST} from "../../api"
 import { Link, useNavigate } from "react-router-dom"
 import { Form,Row,Button,Col,Alert } from "react-bootstrap"
 import { ConfirmModal,SuccessModal } from "../Modal"
+import ProfileSidebar from "./ProfileSidebar"
 
 export default function ResetPassword (){
+
+    let pages = 5;
 
     const [firstname, setFirstName] = useState("");
     const [lastname, setLastName] = useState("");
@@ -130,8 +133,6 @@ export default function ResetPassword (){
 
     }
 
-
-
     return (
         <>
             <BoxTop/>
@@ -149,14 +150,7 @@ export default function ResetPassword (){
                             <div className="border border-bottom-5 mx-2 mb-3"></div>
 
                             <div className="profile-sidebar">
-                                <div>
-                                    <Link to="/account/profile">ข้อมูลบัญชี</Link>
-                                    <Link to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <Link to="/account/appointments">ข้อมูลการนัดหมาย</Link>
-                                    <Link to="/account/history-appoint">ประวัติการนัดหมาย</Link>
-                                    <Link to="/account/reset-password" className="active">ตั้งค่ารหัสผ่าน</Link>
-                                    <Link to="/">ออกจากระบบ</Link>
-                                </div>
+                                <ProfileSidebar pages={pages}/>
                             </div>
                         </div>
 
