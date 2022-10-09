@@ -53,7 +53,7 @@ export default function AboutServices (props){
                 <Navigation />
             </div>
             
-            <div className="container py-5 px-3 ">
+            <div className="container py-5 px-3 bg-light">
                 <div className=" header-service mb-5 " >
                     <h4>บริการของเรา</h4>
                 </div>
