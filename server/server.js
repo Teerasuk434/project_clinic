@@ -1895,7 +1895,47 @@ app.post("/api/report2/byappointment", checkAuth, async (req, res) => {
     }
 });
 
+app.get("/api/aboutservices",async (req, res) => {
+    let input = req.body
 
+    pool.query("SELECT service_name , cost_service , time_spent FROM service", function(error, results, fields){
+        if (error) {
+            res.json({
+                result: false,
+                message: error.message
+            });
+        }
+        if (results.length) {
+            res.json({
+                result: true,
+                data: results
+            });
+        } else {
+            res.json({
+                result:false,
+                message: "ไม่พบบริการของคลินิก"
+            });
+        }
+    });
+});
+
+app.get("/api/aboutservices", async (req, res) => {
+    const service_name = req.params.service_name;
+
+    try {
+        var result = await Service.getByService(pool, service_name, cost_service , time_spent);
+
+        res.json({
+            result: true,
+            data: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+})
 
 app.listen(port, () => {
     console.log("Running");

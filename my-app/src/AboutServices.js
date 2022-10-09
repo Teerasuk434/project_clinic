@@ -3,11 +3,11 @@ import Footer from "./components/Footer"
 import { Link } from "react-router-dom" 
 import Navigation from "./components/Navigation"
 import './style.css'
-import ServiceItems from "./components/admin/ServiceItems"
+
 import { Table } from "react-bootstrap"
 import { useState , useEffect } from "react"
 import { API_GET } from "./api"
-
+import AboutServicesItems from "./AboutServiceItem"
 
 export default function AboutServices (){
 
@@ -16,15 +16,34 @@ export default function AboutServices (){
     const [service_name, setServiceName] = useState("");
     const [listServices, setListServices] = useState([]);
 
-    // useEffect(() => {
-    //     fetchServices();
-    // }, [service_name]);
 
-    // const fetchServices = async () => {
-    //     let json = await API_GET("services");
-    //     setServices(json.data);
-    //     setListServices(json.data);
-    // }
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                "http://localhost:8080/api/service",
+                {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + localStorage.getItem("access_token")
+                    }
+                }
+            );
+
+            let json = await response.json();
+            setServices(json.data);
+            setListServices(json.data);
+        }
+        fetchServices();
+
+    }, [service_name]);
+
+    const fetchServices = async () => {
+        let json = await API_GET("service");
+        setServices(json.data);
+        setListServices(json.data);
+    }
 
     return(
         <>
@@ -51,12 +70,13 @@ export default function AboutServices (){
                             <tbody>
                                 {
                                     services.map(item => (
-                                        <ServiceItems
+                                        <AboutServicesItems
                                         key={item.service_name} 
                                         data={item}
                                             />
                                     ))
                                 }
+                                    
 
                             </tbody>
                     </Table>
