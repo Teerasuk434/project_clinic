@@ -38,7 +38,7 @@ export default function AboutClinic (){
                             </div>
                             <div className="col-7 box2-contact-about shadow">
                                 <div className="mt-2 p-5">
-                                    <h6>ปุณณกัณฑ์สัตวแพทย์</h6>
+                                    <h5><a href="https://web.facebook.com/poonnakanpetclinic" class="fa-brands fa-facebook" target="_bank"> ปุณณกัณฑ์สัตวแพทย์</a> </h5>
                                     <h6>081-622-7293</h6>
                                     <h6>081-622-7293</h6>
                                 </div>
@@ -52,7 +52,7 @@ export default function AboutClinic (){
                                 
                             </div>
                             <div className="col-7 box2-contact-about shadow mt-3">
-                                <h6 className="box4-about">13.00 - 19.00 น. หยุดทุกวันเสาร์ </h6>
+                            <h6>13.00 - 19.00 น. <b className="box4-about"> หยุดทุกวันเสาร์ </b></h6>
                             </div>
                         </div>
                         <div className="row mx-5 " >
@@ -61,7 +61,7 @@ export default function AboutClinic (){
                                 
                             </div>
                             <div className="col-7 box2-contact-about shadow mt-3">
-                                    <h6>382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
+                                    <h6> <i class="fa-solid fa-location-dot" > 382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</i></h6>
                             </div>
                         </div>
                         <div className="map">

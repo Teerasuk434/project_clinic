@@ -519,6 +519,18 @@ html, body, #fullheight {
     padding: 16px;
     
    }
+  */
+
+   
+   .bg-about{
+    background-color: aliceblue;
+   }
+
+   .thead-service{
+    background-color: lightblue;
+    height: 40px;
+    text-align: center;
+   }
    .header-service{
     background-color: #3498DB;
     color: white;
@@ -526,16 +538,6 @@ html, body, #fullheight {
     padding:16px;
    }
 
-   .thead-service{
-    background-color: lightblue;
-    height: 50px;
-    text-align: center;
-   } */
-
-   .bg-about{
-    background-color: aliceblue;
+   .color-icon{
+    color: red;
    }
-
-
-
-
