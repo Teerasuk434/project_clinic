@@ -1919,24 +1919,6 @@ app.get("/api/aboutservices",async (req, res) => {
     });
 });
 
-app.get("/api/aboutservices", async (req, res) => {
-    const service_name = req.params.service_name;
-
-    try {
-        var result = await Service.getByService(pool, service_name, cost_service , time_spent);
-
-        res.json({
-            result: true,
-            data: result
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-})
-
 app.listen(port, () => {
     console.log("Running");
 });
