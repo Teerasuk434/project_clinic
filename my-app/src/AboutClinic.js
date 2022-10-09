@@ -38,7 +38,7 @@ export default function AboutClinic (){
                             </div>
                             <div className="col-7 box2-contact-about shadow">
                                 <div className="mt-2 p-5">
-                                    <h5><a href="https://web.facebook.com/poonnakanpetclinic" class="fa-brands fa-facebook" target="_bank"> ปุณณกัณฑ์สัตวแพทย์</a> </h5>
+                                    <h5><a href="https://web.facebook.com/poonnakanpetclinic" class="fa-brands fa-facebook fa-link" target="_bank"> ปุณณกัณฑ์สัตวแพทย์</a> </h5>
                                     <h6>081-622-7293</h6>
                                     <h6>081-622-7293</h6>
                                 </div>
