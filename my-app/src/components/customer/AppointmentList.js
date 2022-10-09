@@ -19,6 +19,7 @@ export default function AppointmentList(){
     const [showAppointmentForm, setAppointmentForm] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
     const [AppointmentDetails, setAppointmentDetails] = useState({});
+    const [user_id, setUserId] = useState(0);
 
 
     useEffect(()=>{
@@ -96,7 +97,7 @@ export default function AppointmentList(){
                                 <div className="row mx-3 mt-5 mb-3">
                                     <div className="col m-auto text-center">
                                     {Appointments.length > 0 &&
-                                    <>
+                                    
                                         <Table size="sm" responsive bordered hover variant="light" className='text-center'>
                                             <thead>
                                                 <tr>
@@ -122,7 +123,7 @@ export default function AppointmentList(){
                                                 }
                                             </tbody>
                                         </Table>
-                                    </>
+                                    
                                     }   
                                     {Appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">

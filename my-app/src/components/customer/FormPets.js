@@ -22,6 +22,11 @@ export default function FormPets(){
 
     const [imageUrl, setImageUrl] = useState("");
 
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+
     let user_id = localStorage.getItem("user_id");
 
     let params = useParams();
@@ -66,12 +71,7 @@ export default function FormPets(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if (params.pet_id === "add") {
-                doCreatePet();
-
-            } else {
-                doUpdatePet();
-            }
+            onConfirm();
         }
         setValidated(true);
     }
@@ -168,6 +168,37 @@ export default function FormPets(){
 
             </div>
         );
+    }
+
+    const onConfirm = async () => {
+    
+        if(params.pet_id === "add"){
+            setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
+            setConfirmModalMessage("คุณต้องการเพิ่มสัตว์เลี้ยงใช่หรือไม่");
+            setConfirmModal(true);
+        }else{
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณต้องการการแก้ไขข้อมูลสัตว์เลี้ยงใช่หรือไม่");
+            setConfirmModal(true);
+        }
+        
+    }
+
+    const onClickConfirm = async () => {
+        setConfirmModal(false);
+
+        if(params.pet_id === "add"){
+            doCreatePet();
+            
+        }else{
+            doUpdatePet();
+            
+        }
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
     }
 
 
@@ -340,6 +371,14 @@ export default function FormPets(){
                 </div>
 
             <Footer/>
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
 
 
         </>

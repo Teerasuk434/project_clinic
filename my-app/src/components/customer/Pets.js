@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import PetsItems from "./PetsItems"
 import { API_GET, API_POST } from "../../api"
 import { useEffect, useState } from "react"
+import { ConfirmModal } from "../Modal"
 
 export default function Pets(){
 
@@ -16,6 +17,12 @@ export default function Pets(){
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(3);
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [pet_id, setPetId] = useState(0);
 
     useEffect(()=>{
 
@@ -32,13 +39,26 @@ export default function Pets(){
 
 
     const onDelete = async (data) => {
+        setPetId(data.pet_id);
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณต้องการลบสัตว์เลี้ยงใช่หรือไม่");
+        setConfirmModal(true);
+    }
+
+    const onConfirmDelete = async () => {
+        setConfirmModal(false);
         let json = await API_POST("pets/delete", {
-            pet_id: data.pet_id
+            pet_id: pet_id
         });
 
         if (json.result) {
             fetchPets();
+            setCurrentPage(0);
         }
+    }
+
+    const onCancel = () => {
+        setConfirmModal(false);
     }
 
     const fetchPets = async () => {
@@ -188,6 +208,14 @@ export default function Pets(){
                 </div>
 
             <Footer/>
+
+            <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmDelete}
+                onClose={onCancel}
+            />
         </>
 
     )

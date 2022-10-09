@@ -4,12 +4,17 @@ import BoxTop from "../Box-top";
 import Footer from "../Footer";
 import Navigation from "../Navigation"
 import { API_POST } from "../../api";
-import { Table } from "react-bootstrap";
+import { Table,Pagination } from "react-bootstrap";
 import AppointHistoryItem from "./AppointHistoryItem";
 
 export default function Appointment_History () {
 
     let user_id = localStorage.getItem("user_id")
+
+    var pageCount = 0;
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(10);
     const [appointments, setAppointments] = useState([]);
 
     useEffect(()=>{
@@ -23,6 +28,44 @@ export default function Appointment_History () {
         fetchData(user_id);
                    
     },[])
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(appointments.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+
+        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
+
 
     return (
         <>
@@ -58,11 +101,11 @@ export default function Appointment_History () {
                             </div>
 
                             <div className="profile-details">
-                                <div className="row mx-3 mt-5 mb-3">
+                                <div className="row px-5 pt-5">
                                     <div className="col m-auto text-center">
 
-                                    <>
-                                        <Table>
+                                    {appointments.length > 0 && 
+                                        <Table size="sm" responsive bordered hover>
                                             <thead>
                                                 <tr>
                                                 <th>รหัส</th>
@@ -76,7 +119,7 @@ export default function Appointment_History () {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    appointments.map(item => (
+                                                    appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <AppointHistoryItem
                                                         key={item.appoint_id}
                                                         data={item}
@@ -85,13 +128,23 @@ export default function Appointment_History () {
                                                 }
                                             </tbody>
                                         </Table>
-                                    </>
+                                    }
                                     
-                                    {/* {Appointments.length < 1 &&
+                                    {appointments.length < 1 &&
                                         <div className="text-center d-block mt-4 ms-5">
-                                            <h6 className="">ไม่พบข้อมูลการนัดหมาย</h6>
+                                            <h6 className="">ไม่พบข้อมูลประวัติการนัดหมาย</h6>
                                         </div>
-                                    }     */}
+                                    }    
+                                    </div>
+
+                                    <div className="d-flex justify-content-end">
+                                        <Pagination onSelect={onPageSelected} size="sm">
+                                            <Pagination.First onClick={firstPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            { getPagination()}
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Last onClick={lastPage} />
+                                        </Pagination>
                                     </div>
 
                                 </div>
