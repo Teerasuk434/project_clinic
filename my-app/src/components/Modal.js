@@ -322,7 +322,6 @@ export function MessageModal(props) {
     );
 };
 
-
 export function SuccessModal(props) {
 
     return (
@@ -363,6 +362,29 @@ export function SuccessAppointmentModal(props) {
             <Modal.Footer>
                 <Link className="btn btn-primary btn-sm" to="/account/appointments">หน้านัดหมาย</Link>
                 <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export function SuccessRegisterModal(props) {
+
+    return (
+        <Modal show={props.show} onHide={props.onClose}>
+            <Modal.Header closeVariant="white" closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <div className="text-center">
+                    <img src={`http://localhost:8080/images/success.png`} alt="" width={150}/>
+                </div>
+                <h5 className="text-center mt-2">{props.message}</h5>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Link to="/login" className="btn btn-primary btn-sm">เข้าสู่ระบบ</Link>
+                <Button variant="danger" onClick={props.onClose} size="sm">ปิด</Button>
             </Modal.Footer>
         </Modal>
     );

@@ -184,62 +184,33 @@ app.post('/home', (req, res) =>{
 app.post("/api/register/account", async (req, res) => {
     const input = req.body;
     try {
-        var result = await Account.createAccount(pool,
-            input.cust_fname, input.cust_lname, input.cust_tel, 
-            input.cust_address, input.cust_gender, input.cust_birthdate,
-            input.email,input.user_id);
+        var result = await Account.isDuplicate(pool, input.username);
 
-        res.json({
-            result:true
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
+        if(!result){
+            var result_user = await Users.createUser(pool,input.username,input.password,input.role_id);
 
-app.post("/api/register/user", async (req, res) => {
-    const input = req.body;
-    try {
-            var result = await Users.createUser(pool,input.username,
-                input.password,
-                input.role_id);
+            if(result_user){
+                await Account.createAccount(pool,
+                    input.cust_fname, input.cust_lname, input.cust_tel, 
+                    input.cust_address, input.cust_gender, input.cust_birthdate,
+                    input.email,result_user.insertId);
+            }
 
-        res.json({
-            result:true
-        });
-    } catch (ex) {
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
-
-app.get("/api/register/user", async (req, res) => {
-
-    pool.query("SELECT * FROM users", function(error, results, fields){
-        if (error) {
             res.json({
-                result: false,
-                message: error.message
+                result: true
             });
-        }
-
-        if (results.length) {
-            res.json({
-                result: true,
-                data: results
-            });
-        } else {
+        }else{
             res.json({
                 result:false,
-                message: "ไม่พบผู้ใช้งาน"
-            });
+                message: "ชื่อผู้ใช้งานนี้มีในระบบแล้ว"
+            })
         }
-    });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
 });
 
 app.get("/api/customer/:user_id",async (req, res) =>{
@@ -1414,8 +1385,6 @@ app.get('/api/appointment',(req, res) => {
     b.*,
     c.cust_fname,
     c.cust_lname,
-    c.cust_tel,
-    c.email,
     d.service_name,
     d.cost_deposit,
     d.time_spent,

@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { Form, Row, Col, Button,Alert} from 'react-bootstrap';
+import { Form, Row, Col, Button, Alert, InputGroup} from 'react-bootstrap';
 import { useNavigate, Link} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import BoxTop from './components/Box-top';
@@ -11,6 +11,8 @@ export default function Login() {
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [type_password, setTypePassword] = useState(false);
+
 
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
@@ -97,6 +99,10 @@ export default function Login() {
         return data;
     }
 
+    const onShowPassword = () => {
+        setTypePassword(!type_password);
+    }
+
     return (
         <>  
             <BoxTop/>
@@ -127,7 +133,16 @@ export default function Login() {
                             <Row className="mb-3">
                                 <Form.Group as={Col} controlId="validatePassword">
                                     <Form.Label>รหัสผ่าน</Form.Label>
-                                    <Form.Control type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)}/>
+                                    <InputGroup>
+                                        <Form.Control 
+                                            required
+                                            type={type_password ? "text" : "password"}
+                                            value={password}
+                                            placeholder="กรอกรหัสผ่าน"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <Button variant="light" className="border" size="sm" onClick={onShowPassword}><i className={type_password ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}></i></Button>
+                                        </InputGroup>
                                     <Form.Control.Feedback type="invalid">
                                         กรุณากรอก Password
                                     </Form.Control.Feedback>
