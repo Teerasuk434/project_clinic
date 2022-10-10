@@ -477,22 +477,29 @@ html, body, #fullheight {
    .box1-contact-about{
     background-color: #4BB2E5;
     color: white;
-    padding: 120px;
-
+    height: 200px;
+    width: 35%;
+    padding: 75px;
+    margin-left: 140px;
    }
 
    .box2-contact-about{
     background-color: lightblue;
-    padding: 30px;
-
+    width: 40%;
    }
 
    .box3-contact-about{
     background-color: #4BB2E5;
     color: white;
-    padding: 30px;
-   }
+    width: 35%;
+    margin-left: 140px;
+    padding: 10px;
 
+}
+    .box4-contact-about{
+    background-color: lightblue;
+    width: 40%;
+}
    .box4-about{
     color: rgb(204, 33, 33);
    }
@@ -529,7 +536,7 @@ html, body, #fullheight {
    .thead-service{
     background-color: #AADAF3;
     height: 60px;
-    width: 95%;
+    width: 70%;
     margin: auto;
     /* border-radius: 10px; */
     font-size: larger;
@@ -544,10 +551,10 @@ html, body, #fullheight {
 
    .box-service {
     border-radius: 10px;
-    background-color: #e0e0e0;
+    background-color: #F8F9FA;
     text-align: center;
     padding: 20px;
-    width: 95%;
+    width: 70%;
     margin: auto;
 }
 

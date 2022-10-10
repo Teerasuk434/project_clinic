@@ -6,7 +6,7 @@ import './style.css'
 
 export default function AboutClinic (){
 
-    const iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0643858828334!2d100.497089114721!3d7.001700594942183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d29bbd7c26a99%3A0xdb01ab12c69b72bd!2z4Lib4Li44LiT4LiT4LiB4Lix4LiT4LiR4LmM4Liq4Lix4LiV4Lin4LmB4Lie4LiX4Lii4LmM!5e0!3m2!1sth!2sth!4v1665118736354!5m2!1sth!2sth" width="1100" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';      
+    const iframe = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.0643858828334!2d100.497089114721!3d7.001700594942183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304d29bbd7c26a99%3A0xdb01ab12c69b72bd!2z4Lib4Li44LiT4LiT4LiB4Lix4LiT4LiR4LmM4Liq4Lix4LiV4Lin4LmB4Lie4LiX4Lii4LmM!5e0!3m2!1sth!2sth!4v1665118736354!5m2!1sth!2sth" width="810" height="500" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>';      
     
     function Iframe(props){
         return (<div dangerouslySetInnerHTML={ {__html:  props.iframe?props.iframe:""}} />);
@@ -31,39 +31,74 @@ export default function AboutClinic (){
                             <h5></h5>
                     </div>
 
-                    <div className="text-center px-5 mt-5">
+                    <div className="text-center px-5 mt-5 ">
                         <div className="row mx-5 mb-2" >
-                            <div className="col-5 box1-contact-about shadow" >
+                            <div className=" box1-contact-about shadow " >
                                 <h4>ช่องทางการติดต่อ</h4>
                             </div>
-                            <div className="col-7 box2-contact-about shadow">
-                                <div className="mt-2 p-5">
-                                    <h5><a href="https://web.facebook.com/poonnakanpetclinic" class="fa-brands fa-facebook fa-link" target="_bank"> ปุณณกัณฑ์สัตวแพทย์</a> </h5>
-                                    <h6>081-622-7293</h6>
-                                    <h6>081-622-7293</h6>
+
+                            <div className="box2-contact-about shadow ">
+                                <div className="mt-5 ">
+                                    <div className="row mb-4">
+
+                                        <div className="col-4 text-end">
+                                            <i className="fa-brands fa-facebook fa-2xl " target="_blank"></i>
+                                        </div>
+
+                                        <div className="col-8 text-start ">
+                                            <p className="p-0">ปุณณกัณฑ์สัตวแพทย์</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="row mb-4">
+
+                                        <div className="col-4 text-end">
+                                            <i className="fa-brands fa-line fa-2xl "></i>
+                                        </div>
+
+                                        <div className="col-8 text-start">
+                                            <p className="p-0">081-622-7293</p>
+                                        </div>
+
+                                    </div>
+
+                                    <div className="row">
+
+                                        <div className="col-4 text-end">
+                                            <i class="fa-solid fa-phone fa-xl "></i>
+                                        </div>
+
+                                        <div className="col-8 text-start">
+                                           <p className="p-0">081-622-7293</p>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="row mx-5 mb-2" >
-                            <div className="col-5 box3-contact-about shadow mt-3" >
-                                 
-                                    <h4>เวลาเปิดทำการ</h4>
-                                
+                            <div className=" box3-contact-about shadow mt-3 " >
+                                <h4>เวลาเปิดทำการ</h4>
                             </div>
-                            <div className="col-7 box2-contact-about shadow mt-3">
-                            <h6>13.00 - 19.00 น. <b className="box4-about"> หยุดทุกวันเสาร์ </b></h6>
+
+                            <div className=" box4-contact-about shadow mt-3">
+                                <h6>13.00 - 19.00 น. <b className="box4-about"> หยุดทุกวันเสาร์ </b></h6>
                             </div>
                         </div>
+
                         <div className="row mx-5 " >
                             <div className="col-5 box3-contact-about shadow mt-3" >
                                 <h4> ที่อยู่ </h4>
-                                
                             </div>
-                            <div className="col-7 box2-contact-about shadow mt-3">
-                                    <h6> <i class="fa-solid fa-location-dot" > 382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</i></h6>
+
+                            <div className="col-7 box4-contact-about shadow mt-3">
+                                <h6><i class="fa-solid fa-location-dot"></i> 382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
                             </div>
+
                         </div>
+                        
                         <div className="map">
                             <Iframe iframe={iframe}/>
                         </div>
