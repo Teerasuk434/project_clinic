@@ -5,6 +5,7 @@ import { useNavigate, Link} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
+import { API_POST,API_GET } from './api';
 
 var md5 = require("md5");
 export default function Login() {
@@ -48,13 +49,21 @@ export default function Login() {
             localStorage.setItem("username", username);
             localStorage.setItem("role_id", data2.data.account_info.role_id);
             localStorage.setItem("role_name", data2.data.account_info.role_name);
+
+            if(data2.data.account_info.role_id == 1){
+                let json = await API_GET("customer/" +data2.data.account_info.user_id);
+                
+                if(json.result){
+                    localStorage.setItem("cust_firstname", json.data[0].cust_fname);
+                    localStorage.setItem("cust_lastname", json.data[0].cust_lname);
+                }
+            }
             navigate("/home", { replace: true });
         }else{
             setAlertMessage(data2.message);
             setShowAlert(true);
         }
 
-        // <Navigate replace to="/home" />
     }
 
     const getAuthenToken = async () =>{

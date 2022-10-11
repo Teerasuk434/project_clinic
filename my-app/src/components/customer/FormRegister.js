@@ -100,6 +100,14 @@ export default function FormRegister(){
         setTypePassword(!type_password);
     }
 
+    // const inputFirstName = (event) =>{
+
+    //     const result = event.target.value.replace(/, '');
+
+    //     setFirstName(result)
+
+    // }
+
     return (
         <>
             <div className='form-register m-auto shadow bg-light'>
@@ -190,6 +198,7 @@ export default function FormRegister(){
                                         <Form.Control 
                                             required
                                             type="text"
+                                            pattern="[0-9]{10}"
                                             value={tel}
                                             placeholder="กรอกหมายเลขโทรศัพท์"
                                             onChange={(e) => setTel(e.target.value)}

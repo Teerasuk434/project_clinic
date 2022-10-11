@@ -6,6 +6,7 @@ import { API_GET, API_POST} from "../../api";
 import { Form,Button,Col,Row,InputGroup } from "react-bootstrap";
 import { Link,useParams,useNavigate } from "react-router-dom";
 import { ConfirmModal } from '../Modal'
+import ProfileSidebar from "./ProfileSidebar";
 
 import { SERVER_URL } from "../../app.config"
 
@@ -20,6 +21,9 @@ export default function FormPets(){
     const [pet_age_month, setPetAgeMonth] = useState(0);
     const [custId, setCustId] = useState(0);
 
+    const [check_age, setCheckAge] = useState(true);
+    const [min_age, setMinAge] = useState(0);
+
     const [imageUrl, setImageUrl] = useState("");
 
     const [confirmModal, setConfirmModal] = useState(false);
@@ -28,6 +32,7 @@ export default function FormPets(){
 
 
     let user_id = localStorage.getItem("user_id");
+    let pages = 2;
 
     let params = useParams();
     let navigate = useNavigate();
@@ -63,6 +68,18 @@ export default function FormPets(){
             fetchData([params.pet_id]);
         }
     },[params.pet_id])
+
+    useEffect(() =>{
+        if(pet_age_year == 0 && pet_age_month == 0){
+            setMinAge(1);
+            setCheckAge(true);
+        }else if(pet_age_year > 0){
+            setMinAge(0);
+            setCheckAge(false);
+        }
+
+        console.log(check_age)
+    },[pet_age_year])
 
     const onSave = async (event) => {
         const form = event.currentTarget;
@@ -212,28 +229,16 @@ export default function FormPets(){
 
                 <div className="container profile">
                     <div className="row p-4">
-                        <div className="col-2 profile-left me-2  ms-5 shadow-sm ">
-                            <div className="Profile-Name text-center">
-                                <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <h5 className="text-center mt-3">ธีรศักดิ์ เทียนชัย</h5>
-                            </div>
-                            <div className="border border-bottom-5 mx-2 mb-3"></div>
-
-                            <div className="profile-sidebar">
-                                <div>
-                                    <Link to="/account">ข้อมูลบัญชี</Link>
-                                    <Link className="active" to="/account/pets">ข้อมูลสัตว์เลี้ยง</Link>
-                                    <a href="">ข้อมูลการนัดหมาย</a>
-                                    <a href="">ประวัติการนัดหมาย</a>
-                                    <a href="">ตั้งค่ารหัสผ่าน</a>
-                                    <a href="">ออกจากระบบ</a>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        <ProfileSidebar pages={pages}/>
 
                         <div className="col-9 profile-right p-0 shadow-sm">
                             <div className="profile-right-header p-2 text-center">
-                                <h4>เพิ่มข้อมูลสัตว์เลี้ยง</h4>
+                                {params.pet_id == "add" ?
+                                    <h4>เพิ่มข้อมูลสัตว์เลี้ยง</h4>
+                                :
+                                    <h4>แก้ไขข้อมูลสัตว์เลี้ยง</h4>
+                                }
                             </div>
 
                             <div className="profile-details">
@@ -318,10 +323,10 @@ export default function FormPets(){
 
                                                         <InputGroup >
                                                             <Form.Control 
-                                                                    required
+                                                                    required={check_age}
                                                                     type="number"
                                                                     value={pet_age_month}
-                                                                    min="1"
+                                                                    min={min_age}
                                                                     max="12"
                                                                     onChange={(e) => setPetAgeMonth(e.target.value)}/>
                                                             <InputGroup.Text>เดือน</InputGroup.Text>

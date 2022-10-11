@@ -19,10 +19,9 @@ export default function AppointmentList(){
     const [showAppointmentForm, setAppointmentForm] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
     const [AppointmentDetails, setAppointmentDetails] = useState({});
+    const [cust_name, setCustName] = useState("");
     
     let pages = 3;
-
-
 
     useEffect(()=>{
         let user_id = localStorage.getItem("user_id");
@@ -33,7 +32,7 @@ export default function AppointmentList(){
     const fetchData = async (user_id) =>{
         let json = await API_POST("account/appointments/" + user_id);
         setAppointment(json.data);
-
+        setCustName(json.cust_name);
     }
 
     const fetchPets = async (user_id) =>{
@@ -71,17 +70,8 @@ export default function AppointmentList(){
 
                 <div className="container profile">
                     <div className="row p-4">
-                        <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
-                            <div className="Profile-Name text-center">
-                                <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <h5 className="text-center mt-3">ธีรศักดิ์ เทียนชัย</h5>
-                            </div>
-                            <div className="border border-bottom-5 mx-2 mb-3"></div>
-
-                            <div className="profile-sidebar">
-                                <ProfileSidebar pages={pages}/>
-                            </div>
-                        </div>
+                        
+                        <ProfileSidebar pages={pages}/>
 
                         <div className="col-9 profile-right p-0">
                             <div className="profile-right-header p-2 text-center">
@@ -144,6 +134,7 @@ export default function AppointmentList(){
             title={appointModalTitle}
             onClose={onClose}
             data={AppointmentDetails}
+            custname={cust_name}
             />  
 
             <ShowAppointmentForm 
@@ -154,6 +145,7 @@ export default function AppointmentList(){
             data={AppointmentDetails}
             pets={listpets}
             fetch={fetchData}
+            custname={cust_name}
             />
         </>
     )

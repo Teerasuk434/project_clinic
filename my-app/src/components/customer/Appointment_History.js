@@ -78,17 +78,8 @@ export default function Appointment_History () {
 
                 <div className="container profile">
                     <div className="row p-4">
-                        <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
-                            <div className="Profile-Name text-center">
-                                <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <h5 className="text-center mt-3">ธีรศักดิ์ เทียนชัย</h5>
-                            </div>
-                            <div className="border border-bottom-5 mx-2 mb-3"></div>
-
-                            <div className="profile-sidebar">
-                                <ProfileSidebar pages={pages}/>
-                            </div>
-                        </div>
+                        
+                        <ProfileSidebar pages={pages}/>
 
                         <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">
@@ -96,7 +87,7 @@ export default function Appointment_History () {
                             </div>
 
                             <div className="profile-details">
-                                <div className="row px-5 pt-5">
+                                <div className="row px-5 pt-3">
                                     <div className="col m-auto text-center">
 
                                     {appointments.length > 0 && 
@@ -132,15 +123,17 @@ export default function Appointment_History () {
                                     }    
                                     </div>
 
-                                    <div className="d-flex justify-content-end">
-                                        <Pagination onSelect={onPageSelected} size="sm">
-                                            <Pagination.First onClick={firstPage} />
-                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
-                                            { getPagination()}
-                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
-                                            <Pagination.Last onClick={lastPage} />
-                                        </Pagination>
-                                    </div>
+                                    {appointments.length > 0 &&
+                                        <div className="d-flex justify-content-end">
+                                            <Pagination onSelect={onPageSelected} size="sm">
+                                                <Pagination.First onClick={firstPage} />
+                                                <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                                { getPagination()}
+                                                <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                                <Pagination.Last onClick={lastPage} />
+                                            </Pagination>
+                                        </div>
+                                    }
 
                                 </div>
                                 

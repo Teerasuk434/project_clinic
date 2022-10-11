@@ -262,11 +262,11 @@ app.post('/api/account/appointments/:user_id',async(req, res) => {
         var result = await Customer.getByUserId(pool,user_id)
         let cust_id = result[0].cust_id
         var result2 = await Appointment.getListAppointment(pool,cust_id);
-        console.log(result2)
 
         res.json({
             result: true,
-            data: result2
+            data: result2,
+            cust_name:result[0].cust_fname + " " +result[0].cust_lname
         });
     }catch(ex){
         res.json({
