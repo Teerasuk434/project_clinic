@@ -183,8 +183,6 @@ export default function ListAppoint(){
     const onPageSelected = (d) => {
         var selectedPageNo = parseInt(d.target.innerHTML) -1;
         setCurrentPage(selectedPageNo)
-
-        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
     }
 
     const nextPage = () => {

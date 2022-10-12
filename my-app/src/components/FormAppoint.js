@@ -44,7 +44,6 @@ export default function FormAppoint() {
     const [paymentTitleModal, setPaymentTitleModal] = useState("");
     const [paymentImageModal, setPaymentImageModal] = useState("");
 
-    const [employee, setEmployee] = useState([]);
     const [emp_id, setEmpId] = useState(0);
     const [emp_firstname, setEmpFirstName] = useState("");
     const [emp_lastname, setEmpLastName] = useState("");

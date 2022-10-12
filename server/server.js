@@ -265,8 +265,7 @@ app.post('/api/account/appointments/:user_id',async(req, res) => {
 
         res.json({
             result: true,
-            data: result2,
-            cust_name:result[0].cust_fname + " " +result[0].cust_lname
+            data: result2
         });
     }catch(ex){
         res.json({
@@ -1385,6 +1384,8 @@ app.get('/api/appointment',(req, res) => {
     b.*,
     c.cust_fname,
     c.cust_lname,
+    c.cust_tel,
+    c.email,
     d.service_name,
     d.cost_deposit,
     d.time_spent,
@@ -1429,7 +1430,7 @@ app.get('/api/appointment/accept',(req, res) => {
     e.*,
     f.status_name ,
     h.emp_id,
-   	CONCAT(h.emp_fname," ",h.emp_lname) AS emp_name
+   	CONCAT(h.emp_fname," ",h.emp_lname) AS employee_fullname
     FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
     JOIN customer_information c ON b.cust_id = c.cust_id
     JOIN service d ON a.service_id = d.service_id

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { ShowAppointmentDetails,ShowAppointmentForm } from "../Modal";
-import { API_POST } from "../../api";
+import { API_GET, API_POST } from "../../api";
 import AppointmentItem from "./AppointmentItem";
 import ProfileSidebar from "./ProfileSidebar";
 
@@ -19,7 +19,6 @@ export default function AppointmentList(){
     const [showAppointmentForm, setAppointmentForm] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
     const [AppointmentDetails, setAppointmentDetails] = useState({});
-    const [cust_name, setCustName] = useState("");
     
     let pages = 3;
 
@@ -31,8 +30,10 @@ export default function AppointmentList(){
 
     const fetchData = async (user_id) =>{
         let json = await API_POST("account/appointments/" + user_id);
+        
         setAppointment(json.data);
-        setCustName(json.cust_name);
+
+
     }
 
     const fetchPets = async (user_id) =>{
@@ -134,7 +135,6 @@ export default function AppointmentList(){
             title={appointModalTitle}
             onClose={onClose}
             data={AppointmentDetails}
-            custname={cust_name}
             />  
 
             <ShowAppointmentForm 
@@ -145,7 +145,6 @@ export default function AppointmentList(){
             data={AppointmentDetails}
             pets={listpets}
             fetch={fetchData}
-            custname={cust_name}
             />
         </>
     )
