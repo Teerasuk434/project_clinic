@@ -12,7 +12,6 @@ export default function FormEmployee(){
     let params = useParams();
     let navigate = useNavigate();
     let pages = 3;
-    let date = new Date().toLocaleDateString();
 
     const [validated,setValidated] = useState(false);
     const [emp_id,setEmpId] = useState(0);

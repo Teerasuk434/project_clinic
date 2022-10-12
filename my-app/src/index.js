@@ -39,7 +39,7 @@ import FormRoomtypes from './components/admin/FormRoomTypes';
 
 import RequestAppoint from './components/employee/RequestAppoint';
 import FormReqAppoint from './components/employee/FormReqAppoint';
-import FormAppoint from './components/employee/FormAppoint';
+import FormAppoint from './components/FormAppoint';
 
 import Employee from './components/owner/Employee';
 import FormEmployee from './components/owner/FormEmployee';

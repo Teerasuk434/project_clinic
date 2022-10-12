@@ -17,7 +17,7 @@ export default function FormService() {
 
     const [serviceId, setServiceId] = useState(0);
     const [service_name, setServiceName] = useState("");
-    const [cost_service, setCostService] = useState(0);
+    const [cost_service, setCostService] = useState("");
     const [cost_deposit, setCostDeposit] = useState(0);
     const [time_spent, setTimeSpent] = useState("");
     const [room_type_id, setRoomTypeId] = useState(0);
@@ -49,6 +49,7 @@ export default function FormService() {
             setServiceId(data.service_id);
             setServiceName(data.service_name);
             setCostService(data.cost_service);
+            console.log(data)
             setCostDeposit(data.cost_deposit);
             setTimeSpent(data.time_spent);
             setRoomTypeId(data.room_type_id);
@@ -174,9 +175,9 @@ export default function FormService() {
                         </Form.Group>
                         
                         {imageUrl != "" && 
-                            <Form.Group as={Col} md="6" controlId="formImage" className="mb-3 text-center">    
-                                <img src={`${SERVER_URL}images/${imageUrl}`} width={300} alt="Upload status"/>
-                            </Form.Group>
+                            <div className="col-6 text-center">
+                                <img src={`${SERVER_URL}images/${imageUrl}`} width={150} alt="Upload status"/>
+                            </div>
                         }
                         
                     </Row>
@@ -229,7 +230,8 @@ export default function FormService() {
                     </div>
 
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <Top />
+                    <Top />
+
                         <div className="content p-5">
                             
                             <div className='shadow bg-light p-5 rounded'>
@@ -261,7 +263,9 @@ export default function FormService() {
                                                 <Form.Label>เวลาที่ใช้ (นาที) </Form.Label>
                                                     <Form.Control
                                                         required
-                                                        type="text"
+                                                        type="number"
+                                                        min="15"
+                                                        step="15"
                                                         value={time_spent}
                                                         placeholder="เวลาที่ใช้"
                                                         onChange={(e) => setTimeSpent(e.target.value)}
@@ -277,7 +281,7 @@ export default function FormService() {
                                                     <Form.Label>ค่าบริการ</Form.Label>
                                                     <Form.Control
                                                         required
-                                                        type="number"
+                                                        type="text"
                                                         value={cost_service}
                                                         placeholder="ค่าบริการ"
                                                         min={1}

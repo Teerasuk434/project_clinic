@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import Sidebar from '../Sidebar';
-import { Form , Col, Button} from 'react-bootstrap';
+import Sidebar from './Sidebar';
+import { Form , Col, Button, Row} from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { API_GET, API_POST } from '../../api';
-import { ShowPaymentModal } from '../Modal';
+import { API_GET, API_POST } from '../api';
+import { ShowPaymentModal } from './Modal';
+import Top from './Top';
 
 export default function FormAppoint() {
     let date = new Date().toLocaleDateString();
@@ -161,11 +162,6 @@ export default function FormAppoint() {
     return (
         <>
             <div className="container-fluid">
-                <div className='top row'>
-                    <div className='col'>
-                        <p>สถานะ : พนักงาน</p>
-                    </div>
-                </div>
 
                 <div className='row'>
                     <div className='p-0 col-12 col-lg-2'>
@@ -175,10 +171,11 @@ export default function FormAppoint() {
                     </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                        <div className="content" style={{height:"100%"}}>
+                        <div className="content">
+                            <Top />
                             <div className="container m-auto">
 
-                                <div className='req-form-details mt-5 shadow'>
+                                <div className='req-form-details my-5 mx-5 shadow'>
                                     <div className='req-appoint-label p-3'>
                                         <p>รายละเอียดการนัดหมาย</p>
                                     </div>
@@ -229,7 +226,7 @@ export default function FormAppoint() {
                                         <p>รายละเอียดการนัดหมาย</p>
                                     </div>
                                         
-                                        <div className="row">
+                                        <div className="row my-1">
                                             <div className="col-3 box-label">
                                                 <h6>บริการ :</h6>
                                                 <h6>ค่ามัดจำ :</h6>
@@ -237,6 +234,7 @@ export default function FormAppoint() {
                                                 <h6>เวลา :</h6>
                                                 <h6>ห้องที่ใช้ :</h6>
                                                 <h6 className='mt-3'>ผู้รับหน้าที่ดูแล :</h6>
+                                                <h6>หลักฐานการชำระเงิน :</h6>
                                             </div>
 
                                             <div className="col-9 box-details mb-2">
@@ -246,6 +244,12 @@ export default function FormAppoint() {
                                                 <h6>{appoint_time} - {appoint_time_end}</h6>
                                                 <h6>{roomName}</h6>
                                                 <h6>{emp_firstname} {emp_lastname}</h6>
+
+                                                
+                                                <div className="col-3">
+                                                    <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
+                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -257,24 +261,24 @@ export default function FormAppoint() {
 
                                         <div className="row p-3">
                                             
-                                            <div className="col-3">
-                                            <Form.Group controlId="validateStatus">
-                                                <Form.Select 
-                                                value={appoint_status}
-                                                required
-                                                onChange={(e) => setAppointStatus(e.target.value)}
-                                                >
-                                                    <option label="กรุณาเลือกสถานะ"></option> 
-                                                    {
-                                                        status.map(item => (
-                                                             <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                                <Form.Control.Feedback type="invalid">
-                                                    กรุณาเลือกสถานะคำขอ
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
+                                            <div className="col-3"> 
+                                                <Form.Group controlId="validateStatus">
+                                                    <Form.Select 
+                                                    value={appoint_status}
+                                                    required
+                                                    onChange={(e) => setAppointStatus(e.target.value)}
+                                                    >
+                                                        <option label="กรุณาเลือกสถานะ"></option> 
+                                                        {
+                                                            status.map(item => (
+                                                                <option key={item.status_id} value={item.status_id}> {item.status_name} </option>
+                                                            ))
+                                                        }
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาเลือกสถานะคำขอ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
                                             </div>
 
                                             <div className="col-6">
@@ -289,12 +293,6 @@ export default function FormAppoint() {
 
                                             </div>
 
-
-                                            <div className="col-3">
-                                                <button className="btn btn-success" onClick={onClickShow}>{<i className="fa-solid fa-eye me-2"></i>}ข้อมูลการชำระเงิน</button>
-                                            </div>
-
-
                                         </div>
                                         
                                         <div className="text-center p-3">
@@ -305,14 +303,6 @@ export default function FormAppoint() {
 
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="row">              
-                    <div className='bottom'>
-                        <div>
-                            <p>วันที่ : {date}</p>
                         </div>
                     </div>
                 </div>

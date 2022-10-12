@@ -152,7 +152,7 @@ export default function FormUser() {
         }else{
 
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
-            setConfirmModalMessage("คุณต้องการการแก้ไขข้อมูลผู้ใช้งานใช่หรือไม่");
+            setConfirmModalMessage("คุณต้องการแก้ไขข้อมูลผู้ใช้งานใช่หรือไม่");
             setConfirmModal(true);
         }
         
@@ -190,15 +190,17 @@ export default function FormUser() {
                         </div>
 
                         <div className='p-0 m-0 col-12 col-lg-10'>
-                        <Top />
-                            <div className="content p-5">
-                                <div className='shadow bg-light p-5 rounded'>
+                            <div className="content">
+                                <Top />
 
-                                {params.user_id == "add" ?
-                                    <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
-                                :
-                                    <h4 className='text-center'>แก้ไขข้อมูลผู้ใช้งาน</h4>
-                                }
+                                <div className='shadow bg-light m-5 p-5 rounded'>
+
+                                    {params.user_id == "add" ?
+                                        <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
+                                    :
+                                        <h4 className='text-center'>แก้ไขข้อมูลผู้ใช้งาน</h4>
+                                    }
+
                                     <div className='container m-auto px-5 py-3 mt-3 border-top border-secondary'>
 
                                         <Form className="w-50 m-auto" noValidate validated={validated} onSubmit={onSave}>
@@ -263,14 +265,6 @@ export default function FormUser() {
                                             </Row>
                                         </Form>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="row">              
-                            <div className='bottom'>
-                                <div>
-                                    <p>วันที่ : {date}</p>
                                 </div>
                             </div>
                         </div>
