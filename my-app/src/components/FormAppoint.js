@@ -6,6 +6,8 @@ import { API_GET, API_POST } from '../api';
 import { ShowPaymentModal } from './Modal';
 import Top from './Top';
 
+import { ConfirmModal  } from './Modal';
+
 export default function FormAppoint() {
     let date = new Date().toLocaleDateString();
     let pages = 3;
@@ -48,6 +50,13 @@ export default function FormAppoint() {
     const [emp_lastname, setEmpLastName] = useState("");
 
     const [validated,setValidated] = useState(false);   
+
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         async function fetchData(appoint_id) {
@@ -108,6 +117,8 @@ export default function FormAppoint() {
             json3.data.map(item=>{
                 if(item.status_id != 1 && item.status_id != 3){
                     appoint_status_temp.push(item)
+
+                
                 }
             })
 
@@ -134,7 +145,9 @@ export default function FormAppoint() {
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            createSchedule();
+            // createSchedule();
+            onConfirm();
+
         }
         setValidated(true);
     }
@@ -157,6 +170,30 @@ export default function FormAppoint() {
                 window.location = "/list-appoint";
             }
         }
+    }
+
+    const onConfirm = async (data) => {
+
+            setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
+            setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
+            setConfirmModal(true);
+    }
+
+    const onConfirmUpdate = async () => {
+        setConfirmModal(false);
+           
+        createSchedule();
+            
+    }
+
+    const onCancelUpdate = () => {
+        setConfirmModal(false);
+
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
     }
 
     return (
@@ -314,6 +351,13 @@ export default function FormAppoint() {
                 title={paymentTitleModal}
                 paymentImage={paymentImageModal}
                 onClose={onCloseImageModal}/>
+
+                <ConfirmModal
+                    show={confirmModal}
+                    title={confirmModalTitle}
+                    message={confirmModalMessage}
+                    onConfirm={onConfirmUpdate}
+                    onClose={onCancelUpdate}/>
         </>
     )
 }

@@ -180,7 +180,7 @@ export default function FormEmployee(){
                                             
                                                 <div className="container mt-2">
                                                     <Form noValidate validated={validated} onSubmit={onSave}>
-                                                    
+                                                    <div className="row mt-3 mb-2">
                                                         <Form.Group as={Col} controlId="validateFirstName" >
                                                             <Form.Label>ชื่อ</Form.Label>
                                                             <Form.Control
@@ -194,7 +194,9 @@ export default function FormEmployee(){
                                                                 กรุณากรอก ชื่อพนักงาน
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
+                                                    </div>
 
+                                                    <div className="row mb-2">
                                                         <Form.Group as={Col} controlId="validateLastName" >
                                                             <Form.Label>นามสกุล</Form.Label>
                                                             <Form.Control
@@ -208,7 +210,8 @@ export default function FormEmployee(){
                                                                 กรุณากรอก นามสกุลพนักงาน
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
-
+                                                    </div>
+                                                    <div className="row mb-2">
                                                         <Form.Group as={Col} controlId="validatePosition" >
                                                             <Form.Label>ตำแหน่ง</Form.Label>
                                                             <Form.Select
@@ -227,7 +230,8 @@ export default function FormEmployee(){
                                                                 กรุณาเลือก ตำแหน่งพนักงาน
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
-
+                                                    </div>
+                                                    <div className="row mb-2">
                                                         <Form.Group as={Col} controlId="validateAddress" >
                                                             <Form.Label>ที่อยู่</Form.Label>
                                                             <Form.Control
@@ -241,12 +245,13 @@ export default function FormEmployee(){
                                                                 กรุณากรอก ที่อยู่
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
-
+                                                    </div>
+                                                    <div className="row mb-2">
                                                         <Form.Group as={Col} controlId="validateTel" >
                                                             <Form.Label>เบอร์โทร</Form.Label>
                                                             <Form.Control
                                                                 required
-                                                                type="text"
+                                                                type="number"
                                                                 value={emp_tel}
                                                                 placeholder="เบอร์โทร"
                                                                 onChange={(e) => setEmpTel(e.target.value)}
@@ -255,7 +260,8 @@ export default function FormEmployee(){
                                                                 กรุณากรอก เบอร์โทร
                                                             </Form.Control.Feedback>
                                                         </Form.Group>
-
+                                                    </div>
+                                                    <div className="row mb-2">
                                                         <Form.Group as={Col} controlId="validateSalary" >
                                                             <Form.Label>เงินเดือน</Form.Label>
                                                             <Form.Control
@@ -269,6 +275,7 @@ export default function FormEmployee(){
                                                                 กรุณากรอก เงินเดือน
                                                             </Form.Control.Feedback>
                                                         </Form.Group> 
+                                                    </div>
                                                             <Row className="mb-5">
                                                                 <div className="text-end">
                                                                     <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
