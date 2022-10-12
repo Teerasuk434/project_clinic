@@ -139,7 +139,7 @@ export default function Employee(){
                                 <div className="my-3 ">
                                     <div className="m-auto d-flex justify-content-between">
                                         <div>
-						                    <Link to={"/emp/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลผู้ใช้งาน</Link>
+						                    <Link to={"/emp/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลพนักงาน</Link>
                                         </div>
                                         <div className="form-search">
                                             <Form noValidate onSubmit={onSearch}>
