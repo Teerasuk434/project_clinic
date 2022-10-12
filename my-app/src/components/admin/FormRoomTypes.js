@@ -140,8 +140,13 @@ export default function FormRoomtypes(){
                             <div className="content p-5">
                                 <div className="container">
                                 <div className='col-8 bg-white rounded shadow p-3 m-auto'>
+                                    {params.room_type_id == "add" ?
+                                        <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
 
-                                    <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
+                                    :
+                                        <h4 className="text-center">แก้ไขประเภทห้องรักษา</h4>
+
+                                    }
                                     <Form noValidate validated={validated} onSubmit={onSave}>
                                     
                                         <Form.Group as={Col} controlId="validateRoomTypes" >

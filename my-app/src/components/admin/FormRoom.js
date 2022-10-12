@@ -157,7 +157,13 @@ export default function FormRoom(){
                                     <div className="container m-auto">
                                 
                                         <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            <h4 className="text-center mt-3">เพิ่มข้อมูลห้องรักษา</h4>
+                                            {params.room_id == "add" ?
+                                                <h4 className="text-center mt-3">เพิ่มข้อมูลห้องรักษา</h4>
+                                            
+                                            :
+                                                <h4 className="text-center mt-3">แก้ไขข้อมูลห้องรักษา</h4>
+
+                                            }
                                             
                                                 <Form noValidate validated={validated} onSubmit={onSave}>
                                                     <Row className="mb-3">

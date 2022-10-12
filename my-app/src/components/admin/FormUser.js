@@ -194,8 +194,11 @@ export default function FormUser() {
                             <div className="content p-5">
                                 <div className='shadow bg-light p-5 rounded'>
 
+                                {params.user_id == "add" ?
                                     <h4 className='text-center'>เพิ่มข้อมูลผู้ใช้งาน</h4>
-
+                                :
+                                    <h4 className='text-center'>แก้ไขข้อมูลผู้ใช้งาน</h4>
+                                }
                                     <div className='container m-auto px-5 py-3 mt-3 border-top border-secondary'>
 
                                         <Form className="w-50 m-auto" noValidate validated={validated} onSubmit={onSave}>

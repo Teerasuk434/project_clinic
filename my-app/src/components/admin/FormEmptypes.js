@@ -39,9 +39,10 @@ export default function FormEmptypes(){
             setEmpPositionName(data.emp_position_name);
             setEmpPositionId(data.emp_position_id);
         }
-        if(params.emp_position_name != "add"){
+        if(params.emp_position_id != "add"){
             fetchData([params.emp_position_id]);
         }
+        
     },[params.emp_position_id]);
 
     // show modal
@@ -138,7 +139,13 @@ export default function FormEmptypes(){
                                     <div className='container m-auto'>
 
                                     <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                        <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
+                                        
+                                        {params.emp_position_id == "add" ?
+                                            <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
+                                         :
+                                            <h4 className='text-center'>แก้ไขประเภทพนักงาน</h4>
+
+                                        }
                                             <Form noValidate validated={validated} onSubmit={onSave}>
                                                 <Form.Group as={Col} controlId="validateEmpTypes" >
                                                     <Form.Label>ประเภทพนักงาน</Form.Label>

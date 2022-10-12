@@ -138,7 +138,12 @@ export default function FormRole() {
                                     <div className='container m-auto'>
                                         
                                         <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+                                            {params.role_id == "add" ?
+                                                <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+                                            :
+                                                <h4 className='text-center'>แก้ไขประเภทผู้ใช้งาน</h4>
+
+                                            }
                                                 <Form noValidate validated={validated} onSubmit={onSave}>
                                                     <Row className="mb-3">
                                                         <Form.Group as={Col} controlId="validateUserName">
