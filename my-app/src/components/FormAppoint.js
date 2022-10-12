@@ -10,8 +10,16 @@ import { ConfirmModal  } from './Modal';
 
 export default function FormAppoint() {
     let date = new Date().toLocaleDateString();
-    let pages = 3;
     let params = useParams();
+    let pages;
+
+    let role_id = localStorage.getItem("role_id")
+
+    if(role_id == 2){
+        pages = 2;
+    }else if (role_id == 3){
+        pages = 3;
+    }
 
     const [appoint_id,setAppointId] = useState(0);
     const [cust_fname,setCustFname] = useState("");

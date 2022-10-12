@@ -251,7 +251,7 @@ export default function FormEmployee(){
                                                             <Form.Label>เบอร์โทร</Form.Label>
                                                             <Form.Control
                                                                 required
-                                                                type="number"
+                                                                type="text"
                                                                 value={emp_tel}
                                                                 placeholder="เบอร์โทร"
                                                                 onChange={(e) => setEmpTel(e.target.value)}
