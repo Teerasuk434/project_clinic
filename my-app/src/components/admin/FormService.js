@@ -194,7 +194,7 @@ export default function FormService() {
         }else{
 
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
-            setConfirmModalMessage("คุณต้องการการแก้ไขข้อมูลบริการใช่หรือไม่");
+            setConfirmModalMessage("คุณต้องการแก้ไขข้อมูลบริการใช่หรือไม่");
             setConfirmModal(true);
         }
         

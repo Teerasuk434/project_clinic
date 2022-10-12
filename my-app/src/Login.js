@@ -1,16 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { Form, Row, Col, Button,Alert} from 'react-bootstrap';
+import { Form, Row, Col, Button, Alert, InputGroup} from 'react-bootstrap';
 import { useNavigate, Link} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
+import { API_POST,API_GET } from './api';
 
 var md5 = require("md5");
 export default function Login() {
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [type_password, setTypePassword] = useState(false);
+
 
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
@@ -46,13 +49,21 @@ export default function Login() {
             localStorage.setItem("username", username);
             localStorage.setItem("role_id", data2.data.account_info.role_id);
             localStorage.setItem("role_name", data2.data.account_info.role_name);
+
+            if(data2.data.account_info.role_id == 1){
+                let json = await API_GET("customer/" +data2.data.account_info.user_id);
+                
+                if(json.result){
+                    localStorage.setItem("cust_firstname", json.data[0].cust_fname);
+                    localStorage.setItem("cust_lastname", json.data[0].cust_lname);
+                }
+            }
             navigate("/home", { replace: true });
         }else{
             setAlertMessage(data2.message);
             setShowAlert(true);
         }
 
-        // <Navigate replace to="/home" />
     }
 
     const getAuthenToken = async () =>{
@@ -97,6 +108,10 @@ export default function Login() {
         return data;
     }
 
+    const onShowPassword = () => {
+        setTypePassword(!type_password);
+    }
+
     return (
         <>  
             <BoxTop/>
@@ -127,7 +142,16 @@ export default function Login() {
                             <Row className="mb-3">
                                 <Form.Group as={Col} controlId="validatePassword">
                                     <Form.Label>รหัสผ่าน</Form.Label>
-                                    <Form.Control type="password" placeholder="Password" required onChange={(e) => setPassword(e.target.value)}/>
+                                    <InputGroup>
+                                        <Form.Control 
+                                            required
+                                            type={type_password ? "text" : "password"}
+                                            value={password}
+                                            placeholder="กรอกรหัสผ่าน"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <Button variant="light" className="border" size="sm" onClick={onShowPassword}><i className={type_password ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}></i></Button>
+                                        </InputGroup>
                                     <Form.Control.Feedback type="invalid">
                                         กรุณากรอก Password
                                     </Form.Control.Feedback>

@@ -6,7 +6,6 @@ import { API_GET} from "../../api"
 import Moment from 'moment';
 import { Link } from "react-router-dom"
 import ProfileSidebar from "./ProfileSidebar"
-import CustName from "./CustomerName"
 
 export default function Account(){
     
@@ -49,18 +48,8 @@ export default function Account(){
 
                 <div className="container profile">
                     <div className="row p-4">
-                        <div className="col-2 profile-left me-3 ms-5 shadow-sm ">
-                            <div className="Profile-Name text-center">
-                                <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                                <CustName />                            
-                            </div>
-                            <div className="border border-bottom-5 mx-2 mb-3"></div>
 
-                            <div className="profile-sidebar">
-                                <ProfileSidebar pages={pages}/>
-                            </div>
-
-                        </div>
+                        <ProfileSidebar pages={pages}/>
 
                         <div className="col-9 profile-right">
                             <div className="profile-right-header p-2 text-center">

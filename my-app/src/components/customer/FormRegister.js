@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
+import { ConfirmModal,MessageModal,SuccessRegisterModal } from '../Modal';
+import { useNavigate } from 'react-router-dom';
+import { API_POST } from '../../api';
+
 
 export default function FormRegister(){
+
+    let navigate = useNavigate();
 
     const [validated, setValidated] = useState(false);
     const [firstName, setFirstName] = useState("");
@@ -13,28 +19,17 @@ export default function FormRegister(){
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [type_password, setTypePassword] = useState(false);
 
-    const [curr_username, setCurrentUsername] = useState([]); 
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+
     
     let user_id = 0;
-
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/users",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                    }
-                }
-            );
-            let json = await response.json();
-            setCurrentUsername(json.data);
-        }
-        fetchData();
-    },[])
 
     const onSave = async (event) => {
         const form = event.currentTarget;
@@ -42,89 +37,80 @@ export default function FormRegister(){
         if(form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            await doCreateUser();
-            await getUserId();
-            doCreateAccount();
+            onConfirm();
         }
 
         setValidated(true);
     }
 
     const doCreateAccount = async () => {
-        const response = await fetch(
-            "http://localhost:8080/api/register/account",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cust_fname: firstName,
-                    cust_lname: lastName,
-                    cust_tel: tel,
-                    cust_address: address,
-                    cust_gender: gender,
-                    cust_birthdate: birthDate,
-                    email: email,
-                    user_id: user_id
-                })
-            }
-        );
+
+        let json = await API_POST("register/account",{
+            cust_fname: firstName,
+            cust_lname: lastName,
+            cust_tel: tel,
+            cust_address: address,
+            cust_gender: gender,
+            cust_birthdate: birthDate,
+            email: email,
+            username:username,
+            password:password,
+            role_id:1
+        })
         
-        let json = await response.json();
         if (json.result) {
-            console.log("สมัครสมาชิกสำเร็จ");
-            window.location = "/"
+            setModalTitle("สมัครสมาชิกสำเร็จ")
+            setModalMessage("คุณได้สมัครสมาชิกสำเร็จแล้ว สามารถเข้าสู่ระบบได้ทันที")
+            setShowSuccessModal(true);
+
+            
+        }else {
+            setModalTitle("สมัครสมาชิกไม่สำเร็จ");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
 
-    const doCreateUser = async () => {
-        const response = await fetch(
-            "http://localhost:8080/api/register/user",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username:username,
-                    password:password,
-                    role_id:1
-                })
-            }
-        );
+    const onConfirm = async () => {
+
+        setModalTitle("ยืนยันการสมัครสมาชิก");
+        setModalMessage("คุณต้องการสมัครสมาชิกใหม่ใช่หรือไม่");
+        setConfirmModal(true);
+    
     }
 
-    const getUserId = async () => {
-        const response = await fetch(
-            "http://localhost:8080/api/register/user",
-            {
-                method: "GET",
-                headers: {
-                    Accept: "application/json",
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
-        let json = await response.json();
-        console.log(json.data);
-        console.log(json);
-        json.data.map(item => {
-            console.log("Username : " + username)
-            console.log(item.username)
-            if(item.username === username){
-                console.log("set id: " + item.user_id)
-                user_id = item.user_id
-                console.log("userId : " +user_id);
-            }
-        })
+    const onClickConfirm = async () => {
+        setConfirmModal(false);
+
+        doCreateAccount();
     }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
+    }
+
+    const onCloseSuccess = () => {
+        setShowSuccessModal(false);
+        navigate("/",{replace : false});
+
+    }
+
+    const onShowPassword = () => {
+        setTypePassword(!type_password);
+    }
+
+    // const inputFirstName = (event) =>{
+
+    //     const result = event.target.value.replace(/, '');
+
+    //     setFirstName(result)
+
+    // }
 
     return (
         <>
-            <div className='form-register m-auto p-5'>
+            <div className='form-register m-auto shadow bg-light'>
                 <div className="header-box text-white text-center p-2 fs-5">สมัครสมาชิก</div>
                     <div className="box p-4">
                         <Form noValidate validated={validated} onSubmit={onSave}>
@@ -209,13 +195,14 @@ export default function FormRegister(){
                                 
                                 <Form.Group as={Col} sm="12" md="6" controlId="validateTelephone">
                                     <Form.Label>หมายเลขโทรศัพท์</Form.Label>
-                                    <Form.Control 
-                                        required
-                                        type="text"
-                                        value={tel}
-                                        placeholder="กรอกหมายเลขโทรศัพท์"
-                                        onChange={(e) => setTel(e.target.value)}
-                                    />
+                                        <Form.Control 
+                                            required
+                                            type="text"
+                                            pattern="[0-9]{10}"
+                                            value={tel}
+                                            placeholder="กรอกหมายเลขโทรศัพท์"
+                                            onChange={(e) => setTel(e.target.value)}
+                                        />
                                     <Form.Control.Feedback type="invalid">
                                         กรุณากรอกหมายเลขโทรศัพท์
                                     </Form.Control.Feedback>
@@ -257,13 +244,16 @@ export default function FormRegister(){
 
                                     <Form.Group as={Col} sm="12" md="6" controlId="validatePassword">
                                         <Form.Label>รหัสผ่าน</Form.Label>
+                                        <InputGroup>
                                         <Form.Control 
                                             required
-                                            type="password"
+                                            type={type_password ? "text" : "password"}
                                             value={password}
                                             placeholder="กรอกรหัสผ่าน"
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
+                                        <Button variant="secondary" onClick={onShowPassword}><i className={type_password ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}></i></Button>
+                                        </InputGroup>
                                         <Form.Control.Feedback type="invalid">
                                             กรุณากรอกรหัสผ่าน
                                         </Form.Control.Feedback>
@@ -276,6 +266,28 @@ export default function FormRegister(){
                         </Form>
                 </div>
             </div>
+
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={modalTitle}
+                message={modalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
+
+            <SuccessRegisterModal 
+                show={showSuccessModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onCloseSuccess}
+            />
         </>
     )
 }
