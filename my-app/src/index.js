@@ -4,6 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 
+import 'devextreme/dist/css/dx.material.blue.light.css';
+
 import Login from './Login';
 import Home from './Home';
 import Homepage from './Homepage';

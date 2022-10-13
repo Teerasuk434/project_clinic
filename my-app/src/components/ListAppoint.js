@@ -1,15 +1,30 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { Table,Button, InputGroup, Form, Pagination, Row, Col } from 'react-bootstrap';
+import { Table,Button, InputGroup, Form, Pagination, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../api';
 import ListAppointItem from './ListAppointItem';
 import Top from './Top';
 import Fuse from 'fuse.js';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+import Scheduler from 'devextreme-react/scheduler';
 
 export default function ListAppoint(){
 
-    let date = new Date().toLocaleDateString();
+    const views = ['day','week', 'month'];
+    const [data, setData] = useState([]);
+    const optionsSchedules =  {
+        allowAdding: false,
+        allowDeleting: false,
+        allowResizing: false,
+        allowDragging: false,
+        allowUpdating: false,
+      };
+
+
+    const moment = extendMoment(Moment);
     let pages;
 
     let role_id = localStorage.getItem("role_id")
@@ -39,11 +54,26 @@ export default function ListAppoint(){
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(10);
 
+    const [schedulesDate, setSchedulesDate] = useState([]);
+    const [schedulesTime, setSchedulesTime] = useState([]);
+
     useEffect(() => {
         fetchAppointment();
         fetchRooms();
         fetchEmployee();
+
+        let date_temp = [];
+        for(let i=0 ;i<6; i++){
+            date_temp.push(moment().day(i).format("DD/MM/YYYY"))
+        }
+        setSchedulesDate(date_temp)
+        console.log(date_temp)
+
+        const range = moment.range(`${date_temp[0]} 13:00`, `${date_temp[0]} 19:00`);
+        const hours = Array.from(range.by('minute',{step:60}));
+        setSchedulesTime(hours);
     }, []);
+
 
     useEffect(() => {
         searchByFilter();
@@ -59,9 +89,25 @@ export default function ListAppoint(){
         if(json.result){
             setAppointments(json.data);
             setListAppoint(json.data);
+
+            console.log(json.data)
+
+            let temp_data = [];
+
+            json.data.map(item=>{
+
+                temp_data.push({
+                    text:item.room_name + " " + item.service_name + " " +item.employee_fullname,
+                    startDate: moment(`${item.date} ${item.time}`).format(),
+                    endDate: moment(`${item.date} ${item.time_end}`).format()
+                })
+                
+            })
+            setData(temp_data)
+        console.log(temp_data)
+
         }
 
-        console.log(json.data)
     }
 
     const fetchRooms = async () =>{
@@ -202,6 +248,7 @@ export default function ListAppoint(){
     }
 
 
+
     return (
         <>
             <div className="container-fluid">
@@ -215,6 +262,7 @@ export default function ListAppoint(){
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content m-auto">
                             <Top />
+
                             <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ตารางนัดหมาย</h4>
@@ -325,6 +373,25 @@ export default function ListAppoint(){
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>
+
+                            </div>
+
+                            <div className="py-3 px-4">
+                            <Scheduler
+                                timeZone="Asia/Bangkok"
+                                dataSource={data}
+                                views={views}
+                                defaultCurrentView="week"
+                                defaultCurrentDate={new Date()}
+                                height="100%"
+                                startDayHour={13} 
+                                endDayHour={19}
+                                editing={optionsSchedules}
+                                firstDayOfWeek={0}
+                                allDayPanelMode="hidden"
+                                
+                                />
+                            
 
                             </div>
                         </div>
