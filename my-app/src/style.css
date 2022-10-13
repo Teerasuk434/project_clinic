@@ -61,11 +61,7 @@
     height: fit-content;
 }
 
-.left{
-    border-right: 2px solid #D7DBDD ;
-}
-
-.center{
+.left,.center,.right{
     border-right: 2px solid #D7DBDD ;
 }
 
@@ -79,12 +75,6 @@ p{
     padding:3px;
     margin-left: 1rem;
 }
-
-@media only screen and (max-width: 600px) {
-    body {
-      background-color: lightblue;
-    }
-  }
 
 /* Modal */
 
@@ -134,7 +124,7 @@ a:hover{
 body{
     margin: 0;
     padding:0;
-    background-color: #E6E6EA; 
+    background-color: #e6e6eaf9; 
   }
 
   .top{
@@ -175,13 +165,13 @@ body{
    background-color: #D6EAF8  ; 
  } */
 
- thead{
+ /* thead{
     background-color: #D7DBDD ;
- }
+ } */
 
-tbody{
+/* tbody{
     background-color: #EBEDEF;
- }
+ } */
 
 
  /* Sidebar */
@@ -249,6 +239,54 @@ html, body, #fullheight {
     font-size: 20px;
 }
 
+@media only screen and (max-width: 576px) {
+    .homepage-picture a {
+        width: 100%;
+        margin:auto;
+        font-size: 16px;
+        padding:0.5rem;
+        margin-top: 8px;
+    }
+
+    .img-service{
+        width: 5px;
+    }
+
+    iframe{
+        width:245px;
+        height:auto;
+        border:none;
+        overflow:hidden;
+    }
+
+    .navbar-toggler-icon{
+        margin: 0;
+    }
+  }
+
+  @media only screen and (min-width: 768px) {
+
+    iframe{
+        width:370px;
+        height:auto;
+        border:none;
+        overflow:hidden;
+    }
+
+    .right{
+        border: none;
+    }
+  }
+
+
+/* 
+iframe{
+    width:370px;
+    height:auto;
+    border:none;
+    overflow:hidden;
+} */
+
 .homepage-picture{
   background-color: #CDEEFF;
 }
@@ -277,7 +315,7 @@ html, body, #fullheight {
 
 .img-service{
   width: 100px;
-  height: 100px;
+  height: auto;
 }
 
 /* Account */

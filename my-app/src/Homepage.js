@@ -4,6 +4,7 @@ import Footer from './components/Footer';
 import './style.css'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 export default function Homepage(){
 
@@ -37,7 +38,7 @@ export default function Homepage(){
                 <Navigation />
             </div>
             
-            <div className="container" style={{width:"80%"}}>
+            <div className="container">
                 <div className='homepage-picture py-5 px-3 '>
                     <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
                     <Link className="btn btn-appointment" to="/appointment">นัดหมายบริการ</Link>
@@ -45,10 +46,10 @@ export default function Homepage(){
 
                 <div className="Services text-center p-5">
                     <h1 className="Text-title">บริการของคลินิก</h1>
-                    <div className="row mt-4">
+                    <div className="row my-4">
                         {
                             services.map(item => (
-                                <div className="col-sm-12 col-lg-3 mt-4"  key={item.service_id}>
+                                <div className="col-6 col-lg-3 mt-4"  key={item.service_id}>
                                     <div>
                                         <img className="img-service" src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
 
@@ -57,8 +58,8 @@ export default function Homepage(){
                                 </div>
                             ))
                         }
-
                     </div>
+                    <Button variant="info">ดูข้อมูลเพิ่มเติม</Button>
                 </div>
             </div>
 

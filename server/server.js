@@ -1439,7 +1439,8 @@ app.get('/api/appointment/accept',(req, res) => {
     JOIN schedules g ON a.appoint_id = g.appoint_id
     JOIN employee h ON h.emp_id = g.emp_id
     WHERE a.status_id = 2
-    GROUP BY a.appoint_id;`,(err, results, fields) => {
+    GROUP BY a.appoint_id
+    ORDER BY a.date , a.time`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,

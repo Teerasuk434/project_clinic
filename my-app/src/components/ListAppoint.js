@@ -376,23 +376,21 @@ export default function ListAppoint(){
 
                             </div>
 
-                            <div className="py-3 px-4">
-                            <Scheduler
-                                timeZone="Asia/Bangkok"
-                                dataSource={data}
-                                views={views}
-                                defaultCurrentView="week"
-                                defaultCurrentDate={new Date()}
-                                height="100%"
-                                startDayHour={13} 
-                                endDayHour={19}
-                                editing={optionsSchedules}
-                                firstDayOfWeek={0}
-                                allDayPanelMode="hidden"
-                                
-                                />
-                            
-
+                            <div className="my-3 mx-4">
+                                <Scheduler
+                                    timeZone="Asia/Bangkok"
+                                    dataSource={data}
+                                    views={views}
+                                    defaultCurrentView="week"
+                                    defaultCurrentDate={new Date()}
+                                    height="100%"
+                                    startDayHour={13} 
+                                    endDayHour={19}
+                                    editing={optionsSchedules}
+                                    firstDayOfWeek={0}
+                                    allDayPanelMode="hidden"
+                                    
+                                    />
                             </div>
                         </div>
                     </div>
