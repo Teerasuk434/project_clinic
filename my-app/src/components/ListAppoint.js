@@ -325,7 +325,7 @@ export default function ListAppoint(){
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

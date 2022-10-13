@@ -2,17 +2,18 @@ import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
 import { useEffect, useState } from "react";
-import {Form,Col,Row,Button} from 'react-bootstrap';
+import {Form,Col,Row,Button,InputGroup} from 'react-bootstrap';
 import { Link,useNavigate  } from "react-router-dom";
 import { API_POST,API_GET} from '../../api'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { SERVER_URL } from "../../app.config";
 import { ConfirmModal,SuccessAppointmentModal } from "../Modal";
+import Flatpickr from "react-flatpickr";
+import 'flatpickr/dist/themes/material_blue.css'
 
 export default function Appointment(){
 
-    const nowDate = Moment().format('YYYY-MM-DD');
     const moment = extendMoment(Moment);
 
     const minDate = (Moment().add(2, 'days').format('YYYY-MM-DD'));
@@ -26,7 +27,7 @@ export default function Appointment(){
     const [pet_age_year,setPetAgeYear] = useState(0);
     const [pet_age_month,setPetAgeMonth] = useState(0);
 
-    const [date,setDate] = useState(minDate);
+    const [date,setDate] = useState(new Date());
     const [time,setTime] = useState("");
     const [timeSlot,setTimeSlot] = useState([]);
     const [symtoms,setSymtoms] = useState("");
@@ -58,6 +59,21 @@ export default function Appointment(){
     const [successAppointMessage, setSuccessAppointMessage] = useState("");
 
     let navigate = useNavigate();
+
+    let d = new Date();
+
+    const dateOptions = {
+        "disable": [
+            function(date) {
+                // return true to disable
+                return date.getDay() === 6;
+    
+            }
+        ],
+        dateFormat: "Y-m-d",
+        minDate: new Date().fp_incr(2),
+        maxDate: new Date().fp_incr(9)
+    }
 
     let user_id = localStorage.getItem("user_id");
     let role_id = localStorage.getItem("role_id");
@@ -112,6 +128,7 @@ export default function Appointment(){
     },[service])
 
     useEffect(() => {
+        console.log(date)
         if(pet_id != 0){
             setTimeSlots();
         }
@@ -161,11 +178,8 @@ export default function Appointment(){
                 let check_time_between = false;
                 count_room = 0;     
 
-                console.log(appointments)
-
                 if(appointments != null){
                     appointments.map(item => {
-                        console.log(item)
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
                             count_room++;
                             room_used.push(item.room_id);    
@@ -181,20 +195,23 @@ export default function Appointment(){
                     if(appointments != null){
                         for(let i=0;i<appointments.length;i++){
                             // console.log("time slot = " + time.format("HH:mm"));
-                            if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time & appointments[i].room_type_id == room_type_id & appointments[i].appoint_status != "ยกเลิก"){
+                            if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time && appointments[i].room_type_id == room_type_id && appointments[i].appoint_status != "ยกเลิก"){
                                 count_room++;
                                 room_used.push(appointments[i].room_id);    
+
+                                let time_spent = appointments[i].time_spent;
+                                let time_start = moment(`${date} ${appointments[i].time}`);
+                                let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
+        
+                                check_time_between = moment(time).isBetween(time_start, time_end);
+                                // console.log("status : " + check_time_between)
+                                console.log(time.format("HH:mm") +" " + time_start.format("HH:mm") + " " + time_end.format("HH:mm"))
+                                if(check_time_between){
+                                    i = appointments.length;
+                                }
                                 
                             }
-                            let time_spent = appointments[i].time_spent;
-                            let time_start = moment(`${date} ${appointments[i].time}`);
-                            let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
-    
-                            check_time_between = moment(time).isBetween(time_start, time_end);
-                            // console.log("status : " + check_time_between)
-                            if(check_time_between){
-                                i = appointments.length;
-                            }
+                            
                         }
     
                         if(!check_time_between){
@@ -255,6 +272,7 @@ export default function Appointment(){
             
         )
         setTimeSlot(timeSlot)
+        console.log(timeSlot)
 
     }
 
@@ -360,6 +378,7 @@ export default function Appointment(){
                         <h4>นัดหมายบริการ</h4>
                     </div>
 
+
                     <Form noValidate validated={validated} onSubmit={onSave}>
 
                     <div className="appoint-form mt-5">
@@ -418,7 +437,7 @@ export default function Appointment(){
                             <h6>รายละเอียดการนัดหมาย</h6>
                         </div>
 
-                        <div className="form-appoint-content p-3">
+                        <div className="form-appoint-content py-3 px-5">
                                 <Row className="mb-3">
                                     <Form.Group as={Col}controlId="validateRoleType">
                                         <Form.Label>บริการ</Form.Label>
@@ -443,20 +462,36 @@ export default function Appointment(){
                             <fieldset disabled={isSelectService}>
 
                                 <Row className="mb-3">
-                                    <Form.Group as={Col}controlId="validateRoleType">
-                                        <Form.Label>วันที่</Form.Label>
-                                        <Form.Control
+                                    <Form.Group as={Col}controlId="validateDate">
+                                        <Form.Label className="d-block">วันที่</Form.Label>
+                                        {/* <Form.Control
                                             required
                                             type="date"
                                             value={date}
                                             min={minDate}
                                             max={maxDate}
                                             placeholder="เลือกวันที่"
+                                            id="date"
                                             onChange={(e) => setDate(e.target.value)}
-                                        />
+                                        /> */}
+                                            <InputGroup hasValidation>
+                                                <Flatpickr
+                                                    type="text"
+                                                    className="w-75 rounded border-secondary border-opacity-25 p-1 form-control"
+                                                    value={date}
+                                                    options={dateOptions}
+                                                    onChange={(_, str) => setDate(str)}
+                                                    required
+                                                    placeholder="เลือกวันที่.."
+                                                    />
+                                                <InputGroup.Text id="inputGroupPrepend"><i className="fa-solid fa-calendar-days"></i></InputGroup.Text>
+
                                             <Form.Control.Feedback type="invalid">
                                                 กรุณาเลือกวันที่
                                             </Form.Control.Feedback>
+                                        </InputGroup>
+                                        
+
                                     </Form.Group>
 
                                     <Form.Group as={Col}controlId="validateRoleType">
