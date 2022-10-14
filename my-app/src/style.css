@@ -262,6 +262,25 @@ html, body, #fullheight {
     .navbar-toggler-icon{
         margin: 0;
     }
+
+    .profile-right-content{
+        height: 100%;
+    }
+
+    .profile-left{
+        margin-bottom: 16px;
+    }
+    
+    .profile-label{
+        font-size: 12px;
+        margin: 0 ;
+    }
+
+    .box-pet{
+        margin:auto;
+        margin-bottom: 16px;
+    }
+
   }
 
   @media only screen and (min-width: 768px) {
@@ -276,6 +295,15 @@ html, body, #fullheight {
     .right{
         border: none;
     }
+
+    .profile-right-content{
+        height: 85vh;
+    }
+
+    .box-pet{
+        margin: 0px 35px;
+    }
+
   }
 
 
@@ -320,24 +348,48 @@ iframe{
 
 /* Account */
 .profile{
-    height: 100vh;
     background-color: white;
+    padding: 30px;
 
 }
 
+.profile-content #button{
+    width: 100%;
+}
+
+.profile-right-content #button{
+    width: 100%;
+}
+
+
 .profile-left{
-    background-color: aliceblue;
-    border: 1px solid #CCD1D1;
-    padding: 0;
+    /* background-color: aliceblue;
+    border: 1px solid #CCD1D1; */
+    padding: 8px;
+    height: 100%;
 }
 
 .profile-right{
-    box-shadow: 2px 2px 11px 5px rgba(0, 0, 0, 0.1);
-    padding: 0;
-    height: 90vh;
+    padding: 8px;
 }
 
-.profile-sidebar a{
+.profile-sidebar{
+    background-color: aliceblue;
+    border: 1px solid #CCD1D1;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,0.1);
+    border-radius: 0px 0px 8px 8px;
+
+}
+
+.profile-right-content{
+    /* height: 80vh; */
+    border: 1px solid #CCD1D1;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,0.1);
+    border-radius: 0px 0px 8px 8px;
+    padding: 0px;
+}
+
+.profile-menu a{
     text-decoration: none;
     font-size: 14px;
     display: block;
@@ -346,13 +398,13 @@ iframe{
     color:black;
 }
 
-.profile-sidebar a:hover{
+.profile-menu a:hover{
     background-color: #aeddf5;
     color: black;
     font-weight: 500;
 }
 
-.profile-sidebar a:active,a.active{
+.profile-menu a:active,a.active{
     background-color: #4BB2E5;
     color: white;
     font-weight: 500;
@@ -419,8 +471,8 @@ iframe{
     background-color: #AED6F1;
 }
 
-.box-pet {
-    width: 30%;
+.box-pet-details {
+    width: 100%;
     border-radius: 10px;
     position: relative;
 }
@@ -501,9 +553,10 @@ iframe{
    }
 
    table {
-    overflow: hidden;
     margin-bottom: 8px;
    }
+
+
 
    .pagination {
     margin-bottom: 8px;

@@ -77,70 +77,71 @@ export default function Appointment_History () {
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
                         
-                        <ProfileSidebar pages={pages}/>
-
-                        <div className="col-9 profile-right">
-                            <div className="profile-right-header p-2 text-center">
-                                <h4>ประวัติการนัดหมาย</h4>
-                            </div>
-
-                            <div className="profile-details">
-                                <div className="row px-5 pt-3">
-                                    <div className="col m-auto text-center">
-
-                                    {appointments.length > 0 && 
-                                        <Table size="sm" responsive bordered hover>
-                                            <thead>
-                                                <tr>
-                                                <th>รหัส</th>
-                                                <th>ชื่อสัตว์เลี้ยง</th>
-                                                <th>บริการ</th>
-                                                <th>วันที่นัด</th>
-                                                <th>เวลา</th>
-                                                <th>สถานะ</th>
-                                                <th colSpan={2}><p></p></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
-                                                        <AppointHistoryItem
-                                                        key={item.appoint_id}
-                                                        data={item}
-                                                        />
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </Table>
-                                    }
-                                    
-                                    {appointments.length < 1 &&
-                                        <div className="text-center d-block mt-4 ms-5">
-                                            <h6 className="">ไม่พบข้อมูลประวัติการนัดหมาย</h6>
-                                        </div>
-                                    }    
-                                    </div>
-
-                                    {appointments.length > 0 &&
-                                        <div className="d-flex justify-content-end">
-                                            <Pagination onSelect={onPageSelected} size="sm">
-                                                <Pagination.First onClick={firstPage} />
-                                                <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
-                                                { getPagination()}
-                                                <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
-                                                <Pagination.Last onClick={lastPage} />
-                                            </Pagination>
-                                        </div>
-                                    }
-
-                                </div>
-                                
-                            </div>
-
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/>
                         </div>
-                        <div className="col-1">
+                        
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    <h4>ประวัติการนัดหมาย</h4>
+                                </div>
+
+                                <div className="profile-details">
+                                    <div className="row px-5 pt-3">
+                                        <div className="col m-auto text-center">
+
+                                        {appointments.length > 0 && 
+                                            <Table size="sm" responsive="sm" bordered hover>
+                                                <thead>
+                                                    <tr>
+                                                    <th className="header">รหัส</th>
+                                                    <th>ชื่อสัตว์เลี้ยง</th>
+                                                    <th>บริการ</th>
+                                                    <th>วันที่นัด</th>
+                                                    <th>เวลา</th>
+                                                    <th>สถานะ</th>
+                                                    <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
+                                                            <AppointHistoryItem
+                                                            key={item.appoint_id}
+                                                            data={item}
+                                                            />
+                                                        ))
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                        }
+                                        
+                                        {appointments.length < 1 &&
+                                            <div className="text-center d-block mt-4 ms-5">
+                                                <h6 className="">ไม่พบข้อมูลประวัติการนัดหมาย</h6>
+                                            </div>
+                                        }    
+                                        </div>
+
+                                        {appointments.length > 0 &&
+                                            <div className="d-flex justify-content-end">
+                                                <Pagination onSelect={onPageSelected} size="sm">
+                                                    <Pagination.First onClick={firstPage} />
+                                                    <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                                    { getPagination()}
+                                                    <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                                    <Pagination.Last onClick={lastPage} />
+                                                </Pagination>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
                         </div>
                     </div>
