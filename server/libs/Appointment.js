@@ -95,14 +95,39 @@ module.exports = {
         return await pool.query(sql);
     },
 
-    getCountAppointmentByAppointment: async (pool, date) => {
-        var sql = `SELECT date, COUNT(*) as appointment_count 
-        FROM appointment 
-        WHERE WEEKOFYEAR(date)=WEEKOFYEAR(CURDATE()) 
-        AND status_id = 5 GROUP BY date;`
-        sql = mysql.format(sql, [date]);
+    getCountAppointmentByAppointment: async (pool, dateRange ) => {
+        var sql ;
+        console.log(dateRange)
+        if(dateRange == 0){
+        sql = `SELECT service_name, COUNT(*) as appointment_count 
+                FROM appointment a
+                JOIN service b ON a.service_id = b.service_id
+                WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE()) 
+                AND status_id = 5 GROUP BY service_name`
+        
+        }else if(dateRange == 1) {
+        
+        sql = `SELECT service_name, COUNT(*) as appointment_count 
+                FROM appointment a
+                JOIN service b ON a.service_id = b.service_id
+                WHERE date BETWEEN DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND LAST_DAY(CURDATE()) 
+                AND status_id = 5 GROUP BY service_name`
+
+        }else if(dateRange == 2) {
+            sql =  `SELECT service_name, COUNT(*) as appointment_count 
+            FROM appointment a
+            JOIN service b ON a.service_id = b.service_id
+            WHERE status_id = 5
+            GROUP BY service_name`
+            
+        }
+        sql = mysql.format(sql);
+        
+
         return await pool.query(sql);
-    }
+    },
+
+
 }
 
     

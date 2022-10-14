@@ -28,7 +28,7 @@ export default function MainOwner() {
                 <div className='p-0 col-12 col-lg-10'>
                     <div className="content p-0">
                     <Top />
-                        <ReportByServices />
+                        {/* <ReportByServices /> */}
                         <ReportAppointment />
                     </div>
                 </div>
