@@ -168,7 +168,7 @@ export default function FormPets(){
 
     const getImageComponent = () => {
         return (
-            <div className="container-fluid p-0 m-0 mt-3">
+            <div className="container-fluid p-0 mt-2">
 
                 <Form>
                     <Form.Group controlId="formFile" className="mb-3">
@@ -228,148 +228,164 @@ export default function FormPets(){
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
                         
-                        <ProfileSidebar pages={pages}/>
-
-                        <div className="col-9 profile-right p-0 shadow-sm">
-                            <div className="profile-right-header p-2 text-center">
-                                {params.pet_id == "add" ?
-                                    <h4>เพิ่มข้อมูลสัตว์เลี้ยง</h4>
-                                :
-                                    <h4>แก้ไขข้อมูลสัตว์เลี้ยง</h4>
-                                }
-                            </div>
-
-                            <div className="profile-details">
-                                <div className="row mx-5 mt-5 mb-3">
-                                    <div className="overflow-auto">
-                                        <Form noValidate validated={validated} onSubmit={onSave}>
-                                            <Row>
-                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetName">
-                                                    <Form.Label>ชื่อสัตว์เลี้ยง</Form.Label>
-                                                    <Form.Control
-                                                        required
-                                                        type="text"
-                                                        value={pet_name}
-                                                        placeholder="กรอกชื่อสัตว์เลี้ยง"
-                                                        onChange={(e) => setPetName(e.target.value)}
-                                                    />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอกชื่อสัตว์เลี้ยง
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetType">
-                                                    <Form.Label>ประเภทสัตว์เลี้ยง</Form.Label>
-                                                    <Form.Control 
-                                                        required
-                                                        type="text"
-                                                        value={pet_type}
-                                                        placeholder="กรอกประเภทสัตว์เลี้ยง (สุนัข,แมว,...)"
-                                                        onChange={(e) => setPetType(e.target.value)}
-                                                    />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอกประเภทสัตว์เลี้ยง
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-
-                                            </Row>
-
-                                            <Row>
-                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetSpecies">
-                                                    <Form.Label>สายพันธุ์</Form.Label>
-                                                    <Form.Control 
-                                                        required
-                                                        type="text"
-                                                        value={pet_species}
-                                                        placeholder="กรอกสายพันธุ์"
-                                                        onChange={(e) => setPetSpecies(e.target.value)}
-                                                    />
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณากรอกสายพันธุ์
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} md="6" className="mb-2" controlId="validateGender">
-                                                    <Form.Label>เพศ</Form.Label>
-                                                    <Form.Select
-                                                        value={pet_gender}
-                                                        onChange={(e) => setPetGender(e.target.value)}
-                                                        required>
-                                                        <option label="กรุณาระบุเพศ"></option> 
-                                                        <option value="ผู้">ผู้</option>
-                                                        <option value="เมีย">เมีย</option>
-                                                    </Form.Select>
-                                                    <Form.Control.Feedback type="invalid">
-                                                        กรุณาระบุเพศสัตว์เลี้ยง
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                            </Row>
-                                            
-                                            <div className="row">
-                                                <div className="col-6">
-                                                    <div className="d-flex flex-row mt-3">
-                                                        <InputGroup className="me-3">
-                                                            <Form.Label className="m-auto me-2">อายุ</Form.Label>
-                                                            <Form.Control 
-                                                                    type="number"
-                                                                    value={pet_age_year}
-                                                                    min="0"
-                                                                    max="20"
-                                                                    onChange={(e) => setPetAgeYear(e.target.value)}/>
-                                                            <InputGroup.Text>ปี</InputGroup.Text>
-                                                        </InputGroup>
-
-                                                        <InputGroup >
-                                                            <Form.Control 
-                                                                    required={check_age}
-                                                                    type="number"
-                                                                    value={pet_age_month}
-                                                                    min={min_age}
-                                                                    max="12"
-                                                                    onChange={(e) => setPetAgeMonth(e.target.value)}/>
-                                                            <InputGroup.Text>เดือน</InputGroup.Text>
-                                                        </InputGroup>
-                                                    </div>
-
-                                                    {
-                                                        getImageComponent()
-                                                    }
-
-                                                    
-                                                    <Row className="mx-1 mt-4">
-                                                        <Button variant="success p-2 w-25" size="sm" as="input" type="submit" value="บันทึกข้อมูล"></Button>
-                                                    </Row>
-                                                </div>
-
-                                                <div className="col-6"> 
-                                                    {imageUrl != "" && 
-                                                        <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
-                                                            <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
-
-                                                        </div>                        
-                                                    }
-                                                </div>
-
-                                            </div>
-
-
-                                        </Form>
-
-                                        
-                                    </div>
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/>
+                        </div>
+                        
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    {params.pet_id == "add" ?
+                                        <h4>เพิ่มข้อมูลสัตว์เลี้ยง</h4>
+                                    :
+                                        <h4>แก้ไขข้อมูลสัตว์เลี้ยง</h4>
+                                    }
                                 </div>
 
-                                
+                                <div className="profile-details">
+                                    <div className="row m-3">
+                                        <div className="overflow-auto">
+                                            <Form noValidate validated={validated} onSubmit={onSave}>
+                                                <Row>
+                                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetName">
+                                                        <Form.Label>ชื่อสัตว์เลี้ยง</Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            type="text"
+                                                            value={pet_name}
+                                                            placeholder="กรอกชื่อสัตว์เลี้ยง"
+                                                            onChange={(e) => setPetName(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอกชื่อสัตว์เลี้ยง
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetType">
+                                                        <Form.Label>ประเภทสัตว์เลี้ยง</Form.Label>
+                                                        <Form.Control 
+                                                            required
+                                                            type="text"
+                                                            value={pet_type}
+                                                            placeholder="กรอกประเภทสัตว์เลี้ยง (สุนัข,แมว,...)"
+                                                            onChange={(e) => setPetType(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอกประเภทสัตว์เลี้ยง
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+
+                                                </Row>
+
+                                                <Row>
+                                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validatePetSpecies">
+                                                        <Form.Label>สายพันธุ์</Form.Label>
+                                                        <Form.Control 
+                                                            required
+                                                            type="text"
+                                                            value={pet_species}
+                                                            placeholder="กรอกสายพันธุ์"
+                                                            onChange={(e) => setPetSpecies(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอกสายพันธุ์
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validateGender">
+                                                        <Form.Label>เพศ</Form.Label>
+                                                        <Form.Select
+                                                            value={pet_gender}
+                                                            onChange={(e) => setPetGender(e.target.value)}
+                                                            required>
+                                                            <option label="กรุณาระบุเพศ"></option> 
+                                                            <option value="ผู้">ผู้</option>
+                                                            <option value="เมีย">เมีย</option>
+                                                        </Form.Select>
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณาระบุเพศสัตว์เลี้ยง
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                </Row>
+                                                
+                                                <div className="row">
+                                                    <div className="col-md-6 col-12">
+                                                        <div className="d-flex flex-row mt-3">
+                                                            <Row>
+                                                                <Col xs="12" md="6" className="mb-3">
+                                                                    <InputGroup>
+                                                                        <Form.Label className="m-auto me-2">อายุ (ปี)</Form.Label>
+                                                                        <Form.Control 
+                                                                                type="number"
+                                                                                value={pet_age_year}
+                                                                                min="0"
+                                                                                max="20"
+                                                                                onChange={(e) => setPetAgeYear(e.target.value)}/>
+                                                                        <InputGroup.Text>ปี</InputGroup.Text>
+                                                                        <Form.Control.Feedback type="invalid">
+                                                                            กรุณาระบุอายุสัตว์
+                                                                        </Form.Control.Feedback>
+                                                                    </InputGroup>
+                                                                </Col>
+                                                                
+                                                                <Col xs="12" md="6">
+                                                                    <InputGroup>
+                                                                    <Form.Label className="m-auto me-2">อายุ (เดือน)</Form.Label>
+                                                                        <Form.Control 
+                                                                                required={check_age}
+                                                                                type="number"
+                                                                                value={pet_age_month}
+                                                                                min={min_age}
+                                                                                max="12"
+                                                                                onChange={(e) => setPetAgeMonth(e.target.value)}/>
+                                                                        <InputGroup.Text>เดือน</InputGroup.Text>
+                                                                        <Form.Control.Feedback type="invalid">
+                                                                            กรุณาระบุอายุสัตว์
+                                                                        </Form.Control.Feedback>
+                                                                    </InputGroup>
+                                                                </Col>
+
+                                                                
+                                                            </Row>
+
+                                                            
+                                                        </div>
+
+                                                        {
+                                                            getImageComponent()
+                                                        }
+
+                                                    </div>
+
+                                                    <div className="col-6"> 
+                                                        {imageUrl != "" && 
+                                                            <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
+                                                                <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
+
+                                                            </div>                        
+                                                        }
+                                                    </div>
+
+                                                    <Row className="border-top pt-3">
+                                                        <div className="col-12 col-md-2 mx-auto">
+                                                            <Button id="button" variant="success" size="sm" as="input" type="submit" value="บันทึกข้อมูล" />
+                                                        </div>
+                                                    </Row>
+
+                                                </div>
+
+
+                                            </Form>
+
+                                            
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
                             </div>
-
-                            <div className="profile-right-content">
-
-                            </div>
-
-                        </div>
-                        <div className="col-1">
 
                         </div>
                     </div>

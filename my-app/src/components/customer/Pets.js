@@ -114,46 +114,30 @@ export default function Pets(){
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
                         
-                        <ProfileSidebar pages={pages}/>
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/>
+                        </div>
 
-                        <div className="col-9 profile-right">
-                            <div className="profile-right-header p-2 text-center">
-                                <h4>ข้อมูลสัตว์เลี้ยง</h4>
-                            </div>
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    <h4>ข้อมูลสัตว์เลี้ยง</h4>
+                                </div>
 
-                            <div className="profile-details">
+                                <div className="profile-details">
+                                    <div className="mx-5 mt-3 mb-3">
+                                        <div className="row">
+                                            <div className="col-12 col-md-3 ">
+                                                <Link id="button" to="/account/pet/add" className="btn btn-success btn-sm my-3 col-12 col-md-2">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
+                                            </div>
+                                        </div>
 
-                                    <Link to="/account/pet/add" className="btn btn-success btn-sm ms-5 mt-3">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
-                               
-                                <div className="mx-5 mt-3 mb-3">
-                                    <div className="m-auto text-center row">
-                                    {pets.length > 0 &&
-                                    <>
-                                        {/* <Table size="sm" responsive bordered hover className='text-center'>
-                                            <thead>
-                                                <tr>
-                                                <th>ชื่อสัตว์เลี้ยง</th>
-                                                <th>ประเภท</th>
-                                                <th>สายพันธุ์</th>
-                                                <th>เพศ</th>
-                                                <th>อายุ</th>
-                                                <th>action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    pets.map(item => (
-                                                        <PetsItems
-                                                        key={item.pet_id}
-                                                        data={item}
-                                                        onDelete={onDelete}
-                                                        />
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </Table> */}
+
+                                        <div className="m-auto text-center row">
+                                        {pets.length > 0 &&
+                                        <>
                                             {pets.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                 <PetsItems
                                                 key={item.pet_id}
@@ -163,7 +147,7 @@ export default function Pets(){
                                             ))}
 
                                             {pets.length >3 &&
-                                                <div className="d-flex justify-content-end">
+                                                <div className="d-flex justify-content-center mt-3">
                                                     <Pagination onSelect={onPageSelected} size="sm">
                                                         <Pagination.First onClick={firstPage} />
                                                         <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
@@ -173,17 +157,18 @@ export default function Pets(){
                                                     </Pagination>
                                                 </div>
                                             }
-                                    </>
-                                    }
-                                    {pets.length < 1 &&
-                                        <div className="text-center d-block mt-4 ms-5">
-                                            <h6 className="">ไม่พบข้อมูลสัตว์เลี้ยงของท่าน โปรดเพิ่มข้อมูลสัตว์เลี้ยง</h6>
+                                        </>
+                                        }
+                                        {pets.length < 1 &&
+                                            <div className="text-center d-block mt-4 ms-5">
+                                                <h6 className="">ไม่พบข้อมูลสัตว์เลี้ยงของท่าน โปรดเพิ่มข้อมูลสัตว์เลี้ยง</h6>
+                                            </div>
+                                        }
                                         </div>
-                                    }
-                                    </div>
 
+                                    </div>
+                                    
                                 </div>
-                                
                             </div>
 
                         </div>

@@ -47,53 +47,58 @@ export default function Account(){
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
 
-                        <ProfileSidebar pages={pages}/>
-
-                        <div className="col-9 profile-right">
-                            <div className="profile-right-header p-2 text-center">
-                                <h4>ข้อมูลบัญชีของฉัน</h4>
-                            </div>
-
-                            <div className="profile-details">
-                                <div className="row mx-5 mt-5 mb-4">
-                                    <div className="col-3 m-auto profile-label">
-                                        <p>ชื่อผู้ใช้งาน</p>
-                                        <p>ชื่อ-สกุล</p>
-                                        <p>เพศ</p>
-                                        <p>วันเกิด</p>
-                                        <p>หมายเลขโทรศัพท์</p>
-                                        <p>ที่อยู่</p>
-                                        <p>อีเมล</p>
-                                    </div>
-
-                                    <div className="col-9">
-                                        <p>{username}</p>
-                                        <p className="mt-1">{firstname} {lastname}</p>
-                                        <p className="mt-1">{gender}</p>
-                                        <p className="mt-1">{birthDate}</p>
-                                        <p className="mt-1">{tel}</p>
-                                        <p className="mt-1">{address}</p>
-                                        <p className="mt-1">{email}</p>
-                                    </div>
-                                </div>
-
-                                <div className="row">
-                                    <div className="col">
-
-                                        <Link to="/account/editprofile" className="btn btn-success ms-5" style={{width:"30%"}}>{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div className="profile-right-content">
-
-                            </div>
-
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/>
                         </div>
-                        <div className="col-1">
+                        
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    <h4>ข้อมูลบัญชีของฉัน</h4>
+                                </div>
+
+                                <div className="profile-details">
+                                    <div className="profile-content p-3">
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">ชื่อผู้ใช้งาน</label>
+                                            <div className="col-12 col-md-9">{username}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">ชื่อ-สกุล</label>
+                                            <div className="col-12 col-md-9">{firstname} {lastname}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">เพศ</label>
+                                            <div className="col-12 col-md-9">{gender}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">วันเกิด</label>
+                                            <div className="col-12 col-md-9">{birthDate}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">หมายเลขโทรศัพท์</label>
+                                            <div className="col-12 col-md-9">{tel}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">ที่อยู่</label>
+                                            <div className="col-12 col-md-9">{address}</div>
+                                        </div>
+                                        <div className="row mb-3">
+                                            <label className="col-12 col-md-3 fw-bold">อีเมล</label>
+                                            <div className="col-12 col-md-9">{email}</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-12 col-md-3 px-5">
+                                            <Link to="/account/editprofile" id="button" className="btn btn-success">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
 
                         </div>
                     </div>

@@ -141,79 +141,80 @@ export default function ResetPassword (){
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
                         
-                        <ProfileSidebar pages={pages}/>
-
-                        <div className="col-9 profile-right">
-                            <div className="profile-right-header p-2 text-center">
-                                <h4>ตั้งค่ารหัสผ่าน</h4>
-                            </div>
-
-                            <div className="profile-details">
-                                <div className="mx-5 mt-5 mb-4">
-
-                                {showAlert == true && 
-                                    <Alert variant={alertColor}>{alertMessage}</Alert>
-                                }
-
-                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validateCurrPwd">
-                                        <Form.Label><b>รหัสผ่านเดิม</b></Form.Label>
-                                        <Form.Control
-                                            required
-                                            type="password"
-                                            value={curr_pwd}
-                                            placeholder="กรอกรหัสผ่านเดิม"
-                                            onChange={(e) => setCurrentPwd(e.target.value)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            กรุณากรอกรหัสผ่านเดิม
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-
-                                    <Form.Group as={Col} md="6" className="mb-2" controlId="validateNewPwd">
-                                        <Form.Label><b>รหัสผ่านใหม่</b></Form.Label>
-                                        <Form.Control 
-                                            required
-                                            type="password"
-                                            value={new_pwd}
-                                            placeholder="กรอกรหัสผ่านใหม่"
-                                            onChange={(e) => setNewPwd(e.target.value)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            กรุณากรอกรหัสผ่านใหม่
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-
-                                    <Form.Group as={Col} md="6" controlId="validateConfirmNewPwd">
-                                        <Form.Label><b>ยืนยันรหัสผ่านใหม่</b></Form.Label>
-                                        <Form.Control 
-                                            required
-                                            type="password"
-                                            value={confirm_new_pwd}
-                                            placeholder="กรอกรหัสผ่านใหม่อีกครั้ง"
-                                            onChange={(e) => setConfirmNewPwd(e.target.value)}
-                                        />
-                                        <Form.Control.Feedback type="invalid">
-                                            กรุณากรอกรหัสผ่านใหม่อีกครั้ง
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-
-                                    <Row className="mx-1 mt-4">
-                                        <Col >
-                                            <Button variant="success" as="input" type="submit" value="บันทึกข้อมูล"></Button>
-                                        </Col>
-                                    </Row>
-                                </Form>
-                                    
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/> 
+                        </div>
+                        
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    <h4>ตั้งค่ารหัสผ่าน</h4>
                                 </div>
 
+                                <div className="profile-details">
+                                    <div className="mx-5 mt-5 mb-4">
+
+                                    {showAlert == true && 
+                                        <Alert variant={alertColor}>{alertMessage}</Alert>
+                                    }
+
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
+                                        <Form.Group as={Col} md="6" className="mb-2" controlId="validateCurrPwd">
+                                            <Form.Label><b>รหัสผ่านเดิม</b></Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="password"
+                                                value={curr_pwd}
+                                                placeholder="กรอกรหัสผ่านเดิม"
+                                                onChange={(e) => setCurrentPwd(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                กรุณากรอกรหัสผ่านเดิม
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} md="6" className="mb-2" controlId="validateNewPwd">
+                                            <Form.Label><b>รหัสผ่านใหม่</b></Form.Label>
+                                            <Form.Control 
+                                                required
+                                                type="password"
+                                                value={new_pwd}
+                                                placeholder="กรอกรหัสผ่านใหม่"
+                                                onChange={(e) => setNewPwd(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                กรุณากรอกรหัสผ่านใหม่
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} md="6" controlId="validateConfirmNewPwd">
+                                            <Form.Label><b>ยืนยันรหัสผ่านใหม่</b></Form.Label>
+                                            <Form.Control 
+                                                required
+                                                type="password"
+                                                value={confirm_new_pwd}
+                                                placeholder="กรอกรหัสผ่านใหม่อีกครั้ง"
+                                                onChange={(e) => setConfirmNewPwd(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">
+                                                กรุณากรอกรหัสผ่านใหม่อีกครั้ง
+                                            </Form.Control.Feedback>
+                                        </Form.Group>
+
+                                        <Row className="mx-1 mt-4">
+                                            <Col >
+                                                <Button variant="success" as="input" type="submit" value="บันทึกข้อมูล"></Button>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                        
+                                    </div>
+
+                                </div>
                             </div>
 
-                            <div className="profile-right-content">
-                                
-                            </div>
                         </div>
 
                     </div>

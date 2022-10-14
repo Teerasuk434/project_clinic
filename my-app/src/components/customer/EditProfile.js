@@ -6,9 +6,13 @@ import { API_GET, API_POST} from "../../api"
 import { Form,Button,Col,Row } from "react-bootstrap"
 import Moment from 'moment';
 import ProfileSidebar from "./ProfileSidebar"
+import { useNavigate } from "react-router-dom"
+import { ConfirmModal } from "../Modal"
 
 
 export default function EditProfile(){
+
+    let navigate = useNavigate();
 
     const [custId, setCustId] = useState(0);
     const [firstname, setFirstName] = useState("");
@@ -19,11 +23,14 @@ export default function EditProfile(){
     const [birthDate, setBirthDate] = useState("");
     const [email, setEmail] = useState("");
     
-    const [validated, setValidated] = useState("");
+    const [validated, setValidated] = useState(false);
 
     let user_id = localStorage.getItem("user_id");
-    let username = localStorage.getItem("username");
     let pages = 1;
+
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
     useEffect(()=>{
 
@@ -44,8 +51,6 @@ export default function EditProfile(){
             var momentString = momentObj.format('YYYY-MM-DD');
             setBirthDate(momentString);
             
-
-            // setBirthDate(json.data[0].cust_birthdate);
         }
         fetchData(user_id);
 
@@ -58,7 +63,7 @@ export default function EditProfile(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            doUpdateProfile();
+           onConfirm();
         }
         setValidated(true);
     }
@@ -76,8 +81,25 @@ export default function EditProfile(){
         });
 
         if (json.result) {
-            window.location = "/account/profile";
+            navigate("/account/profile",{replace: false});
         }
+    }
+
+    const onConfirm = async () => {
+    
+        setConfirmModalTitle("ยืนยันการแก้ไขข้อมูลบัญชี");
+        setConfirmModalMessage("คุณต้องการไขข้อมูลบัญชีใช่หรือไม่");
+        setConfirmModal(true);
+        
+    }
+
+    const onClickConfirm = async () => {
+        setConfirmModal(false);
+        doUpdateProfile();
+    }
+
+    const onClose = () => {
+        setConfirmModal(false);
     }
 
 
@@ -90,150 +112,156 @@ export default function EditProfile(){
                 </div>
 
                 <div className="container profile">
-                    <div className="row p-4">
+                    <div className="row">
                         
-                        <ProfileSidebar pages={pages}/>
-
-                        <div className="col-9 profile-right p-0 shadow-sm">
-                            <div className="profile-right-header p-2 text-center">
-                                <h4>แก้ไขข้อมูลบัญชี</h4>
-                            </div>
-
-                            <div className="profile-details">
-                                <div className="row mx-5 mt-5 mb-3">
-                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateFirstName">
-                                            <Form.Label>ชื่อจริง</Form.Label>
-                                            <Form.Control
-                                                className="f-name"
-                                                required
-                                                type="text"
-                                                value={firstname}
-                                                placeholder="กรอกชื่อจริง"
-                                                onChange={(e) => setFirstName(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกชื่อจริง
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-
-                                        <Form.Group as={Col}  sm="12" md="6" controlId="validateLastName" className="Form-LName">
-                                            <Form.Label>นามสกุล</Form.Label>
-                                            <Form.Control 
-                                                className="l-name"
-                                                required
-                                                type="text"
-                                                value={lastname}
-                                                placeholder="กรอกนามสกุล"
-                                                onChange={(e) => setLastName(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกนามสกุล
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateBirthDate">
-                                            <Form.Label>วันเกิด</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="date"
-                                                value={birthDate}
-                                                onChange={(e) => setBirthDate(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาระบุวันเกิด
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} sm="12" md="6" controlId="validateGender">
-                                            <Form.Label>เพศ</Form.Label>
-                                            <Form.Select
-                                                value={gender}
-                                                onChange={(e) => setGender(e.target.value)}
-                                                required>
-                                                <option label="กรุณาระบุเพศ"></option> 
-                                                <option value="ชาย">ชาย</option>
-                                                <option value="หญิง">หญิง</option>
-
-                                            </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาระบุเพศ
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateEmail">
-                                            <Form.Label>อีเมล</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="email"
-                                                value={email}
-                                                placeholder="กรอกอีเมล"
-                                                onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกอีเมล
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-
-                                        
-                                        <Form.Group as={Col} sm="12" md="6" controlId="validateTelephone">
-                                            <Form.Label>หมายเลขโทรศัพท์</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="text"
-                                                value={tel}
-                                                placeholder="กรอกหมายเลขโทรศัพท์"
-                                                onChange={(e) => setTel(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกหมายเลขโทรศัพท์
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-
-                                    </Row>
-                                            
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} controlId="validateAddress">
-                                            <Form.Label>ที่อยู่</Form.Label>
-                                            <Form.Control 
-                                                required
-                                                type="text"
-                                                value={address}
-                                                placeholder="กรอกที่อยู่"
-                                                onChange={(e) => setAddress(e.target.value)}
-                                            />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณากรอกที่อยู่
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
-
-                                    <Row className="mx-1 mt-4">
-                                        <Button variant="success p-2" as="input" type="submit" value="บันทึกข้อมูล"></Button>
-                                    </Row>
-                                </Form>
+                        <div className="col-12 col-md-2 profile-left">
+                            <ProfileSidebar pages={pages}/>
+                        </div>
+                        
+                        <div className="col-12 col-md-10 profile-right">
+                            <div className="profile-right-content">
+                                <div className="profile-right-header p-2 text-center">
+                                    <h4>แก้ไขข้อมูลบัญชี</h4>
                                 </div>
 
-                                
+                                <div className="profile-details">
+                                    <div className="profile-content pt-3 px-5">
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateFirstName">
+                                                    <Form.Label>ชื่อจริง</Form.Label>
+                                                    <Form.Control
+                                                        className="f-name"
+                                                        required
+                                                        type="text"
+                                                        value={firstname}
+                                                        placeholder="กรอกชื่อจริง"
+                                                        onChange={(e) => setFirstName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกชื่อจริง
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+
+                                                <Form.Group as={Col}  sm="12" md="6" controlId="validateLastName" className="Form-LName">
+                                                    <Form.Label>นามสกุล</Form.Label>
+                                                    <Form.Control 
+                                                        className="l-name"
+                                                        required
+                                                        type="text"
+                                                        value={lastname}
+                                                        placeholder="กรอกนามสกุล"
+                                                        onChange={(e) => setLastName(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกนามสกุล
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateBirthDate">
+                                                    <Form.Label>วันเกิด</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="date"
+                                                        value={birthDate}
+                                                        onChange={(e) => setBirthDate(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาระบุวันเกิด
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+
+                                                <Form.Group as={Col} sm="12" md="6" controlId="validateGender">
+                                                    <Form.Label>เพศ</Form.Label>
+                                                    <Form.Select
+                                                        value={gender}
+                                                        onChange={(e) => setGender(e.target.value)}
+                                                        required>
+                                                        <option label="กรุณาระบุเพศ"></option> 
+                                                        <option value="ชาย">ชาย</option>
+                                                        <option value="หญิง">หญิง</option>
+
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาระบุเพศ
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} sm="12" md="6" className="mb-2" controlId="validateEmail">
+                                                    <Form.Label>อีเมล</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="email"
+                                                        value={email}
+                                                        placeholder="กรอกอีเมล"
+                                                        onChange={(e) => setEmail(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกอีเมล
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+
+                                                
+                                                <Form.Group as={Col} sm="12" md="6" controlId="validateTelephone">
+                                                    <Form.Label>หมายเลขโทรศัพท์</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="text"
+                                                        value={tel}
+                                                        placeholder="กรอกหมายเลขโทรศัพท์"
+                                                        onChange={(e) => setTel(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกหมายเลขโทรศัพท์
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+
+                                            </Row>
+                                                    
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="validateAddress">
+                                                    <Form.Label>ที่อยู่</Form.Label>
+                                                    <Form.Control 
+                                                        required
+                                                        type="text"
+                                                        value={address}
+                                                        placeholder="กรอกที่อยู่"
+                                                        onChange={(e) => setAddress(e.target.value)}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณากรอกที่อยู่
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3 border-top pt-2">
+                                                <div className="col-12 col-md-3 mx-auto">
+                                                    <Button id="button" variant="success" as="input" type="submit" value="บันทึกข้อมูล" />
+                                                </div>
+                                            </Row>
+                                        </Form>
+                                    </div>
+
+                                </div>
                             </div>
-
-                            <div className="profile-right-content">
-
-                            </div>
-
-                        </div>
-                        <div className="col-1">
 
                         </div>
                     </div>
                 </div>
 
             <Footer/>
+
+            <ConfirmModal 
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onClickConfirm}
+                onClose={onClose}
+            />
 
 
         </>
