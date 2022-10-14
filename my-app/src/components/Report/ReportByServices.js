@@ -129,6 +129,8 @@ export default function ReportByServices() {
                 sumData_temp += item.count;
             }
 
+
+
             if(store.length >0){
                 if(dateRange == 2){
                     setDateStart(store[0].date)

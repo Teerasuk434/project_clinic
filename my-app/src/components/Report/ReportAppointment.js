@@ -51,8 +51,8 @@ export default function ReportAppointment() {
 
     const chartRef = useRef();
 
-    const [dateRange, setDateRange] = useState(0); 
-    const [RangeName, setRangeName] = useState("");
+    const [Range, setRange] = useState(0); 
+    const [RangeName2, setRangeName2] = useState("");
 
     const [date_start, setDateStart] = useState("");
     const [date_end, setDateEnd] = useState("");
@@ -67,14 +67,14 @@ export default function ReportAppointment() {
 
       useEffect(() =>{
         fetchAppointment();
-        if(dateRange == 0){
-            setRangeName("รายสัปดาห์")
-        }else if(dateRange == 1){
-            setRangeName("รายเดือน")
+        if(Range == 0){
+            setRangeName2("รายสัปดาห์")
+        }else if(Range == 1){
+            setRangeName2("รายเดือน")
         }else{
-            setRangeName("รายปี");
+            setRangeName2("รายปี");
         }
-    },[dateRange])
+    },[Range])
 
     useEffect(()=>{
         setDataChart();
@@ -82,10 +82,9 @@ export default function ReportAppointment() {
 
     const fetchAppointment = async () => {
         let json = await API_POST("report2/byappointment",{
-            dateRange:dateRange
+            dateRange:Range
         });
             setStore(json.data);
-            console.log(json.data)
     }
 
 
@@ -94,6 +93,16 @@ export default function ReportAppointment() {
         var labels = [];
         var data = [];
         let sumData_temp = 0;
+
+        if(store.length >0){
+            let findmax = store.reduce((pre, curr) => {
+                return curr.appointment_count > pre.appointment_count ? curr : pre;
+            })
+
+            setServiceName(findmax.service_name)
+            setCount(findmax.appointment_count)
+
+        }
 
             for(var i = 0; i< store.length; i++){
                 var item = store[i];
@@ -191,7 +200,7 @@ export default function ReportAppointment() {
         let year = moment().year();
         let date_temp;
 
-        if(dateRange == 2){
+        if(Range == 2){
             date_temp = moment(`${year}-${date}-01`).format("YYYY-MM-DD");
         }else{
             date_temp = date;
@@ -199,7 +208,7 @@ export default function ReportAppointment() {
         let json = await API_GET("appointment/service",{
             service_id: service_id,
             date: date_temp,
-            dateRange: dateRange
+            Range: Range
         })
         setAppointStore(json.data);
     }
@@ -207,7 +216,7 @@ export default function ReportAppointment() {
     return(
         <>
             <div className="container-fluid ">
-                <div className=" mt-4 shadow rounded border p-3" style={{backgroundColor:"#F2F3F4"}}>
+                <div className="my-4 shadow rounded border p-3" style={{backgroundColor:"#F2F3F4"}}>
                     <div className="row mx-2 my-3 ">
                         <div className="col-6">
                             <h4>รายงานจำนวนการนัดหมายบริการ</h4>
@@ -223,13 +232,13 @@ export default function ReportAppointment() {
                                         {radios.map((radio, value) => (
                                             <ToggleButton 
                                                 key={value}
-                                                id={`radio-${value}`}
+                                                id={`radio2-${value}`}
                                                 type="radio"
                                                 variant="light"
-                                                name="radio"
-                                                value={dateRange}
-                                                checked={dateRange === value }
-                                                onChange={(e) => setDateRange(value)}
+                                                name="radio2"
+                                                value={Range}
+                                                checked={Range === value }
+                                                onChange={(e) => setRange(value)}
                                             >
                                                 {radio.name}
                                             </ToggleButton>
@@ -253,10 +262,13 @@ export default function ReportAppointment() {
                         </div>
                         <div className="shadow border rounded pt-3" style={{backgroundColor:"#F2F3F4",width:"30%"}}>
                             <h5 className="text-center">สรุปข้อมูล</h5>
-                            {/* <p><b>ชื่อบริการ :</b>{service_name}</p> */}
-                            <p><b>ประเภทช่วงเวลา :</b> {RangeName}</p>
-                            <p><b>ชื่อยอดบริการที่เยอะที่สุด :</b> {service_name}</p>
-                            <p><b>จำนวน :</b> {count}</p>
+                            <p className="border-bottom border-secondary border-opacity-25"><b>ประเภทช่วงเวลา :</b> {RangeName2}</p>
+                            {store.length > 0 && 
+                                <>
+                                    <p><b>บริการที่มีจำนวนเยอะที่สุด :</b> {service_name}</p>
+                                    <p><b>จำนวน :</b> {count}</p>
+                                </>
+                            }
 
 
                             <div className="text-center mt-3 mx-5 shadow p-2">
