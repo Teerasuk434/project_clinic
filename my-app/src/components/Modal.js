@@ -7,7 +7,7 @@ import { API_POST } from "../api";
 
 export function ShowPaymentModal(props) {
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -18,7 +18,7 @@ export function ShowPaymentModal(props) {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={props.onClose}>ปิด</Button>
+                <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
             </Modal.Footer>
 
         </Modal>
@@ -31,7 +31,7 @@ export function ShowAppointmentDetails(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.onClose}>
+            <Modal show={props.show} onHide={props.onClose} backdrop="static">
                 <Modal.Header closeVariant="white" closeButton className="modal-header">
                     <Modal.Title>{props.title}</Modal.Title>
                 </Modal.Header>
@@ -70,7 +70,7 @@ export function ShowAppointmentDetails(props) {
                 </Modal.Body>
                 <Modal.Footer>
 
-                    <Button variant="danger" onClick={props.onClose}>ปิด</Button>
+                    <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
 
                 </Modal.Footer>
 
@@ -168,7 +168,7 @@ export function ShowAppointmentForm(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.onClose}>
+            <Modal show={props.show} onHide={props.onClose} backdrop="static">
                 <Modal.Header closeVariant="white" closeButton>
                     <Modal.Title>{props.title}</Modal.Title>
                 </Modal.Header> 
@@ -249,9 +249,9 @@ export function ShowAppointmentForm(props) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button style={{width:"100%"}} variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
+                    <Button style={{width:"100%"}} size="sm" variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
 
-                    <Button variant="danger" onClick={props.onClose}>ปิด</Button>
+                    <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
 
                 </Modal.Footer>
 
@@ -266,7 +266,7 @@ export function ShowAppointmentForm(props) {
 export function ConfirmModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static" size="sm">
             <Modal.Header closeButton closeVariant="white">
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -276,8 +276,8 @@ export function ConfirmModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={props.onConfirm}>ตกลง</Button>
-                <Button variant="danger" onClick={props.onClose}>ยกเลิก</Button>
+                <Button variant="primary" size="sm" onClick={props.onConfirm}>ตกลง</Button>
+                <Button variant="danger" size="sm" onClick={props.onClose}>ยกเลิก</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -286,7 +286,7 @@ export function ConfirmModal(props) {
 export function UpdateModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -296,8 +296,8 @@ export function UpdateModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={props.onConfirm}>ตกลง</Button>
-                <Button variant="danger" onClick={props.onClose}>ยกเลิก</Button>
+                <Button variant="primary" size="sm" onClick={props.onConfirm}>ตกลง</Button>
+                <Button variant="danger" size="sm" onClick={props.onClose}>ยกเลิก</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -306,7 +306,7 @@ export function UpdateModal(props) {
 export function MessageModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeVariant="white" closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -316,7 +316,7 @@ export function MessageModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={props.onClose}>ตกลง</Button>
+                <Button variant="primary" size="sm" onClick={props.onClose}>ตกลง</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -325,7 +325,7 @@ export function MessageModal(props) {
 export function SuccessModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeVariant="white" closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -338,7 +338,7 @@ export function SuccessModal(props) {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="primary" onClick={props.onClose}>ตกลง</Button>
+                <Button variant="primary" size="sm" onClick={props.onClose}>ตกลง</Button>
             </Modal.Footer>
         </Modal>
     );
@@ -347,7 +347,7 @@ export function SuccessModal(props) {
 export function SuccessAppointmentModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeVariant="white" closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>
@@ -370,7 +370,7 @@ export function SuccessAppointmentModal(props) {
 export function SuccessRegisterModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose}>
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeVariant="white" closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>

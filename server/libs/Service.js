@@ -48,6 +48,18 @@ module.exports = {
         }
 
         return false;
+    },
+    isUsed: async(pool, service_id) => {
+        var sql = "SELECT * FROM appointment a JOIN service b ON a.service_id = b.service_id WHERE a.service_id = ?";
+        sql = mysql.format(sql, [service_id])
+
+        var result = await pool.query(sql);
+
+        if(result.length > 0){
+            return true
+        }else{
+            return false;
+        }
     }
 
 }

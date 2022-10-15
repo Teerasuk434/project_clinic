@@ -5,7 +5,7 @@ import { API_GET, API_POST } from '../../api';
 import Fuse from 'fuse.js'
 import Sidebar from '../Sidebar';
 import ServiceItems from './ServiceItems';
-import { ConfirmModal } from '../Modal';
+import { ConfirmModal,MessageModal } from '../Modal';
 import Top from '../Top';
 
 export default function Service() {
@@ -24,6 +24,10 @@ export default function Service() {
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
 
     useEffect(() => {
         fetchServices();
@@ -83,13 +87,18 @@ export default function Service() {
             service_id: service_id
         });
 
-        if (json.result) {
+        if(json.result) {
             fetchServices();
-        } 
+        } else {
+            setModalTitle("ไม่สามารถลบข้อมูลบริการได้");
+            setModalMessage(json.message);
+            setShowModal(true);
+        }
     }
 
-    const onCancel = () => {
+    const onClose = () => {
         setConfirmModal(false);
+        setShowModal(false);
     }
 
     const getPagination = () => {
@@ -215,7 +224,14 @@ export default function Service() {
                 title={confirmModalTitle}
                 message={confirmModalMessage}
                 onConfirm={onConfirmDelete}
-                onClose={onCancel}
+                onClose={onClose}
+            />
+
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
             />
         </>
     )

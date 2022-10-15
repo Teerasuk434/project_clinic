@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { Table,Button, InputGroup, Form, Pagination, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Table,Button, InputGroup, Form, Pagination, Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { API_GET } from '../api';
 import ListAppointItem from './ListAppointItem';
@@ -13,8 +13,9 @@ import Scheduler from 'devextreme-react/scheduler';
 
 export default function ListAppoint(){
 
-    const views = ['day','week', 'month'];
-    const [data, setData] = useState([]);
+    const views = ['day','week'];
+    const [scheduleData, setScheduleData] = useState([]);
+
     const optionsSchedules =  {
         allowAdding: false,
         allowDeleting: false,
@@ -61,6 +62,7 @@ export default function ListAppoint(){
         fetchAppointment();
         fetchRooms();
         fetchEmployee();
+        fetchScheduleData();
 
         let date_temp = [];
         for(let i=0 ;i<6; i++){
@@ -90,25 +92,29 @@ export default function ListAppoint(){
             setAppointments(json.data);
             setListAppoint(json.data);
 
-            console.log(json.data)
-
-            let temp_data = [];
-
-            json.data.map(item=>{
-
-                temp_data.push({
-                    text:item.room_name + " " + item.service_name + " " +item.employee_fullname,
-                    startDate: moment(`${item.date} ${item.time}`).format(),
-                    endDate: moment(`${item.date} ${item.time_end}`).format()
-                })
-                
-            })
-            setData(temp_data)
-        console.log(temp_data)
-
         }
 
     }
+
+    const fetchScheduleData = async () =>{
+        let json = await API_GET("schedules");
+
+        let temp_data = [];
+
+        json.data.map(item=>{
+
+             temp_data.push({
+                 text:item.room_name + " " + item.service_name + " " +item.emp_fname +" " +item.emp_lname,
+                 startDate: moment(`${item.date} ${item.time}`).format(),
+                 endDate: moment(`${item.date} ${item.time_end}`).format()
+             })
+             
+         }) 
+         setScheduleData(temp_data)
+         console.log(temp_data)
+         console.log(json.data)
+    }
+
 
     const fetchRooms = async () =>{
         let json = await API_GET("room");
@@ -348,7 +354,7 @@ export default function ListAppoint(){
                                                 <th>ห้องที่ใช้</th>
                                                 <th>ผู้รับหน้าที่</th>
                                                 <th>สถานะ</th>
-                                                <th colSpan={2}>action</th>
+                                                <th>action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -376,21 +382,44 @@ export default function ListAppoint(){
 
                             </div>
 
-                            <div className="my-3 mx-4">
-                                <Scheduler
-                                    timeZone="Asia/Bangkok"
-                                    dataSource={data}
-                                    views={views}
-                                    defaultCurrentView="week"
-                                    defaultCurrentDate={new Date()}
-                                    height="100%"
-                                    startDayHour={13} 
-                                    endDayHour={19}
-                                    editing={optionsSchedules}
-                                    firstDayOfWeek={0}
-                                    allDayPanelMode="hidden"
-                                    
-                                    />
+                            <div className="bg-light mt-3 mx-4 rounded shadow">
+                                <div >
+                                    <Form.Group>
+                                        <Form.Label>ผู้รับหน้าที่ :</Form.Label>
+                                        <Form.Select
+                                            size="sm"
+                                            value={emp_id}
+                                            onChange={(e) => setEmpId(e.target.value)}
+                                            required>
+
+                                            <option value={0}>ทั้งหมด</option> 
+                                            {
+                                            employees.map(item => (
+                                                <option key={item.emp_id} value={item.emp_id}> 
+                                                {item.emp_fname} {item.emp_lname} </option>
+                                            ))
+                                            }
+                                        </Form.Select>
+                                    </Form.Group>
+
+                                </div>
+                                <div className="p-5">
+                                    <Scheduler
+                                        timeZone="Asia/Bangkok"
+                                        dataSource={scheduleData}
+                                        views={views}
+                                        defaultCurrentView="week"
+                                        defaultCurrentDate={new Date()}
+                                        height="100%"
+                                        width="95%"
+                                        startDayHour={13} 
+                                        endDayHour={19}
+                                        editing={optionsSchedules}
+                                        firstDayOfWeek={1}
+                                        allDayPanelMode="hidden"
+                                        />
+                                </div>
+                            
                             </div>
                         </div>
                     </div>

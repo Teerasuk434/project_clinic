@@ -40,9 +40,6 @@ export default function RoomTypes(){
                 }
             );
 
-            document.body.style.overflow = "hidden";
-
-
             let json = await response.json();
             setRoomType(json.data);
             setListRoomTypes(json.data);

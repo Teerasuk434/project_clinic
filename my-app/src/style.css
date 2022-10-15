@@ -604,27 +604,6 @@ iframe{
     margin-top: 80px;
    }
 
-   /* 
-
-   .box4-contact-about{
-    background-color: lightblue;
-    width: 350px;
-    height: 100px;
-
-   }
-
-   
-   
-   .about-text {
-    background-color: light;
-    padding: auto;
-    height: 150px;
-    padding: 16px;
-    
-   }
-  */
-
-   
    .bg-about{
     background-color: aliceblue;
    }
@@ -668,4 +647,13 @@ iframe{
         width: fit-content;
         display: block;
         color: white;
+    }
+
+    /* table {
+        table-layout: auto;
+        width: 100%;
+    } */
+
+    table thead{
+        border-bottom: 1.5px solid rgba(0,0,0,0.6);
     }

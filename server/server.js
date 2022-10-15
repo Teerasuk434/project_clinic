@@ -674,12 +674,21 @@ app.post("/api/service/delete", checkAuth, async (req, res) => {
     const input = req.body;
 
     try {
-        var result = await Service.deleteService(pool,
-            input.service_id);
+
+        var result = await Service.isUsed(pool,input.service_id);
+
+        if(!result){
+            await Service.deleteService(pool,input.service_id);
         
-        res.json({
-            result: true
-        });
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result:false,
+                message: "ข้อมูลนี้มีการใช้งานอยู่"
+            });
+        }
     } catch (ex) {
         res.json({
             result: false,
@@ -1238,7 +1247,12 @@ app.post('/api/room/room_types',async(req, res) => {
 });
 
 app.get('/api/schedules',(req, res) => {
-    pool.query("SELECT a.*,b.emp_fname,b.emp_lname FROM schedules a JOIN employee b ON a.emp_id = b.emp_id",(err, results, fields) => {
+    pool.query(`SELECT a.*,b.emp_fname,b.emp_lname,d.service_name,e.room_name
+                    FROM schedules a JOIN employee b ON a.emp_id = b.emp_id
+                    JOIN appointment c ON a.appoint_id = c.appoint_id
+                    JOIN service d ON c.service_id = d.service_id
+                    JOIN rooms e ON a.room_id = e.room_id
+                    ORDER BY a.date`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,

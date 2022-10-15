@@ -43,14 +43,8 @@ return (
             <td><p>{props.data.employee_fullname}</p></td>
             <td><p>{props.data.status_name}</p></td>
             <td>
-                <div>
-                    <Button  onClick={onShowAppointment} className="btn btn-success btn-sm">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
-                </div>
-            </td>
-            <td>
-                <div>
-                    <Link to={`${props.data.appoint_id}`} className="btn btn-warning btn-sm">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
-                </div>
+                <Button  variant="primary" onClick={onShowAppointment} size="sm">{<i className="fa-regular fa-eye me-2"></i>}รายละเอียด</Button>
+                <Link to={`${props.data.appoint_id}`} className="btn btn-warning btn-sm ms-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
             </td>
         </tr>
 

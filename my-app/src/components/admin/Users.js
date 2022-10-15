@@ -205,7 +205,7 @@ export default function Admin() {
                                                 <th>action</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className='table-group-divider align-middle'>
+                                            <tbody>
                                                 {
                                                     users.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <UsersItem
