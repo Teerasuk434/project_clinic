@@ -62,9 +62,10 @@ export default function AboutServices (props){
                     <Table size="sm" responsive bordered hover className='text-center  '>
                         
                                 <div className="row thead-service shadow mb-3">
-                                    <b className="col-4 border-0 m-auto " >ชื่อบริการ</b>
-                                    <b className=" col-4 border-0 m-auto ">ราคา (บาท)</b>
-                                    <b className=" col-4 border-0  m-auto ">เวลาที่ใช้ (นาที)</b>
+                                    <b className="col-3 border-0 m-auto " >ชื่อบริการ</b>
+                                    <b className=" col-3 border-0 m-auto ">ราคา (บาท)</b>
+                                    <b className=" col-3 border-0 m-auto ">ค่ามัดจำ (บาท)</b>
+                                    <b className=" col-3 border-0  m-auto ">เวลาที่ใช้ (นาที)</b>
                                 </div>
                             
                     </Table>

@@ -632,7 +632,7 @@ iframe{
    .thead-service{
     background-color: #AADAF3;
     height: 60px;
-    width: 70%;
+    width: 75%;
     margin: auto;
     /* border-radius: 10px; */
     font-size: larger;
@@ -650,7 +650,7 @@ iframe{
     background-color: #F8F9FA;
     text-align: center;
     padding: 20px;
-    width: 70%;
+    width: 75%;
     margin: auto;
 }
 
