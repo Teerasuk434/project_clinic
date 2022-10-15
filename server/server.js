@@ -1553,6 +1553,97 @@ app.post('/api/appointment/service',checkAuth,(req, res) => {
     }
 });
 
+app.post('/api/appointment/allservice',checkAuth,(req, res) => {
+    const input = req.body;
+    console.log(input)
+    const sql = `SELECT a.*,
+                b.*,
+                c.cust_fname,
+                c.cust_lname,
+                d.service_name,
+                d.cost_deposit,
+                d.time_spent,
+                e.*,
+                f.status_name,
+                CONCAT(h.emp_fname, " ", h.emp_lname) AS employee_fullname
+                FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
+                JOIN customer_information c ON b.cust_id = c.cust_id
+                JOIN service d ON a.service_id = d.service_id
+                JOIN rooms e ON a.room_id = e.room_id
+                JOIN appoint_status f ON a.status_id = f.status_id
+                JOIN schedules g ON a.appoint_id = g.appoint_id 
+                JOIN employee h ON g.emp_id = h.emp_id `;
+
+    if (input.service_name == "") {
+        pool.query(sql, (error, results) => {
+            if (error) {
+                res.json({
+                    result: false,
+                    message: error.message
+                });
+            } else {
+                res.json({
+                    result: true,
+                    data: results
+                });
+            }
+        });
+    } else {
+        let WHERE;
+        if(input.dateRange == 0){
+            WHERE = "WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE()) AND d.service_name = ? AND a.status_id = 5 GROUP BY a.appoint_id"
+            pool.query(sql + WHERE,
+                [input.service_name], (error, results) => {
+                    console.log(sql+WHERE)
+                    if (error) {
+                        res.json({
+                            result: false,
+                            message: error.message
+                        });
+                    } else {
+                        res.json({
+                            result: true,
+                            data: results
+                        });
+                    }
+                });
+        }else if(input.dateRange == 1){
+            WHERE =  "WHERE a.date BETWEEN DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND LAST_DAY(CURDATE()) AND d.service_name = ? AND a.status_id = 5 GROUP BY a.appoint_id"
+            pool.query(sql + WHERE,
+                [input.service_name], (error, results) => {
+                    if (error) {
+                        res.json({
+                            result: false,
+                            message: error.message
+                        });
+                    } else {
+                        res.json({
+                            result: true,
+                            data: results
+                        });
+                    }
+                });
+        }else if(input.dateRange == 2){
+            WHERE ="WHERE a.date > DATE_SUB(NOW(), INTERVAL 1 YEAR) AND a.status_id = 5 AND d.service_name = ? GROUP BY a.appoint_id"
+            console.log(sql+WHERE)
+
+            pool.query(sql + WHERE,
+                [input.service_name], (error, results) => {
+                    if (error) {
+                        res.json({
+                            result: false,
+                            message: error.message
+                        });
+                    } else {
+                        res.json({
+                            result: true,
+                            data: results
+                        });
+                    }
+                });
+        }
+    }
+});
 
 app.post("/api/report/byservice", checkAuth, async (req, res) => {
     let input = req.body

@@ -114,15 +114,15 @@ module.exports = {
                 AND status_id = 5 GROUP BY service_name`
 
         }else if(dateRange == 2) {
-            sql =  `SELECT service_name, COUNT(*) as appointment_count 
+        sql =  `SELECT service_name, COUNT(*) as appointment_count 
             FROM appointment a
             JOIN service b ON a.service_id = b.service_id
-            WHERE status_id = 5
+            WHERE a.date > DATE_SUB(NOW(), INTERVAL 1 YEAR) AND a.status_id = 5
             GROUP BY service_name`
             
         }
         sql = mysql.format(sql);
-        
+        console.log(sql)
 
         return await pool.query(sql);
     }

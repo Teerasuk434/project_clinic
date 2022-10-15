@@ -1,9 +1,10 @@
-import { Bar, getElementAtEvent } from 'react-chartjs-2';
+import { Bar, getElementAtEvent ,  } from 'react-chartjs-2';
 import { API_GET, API_POST } from '../../api';
 import { useEffect, useRef, useState } from 'react';
 import AppointmentChartItem from '../owner/AppointmentChartItem';
-import { Form , ButtonGroup , ToggleButton} from 'react-bootstrap';
+import { Form , ButtonGroup , ToggleButton , Pagination} from 'react-bootstrap';
 import moment from 'moment';
+import { ShowAppointmentDetails } from '../Modal';
 
 import {
     Chart as ChartJS,
@@ -13,6 +14,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler
 } from 'chart.js';
 
 ChartJS.register(
@@ -21,7 +23,8 @@ ChartJS.register(
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 export const options = {
@@ -41,22 +44,28 @@ export default function ReportAppointment() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState({});
-    const [store, setStore] = useState([]);
 
+    const [store, setStore] = useState([]);
+    const chartRef = useRef();
     const [appointStore, setAppointStore] = useState([]);
     
     const [service_id, setServiceId] = useState(0)
     const [service_name, setServiceName] = useState("")
     const [count, setCount] = useState("")
 
-    const chartRef = useRef();
 
     const [Range, setRange] = useState(0); 
     const [RangeName2, setRangeName2] = useState("");
 
-    const [date_start, setDateStart] = useState("");
-    const [date_end, setDateEnd] = useState("");
     const [sumData, setSumData] = useState(0);
+
+    const [showAppointmentModal, setAppointmentModal] = useState(false);
+    const [appointModalTitle, setAppointModalTitle] = useState("");
+    const [AppointmentDetails, setAppointmentDetails] = useState({});
+
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(2);
 
 
     const radios = [
@@ -85,6 +94,9 @@ export default function ReportAppointment() {
             dateRange:Range
         });
             setStore(json.data);
+            console.log(json.data)
+            var labels = [];
+            var data = [];
     }
 
 
@@ -108,15 +120,14 @@ export default function ReportAppointment() {
                 var item = store[i];
 
                 labels.push(item.service_name );
-
                 data.push(item.appointment_count);
                 sumData_temp += item.appointment_count;
             }
 
             setSumData(sumData_temp)
 
-            console.log(labels);
-            console.log(data);
+            // console.log(labels);
+            // console.log(data);
             
             var dataset = {
                 labels: labels,
@@ -138,43 +149,6 @@ export default function ReportAppointment() {
             setIsLoading(true);
     }
 
-    // useEffect(() => {
-    //     console.log(appointStore)
-    //     async function fetchData() {
-    //         let json = await API_POST("report2/byappointment",{
-    //             date:date
-    //         });
-    //         setStore(json.data);
-    //         console.log(json.data)
-            
-    //         var labels = [];
-    //         var data = [];
-            
-    //         for (var i = 0; i<json.data.length; i++) {
-    //             var item = json.data[i];
-    //             labels.push(json.data[i].date);
-    //             data.push(json.data[i].appointment_count);
-                
-    //         }
-    //         console.log(data)
-
-    //         var dataset = {
-    //             labels: labels,
-    //             datasets: [
-    //                 {
-    //                     label: "จำนวนการนัดหมายบริการ",
-    //                     data: data,
-    //                     backgroundColor: 'rgba(20,113,176, 0.2)'
-    //                 }
-    //             ]
-    //         }
-    //         setChartData(dataset);
-    //         setIsLoading(true);
-    //     }
-
-    //     fetchData();
-    // },[]);
-
     const getChart =() => {
         if (isLoading) {
             return <Bar 
@@ -189,30 +163,74 @@ export default function ReportAppointment() {
     }
 
     const onClickChart = async (event) => {
-        var element = getElementAtEvent(chartRef.event);
+        var element = getElementAtEvent(chartRef.current,event);
         var index = element[0].index;
+        console.log(index)
+        console.log(store)
         
-        await getAppointment(store[index].date)
+        await getAppointment(store[index].service_name)
     }
 
-    const getAppointment = async (date) => {
+    const getAppointment = async (service_name) => {
 
-        let year = moment().year();
-        let date_temp;
 
-        if(Range == 2){
-            date_temp = moment(`${year}-${date}-01`).format("YYYY-MM-DD");
-        }else{
-            date_temp = date;
-        }
-        let json = await API_GET("appointment/service",{
-            service_id: service_id,
-            date: date_temp,
-            Range: Range
+        // if(Range == 2){
+        //     date_temp = moment(`${year}-${date}-01`).format("YYYY-MM-DD");
+        // }else{
+        //     date_temp = date;
+        // }
+        let json = await API_POST("appointment/allservice",{
+            service_name:service_name,
+            dateRange: Range
         })
         setAppointStore(json.data);
+        console.log(json.data)
+    }
+    const onShowAppointment = (data) =>{
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+        setAppointmentModal(true);
+
     }
 
+    const onClose = () =>{
+        setAppointmentModal(false);
+    }
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(appointStore.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
     return(
         <>
             <div className="container-fluid ">
@@ -278,12 +296,72 @@ export default function ReportAppointment() {
                             </div>
                         </div>
                     </div>
-                            
-                        
-                    
+
+                        { appointStore.length >0 &&
+                            <div className="container-fluid px-4 w-80">
+                                
+                                <div className="border rounded shadow" style={{backgroundColor:"rgba(201, 138 , 218, 0.9"}}>
+                                    <div className="row text-center text-white">
+                                        <div className="col-1">
+                                            <p>#</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>ผู้นัดหมาย</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>บริการ</p>
+                                        </div>
+
+                                        <div className="col-1">
+                                            <p>วันที่</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>เวลา</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p>ผู้รับหน้าที่</p>
+                                        </div>
+
+                                        <div className="col-2">
+                                            <p></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {
+                                    appointStore.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
+                                        <AppointmentChartItem
+                                            key={item.appoint_id}
+                                            data={item}
+                                            onShow={onShowAppointment}
+                                        />
+                                    ))
+                                }
+                                <div className="d-flex align-items-end flex-column mt-3">
+                                    <div>
+                                        <Pagination onSelect={onPageSelected}>
+                                            <Pagination.First onClick={firstPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            { getPagination()}
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Last onClick={lastPage} />
+                                        </Pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                 </div>
             </div>
-           
+            
+            <ShowAppointmentDetails 
+                show={showAppointmentModal}
+                title={appointModalTitle}
+                onClose={onClose}
+                data={AppointmentDetails}
+            />  
         </>
     );
 }
