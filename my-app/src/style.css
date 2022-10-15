@@ -657,3 +657,15 @@ iframe{
     table thead{
         border-bottom: 1.5px solid rgba(0,0,0,0.6);
     }
+
+    .dx-tooltip-appointment-item-content-subject{
+        font-size: 14px !important;
+    }
+
+    .dx-tooltip-appointment-item-content-date{
+        font-size: 12px !important;
+    }
+
+    /* .dx-tooltip-appointment-item{
+        padding: 10px !important;
+    } */

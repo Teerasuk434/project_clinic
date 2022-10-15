@@ -1,34 +1,12 @@
 import { Link } from "react-router-dom";
-import { ShowAppointmentDetails } from "./Modal";
-import { useState,useEffect } from "react";
 import { Button } from "react-bootstrap";
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+
 
 
 export default function ListAppointItem(props) {
 
-let appoint_status = props.data.status_id
-const moment = extendMoment(Moment);
-let time_end = moment(`${props.data.date} ${props.data.time}`).add(props.data.time_spent, 'm').format("HH:mm");
-
-
-const [showAppointmentModal, setAppointmentModal] = useState(false);
-const [appointModalTitle, setAppointModalTitle] = useState("");
-const [AppointmentDetails, setAppointmentDetails] = useState({});
-
-let user_id = localStorage.getItem("user_id");
-
-
 const onShowAppointment = () =>{
-    setAppointmentModal(true);
-    setAppointModalTitle("รายละเอียดการนัดหมาย")
-    setAppointmentDetails(props.data);
-}
-
-
-const onClose = () =>{
-    setAppointmentModal(false);
+    props.onShow(props.data);
 }
 
 return (
@@ -47,14 +25,6 @@ return (
                 <Link to={`${props.data.appoint_id}`} className="btn btn-warning btn-sm ms-3">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Link>
             </td>
         </tr>
-
-        <ShowAppointmentDetails 
-        show={showAppointmentModal}
-        title={appointModalTitle}
-        onClose={onClose}
-        data={AppointmentDetails}
-        time_end={time_end}
-        />
 
     </>
 )

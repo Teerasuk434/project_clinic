@@ -1247,12 +1247,7 @@ app.post('/api/room/room_types',async(req, res) => {
 });
 
 app.get('/api/schedules',(req, res) => {
-    pool.query(`SELECT a.*,b.emp_fname,b.emp_lname,d.service_name,e.room_name
-                    FROM schedules a JOIN employee b ON a.emp_id = b.emp_id
-                    JOIN appointment c ON a.appoint_id = c.appoint_id
-                    JOIN service d ON c.service_id = d.service_id
-                    JOIN rooms e ON a.room_id = e.room_id
-                    ORDER BY a.date`,(err, results, fields) => {
+    pool.query("SELECT a.*,b.emp_fname,b.emp_lname FROM schedules a JOIN employee b ON a.emp_id = b.emp_id",(err, results, fields) => {
         if(err){
             res.json({
                 result: false,
@@ -1271,6 +1266,65 @@ app.get('/api/schedules',(req, res) => {
             });
         }
     });
+});
+
+app.post('/api/schedules/emp/:emp_id',(req,res) => {
+    const emp_id  = req.params.emp_id
+    let where;
+    const sql = `SELECT a.*,b.emp_fname,b.emp_lname,d.service_name,e.room_name
+                    FROM schedules a JOIN employee b ON a.emp_id = b.emp_id
+                    JOIN appointment c ON a.appoint_id = c.appoint_id
+                    JOIN service d ON c.service_id = d.service_id
+                    JOIN rooms e ON a.room_id = e.room_id `
+
+    
+    if(emp_id == 0){
+        where = "ORDER BY a.date";
+        
+        pool.query(sql + where,(err, results, fields) => {
+            if(err){
+                res.json({
+                    result: false,
+                    message: err.message
+                });
+            }
+            if(results.length){
+                res.json({
+                    result: true,
+                    data: results
+                });
+            } else {
+                res.json({
+                    result: false,
+                    message: "ไม่พบตารางงาน"
+                });
+            }
+        });
+
+    }else if(emp_id >0){
+        where = "WHERE a.emp_id = ? ORDER BY a.date"
+
+        pool.query(sql + where,[emp_id],(err, results, fields) => {
+            if(err){
+                res.json({
+                    result: false,
+                    message: err.message
+                });
+            }
+            if(results.length){
+                res.json({
+                    result: true,
+                    data: results
+                });
+            } else {
+                res.json({
+                    result: false,
+                    message: "ไม่พบตารางงาน"
+                });
+            }
+        });
+    }
+    
 });
 
 app.post('/api/schedules/emp_available',(req, res) => {
@@ -1553,97 +1607,6 @@ app.post('/api/appointment/service',checkAuth,(req, res) => {
     }
 });
 
-app.post('/api/appointment/allservice',checkAuth,(req, res) => {
-    const input = req.body;
-    console.log(input)
-    const sql = `SELECT a.*,
-                b.*,
-                c.cust_fname,
-                c.cust_lname,
-                d.service_name,
-                d.cost_deposit,
-                d.time_spent,
-                e.*,
-                f.status_name,
-                CONCAT(h.emp_fname, " ", h.emp_lname) AS employee_fullname
-                FROM appointment a JOIN pets b ON a.pet_id = b.pet_id 
-                JOIN customer_information c ON b.cust_id = c.cust_id
-                JOIN service d ON a.service_id = d.service_id
-                JOIN rooms e ON a.room_id = e.room_id
-                JOIN appoint_status f ON a.status_id = f.status_id
-                JOIN schedules g ON a.appoint_id = g.appoint_id 
-                JOIN employee h ON g.emp_id = h.emp_id `;
-
-    if (input.service_name == "") {
-        pool.query(sql, (error, results) => {
-            if (error) {
-                res.json({
-                    result: false,
-                    message: error.message
-                });
-            } else {
-                res.json({
-                    result: true,
-                    data: results
-                });
-            }
-        });
-    } else {
-        let WHERE;
-        if(input.dateRange == 0){
-            WHERE = "WHERE WEEKOFYEAR(a.date)=WEEKOFYEAR(CURDATE()) AND d.service_name = ? AND a.status_id = 5 GROUP BY a.appoint_id"
-            pool.query(sql + WHERE,
-                [input.service_name], (error, results) => {
-                    console.log(sql+WHERE)
-                    if (error) {
-                        res.json({
-                            result: false,
-                            message: error.message
-                        });
-                    } else {
-                        res.json({
-                            result: true,
-                            data: results
-                        });
-                    }
-                });
-        }else if(input.dateRange == 1){
-            WHERE =  "WHERE a.date BETWEEN DATE_FORMAT(CURDATE() ,'%Y-%m-01') AND LAST_DAY(CURDATE()) AND d.service_name = ? AND a.status_id = 5 GROUP BY a.appoint_id"
-            pool.query(sql + WHERE,
-                [input.service_name], (error, results) => {
-                    if (error) {
-                        res.json({
-                            result: false,
-                            message: error.message
-                        });
-                    } else {
-                        res.json({
-                            result: true,
-                            data: results
-                        });
-                    }
-                });
-        }else if(input.dateRange == 2){
-            WHERE ="WHERE a.date > DATE_SUB(NOW(), INTERVAL 1 YEAR) AND a.status_id = 5 AND d.service_name = ? GROUP BY a.appoint_id"
-            console.log(sql+WHERE)
-
-            pool.query(sql + WHERE,
-                [input.service_name], (error, results) => {
-                    if (error) {
-                        res.json({
-                            result: false,
-                            message: error.message
-                        });
-                    } else {
-                        res.json({
-                            result: true,
-                            data: results
-                        });
-                    }
-                });
-        }
-    }
-});
 
 app.post("/api/report/byservice", checkAuth, async (req, res) => {
     let input = req.body

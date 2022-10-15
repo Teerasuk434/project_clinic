@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Table,Button, InputGroup, Form, Pagination, Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { API_GET } from '../api';
+import { API_GET,API_POST } from '../api';
 import ListAppointItem from './ListAppointItem';
 import Top from './Top';
 import Fuse from 'fuse.js';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { ShowAppointmentDetails } from './Modal';
 
 import Scheduler from 'devextreme-react/scheduler';
 
@@ -23,6 +24,12 @@ export default function ListAppoint(){
         allowDragging: false,
         allowUpdating: false,
       };
+
+    const onAppointmentFormOpening = (e) => {
+        let data = appointments.find(item => item.appoint_id == e.appointmentData.id);
+        onShowAppointment(data);
+        e.cancel = true;
+    };
 
 
     const moment = extendMoment(Moment);
@@ -44,6 +51,8 @@ export default function ListAppoint(){
 
     const [employees, setEmployees] = useState([]);
     const [emp_id, setEmpId] = useState(0);
+
+    const[scheduleEmpId, setScheduleEmpId] = useState(0);
     
     const [showAppointmentModal, setAppointmentModal] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
@@ -85,6 +94,11 @@ export default function ListAppoint(){
         }
     },[room_id,emp_id,search])
 
+    useEffect(() =>{
+        fetchScheduleData();
+    },[scheduleEmpId])
+
+
     const fetchAppointment = async () =>{
         let json = await API_GET("appointment/accept");
 
@@ -97,7 +111,7 @@ export default function ListAppoint(){
     }
 
     const fetchScheduleData = async () =>{
-        let json = await API_GET("schedules");
+        let json = await API_POST("schedules/emp/" + scheduleEmpId);
 
         let temp_data = [];
 
@@ -106,13 +120,14 @@ export default function ListAppoint(){
              temp_data.push({
                  text:item.room_name + " " + item.service_name + " " +item.emp_fname +" " +item.emp_lname,
                  startDate: moment(`${item.date} ${item.time}`).format(),
-                 endDate: moment(`${item.date} ${item.time_end}`).format()
+                 endDate: moment(`${item.date} ${item.time_end}`).format(),
+                 id:item.appoint_id
              })
              
          }) 
          setScheduleData(temp_data)
          console.log(temp_data)
-         console.log(json.data)
+         console.log(json)
     }
 
 
@@ -253,6 +268,15 @@ export default function ListAppoint(){
         setCurrentPage(pageCount - 1);
     }
 
+    const onClose = () => {
+        setAppointmentModal(false);
+    }
+
+    const onShowAppointment = (data) =>{
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+        setAppointmentModal(true);
+    }
 
 
     return (
@@ -363,6 +387,7 @@ export default function ListAppoint(){
                                                         <ListAppointItem
                                                         key={item.appoint_id}
                                                         data={item}
+                                                        onShow={onShowAppointment}
                                                         />
                                                     ))
                                                 }
@@ -382,14 +407,14 @@ export default function ListAppoint(){
 
                             </div>
 
-                            <div className="bg-light mt-3 mx-4 rounded shadow">
-                                <div >
+                            <div className="bg-light mt-3 mx-4 rounded shadow pt-3">
+                                <div className="mx-5 mb-3 w-25">
                                     <Form.Group>
                                         <Form.Label>ผู้รับหน้าที่ :</Form.Label>
                                         <Form.Select
                                             size="sm"
-                                            value={emp_id}
-                                            onChange={(e) => setEmpId(e.target.value)}
+                                            value={scheduleEmpId}
+                                            onChange={(e) => setScheduleEmpId(e.target.value)}
                                             required>
 
                                             <option value={0}>ทั้งหมด</option> 
@@ -401,9 +426,9 @@ export default function ListAppoint(){
                                             }
                                         </Form.Select>
                                     </Form.Group>
-
                                 </div>
-                                <div className="p-5">
+
+                                <div className="px-5 py-2">
                                     <Scheduler
                                         timeZone="Asia/Bangkok"
                                         dataSource={scheduleData}
@@ -411,12 +436,14 @@ export default function ListAppoint(){
                                         defaultCurrentView="week"
                                         defaultCurrentDate={new Date()}
                                         height="100%"
-                                        width="95%"
+                                        width="100%"
                                         startDayHour={13} 
                                         endDayHour={19}
                                         editing={optionsSchedules}
                                         firstDayOfWeek={1}
                                         allDayPanelMode="hidden"
+                                        onAppointmentFormOpening={onAppointmentFormOpening}
+                                        cellDuration={15}
                                         />
                                 </div>
                             
@@ -425,6 +452,13 @@ export default function ListAppoint(){
                     </div>
                 </div>
             </div>
+
+            <ShowAppointmentDetails 
+            show={showAppointmentModal}
+            title={appointModalTitle}
+            onClose={onClose}
+            data={AppointmentDetails}
+            />
         </>
     )
 }
