@@ -14,7 +14,7 @@ import Scheduler from 'devextreme-react/scheduler';
 
 export default function ListAppoint(){
 
-    const views = ['day','week'];
+    const views = ['day','week','month'];
     const [scheduleData, setScheduleData] = useState([]);
 
     const optionsSchedules =  {
@@ -26,7 +26,9 @@ export default function ListAppoint(){
       };
 
     const onAppointmentFormOpening = (e) => {
-        let data = appointments.find(item => item.appoint_id == e.appointmentData.id);
+        console.log(e)
+        let data = allAppointments.find(item => item.appoint_id == e.appointmentData.id);
+        console.log(allAppointments)
         onShowAppointment(data);
         e.cancel = true;
     };
@@ -44,6 +46,7 @@ export default function ListAppoint(){
     }
 
     const [appointments, setAppointments] = useState([]);
+    const [allAppointments, setAllAppointments] = useState([]);
     const [search, setSearch] = useState("");
 
     const [rooms, setRooms] = useState([]);
@@ -69,6 +72,7 @@ export default function ListAppoint(){
 
     useEffect(() => {
         fetchAppointment();
+        fetchAllAppointment();
         fetchRooms();
         fetchEmployee();
         fetchScheduleData();
@@ -97,6 +101,11 @@ export default function ListAppoint(){
     useEffect(() =>{
         fetchScheduleData();
     },[scheduleEmpId])
+
+    const fetchAllAppointment = async () =>{
+        let json = await API_GET("all-appointments");
+        setAllAppointments(json.data);
+    }
 
 
     const fetchAppointment = async () =>{
@@ -407,8 +416,12 @@ export default function ListAppoint(){
 
                             </div>
 
-                            <div className="bg-light mt-3 mx-4 rounded shadow pt-3">
-                                <div className="mx-5 mb-3 w-25">
+                            <div className="bg-light mt-5 mx-4 mb-3 rounded shadow pt-3 px-4">
+                                <div className="border-bottom border-dark border-opacity-50 mb-3">
+                                    <h4 className="text-center">ตารางงาน</h4>
+                                </div>
+
+                                <div className="mb-3 w-25">
                                     <Form.Group>
                                         <Form.Label>ผู้รับหน้าที่ :</Form.Label>
                                         <Form.Select
@@ -428,7 +441,7 @@ export default function ListAppoint(){
                                     </Form.Group>
                                 </div>
 
-                                <div className="px-5 py-2">
+                                <div className="py-2">
                                     <Scheduler
                                         timeZone="Asia/Bangkok"
                                         dataSource={scheduleData}
