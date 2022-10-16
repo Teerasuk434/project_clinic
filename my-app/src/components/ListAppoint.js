@@ -103,7 +103,7 @@ export default function ListAppoint(){
     },[scheduleEmpId])
 
     const fetchAllAppointment = async () =>{
-        let json = await API_GET("all-appointments");
+        let json = await API_GET("all-appointments  ");
         setAllAppointments(json.data);
     }
 

@@ -44,22 +44,26 @@ export default function Homepage(){
                     <Link className="btn btn-appointment" to="/appointment">นัดหมายบริการ</Link>
                 </div>
 
-                <div className="Services text-center p-5">
+                <div className="Services p-5">
                     <h1 className="Text-title">บริการของคลินิก</h1>
-                    <div className="row my-4">
+                    <div className="row my-4 text-center">
                         {
                             services.map(item => (
-                                <div className="col-6 col-lg-3 mt-4"  key={item.service_id}>
+                                <div className="col-6 col-md-3 mt-4 box-service-name"  key={item.service_id}>
                                     <div>
-                                        <img className="img-service" src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
+                                        <div className="pt-3">
+                                            <img className="img-service" src={`http://localhost:8080/images/${item.service_image}`} alt=""/>
 
+                                        </div>
+                                        <h6 className='mt-3 fs-4'>{item.service_name}</h6>
                                     </div>
-                                    <h6 className='mt-3 fs-4'>{item.service_name}</h6>
                                 </div>
                             ))
                         }
                     </div>
-                    <Button variant="info">ดูข้อมูลเพิ่มเติม</Button>
+                    <div className="text-center">
+                        <Link to="/service  " className='btn btn-service-dt btn-lg'>ดูข้อมูลเพิ่มเติม</Link>
+                    </div>
                 </div>
             </div>
 

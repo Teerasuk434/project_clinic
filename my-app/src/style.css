@@ -320,7 +320,7 @@ iframe{
 }
 
 .Services{
-  background-color: aliceblue;
+  background-color: #EBF5FB ;
 }
 
 .btn-appointment { 
@@ -338,12 +338,18 @@ iframe{
 }
 
 .Text-title{
-  color:#85349A;
+  color:#3171B0;
+  border-bottom: 2px solid #3171B0;
+}
+
+.box-service-name{
+    background-color: #D6EAF8;
+    border:5px solid #EBF5FB ;
 }
 
 .img-service{
-  width: 100px;
-  height: auto;
+  height: 100px;
+  width: auto;
 }
 
 /* Account */
@@ -666,6 +672,48 @@ iframe{
         font-size: 12px !important;
     }
 
-    /* .dx-tooltip-appointment-item{
-        padding: 10px !important;
-    } */
+    .btn-service-dt { 
+        color: #ffffff; 
+        background-color: #85349A; 
+        border-color: #7B2391; 
+      } 
+       
+      .btn-service-dt:hover, 
+      .btn-service-dt:focus, 
+      .btn-service-dt:active, 
+      .btn-service-dt.active, 
+      .open .dropdown-toggle.btn-service-dt { 
+        color: #ffffff; 
+        background-color: #7B2391; 
+        border-color: #7B2391; 
+      } 
+       
+      .btn-service-dt:active, 
+      .btn-service-dt.active, 
+      .open .dropdown-toggle.btn-service-dt { 
+        background-image: none; 
+      } 
+       
+      .btn-service-dt.disabled, 
+      .btn-service-dt[disabled], 
+      fieldset[disabled] .btn-service-dt, 
+      .btn-service-dt.disabled:hover, 
+      .btn-service-dt[disabled]:hover, 
+      fieldset[disabled] .btn-service-dt:hover, 
+      .btn-service-dt.disabled:focus, 
+      .btn-service-dt[disabled]:focus, 
+      fieldset[disabled] .btn-service-dt:focus, 
+      .btn-service-dt.disabled:active, 
+      .btn-service-dt[disabled]:active, 
+      fieldset[disabled] .btn-service-dt:active, 
+      .btn-service-dt.disabled.active, 
+      .btn-service-dt[disabled].active, 
+      fieldset[disabled] .btn-service-dt.active { 
+        background-color: #85349A; 
+        border-color: #7B2391; 
+      } 
+       
+      .btn-service-dt .badge { 
+        color: #85349A; 
+        background-color: #ffffff; 
+      }
