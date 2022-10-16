@@ -60,7 +60,7 @@ export default function Account(){
                                 </div>
 
                                 <div className="profile-details">
-                                    <div className="profile-content p-3">
+                                    <div className="profile-content pt-5 px-5 pb-3">
                                         <div className="row mb-3">
                                             <label className="col-12 col-md-3 fw-bold">ชื่อผู้ใช้งาน</label>
                                             <div className="col-12 col-md-9">{username}</div>

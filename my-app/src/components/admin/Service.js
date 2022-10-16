@@ -156,7 +156,7 @@ export default function Service() {
                                 <div className="my-3 ">
                                     <div className="m-auto d-flex justify-content-between">
                                         <div>
-									        <Link to={"/service/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลบริการ</Link>
+									        <Link to={"/service/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มบริการ</Link>
                                         </div>
                                         <div className="form-search">
                                             <Form noValidate onSubmit={onSearch}>
@@ -180,7 +180,7 @@ export default function Service() {
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
-                                                <th>รหัสบริการ</th>
+                                                <th>#</th>
                                                 <th>ชื่อบริการ</th>
                                                 <th>ค่าบริการ</th>
                                                 <th>ค่ามัดจำ</th>

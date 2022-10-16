@@ -31,7 +31,7 @@
 }
 
 .Form-Login{
-    width: 50%;
+    width: 35%;
     background-color: #DAECF5;
 }
 
@@ -160,27 +160,6 @@ body{
     overflow-y: auto;
   }
 
-/* .table-striped>tbody>tr:nth-child(odd)>td, 
-.table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #D6EAF8  ; 
- } */
-
- /* thead{
-    background-color: #D7DBDD ;
- } */
-
-/* tbody{
-    background-color: #EBEDEF;
- } */
-
-
- /* Sidebar */
- /* * { padding: 0; margin: 0; }
-html, body, #fullheight {
-    min-height: 100% !important;
-    height: 100%;
-} */
-
 .sidebar {
     margin: 0;
     padding: 0;
@@ -195,10 +174,6 @@ html, body, #fullheight {
     padding: 16px;
     text-decoration: none;
     text-align: start;
-  }
-
-  span{
-    margin-left: 2rem;
   }
 
   .sidebar-top{
@@ -239,74 +214,6 @@ html, body, #fullheight {
     font-size: 20px;
 }
 
-@media only screen and (max-width: 576px) {
-    .homepage-picture a {
-        width: 100%;
-        margin:auto;
-        font-size: 16px;
-        padding:0.5rem;
-        margin-top: 8px;
-    }
-
-    .img-service{
-        width: 5px;
-    }
-
-    iframe{
-        width:245px;
-        height:auto;
-        border:none;
-        overflow:hidden;
-    }
-
-    .navbar-toggler-icon{
-        margin: 0;
-    }
-
-    .profile-right-content{
-        height: 100%;
-    }
-
-    .profile-left{
-        margin-bottom: 16px;
-    }
-    
-    .profile-label{
-        font-size: 12px;
-        margin: 0 ;
-    }
-
-    .box-pet{
-        margin:auto;
-        margin-bottom: 16px;
-    }
-
-  }
-
-  @media only screen and (min-width: 768px) {
-
-    iframe{
-        width:370px;
-        height:auto;
-        border:none;
-        overflow:hidden;
-    }
-
-    .right{
-        border: none;
-    }
-
-    .profile-right-content{
-        height: 85vh;
-    }
-
-    .box-pet{
-        margin: 0px 35px;
-    }
-
-  }
-
-
 /* 
 iframe{
     width:370px;
@@ -316,7 +223,7 @@ iframe{
 } */
 
 .homepage-picture{
-  background-color: #CDEEFF;
+  background-color: #EBF5FB;
 }
 
 .Services{
@@ -720,4 +627,95 @@ iframe{
 
       .bg-light-blue{
         background-color: #F4F6F7 ;
+      }
+
+      a span {
+        margin-left: 5px;
+      }
+
+
+    
+
+
+      /* Responsive */
+
+      @media only screen and (max-width: 576px) {
+        .homepage-picture a {
+            width: 100%;
+            margin:auto;
+            font-size: 16px;
+            padding:0.5rem;
+            margin-top: 8px;
+        }
+    
+    
+        iframe{
+            width:245px;
+            height:auto;
+            border:none;
+            overflow:hidden;
+        }
+    
+        .navbar-toggler-icon{
+            margin: 0;
+        }
+    
+        .profile-right-content{
+            height: 100%;
+        }
+    
+        .profile-left{
+            margin-bottom: 16px;
+        }
+        
+        .profile-label{
+            font-size: 12px;
+            margin: 0 ;
+        }
+    
+        .box-pet{
+            margin:auto;
+            margin-bottom: 16px;
+        }
+
+        .Form-Login{
+            width: 100%;
+        }
+        
+        .content-login{
+            height: 70vh;
+        }
+    
+      }
+    
+      @media only screen and (min-width: 768px) {
+    
+        iframe{
+            width:370px;
+            height:auto;
+            border:none;
+            overflow:hidden;
+        }
+
+        .map iframe {
+            width: 810px;
+            height: 500px;
+        }
+    
+        .right{
+            border: none;
+        }
+    
+        .profile-right-content{
+            height: 90vh;
+        }
+    
+        .box-pet{
+            margin: 0px 35px;
+        }
+
+        .boxs{
+            padding-top: 0.5rem;
+        }
+    
       }

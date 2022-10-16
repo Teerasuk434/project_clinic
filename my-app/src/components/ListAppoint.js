@@ -379,7 +379,7 @@ export default function ListAppoint(){
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
-                                                <th>รหัสนัดหมาย</th>
+                                                <th>#</th>
                                                 <th>ชื่อเจ้าของ</th>
                                                 <th>บริการ</th>
                                                 <th>วันที่</th>

@@ -163,7 +163,7 @@ export default function Employee(){
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
-                                                <th>รหัสพนักงาน</th>
+                                                <th>#</th>
                                                 <th>ชื่อ-สกุล</th>
                                                 <th>ตำแหน่ง</th>
                                                 <th>action</th>
