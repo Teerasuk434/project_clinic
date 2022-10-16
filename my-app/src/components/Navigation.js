@@ -12,9 +12,11 @@ export default function Navigation(){
 
     return(
         <>
-            <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+            <Navbar collapseOnSelect expand="lg" className="bg-light-blue" variant="light">
                 <Container>
-                    <Navbar.Brand href="/">ปุณณกัณฑ์สัตวแพทย์</Navbar.Brand>
+                    <Navbar.Brand href="/" className="align-middle">
+                        <img alt="" src={`http://localhost:8080/images/Logo2.png`} height="60" className="me-2" />
+                        </Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="justify-content-end flex-grow-1 pe-3">
