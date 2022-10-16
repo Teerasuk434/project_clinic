@@ -249,10 +249,10 @@ iframe{
   border-bottom: 2px solid #3171B0;
 }
 
-.box-service-name{
-    background-color: #D6EAF8;
-    border:5px solid #EBF5FB ;
-}
+/* .box-service-name{
+    background-color: #F8F9FA;
+    border:8px solid #EBF5FB ;
+} */
 
 .img-service{
   height: 100px;
@@ -631,6 +631,10 @@ iframe{
 
       a span {
         margin-left: 5px;
+      }
+
+      .homepage-border{
+        border-top: 3px solid rgba(49,113,176,0.4);
       }
 
 

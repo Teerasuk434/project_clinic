@@ -39,7 +39,7 @@ export default function Homepage(){
             </div>
             
             <div className="container">
-                <div className='homepage-picture py-5 px-3 '>
+                <div className='homepage-picture py-5 px-3 homepage-border'>
                     <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
                     <Link className="btn btn-appointment" to="/appointment">นัดหมายบริการ</Link>
                 </div>
