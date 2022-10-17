@@ -28,11 +28,11 @@ module.exports = {
 
         return await pool.query(sql);
     },
-    isDuplicate: async (pool,emp_position_id,emp_position_name) => {
+    isDuplicate: async (pool,emp_position_name,emp_position_id) => {
         var sql = "SELECT * FROM emp_type WHERE emp_position_name = ?";
         if(emp_position_id != null) {
             sql = sql + "AND emp_position_id <> ?";
-            sql = mysql.format(sql, [emp_position_name,emp_position_id ])
+            sql = mysql.format(sql, [emp_position_name,emp_position_id])
         } else {
             sql = mysql.format(sql, [emp_position_name]);
         }
@@ -42,5 +42,18 @@ module.exports = {
         }
         
         return false;
+    },
+
+    isUsed: async(pool,emp_position_id ) => {
+        var sql = "SELECT * FROM emp_type a JOIN employee b ON a.emp_position_id = b.emp_position_id WHERE b.emp_position_id = ?";
+        sql = mysql.format(sql, [emp_position_id])
+
+        var result = await pool.query(sql);
+
+        if(result.length > 0){
+            return true
+        }else{
+            return false;
+        }
     }
 };

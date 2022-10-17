@@ -76,7 +76,8 @@ export default function FormEmployee(){
         setValidated(true);
     }
 
-    const doCreateEmployee = async(res) => {
+    const doCreateEmployee = async() => {
+        console.log(user_id)
 
         let json = await API_POST("emp/add",{
             emp_fname: emp_fname,
@@ -85,7 +86,6 @@ export default function FormEmployee(){
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            emp_position_name: emp_position_name,
             user_id: user_id
         })
         if(json.result) {
@@ -97,17 +97,18 @@ export default function FormEmployee(){
         }
     }
     
-    const doUpdateEmployee = async(res) => {
-
+    const doUpdateEmployee = async() => {
+        console.log(emp_position_name)
         let json = await API_POST("emp/update",{
-
+            
             emp_fname: emp_fname,
             emp_lname: emp_lname,
             emp_address: emp_address,
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            emp_position_name: emp_position_name,
+            emp_position_name:emp_position_name,
+            emp_id: emp_id
         })
         if(json.result) {
             navigate("/emp", { replace: false });
@@ -134,12 +135,11 @@ export default function FormEmployee(){
     const onConfirmUpdate = async () => {
         setConfirmModal(false);
 
-        if(params.room_id === "add"){
+        if(params.emp_id === "add"){
             doCreateEmployee();
-            
         }else{
             doUpdateEmployee();
-            
+
         }
     }
     const onCancelUpdate = () => {
@@ -251,7 +251,8 @@ export default function FormEmployee(){
                                                             <Form.Label>เบอร์โทร</Form.Label>
                                                             <Form.Control
                                                                 required
-                                                                type="text"
+                                                                type="number"
+                                                                min={0}
                                                                 value={emp_tel}
                                                                 placeholder="เบอร์โทร"
                                                                 onChange={(e) => setEmpTel(e.target.value)}
@@ -267,6 +268,7 @@ export default function FormEmployee(){
                                                             <Form.Control
                                                                 required
                                                                 type="number"
+                                                                min={0}
                                                                 value={emp_salary}
                                                                 placeholder="เงินเดือน"
                                                                 onChange={(e) => setEmpSalary(e.target.value)}

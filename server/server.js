@@ -804,8 +804,9 @@ app.post('/api/emp_types/update',async(req, res) => {
     const input = req.body;
     try{
         var result = await EmployeeTypes.isDuplicate(pool,
-            input.emp_position_id,
-            input.emp_position_name);
+            
+            input.emp_position_name,
+            input.emp_position_id);
 
         if(!result){
             await EmployeeTypes.updateEmptypes(pool,
@@ -832,10 +833,20 @@ app.post('/api/emp_types/delete',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await EmployeeTypes.deleteEmptypes(pool,input.emp_position_id);
-        res.json({
-            result: true
-        });
+        var result = await EmployeeTypes.isUsed(pool,
+            input.emp_position_id);
+            console.log(result)
+        if(!result){
+            await EmployeeTypes.deleteEmptypes(pool,input.emp_position_id);
+            res.json({
+                result: true
+            });
+        }else{
+            res.json({
+                result: false,
+                message: "ข้อมูลนี้มีการใช้งานอยู่"
+            });
+        }
     }catch(ex){
         res.json({
             result: false,
@@ -938,10 +949,19 @@ app.post('/api/room_type/delete',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await RoomTypes.deleteRoomtypes(pool,input.room_type_id);
+        var result = await RoomTypes.isUsed(pool,input.room_type_id);
+
+        if(!result){await RoomTypes.deleteRoomtypes(pool,input.room_type_id);
         res.json({
             result: true
         });
+    
+        }else{
+            res.json({
+                result: false,
+                message: "ข้อมูลนี้มีการใช้งานอยู่"
+            });
+        }
     }catch(ex){
         res.json({
             result: false,
@@ -1201,10 +1221,18 @@ app.post('/api/room/delete',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Room.deleteRoom(pool,input.room_id);
+        var result = await Room.isUsed(pool,input.room_id);
+        if(!result){
+            await Room.deleteRoom(pool,input.room_id);
         res.json({
             result: true
         });
+        }else{
+            res.json({
+                result: false,
+                message: "ข้อมูลนี้มีการใช้งานอยู่"
+            });
+        }
     }catch(ex){
         res.json({
             result: false,
@@ -1851,7 +1879,8 @@ app.post('/api/emp/add',async(req, res) => {
             input.emp_address,
             input.emp_tel,
             input.emp_salary,
-            input.emp_position_id);
+            input.emp_position_id,
+            input.user_id);
         res.json({
             result: true
         });
@@ -1867,9 +1896,18 @@ app.post('/api/emp/update',async(req, res) => {
     const input = req.body;
 
     try{
-        var result = await Employee.updateEmployee(pool,input.emp_id, input.emp_fname,input.emp_lname, input.emp_position_id);
+        var result = await Employee.updateEmployee(pool,
+            input.emp_fname,
+            input.emp_lname,
+            input.emp_address,
+            input.emp_tel, 
+            input.emp_salary,
+            input.emp_position_id,
+            input.emp_position_name,
+            input.emp_id,);
         res.json({
             result: true
+
         });
     }catch(ex){
         res.json({

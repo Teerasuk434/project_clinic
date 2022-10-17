@@ -45,5 +45,21 @@ module.exports = {
         }
         
         return false;
+    },
+    isUsed: async(pool, room_type_id) => {
+        var sql = `SELECT * FROM room_type a 
+        JOIN service b ON a.room_type_id = b.room_type_id  
+        JOIN rooms c ON a.room_type_id = c.room_type_id  
+        WHERE a.room_type_id = ?`;
+        
+        sql = mysql.format(sql, [room_type_id])
+
+        var result = await pool.query(sql);
+
+        if(result.length > 0){
+            return true
+        }else{
+            return false;
+        }
     }
 };

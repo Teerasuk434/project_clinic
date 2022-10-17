@@ -6,7 +6,7 @@ import Fuse from "fuse.js";
 import Sidebar from "../Sidebar";
 import Top from '../Top';
 import RoomTypesItem from "./RoomTypesItem";
-import { ConfirmModal } from "../Modal"; 
+import { ConfirmModal , MessageModal } from "../Modal"; 
 
 export default function RoomTypes(){
     
@@ -23,27 +23,16 @@ export default function RoomTypes(){
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+
+
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(10);
 
     useEffect( () => {
-        async function fetchData(){
-            const response = await fetch(
-                "http://localhost:8080/api/room_type",
-                {
-                    method: "GET",
-                    headers:{
-                        Accept:"application/json",
-                        'Content-Type': 'application/json',
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setRoomType(json.data);
-            setListRoomTypes(json.data);
-        }
         fetchData();
     },[]);
 
@@ -53,6 +42,12 @@ export default function RoomTypes(){
         }
 
     }, [search]);
+
+    const fetchData = async () => {
+        let json = await API_GET("room_type");
+        setRoomType(json.data);
+        setListRoomTypes(json.data);
+    }
 
     const onSearch = async (event) => {
         const form = event.currentTarget;
@@ -81,13 +76,6 @@ export default function RoomTypes(){
         }
      }
 
-     const fetchData = async () => {
-        let json = await API_GET("room_type");
-        setRoomType(json.data);
-        setListRoomTypes(json.data);
-    }
-
-
      const onDelete = async (data) => {
 
         setRoomTypeId(data.room_type_id);
@@ -107,13 +95,23 @@ export default function RoomTypes(){
 
         if (json.result) {
             fetchData();
-        } 
+        } else {
+            setModalTitle("ไม่สามารถลบข้อมูลประเภทห้องรักษาได้");
+            setModalMessage(json.message);
+            setShowModal(true);
+        }
     }
 
     const onCancelDelete = () => {
         setConfirmModal(false);
 
     }
+
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
+    }
+
     const getPagination = () => {
         let items = [];
         pageCount = Math.ceil(listroomtypes.length / numPerPage);
@@ -236,6 +234,12 @@ export default function RoomTypes(){
                     </div>
                 </div>
             </div>
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
         </>     
     )
 }

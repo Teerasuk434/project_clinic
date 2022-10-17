@@ -126,8 +126,8 @@ export default function ReportAppointment() {
 
             setSumData(sumData_temp)
 
-            // console.log(labels);
-            // console.log(data);
+            console.log(labels);
+            console.log(data);
             
             var dataset = {
                 labels: labels,
@@ -163,6 +163,8 @@ export default function ReportAppointment() {
     }
 
     const onClickChart = async (event) => {
+        console.log(event)
+
         var element = getElementAtEvent(chartRef.current,event);
         var index = element[0].index;
         console.log(index)
@@ -180,7 +182,6 @@ export default function ReportAppointment() {
         //     date_temp = date;
         // }
         let json = await API_POST("appointment/allservice",{
-            service_name:service_name,
             dateRange: Range
         })
         setAppointStore(json.data);

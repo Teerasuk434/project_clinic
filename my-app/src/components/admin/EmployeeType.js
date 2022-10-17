@@ -5,7 +5,7 @@ import { API_GET, API_POST } from '../../api';
 import Sidebar from "../Sidebar";
 import Top from '../Top';
 import EmployeeTypeItems from './EmployeeTypeItems';
-import { ConfirmModal } from '../Modal';
+import { ConfirmModal , MessageModal } from '../Modal';
 import { useNavigate } from 'react-router-dom'; 
 import Fuse from 'fuse.js';
 
@@ -29,6 +29,10 @@ export default function EmployeeType(props){
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(10);
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
 
 
     useEffect(() => {
@@ -113,13 +117,23 @@ export default function EmployeeType(props){
     
             if (json.result) {
                 fetchData();
-            } 
+            } else {
+                setModalTitle("ไม่สามารถลบข้อมูลประเภทพนักงานได้");
+                setModalMessage(json.message);
+                setShowModal(true);
+            }
         }
     
         const onCancelDelete = () => {
             setConfirmModal(false);
 
         }
+
+        const onClose = () => {
+            setConfirmModal(false);
+            setShowModal(false);
+        }
+        
         const getPagination = () => {
             let items = [];
             pageCount = Math.ceil(listEmpTypes.length / numPerPage);
@@ -242,6 +256,12 @@ export default function EmployeeType(props){
                     </div>
                 </div>
             </div>
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
         </>
     )
 }

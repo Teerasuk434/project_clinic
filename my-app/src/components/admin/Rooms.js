@@ -6,7 +6,7 @@ import { API_GET,API_POST } from "../../api";
 import Fuse from "fuse.js";
 import Sidebar from '../Sidebar';
 import Top from '../Top';
-import { ConfirmModal } from "../Modal"; 
+import { ConfirmModal ,MessageModal } from "../Modal"; 
 
 export default function Rooms(){
 
@@ -19,6 +19,10 @@ export default function Rooms(){
      const [confirmModal, setConfirmModal] = useState(false);
      const [confirmModalTitle, setConfirmModalTitle] = useState("");
      const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+     const [showModal, setShowModal] = useState(false);
+     const [modalTitle, setModalTitle] = useState("");
+     const [modalMessage, setModalMessage] = useState(""); 
 
      var pageCount = 0;
      const [currentPage, setCurrentPage] = useState(0);
@@ -105,11 +109,19 @@ export default function Rooms(){
 
         if (json.result) {
             fetchData();
+        }else {
+            setModalTitle("ไม่สามารถลบข้อมูลประเภทห้องรักษาได้");
+            setModalMessage(json.message);
+            setShowModal(true);
         }
     }
     
     const onCancelDelete = () => {
         setConfirmModal(false);
+    }
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
     }
     const getPagination = () => {
         let items = [];
@@ -232,6 +244,12 @@ export default function Rooms(){
                     </div>
                 </div>
             </div>
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
         </>
     )
 }
