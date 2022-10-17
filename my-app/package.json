@@ -28,6 +28,7 @@
     "react-confirm-alert": "^3.0.6",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
+    "react-facebook": "^9.0.8",
     "react-flatpickr": "^3.10.13",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",

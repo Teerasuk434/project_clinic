@@ -167,8 +167,8 @@ export default function Admin() {
                     </div>
                     
                     <div className='p-0 m-0 col-12 col-lg-10'>
-                    <Top />
                         <div className="content m-auto">
+                            <Top />
                             <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ข้อมูลประเภทผู้ใช้</h4>
@@ -176,7 +176,7 @@ export default function Admin() {
                                 <div className="my-3 ">
                                     <div className="m-auto d-flex justify-content-between">
                                         <div>
-						                    <Link to={"/role/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลผู้ใช้งาน</Link>
+						                    <Link to={"/role/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
                                         </div>
                                         <div className="form-search">
                                             <Form noValidate onSubmit={onSearch}>
@@ -200,7 +200,7 @@ export default function Admin() {
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
-                                                <th>รหัสประเภทผู้ใช้งาน</th>
+                                                <th>#</th>
                                                 <th>ชื่อประเภทผู้ใช้งาน</th>
                                                 <th>action</th>
                                                 </tr>

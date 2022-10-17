@@ -39,12 +39,12 @@ export default function Homepage(){
             </div>
             
             <div className="container">
-                <div className='homepage-picture py-5 px-3 '>
+                <div className='homepage-picture py-5 px-3 homepage-border'>
                     <img src={`http://localhost:8080/images/Appointment1.png`} width={"100%"} alt=""/>
                     <Link className="btn btn-appointment" to="/appointment">นัดหมายบริการ</Link>
                 </div>
 
-                <div className="Services p-5">
+                <div className="Services px-5 py-3">
                     <h1 className="Text-title">บริการของคลินิก</h1>
                     <div className="row my-4 text-center">
                         {
@@ -61,7 +61,7 @@ export default function Homepage(){
                             ))
                         }
                     </div>
-                    <div className="text-center">
+                    <div className="text-center my-3">
                         <Link to="/service  " className='btn btn-service-dt btn-lg'>ดูข้อมูลเพิ่มเติม</Link>
                     </div>
                 </div>

@@ -118,58 +118,59 @@ export default function Login() {
             
             <Navigation/>
 
-            <div className='container content-login p-5'>
-                <div className="Form-Login m-auto">
-                    <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
-                    <div className="p-5">
-                        {showAlert == true &&
-                            <Alert key="danger" variant="danger">{alertMessage}</Alert>}
-                        <Form noValidate validated={validated} onSubmit={onLogin}>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} controlId="validateUsername">
-                                    <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
-                                    <Form.Control
-                                        required
-                                        type="text"
-                                        placeholder="Username"
-                                        onChange={(e) => setUsername(e.target.value)}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        กรุณากรอก Username
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="mb-3">
-                                <Form.Group as={Col} controlId="validatePassword">
-                                    <Form.Label>รหัสผ่าน</Form.Label>
-                                    <InputGroup>
-                                        <Form.Control 
+            <div className='container content-login'>
+                <div className="content-login pt-5">
+                    <div className="Form-Login mx-auto">
+                        <div className="header-box text-white text-center p-2 fs-5"> เข้าสู่ระบบ</div>
+                        <div className="py-4 px-5">
+                            {showAlert == true &&
+                                <Alert key="danger" variant="danger">{alertMessage}</Alert>}
+                            <Form noValidate validated={validated} onSubmit={onLogin}>
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} controlId="validateUsername">
+                                        <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
+                                        <Form.Control
                                             required
-                                            type={type_password ? "text" : "password"}
-                                            value={password}
-                                            placeholder="กรอกรหัสผ่าน"
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            type="text"
+                                            placeholder="Username"
+                                            onChange={(e) => setUsername(e.target.value)}
                                         />
-                                        <Button variant="light" className="border" size="sm" onClick={onShowPassword}><i className={type_password ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}></i></Button>
-                                        </InputGroup>
-                                    <Form.Control.Feedback type="invalid">
-                                        กรุณากรอก Password
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row className="text-center">
-                                <div>
-                                    <Button className="btn btn-login me-2" type="submit" >เข้าสู่ระบบ</Button>
+                                        <Form.Control.Feedback type="invalid">
+                                            กรุณากรอก Username
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Row>
+                                <Row className="mb-3">
+                                    <Form.Group as={Col} controlId="validatePassword">
+                                        <Form.Label>รหัสผ่าน</Form.Label>
+                                        <InputGroup>
+                                            <Form.Control 
+                                                required
+                                                type={type_password ? "text" : "password"}
+                                                value={password}
+                                                placeholder="กรอกรหัสผ่าน"
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+                                            <Button variant="light" className="border" size="sm" onClick={onShowPassword}><i className={type_password ? "fa-regular fa-eye" : "fa-regular fa-eye-slash"}></i></Button>
+                                            </InputGroup>
+                                        <Form.Control.Feedback type="invalid">
+                                            กรุณากรอก Password
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                </Row>
+                                <Row className="text-center mx-1 my-4">
+                                    <button className="btn btn-login mb-3 rounded-5" type="submit" >เข้าสู่ระบบ</button>
+                                    <Link to={"/register"} className="btn btn-register rounded-5">สมัครสมาชิก </Link>
+                                </Row>
+                            </Form>
 
-                                    <Link to={"/register"} className="btn btn-register d-inline-block">สมัครสมาชิก </Link>
-
-                                </div>
-                            </Row>
-                        </Form>
-
+                        </div>
                     </div>
+
                 </div>
+
             </div>  
+
             <Footer/>
         </>
     );
