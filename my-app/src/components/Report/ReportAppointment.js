@@ -182,6 +182,7 @@ export default function ReportAppointment() {
         //     date_temp = date;
         // }
         let json = await API_POST("appointment/allservice",{
+            service_name: service_name,
             dateRange: Range
         })
         setAppointStore(json.data);
