@@ -34,7 +34,7 @@ export default function Login() {
     useEffect(() =>{
         setDataGoogle(null);
         setCheckGoogle(false);
-        
+
       const initClient = () =>{
           gapi.client.init({
               clientId: clientId,
@@ -242,11 +242,10 @@ export default function Login() {
                                     </Form.Group>
                                 </Row>
                                 <Row className="text-center mx-1 my-4">
-                                    <button className="btn btn-login mb-3 rounded-5" type="submit" >เข้าสู่ระบบ</button>
-                                    <Link to={"/register"} className="btn btn-register rounded-5">สมัครสมาชิก </Link>
-                                    <div className="mt-3 p-0">
+                                    <button className="btn btn-login rounded-5" type="submit" >เข้าสู่ระบบ</button>
+                                    <div className="px-0 pb-3 my-3 border-bottom border-dark border-opacity-25">
                                         <GoogleLogin
-                                            
+                                            className='rounded-5 w-100 google-button-login'
                                             clientId={clientId}
                                             buttonText="เข้าสู่ระบบด้วย Google"
                                             onSuccess={onSuccess}
@@ -255,6 +254,8 @@ export default function Login() {
                                             isSignedIn={true}
                                             />
                                     </div>
+                                    <Link to={"/register"} className="btn btn-register rounded-5">สมัครสมาชิก </Link>
+                                    
 
                                 </Row>
                             </Form>

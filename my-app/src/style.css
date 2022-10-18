@@ -18,11 +18,13 @@
 .btn-register { 
     color: #FFFFFF; 
     background-color: #27AE60; 
+    opacity: 95%;
   } 
 
   .btn-register:hover, .btn-register:focus, .btn-register.active{
     background-color: #1E8449 ;
     color:#FFFFFF;
+    opacity: 90%;
 }
 
 .content-login{
@@ -638,8 +640,9 @@ iframe{
         border-top: 3px solid rgba(49,113,176,0.4);
       }
 
-
-    
+      .google-button-login{
+        padding-left: 4rem !important;
+      }
 
 
       /* Responsive */
