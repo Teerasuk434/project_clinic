@@ -1,11 +1,27 @@
 import { Link } from "react-router-dom"
+import { useState,useEffect } from "react";
+import { API_GET } from "../../api";
 
 export default function ProfileSidebar (props){
 
-    let fname = localStorage.getItem("cust_firstname");
-    let lname = localStorage.getItem("cust_lastname")
+    let username = localStorage.getItem("username");
+    let user_id = localStorage.getItem("user_id");
     let isLoginGoogle = localStorage.getItem("LoginGoogle");
+    const [cust_fname, setCustFname] = useState("");
+    const [cust_lname, setCustLname] = useState("");
 
+    useEffect(()=>{
+        checkUser();
+    },[])
+
+    const checkUser = async () =>{
+        let json = await API_GET("customer/" + user_id);
+        if(json.result){
+            console.log(json)
+            setCustFname(json.data[0].cust_fname);
+            setCustLname(json.data[0].cust_lname);
+        }
+    }
 
     const clearData = () => {
         localStorage.clear();
@@ -16,7 +32,7 @@ export default function ProfileSidebar (props){
             <div className="profile-sidebar">
                 <div className="Profile-Name text-center">
                     <img src={`http://localhost:8080/images/service1-1.png`} alt="" style={{width:"150px"}}/>
-                    <h5 className="text-center mt-3">{fname} {lname}</h5>                         
+                    <h5 className="text-center mt-3">{cust_fname} {cust_lname}</h5>                         
                 </div>
                 
                 <div className="border border-bottom-5 mx-2 mb-3"></div>

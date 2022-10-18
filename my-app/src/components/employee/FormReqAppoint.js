@@ -93,7 +93,9 @@ export default function FormReqAppoint() {
 
             let json2 = await API_POST("schedules/emp_available",{
                 date:data.date,
-                time:data.time
+                time:data.time,
+                time_end:data.time_end,
+                status:"add"
             })
             setEmployee(json2.data)
 

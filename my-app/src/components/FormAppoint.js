@@ -131,9 +131,19 @@ export default function FormAppoint() {
 
             setStatus(appoint_status_temp);
 
+            let json4 = await API_POST("schedules/emp_available",{
+                date:data.date,
+                time:data.time,
+                time_end:data.time_end,
+                status:"edit"
+            })
+
+            console.log(json4)
+
         }
         fetchData([params.appoint_id]);
     },[params.appoint_id])
+
 
     const onClickShow = () => {
         setShowImageModal(true);

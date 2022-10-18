@@ -75,6 +75,7 @@ export default function Login() {
         localStorage.setItem("username",data.email);
         localStorage.setItem("LoginGoogle",true);
 
+        console.log(dataGoogle)
         if(json.result){
             doLogin();
             // console.log("current")
@@ -84,8 +85,8 @@ export default function Login() {
             let json2 = await API_POST("account/google_account",{
                 username:data.email,
                 role_id:1,
-                cust_fname:data.given_name,
-                cust_lname:data.family_name,
+                cust_fname:data.givenName,
+                cust_lname:data.familyName,
                 email:data.email
             })
 

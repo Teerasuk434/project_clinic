@@ -1411,7 +1411,7 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
 
-    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)", [input.date,input.time], function(error, results, fields){
+    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ? AND time_end = ?)", [input.date,input.time,input.time_end], function(error, results, fields){
         if (error) {
             res.json({
                 result: false,
@@ -1453,6 +1453,33 @@ app.post('/api/schedules/emp_available',(req, res) => {
 
 
 app.post('/api/schedules/add',async(req, res) => {
+    const input = req.body;
+    try{
+        var result = await Schedule.addSchedule(pool,
+            input.emp_id,
+            input.appoint_id,
+            input.room_id,
+            input.appoint_date,
+            input.appoint_time,
+            input.appoint_time_end);
+
+        if(result){
+            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
+        }
+
+        console.log(result2)
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/schedules/edit',async(req, res) => {
     const input = req.body;
     try{
         var result = await Schedule.addSchedule(pool,
@@ -1632,7 +1659,7 @@ app.get('/api/appointment/accept',(req, res) => {
     JOIN employee h ON h.emp_id = g.emp_id
     WHERE a.status_id = 2
     GROUP BY a.appoint_id
-    ORDER BY a.date , a.time`,(err, results, fields) => {
+    ORDER BY a.date , a.time , a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({
                 result: false,
