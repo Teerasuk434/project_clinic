@@ -166,6 +166,7 @@ body{
     width: 100%;
     background-color: #34495E;
     height: 100%;
+    /* box-shadow: 0 .125rem .25rem rgba(0,0.5,1 ,0.15); */
   }
 
   .sidebar-bottom a {

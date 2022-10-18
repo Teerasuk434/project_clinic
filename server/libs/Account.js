@@ -9,6 +9,12 @@ module.exports = {
 
         return await pool.query(sql);
     },
+    createGoogleAccount: async (pool, cust_fname, cust_lname, email, user_id) =>{
+        var sql = "INSERT INTO customer_information (cust_fname, cust_lname, email, user_id) VALUES (?,?,?,?)";
+        sql = mysql.format(sql, [cust_fname, cust_lname, email, user_id]);
+
+        return await pool.query(sql);
+    },
     isDuplicate: async (pool, username) => {
         var sql = "SELECT * FROM users WHERE username = ?";
         sql = mysql.format(sql, [username])

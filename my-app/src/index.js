@@ -106,6 +106,7 @@ root.render(
 
       <Route path="/about" element={<AboutClinic/>} />
       <Route path="/service" element={<AboutServices/>} />
+      <Route path="/login" element={<Login />}/>
 
     </Routes> 
   </BrowserRouter>

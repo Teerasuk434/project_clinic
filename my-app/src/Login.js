@@ -1,24 +1,100 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Row, Col, Button, Alert, InputGroup} from 'react-bootstrap';
 import { useNavigate, Link} from 'react-router-dom';
 import Navigation from './components/Navigation';
 import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
 import { API_POST,API_GET } from './api';
+import jwt_decode from "jwt-decode";
+
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { gapi } from 'gapi-script';
 
 var md5 = require("md5");
+
 export default function Login() {
     const [validated, setValidated] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [type_password, setTypePassword] = useState(false);
 
-
+    const [dataGoogle, setDataGoogle] = useState({});
+    const [checkGoogle, setCheckGoogle] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
 
+
     let navigate = useNavigate();
+
+
+    const clientId = "555154502485-1ffpk8f299sf2blje6spbrnntkl9jhhs.apps.googleusercontent.com";
+
+    
+    useEffect(() =>{
+        setDataGoogle(null);
+        setCheckGoogle(false);
+        
+      const initClient = () =>{
+          gapi.client.init({
+              clientId: clientId,
+              scope: ''
+          })
+      }
+      gapi.load("client:auth2", initClient)
+    },[])
+
+    useEffect(()=>{
+        if(checkGoogle){
+            onLoginGoogle();
+        }
+    },[dataGoogle])
+
+    const onSuccess = (res) =>{
+        let data = res.profileObj
+        setDataGoogle(data);
+        setUsername(data.email);
+        setCheckGoogle(true);
+        console.log('success',res)
+
+    }
+
+    const onFailure = (res) =>{
+        console.log('failed',res)
+    }
+
+    const logOut = () => {
+        setDataGoogle(null);
+    }
+    
+
+    const onLoginGoogle = async () =>{
+        let data = dataGoogle;
+        let json = await API_GET("account/" + data.email);
+        localStorage.setItem("role_id",1)
+        localStorage.setItem("username",data.email);
+        localStorage.setItem("LoginGoogle",true);
+
+        if(json.result){
+            doLogin();
+            // console.log("current")
+        }else{
+            // console.log("new")
+
+            let json2 = await API_POST("account/google_account",{
+                username:data.email,
+                role_id:1,
+                cust_fname:data.given_name,
+                cust_lname:data.family_name,
+                email:data.email
+            })
+
+            if(json2.result){
+                doLogin();
+            }
+        }
+        
+    }
 
     const onLogin = (event) => {
         const form = event.currentTarget;
@@ -87,7 +163,13 @@ export default function Login() {
     }
 
     const getAccessToken = async (authToken) => {
-        var baseString = username + "&" + md5(password);
+        var baseString
+        if(password != ""){
+            baseString = username + "&" + md5(password);
+        }else{
+            baseString = username;
+        }
+
         var authenSignature = md5(baseString);
 
         const response = await fetch(
@@ -100,7 +182,8 @@ export default function Login() {
                 },
                 body: JSON.stringify({
                     auth_signature: authenSignature,
-                    auth_token: authToken
+                    auth_token: authToken,
+                    checkGoogle: checkGoogle
                 })
             }
         );
@@ -161,6 +244,18 @@ export default function Login() {
                                 <Row className="text-center mx-1 my-4">
                                     <button className="btn btn-login mb-3 rounded-5" type="submit" >เข้าสู่ระบบ</button>
                                     <Link to={"/register"} className="btn btn-register rounded-5">สมัครสมาชิก </Link>
+                                    <div className="mt-3 p-0">
+                                        <GoogleLogin
+                                            
+                                            clientId={clientId}
+                                            buttonText="เข้าสู่ระบบด้วย Google"
+                                            onSuccess={onSuccess}
+                                            onFailure={onFailure}
+                                            cookiePolicy={'single_host_origin'}
+                                            isSignedIn={true}
+                                            />
+                                    </div>
+
                                 </Row>
                             </Form>
 
