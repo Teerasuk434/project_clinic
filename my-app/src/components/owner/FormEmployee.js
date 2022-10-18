@@ -24,8 +24,6 @@ export default function FormEmployee(){
     const [emp_type,setEmpType] = useState([]);
     const [user_id,setUserId] = useState(0);
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
 
      // confirmModal
      const [confirmModal, setConfirmModal] = useState(false);
@@ -49,8 +47,7 @@ export default function FormEmployee(){
             setEmpSalary(data.emp_salary);
             setEmpPositionId(data.emp_position_id);
             setUserId(data.user_id);
-            setUsername(data.username);
-            setPassword(data.password);
+
 
         }
 
@@ -89,9 +86,8 @@ export default function FormEmployee(){
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            user_id: user_id,
-            username: username,
-            password: password
+            user_id: user_id
+
         })
         if(json.result) {
             navigate("/emp", { replace: false });
@@ -111,9 +107,8 @@ export default function FormEmployee(){
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            emp_id: emp_id,
-            username: username,
-            password: password
+            emp_id: emp_id
+
         })
         if(json.result) {
             navigate("/emp", { replace: false });
@@ -283,42 +278,13 @@ export default function FormEmployee(){
                                                             </Form.Control.Feedback>
                                                         </Form.Group> 
                                                     </div>
-                                                    <div className="row mb-2">
-                                                        <Form.Group as={Col} controlId="validateSalary" >
-                                                            <Form.Label>Username</Form.Label>
-                                                            <Form.Control
-                                                                required
-                                                                type="text"
-                                                                value={username}
-                                                                placeholder="Username"
-                                                                onChange={(e) => setUsername(e.target.value)}
-                                                            />
-                                                            <Form.Control.Feedback type="invalid">
-                                                                กรุณากรอก Username
-                                                            </Form.Control.Feedback>
-                                                        </Form.Group> 
-                                                    </div>
-                                                    <div className="row mb-2">
-                                                        <Form.Group as={Col} controlId="validateSalary" >
-                                                            <Form.Label>Password</Form.Label>
-                                                            <Form.Control
-                                                                required
-                                                                type="password"
-                                                                value={password}
-                                                                placeholder="Password"
-                                                                onChange={(e) => setPassword(e.target.value)}
-                                                            />
-                                                            <Form.Control.Feedback type="invalid">
-                                                                กรุณากรอก Password
-                                                            </Form.Control.Feedback>
-                                                        </Form.Group> 
-                                                    </div>
-                                                            <Row className="mb-5">
-                                                                <div className="text-end">
-                                                                    <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
-                                                                    <Link to="/emp" className="btn btn-danger ms-2">ยกเลิก</Link>
-                                                                </div>
-                                                            </Row>
+                                                    
+                                                        <Row className="mb-5">
+                                                            <div className="text-end">
+                                                                <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                                <Link to="/emp" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                            </div>
+                                                        </Row>
                                                     </Form>
 
                                                 <ConfirmModal

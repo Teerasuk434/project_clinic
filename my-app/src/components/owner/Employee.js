@@ -92,6 +92,8 @@ export default function Employee(){
 
         if (json.result) {
             fetchEmployee();
+            setConfirmModal(false);
+
         }
     }
 
