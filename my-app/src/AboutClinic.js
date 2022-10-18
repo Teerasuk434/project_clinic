@@ -35,34 +35,34 @@ export default function AboutClinic (){
                                 <h4 className=" mt4-5 ">ช่องทางการติดต่อ</h4>
                             </div>
 
-                            <div className="col-12 col-md-6 box2-contact-about p-2">
+                            <div className="col-12 col-md-6 box2-contact-about p-2 ">
                                 <div className="row ">
-                                    <div className="col-4 text-end pt-2  ">
+                                    <div className="col-5 text-end pt-2  mt-2">
                                         <i className="fa-brands fa-facebook fa-2xl " target="_blank"></i>
                                     </div>
 
-                                    <div className="col-8 text-start">
+                                    <div className="col-7 text-start mt-2">
                                         <p>ปุณณกัณฑ์สัตวแพทย์</p>
                                     </div>
                                 </div>
 
                                 <div className="row ">
-                                    <div className="col-4 text-end pt-2 ">
+                                    <div className="col-5 text-end pt-2 mt-3">
                                         <i className="fa-brands fa-line fa-2xl "></i>
                                     </div>
 
-                                    <div className="col-8 text-start">
+                                    <div className="col-7 text-start mt-3">
                                         <p>081-622-7293</p>
                                     </div>
                                 </div>
 
                                 <div className="row">
 
-                                    <div className="col-4 text-end">
+                                    <div className="col-5 text-end mt-3">
                                         <i class="fa-solid fa-phone fa-xl "></i>
                                     </div>
 
-                                    <div className="col-8 text-start">
+                                    <div className="col-7 text-start mt-3">
                                         <p>081-622-7293</p>
                                     </div>
 
