@@ -141,6 +141,7 @@ export default function ReportAppointment() {
                           fill:true,
                           borderColor: 'rgb(49,113,176)',
                           tension: 0.1
+
                     }
                 ]
             }
