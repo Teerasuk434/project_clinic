@@ -104,10 +104,18 @@ app.post("/api/access_request", (req, res) => {
     const authToken = req.body.auth_token;
     var decoded = jwt.verify(authToken, "MySecretKey");
 
+    let sql;
+
+    if(req.body.checkGoogle){
+        sql = "SELECT a.user_id, a.username, a.role_id, b.role_name "
+        + "FROM users a JOIN roles b ON a.role_id = b.role_id WHERE MD5(username) =  ?";
+    }else {
+        sql = "SELECT a.user_id, a.username, a.role_id, b.role_name "
+        + "FROM users a JOIN roles b ON a.role_id = b.role_id WHERE MD5(CONCAT(username, '&', password)) =  ?";
+    }
+
     if (decoded) {
-        const query = "SELECT a.user_id, a.username, a.role_id, b.role_name "
-            + "FROM users a JOIN roles b ON a.role_id = b.role_id WHERE MD5(CONCAT(username, '&', password)) =  ?";
-        pool.query(query,[authenSignature], (error,results) =>{
+        pool.query(sql,[authenSignature], (error,results) =>{
             var response;
             if (error) {
                 response = {
@@ -213,6 +221,50 @@ app.post("/api/register/account", async (req, res) => {
     }
 });
 
+app.post("/api/account/google_account", async (req, res) => {
+    const input = req.body;
+    try {
+        var result = await Users.createUserGoogle(pool,input.username,input.role_id);
+
+        if(result){
+            await Account.createGoogleAccount(pool,
+                input.cust_fname, 
+                input.cust_lname,
+                input.email,
+                result.insertId);
+        }
+        res.json({
+            result: true,
+            user_id:result.insertId
+        });
+
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.get("/api/account/:username",async (req, res) =>{
+    const username = req.params.username;
+
+    try {
+        var result = await Users.getByUserName(pool,username);
+
+        res.json({
+            result: result
+        });
+    } catch (ex) {
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+
+
 app.get("/api/customer/:user_id",async (req, res) =>{
     const user_id = req.params.user_id;
 
@@ -298,6 +350,7 @@ app.post('/api/account/history-appointment/:user_id',async(req, res) => {
 
 app.post("/api/account/edit-appointment", checkAuth, async (req, res) => {
     const input = req.body;
+    console.log(input)
 
     try {
         var result = await Appointment.updateAppointment(pool,

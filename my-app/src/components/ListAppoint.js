@@ -404,22 +404,27 @@ export default function ListAppoint(){
                                     </Table>
                                 </div>
 
-                                <div className="d-flex justify-content-end">
-                                    <Pagination onSelect={onPageSelected} size="sm">
-                                        <Pagination.First onClick={firstPage} />
-                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
-                                        { getPagination()}
-                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
-                                        <Pagination.Last onClick={lastPage} />
-                                    </Pagination>
-                                </div>
+                                {appointments.length == 0 && <h6 className="text-center">ไม่มีข้อมูลนัดหมายในขณะนี้</h6>}
+
+
+                                {appointments.length > 0 &&
+                                    <div className="d-flex justify-content-end">
+                                        <Pagination onSelect={onPageSelected} size="sm">
+                                            <Pagination.First onClick={firstPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            { getPagination()}
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Last onClick={lastPage} />
+                                        </Pagination>
+                                    </div>
+                                }
 
                             </div>
 
                             <div className="bg-light mt-5 mx-4 mb-3 rounded shadow pt-3 px-4">
-                                <div className="border-bottom border-dark border-opacity-50 mb-3">
+                                {/* <div className="border-bottom border-dark border-opacity-50 mb-3">
                                     <h4 className="text-center">ตารางงาน</h4>
-                                </div>
+                                </div> */}
 
                                 <div className="mb-3 w-25">
                                     <Form.Group>
@@ -446,7 +451,7 @@ export default function ListAppoint(){
                                         timeZone="Asia/Bangkok"
                                         dataSource={scheduleData}
                                         views={views}
-                                        defaultCurrentView="week"
+                                        defaultCurrentView="month"
                                         defaultCurrentDate={new Date()}
                                         height="100%"
                                         width="100%"

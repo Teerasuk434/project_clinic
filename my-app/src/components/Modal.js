@@ -84,86 +84,10 @@ export function ShowAppointmentForm(props) {
     let appoint_status = props.data.appoint_status;
     let navigate = useNavigate();
 
-
-    const [pet_id,setPetId] = useState(props.data.pet_id);
-    const [validated,setValidated] = useState(false);
-    const [symtoms, setSymtoms] = useState(props.data.symtoms);
-
-    const [selectedFile, setSelectedFile] = useState([]);
-    const [imageUrl, setImageUrl] = useState("");
-
     const onClose = () =>{
         props.onClose();
     }
 
-    useEffect(()=>{
-        setPetId(props.data.pet_id);
-        setSymtoms(props.data.symtoms);
-    },[props.show])
-
-
-    const onFileSelected = (e) => {
-        if (e.target.files.length > 0) {
-            setSelectedFile(e.target.files[0]);
-        }
-        onUploadImage(e.target.files[0])
-    }
-
-    const onUploadImage = async (selectedFile) => {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-
-        let response = await fetch(
-            SERVER_URL + "api/payment/upload/" + props.data.appoint_id,
-            {
-                method: 'POST',
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("access_token"),
-                },
-                body: formData,
-            }
-        );
-        let json = await response.json();
-        setImageUrl(json.data);
-    }
-
-    const onSave = async (event) => {
-        const form = event.currentTarget;
-        event.preventDefault();
-
-        if (form.checkValidity() === false) {
-            event.stopPropagation();
-        } else {
-            let image_url
-
-            if(imageUrl == ""){
-                image_url = props.data.payment_image;
-            }else{
-                image_url = imageUrl;
-            }
-
-            let json = await API_POST("account/edit-appointment",{
-                pet_id:pet_id,
-                symtoms:symtoms,
-                payment_image:image_url,
-                status_id:1,
-                appoint_id:props.data.appoint_id
-            })
-
-            if(json.result){
-                fetchData();
-                navigate("/account/appointments", { replace: true });
-                onClose();
-            }
-        }
-        setValidated(true);
-    }
-
-    const fetchData = () => {
-        let user_id = localStorage.getItem("user_id");
-        props.fetch(user_id)
-    }
 
 
     return (
@@ -173,15 +97,15 @@ export function ShowAppointmentForm(props) {
                     <Modal.Title>{props.title}</Modal.Title>
                 </Modal.Header> 
 
-                <Form noValidate validated={validated} onSubmit={onSave}>
+                <Form noValidate validated={props.validated} onSubmit={props.onSave}>
 
                 <Modal.Body>
                     <div>
                             <p ><b>สัตว์เลี้ยง :</b> </p>
                         <Form.Group controlId="validatePets" >
                             <Form.Select
-                                value={pet_id}
-                                onChange={(e) => setPetId(e.target.value)}
+                                value={props.pet_id}
+                                onChange={(e) => props.setPetId(e.target.value)}
                                 required>
                                 <option label="กรุณาเลือกสัตว์เลี้ยง"></option> 
                                 {
@@ -200,9 +124,9 @@ export function ShowAppointmentForm(props) {
                                     <Form.Control
                                         required
                                         type="text"
-                                        value={symtoms}
+                                        value={props.symtoms}
                                         placeholder="กรอกอาการเบื้องต้น"
-                                        onChange={(e) => setSymtoms(e.target.value)}
+                                        onChange={(e) => props.setSymtoms(e.target.value)}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         กรุณากรอกอาการเบื้องต้น
@@ -238,18 +162,18 @@ export function ShowAppointmentForm(props) {
                                 <Form.Control
                                     type="file"
                                     name="file"
-                                    onChange={onFileSelected} />
+                                    onChange={props.onFileSelected} />
                             </Form.Group>
-                            {imageUrl != "" &&
-                                <div className="border border-secondary rounded mt-2 text-center">
-                                    <img src={`${SERVER_URL}images/${imageUrl}`} width="80%" alt="Upload Image"/>
+                            {props.imageUrl != "" &&
+                                <div className="shadow rounded mt-3 text-center">
+                                    <img src={`${SERVER_URL}images/${props.imageUrl}`} width="80%" alt="Upload Image"/>
                                 </div>
                             }
                 </div>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button style={{width:"100%"}} size="sm" variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
+                    <Button size="sm" variant="success" as="input" type="submit" value="บันทึกข้อมูล"/>
 
                     <Button variant="danger" size="sm" onClick={props.onClose}>ปิด</Button>
 
@@ -266,7 +190,7 @@ export function ShowAppointmentForm(props) {
 export function ConfirmModal(props) {
 
     return (
-        <Modal show={props.show} onHide={props.onClose} backdrop="static" size="sm">
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
             <Modal.Header closeButton closeVariant="white">
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>

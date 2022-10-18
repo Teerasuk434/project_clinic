@@ -52,7 +52,7 @@ import { extendMoment } from 'moment-range';
                 <td><p>{props.data.time} - {time_end}</p></td>
                 <td><p>{props.data.status_name}</p></td>
                 <td>
-                    <Button onClick={onShowAppointment} className="btn btn-success" size="sm">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
+                    <Button onClick={onShowAppointment} className="btn btn-primary" size="sm">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
                 </td>
             </tr>
 

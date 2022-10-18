@@ -1,6 +1,7 @@
     import { Button } from "react-bootstrap";
     import Moment from 'moment';
     import { extendMoment } from 'moment-range';
+    
 
     export default function AppointmentItem(props) {
 
@@ -12,6 +13,10 @@
     }
 
     const onShowAppointmentForm = async () =>{
+        props.setPetId(props.data.pet_id);
+        props.setSymtoms(props.data.symtoms);
+        props.setAppointId(props.data.appoint_id);
+        props.setPaymentImage(props.data.payment_image);
         props.onEdit(props.data);
     }
 
@@ -25,7 +30,7 @@
                 <td><p>{props.data.time} - {props.data.time_end}</p></td>
                 <td><p>{props.data.status_name}</p></td>
                 <td>
-                    <Button onClick={onShowAppointment} className="btn btn-success me-2" size="sm">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
+                    <Button onClick={onShowAppointment} className="btn btn-primary me-2" size="sm">{<i className="fa-regular fa-eye me-2"></i>}แสดง</Button>
 
                     {appoint_status == 3 ?
                         <Button onClick={onShowAppointmentForm} className="btn btn-warning" size="sm">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไข</Button>

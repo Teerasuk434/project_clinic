@@ -1,13 +1,25 @@
 import { Nav, NavDropdown, Navbar, Container } from 'react-bootstrap';
+import { GoogleLogout } from 'react-google-login';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Navigation(){
 
+    let navigate = useNavigate();
     let role_id = localStorage.getItem("role_id");
     let username = localStorage.getItem("username");
+    let isLoginGoogle = localStorage.getItem("LoginGoogle");
+    const clientId = "555154502485-1ffpk8f299sf2blje6spbrnntkl9jhhs.apps.googleusercontent.com";
+
 
     const clearData = () => {
         localStorage.clear();
-        role_id = 0;
+        localStorage.setItem("role_id",0);
+    }
+
+    const logOut = () => {
+        localStorage.clear();
+        navigate("/login",{replace:false})
     }
 
     return(
@@ -31,15 +43,26 @@ export default function Navigation(){
                                 :
 
                                 <NavDropdown align="end" title={<><i className="fa-solid fa-user me-2"></i>{username}</>} id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="account/profile">ข้อมูลบัญชี</NavDropdown.Item>
+                                    <NavDropdown.Item href="/account/profile">ข้อมูลบัญชี</NavDropdown.Item>
                                     <NavDropdown.Item href="/account/pets">สัตว์เลี้ยง</NavDropdown.Item>
                                     <NavDropdown.Item href="/account/appointments">การนัดหมาย</NavDropdown.Item>
                                     <NavDropdown.Item href="/account/history-appoint">ประวัติการนัดหมาย</NavDropdown.Item>
-                                    <NavDropdown.Item href="/account/reset-password">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
+                                    {!isLoginGoogle &&
+                                        <NavDropdown.Item href="/account/reset-password">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
+                                    }
                                     <NavDropdown.Divider />
+                                    {isLoginGoogle ?
+                                        <GoogleLogout 
+                                            clientId={clientId} 
+                                            buttonText="ออกจากระบบ"
+                                            onLogoutSuccess={logOut}
+                                        />  
+                                    :
                                     <NavDropdown.Item href="/" onClick={clearData}>
                                         ออกจากระบบ
                                     </NavDropdown.Item>
+                                }
+                                    
                                 </NavDropdown>
                             }
                     </Nav>
