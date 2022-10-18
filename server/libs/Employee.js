@@ -2,16 +2,16 @@ const mysql = require('mysql');
 
 
 module.exports = {
-    createEmployee: async (pool, emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id) => {
-        var sql ="INSERT INTO employee (emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id) "
-                    + "VALUES (?, ?, ?, ?, ?, ? , ?)";
-        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id]);
+    createEmployee: async (pool, emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id, username , password) => {
+        var sql ="INSERT INTO employee (emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id, username , password)"
+                    + "VALUES (?, ?, ?, ?, ?, ? , ?, ? , ?)";
+        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , user_id, username , password]);
         console.log(sql)
         return await pool.query(sql);
     },
-    updateEmployee: async (pool,emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, emp_position_name, emp_id) =>{
-        var sql = "UPDATE employee SET emp_fname = ?, emp_lname = ?, emp_address = ?, emp_tel = ?, emp_salary = ?, emp_position_id = ? , emp_position_name = ?  WHERE emp_id = ?";
-        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , emp_position_name, emp_id]);
+    updateEmployee: async (pool,emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id, emp_id, username , password) =>{
+        var sql = "UPDATE employee SET emp_fname = ?, emp_lname = ?, emp_address = ?, emp_tel = ?, emp_salary = ?, emp_position_id = ? , username = ? , password = ? WHERE emp_id = ?";
+        sql = mysql.format(sql, [emp_fname, emp_lname, emp_address, emp_tel, emp_salary, emp_position_id , emp_id, username , password]);
         console.log(sql);
         return await pool.query(sql);
     },
