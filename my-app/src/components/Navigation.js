@@ -52,7 +52,8 @@ export default function Navigation(){
                                     }
                                     <NavDropdown.Divider />
                                     {isLoginGoogle ?
-                                        <GoogleLogout 
+                                        <GoogleLogout
+                                            className="w-100"
                                             clientId={clientId} 
                                             buttonText="ออกจากระบบ"
                                             onLogoutSuccess={logOut}
