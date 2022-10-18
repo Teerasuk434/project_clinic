@@ -134,7 +134,6 @@ export function ShowAppointmentForm(props) {
                             <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
                             <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                             <p><b>ห้อง :</b> {props.data.room_name}</p>
-                            <p><b>หมายเหตุ :</b> <b className="text-danger">{props.data.note}</b></p>
                             {appoint_status == 3 &&
                             <>
                                 <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
