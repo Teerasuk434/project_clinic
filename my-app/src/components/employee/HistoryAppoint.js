@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
-import { Table, Button , Form , Col, Row, InputGroup} from 'react-bootstrap';
+import { Table, Button , Form , Col, Row, InputGroup , Pagination} from 'react-bootstrap';
 import { API_GET , API_POST} from '../../api';
 import HistoryItem from './HistoryItem';
 import Fuse from 'fuse.js';
 import Top from '../Top';
+import ReqAppointItem from './ReqAppointItem';
 
 export default function HistoryAppoint(){
 
@@ -15,6 +16,10 @@ export default function HistoryAppoint(){
     const [listappointment ,setListAppointment] = useState([]);
 
     const [search,setSearch] = useState("");
+
+    var pageCount = 0;
+    const [currentPage, setCurrentPage] = useState(0);
+    const [numPerPage, setNumPerPage] = useState(10);
 
     useEffect(() => {
 
@@ -62,6 +67,46 @@ export default function HistoryAppoint(){
             }
         }
     }
+
+
+
+    const getPagination = () => {
+        let items = [];
+        pageCount = Math.ceil(appointments.length / numPerPage);
+
+        for (let i = 0; i< pageCount; i++) {
+            items.push(
+                <Pagination.Item key={i}
+                    active={currentPage == i}
+                    onClick={onPageSelected}>{i + 1}</Pagination.Item>
+            )
+        }
+        return items;
+    }
+
+    const onPageSelected = (d) => {
+        var selectedPageNo = parseInt(d.target.innerHTML) -1;
+        setCurrentPage(selectedPageNo)
+
+        console.log(currentPage * numPerPage + "And" + ((currentPage * numPerPage) + numPerPage))
+    }
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    }
+
+    const prevPage = () => {
+        setCurrentPage(currentPage - 1);
+    }
+
+    const firstPage = () => {
+        setCurrentPage(0);
+    }
+
+    const lastPage = () => {
+        setCurrentPage(pageCount - 1);
+    }
+
 
     return (
         <>
@@ -123,18 +168,27 @@ export default function HistoryAppoint(){
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {appointments != null &&
-                                                appointments.map(item => (
-                                                    <HistoryItem
+                                            {
+                                                appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
+                                                    <ReqAppointItem
                                                     key={item.appoint_id}
-                                                    data = {item} 
-                                                    />
+                                                    data={item}/>
                                                 ))
                                             }
                                         </tbody>
                                     </Table>
                                 </div>
-                                
+                                {appointments.length > 0 &&
+                                    <div className="d-flex justify-content-end">
+                                        <Pagination onSelect={onPageSelected} size="sm">
+                                            <Pagination.First onClick={firstPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            { getPagination()}
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Last onClick={lastPage} />
+                                        </Pagination>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

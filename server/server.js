@@ -1959,10 +1959,7 @@ app.post('/api/emp/add',async(req, res) => {
             input.emp_address,
             input.emp_tel,
             input.emp_salary,
-            input.emp_position_id,
-            input.user_id,
-            input.username,
-            input.password);
+            input.emp_position_id);
         res.json({
             result: true
         });
@@ -1985,9 +1982,7 @@ app.post('/api/emp/update',async(req, res) => {
             input.emp_tel, 
             input.emp_salary,
             input.emp_position_id,
-            input.emp_id,
-            input.username,
-            input.password);
+            input.emp_id);
         res.json({
             result: true
 
