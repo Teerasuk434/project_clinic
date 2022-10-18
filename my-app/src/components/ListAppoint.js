@@ -54,7 +54,6 @@ export default function ListAppoint(){
 
     const [employees, setEmployees] = useState([]);
     const [emp_id, setEmpId] = useState(0);
-
     const[scheduleEmpId, setScheduleEmpId] = useState(0);
     
     const [showAppointmentModal, setAppointmentModal] = useState(false);

@@ -42,6 +42,8 @@ export default function FormAppoint() {
     const [appoint_date,setAppointDate] = useState("");
     const [service_name,setServiceName] = useState("");
 
+    const [schedule_id, setScheduleId] = useState(0);
+
     const [room_id, setRoomId] = useState(0);
     const [roomName, setRoomName] = useState("");
     const [cost_deposit, setCostDeposit] = useState("");
@@ -114,9 +116,13 @@ export default function FormAppoint() {
                         setEmpId(item.emp_id)
                         setEmpFirstName(item.emp_fname);
                         setEmpLastName(item.emp_lname);
+                        setScheduleId(item.schedule_id);
                     }
                 })
+
             }
+
+            console.log(json2)
 
             let json3 = await API_GET("appoint_status")
 
@@ -170,14 +176,15 @@ export default function FormAppoint() {
     }
 
     const createSchedule = async () => {
-        let json = await API_POST("schedules/add",{
+        let json = await API_POST("schedules/edit",{
             emp_id:emp_id,
             appoint_id:appoint_id,
             room_id:room_id,
             appoint_date:appoint_date,
             appoint_time:appoint_time,
             appoint_time_end:appoint_time_end,
-            appoint_status:appoint_status
+            appoint_status:appoint_status,
+            schedule_id: schedule_id
         })
 
         console.log(json)

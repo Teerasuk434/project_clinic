@@ -30,6 +30,7 @@ app.use('/images/pets', express.static('images/pets'));
 
 var mysql = require('mysql');
 const { response } = require('express');
+const e = require('express');
 var pool = mysql.createPool({
     connectionLimit: 10,
     host: "localhost",
@@ -440,9 +441,12 @@ app.post("/api/user/add", checkAuth, async (req, res) => {
         var result = await Users.isDuplicate(pool, input.username, null);
 
         if(!result){
-            await Users.createUser(pool,
-                input.username, input.password,
-                input.role_id);
+        var result_user = await Users.createUser(pool,input.username, input.password,input.role_id);
+        
+        if(result_user && input.role_id == 3){
+            await Employee.updateEmployeeUser(pool,result_user.insertId,input.emp_id)
+        }
+
 
             res.json({
                 result: true
@@ -1409,7 +1413,7 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
 
-    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ? AND time_end = ?)", [input.date,input.time,input.time_end], function(error, results, fields){
+    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)", [input.date,input.time,input.time_end], function(error, results, fields){
         if (error) {
             res.json({
                 result: false,
@@ -1441,6 +1445,33 @@ app.post('/api/schedules/add',async(req, res) => {
             input.appoint_date,
             input.appoint_time,
             input.appoint_time_end);
+
+        if(result){
+            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
+        }
+
+        console.log(result2)
+        res.json({
+            result: true
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
+    }
+});
+
+app.post('/api/schedules/edit',async(req, res) => {
+    const input = req.body;
+    var result
+    try{
+        
+        if(input.appoint_status == 6){
+            result = await Schedule.deleteSchedules(pool,input.schedule_id);
+        }else {
+            result = await Schedule.updateSchedules(pool,input.emp_id);
+        }
 
         if(result){
             var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
@@ -1757,8 +1788,8 @@ app.get('/api/history_appoint',(req, res) => {
     JOIN service d ON a.service_id = d.service_id
     JOIN rooms e ON a.room_id = e.room_id
     JOIN appoint_status f ON a.status_id = f.status_id
-    JOIN schedules g ON a.appoint_id = g.appoint_id
-    JOIN employee h ON g.emp_id = h.emp_id 
+    LEFT JOIN schedules g ON a.appoint_id = g.appoint_id
+    LEFT JOIN employee h ON g.emp_id = h.emp_id 
     WHERE a.status_id = 4 OR a.status_id = 5 OR a.status_id = 6
     GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){

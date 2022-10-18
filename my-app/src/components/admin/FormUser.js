@@ -24,6 +24,8 @@ export default function FormUser() {
     const [role_name, setRoleName] = useState("");
 
     const [roles, setRoles] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [emp_id, setEmpId] = useState(0);
 
     const [checkTypeForm, setCheckTypeForm] = useState(true);
 
@@ -40,6 +42,7 @@ export default function FormUser() {
 
     useEffect(() => {
         fetchRoles();
+        fetchEmployee();
     },[]);
 
     const fetchRoles = async () => {
@@ -57,6 +60,14 @@ export default function FormUser() {
             setRoles(role_temp);
         }
 
+    }
+
+    const fetchEmployee = async () => {
+        let json = await API_GET("emp");
+
+        if(json.result){
+            setEmployees(json.data);
+        }
     }
 
     useEffect(() => {
@@ -99,7 +110,8 @@ export default function FormUser() {
         let json = await API_POST("user/add",{
             username: username,
             password: password,
-            role_id: role_id
+            role_id: role_id,
+            emp_id:emp_id
         });
 
         if(json.result) {
@@ -256,6 +268,29 @@ export default function FormUser() {
                                                         </Form.Control.Feedback>
                                                 </Form.Group>
                                             </Row>
+                                            {role_id == 3 &&
+                                                <Row className="mb-3">
+                                                    <Form.Group as={Col} controlId="validateEmployee">
+                                                        <Form.Label>เลือกพนักงาน</Form.Label>
+                                                        <Form.Select
+                                                            value={emp_id}
+                                                            onChange={(e) => setEmpId(e.target.value)}
+                                                            required>
+                                                            <option label="กรุณาเลือกพนักงาน"></option> 
+                                                            {
+                                                            employees.map(item => (
+                                                                <option key={item.emp_id} value={item.emp_id}> 
+                                                                {item.emp_fname} {item.emp_lname} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณาเลือก พนักงาน
+                                                            </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                </Row> 
+
+                                            }
 
                                             <Row className="mt-3">
                                                 <div className="text-end">

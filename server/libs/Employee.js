@@ -15,7 +15,13 @@ module.exports = {
         console.log(sql);
         return await pool.query(sql);
     },
-    deleteEmployee: async (pool, emp_id) => {
+    updateEmployeeUser: async (pool,user_id,emp_id) =>{
+        var sql = "UPDATE employee SET user_id = ? WHERE emp_id = ?";
+        sql = mysql.format(sql,[user_id,emp_id])
+        return await pool.query(sql);
+
+    }
+    ,deleteEmployee: async (pool, emp_id) => {
         var sql = "DELETE FROM employee WHERE emp_id = ?";
         sql = mysql.format(sql, [emp_id]);
 
