@@ -485,37 +485,6 @@ iframe{
     padding:16px;
    }
 
-
-   .box1-contact-about{
-    background-color: #4BB2E5;
-    color: white;
-    height: 200px;
-    width: 35%;
-    padding: 75px;
-    margin-left: 140px;
-   }
-
-   .box2-contact-about{
-    background-color: lightblue;
-    width: 40%;
-   }
-
-   .box3-contact-about{
-    background-color: #4BB2E5;
-    color: white;
-    width: 35%;
-    margin-left: 140px;
-    padding: 10px;
-
-}
-    .box4-contact-about{
-    background-color: lightblue;
-    width: 40%;
-}
-   .box4-about{
-    color: rgb(204, 33, 33);
-   }
-
    .map{
     margin-top: 80px;
    }
@@ -524,14 +493,8 @@ iframe{
     background-color: aliceblue;
    }
 
-   .thead-service{
-    background-color: #AADAF3;
-    height: 60px;
-    width: 75%;
-    margin: auto;
-    /* border-radius: 10px; */
-    font-size: larger;
-   }
+
+
    .header-service{
     background-color: #3498DB;
     color: white;
@@ -540,14 +503,7 @@ iframe{
     
    }
 
-   .box-service {
-    border-radius: 10px;
-    background-color: #F8F9FA;
-    text-align: center;
-    padding: 20px;
-    width: 75%;
-    margin: auto;
-}
+   
 
     .fa-link{
         text-decoration: none;
@@ -644,7 +600,55 @@ iframe{
         padding-left: 4rem !important;
       }
 
+      
+      .thead-service{
+        background-color: #AADAF3;
+        height: 60px;
+        width: 75%;
+        margin: auto;
+        font-size: larger;
+       }
+       .box-service {
+        border-radius: 10px;
+        background-color: #F8F9FA;
+        text-align: center;
+        padding: 20px;
+        width: 75%;
+        margin: auto;
+    }
 
+    .box1-contact-about{
+        background-color: #4BB2E5;
+        color: white;
+        
+    }
+    .mt4-5{
+        margin-top: 2.5rem;
+
+    }
+    .box2-contact-about{
+        background-color: lightblue;
+    }
+
+    .box3-contact-about{
+        background-color: #4BB2E5;
+        color: white;
+
+    
+    }
+        .box4-contact-about{
+        background-color: lightblue;
+    }
+       .box4-about{
+        color: rgb(204, 33, 33);
+    }
+     .about{
+        margin: 10%;
+
+     }
+     .service-text{
+        font-size: 20px;
+     }
       /* Responsive */
 
       @media only screen and (max-width: 576px) {
@@ -693,7 +697,35 @@ iframe{
         .content-login{
             height: 70vh;
         }
+
+        .thead-service{
+            width: 100%;
+            font-size: 14px;
+
+        }
+        .box-service {
+            width: 100%;
+            font-size: 13px;
+        }
+        .mes-about{
+            width: 100%;
+            font-size: 12px;
+        }
+
+        .box1-contact-about{
+            width: 100%;
+            font-size: 12px;
+            margin: auto;
+        }
+        .service-text{
+            font-size: 14px;
+            
+         }
+
+         .mt4-5{
+            margin-top: 0.5rem;
     
+        }
       }
     
       @media only screen and (min-width: 768px) {
@@ -725,5 +757,7 @@ iframe{
         .boxs{
             padding-top: 0.5rem;
         }
+
+        
     
       }

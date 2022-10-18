@@ -24,85 +24,77 @@ export default function AboutClinic (){
                     <h4>เกี่ยวกับเรา</h4>
                 </div>
 
-                    <div className="text-center pt-5">
-                        <p><h5>คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง</h5></p>
-                            <h5> จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</h5>
-                            <h5></h5>
+                    <div className="text-center pt-5 mes-about ">
+                        <p className="service-text">คลินิก ปุณณกัณฑ์สัตวแพทย์ เปิดให้บริการในการรักษาสัตว์ ฉีดวัคซีน กำจัดเห็บหมัด ถ่ายพยาธิ ขูดหินปูน อัลตร้าซาวด์ ตรวจการตั้งท้อง</p>
+                        <p className="service-text">จำหน่าย ยาสัตว์ เสื้อผ้าสัตว์เลี้ยงสำหรับสุนัขและแมว อุปกรณ์ของเล่นของใช้ รวมถึงเครื่องมือทางการแพทย์ต่างๆที่เกี่ยวกับสัตว์</p>
                     </div>
 
-                    <div className="text-center px-5 mt-5 ">
-                        <div className="row mx-5 mb-2" >
-                            <div className=" box1-contact-about shadow " >
-                                <h4>ช่องทางการติดต่อ</h4>
+                    <div className="text-center mt-5 about ">
+                        <div className="row  mb-2 " >
+                            <div className="col-12 col-md-6 box1-contact-about p-2 ">
+                                <h4 className=" mt4-5 ">ช่องทางการติดต่อ</h4>
                             </div>
 
-                            <div className="box2-contact-about shadow ">
-                                <div className="mt-5 ">
-                                    <div className="row mb-4">
-
-                                        <div className="col-4 text-end">
-                                            <i className="fa-brands fa-facebook fa-2xl " target="_blank"></i>
-                                        </div>
-
-                                        <div className="col-8 text-start ">
-                                            <p className="p-0">ปุณณกัณฑ์สัตวแพทย์</p>
-                                        </div>
-
+                            <div className="col-12 col-md-6 box2-contact-about p-2">
+                                <div className="row ">
+                                    <div className="col-4 text-end pt-2  ">
+                                        <i className="fa-brands fa-facebook fa-2xl " target="_blank"></i>
                                     </div>
 
-                                    <div className="row mb-4">
+                                    <div className="col-8 text-start">
+                                        <p>ปุณณกัณฑ์สัตวแพทย์</p>
+                                    </div>
+                                </div>
 
-                                        <div className="col-4 text-end">
-                                            <i className="fa-brands fa-line fa-2xl "></i>
-                                        </div>
-
-                                        <div className="col-8 text-start">
-                                            <p className="p-0">081-622-7293</p>
-                                        </div>
-
+                                <div className="row ">
+                                    <div className="col-4 text-end pt-2 ">
+                                        <i className="fa-brands fa-line fa-2xl "></i>
                                     </div>
 
-                                    <div className="row">
-
-                                        <div className="col-4 text-end">
-                                            <i class="fa-solid fa-phone fa-xl "></i>
-                                        </div>
-
-                                        <div className="col-8 text-start">
-                                           <p className="p-0">081-622-7293</p>
-                                        </div>
-
+                                    <div className="col-8 text-start">
+                                        <p>081-622-7293</p>
                                     </div>
+                                </div>
+
+                                <div className="row">
+
+                                    <div className="col-4 text-end">
+                                        <i class="fa-solid fa-phone fa-xl "></i>
+                                    </div>
+
+                                    <div className="col-8 text-start">
+                                        <p>081-622-7293</p>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
 
-                        <div className="row mx-5 mb-2" >
-                            <div className=" box3-contact-about shadow mt-3 " >
+                        <div className="row  my-4 " >                            
+                            <div className="col-12 col-md-6 box3-contact-about shadow p-2 " >
                                 <h4>เวลาเปิดทำการ</h4>
                             </div>
 
-                            <div className=" box4-contact-about shadow mt-3">
+                            <div className="col-12 col-md-6 box4-contact-about shadow p-2">
                                 <h6>13.00 - 19.00 น. <b className="box4-about"> หยุดทุกวันเสาร์ </b></h6>
                             </div>
+                            
                         </div>
-
-                        <div className="row mx-5 " >
-                            <div className="col-5 box3-contact-about shadow mt-3" >
-                                <h4> ที่อยู่ </h4>
+                        
+                        <div className="row " >
+                            <div className="col-12 col-md-6 box3-contact-about shadow p-2 " >
+                                <h4 className="mt-2"> ที่อยู่ </h4>
                             </div>
 
-                            <div className="col-7 box4-contact-about shadow mt-3">
+                            <div className="col-12 col-md-6 box4-contact-about shadow p-2">
                                 <h6><i class="fa-solid fa-location-dot"></i> 382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
                             </div>
-
-                        </div>
+                        </div>  
                         
                         <div className="map">
                             <Iframe iframe={iframe}/>
                         </div>
                     </div>
-                    
             </div>
             <Footer/>
         </>
