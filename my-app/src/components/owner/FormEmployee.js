@@ -21,9 +21,11 @@ export default function FormEmployee(){
     const [emp_tel,setEmpTel] = useState("");
     const [emp_salary,setEmpSalary] = useState(0);
     const [emp_position_id,setEmpPositionId] = useState(0);
-    const [emp_position_name,setEmpPositionName] = useState("");
     const [emp_type,setEmpType] = useState([]);
     const [user_id,setUserId] = useState(0);
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
      // confirmModal
      const [confirmModal, setConfirmModal] = useState(false);
@@ -46,8 +48,9 @@ export default function FormEmployee(){
             setEmpTel(data.emp_tel);
             setEmpSalary(data.emp_salary);
             setEmpPositionId(data.emp_position_id);
-            setEmpPositionName(data.emp_position_name);
             setUserId(data.user_id);
+            setUsername(data.username);
+            setPassword(data.password);
 
         }
 
@@ -86,7 +89,9 @@ export default function FormEmployee(){
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            user_id: user_id
+            user_id: user_id,
+            username: username,
+            password: password
         })
         if(json.result) {
             navigate("/emp", { replace: false });
@@ -98,7 +103,6 @@ export default function FormEmployee(){
     }
     
     const doUpdateEmployee = async() => {
-        console.log(emp_position_name)
         let json = await API_POST("emp/update",{
             
             emp_fname: emp_fname,
@@ -107,8 +111,9 @@ export default function FormEmployee(){
             emp_tel: emp_tel,
             emp_salary: emp_salary,
             emp_position_id: emp_position_id,
-            emp_position_name:emp_position_name,
-            emp_id: emp_id
+            emp_id: emp_id,
+            username: username,
+            password: password
         })
         if(json.result) {
             navigate("/emp", { replace: false });
@@ -275,6 +280,36 @@ export default function FormEmployee(){
                                                             />
                                                             <Form.Control.Feedback type="invalid">
                                                                 กรุณากรอก เงินเดือน
+                                                            </Form.Control.Feedback>
+                                                        </Form.Group> 
+                                                    </div>
+                                                    <div className="row mb-2">
+                                                        <Form.Group as={Col} controlId="validateSalary" >
+                                                            <Form.Label>Username</Form.Label>
+                                                            <Form.Control
+                                                                required
+                                                                type="text"
+                                                                value={username}
+                                                                placeholder="Username"
+                                                                onChange={(e) => setUsername(e.target.value)}
+                                                            />
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณากรอก Username
+                                                            </Form.Control.Feedback>
+                                                        </Form.Group> 
+                                                    </div>
+                                                    <div className="row mb-2">
+                                                        <Form.Group as={Col} controlId="validateSalary" >
+                                                            <Form.Label>Password</Form.Label>
+                                                            <Form.Control
+                                                                required
+                                                                type="password"
+                                                                value={password}
+                                                                placeholder="Password"
+                                                                onChange={(e) => setPassword(e.target.value)}
+                                                            />
+                                                            <Form.Control.Feedback type="invalid">
+                                                                กรุณากรอก Password
                                                             </Form.Control.Feedback>
                                                         </Form.Group> 
                                                     </div>

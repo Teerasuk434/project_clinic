@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import EmployeeItem from "./EmployeeItem";
 import { API_GET,API_POST } from "../../api";
 import Top from "../Top";
-
+import { ConfirmModal, MessageModal } from "../Modal";
 
 import Sidebar from "../Sidebar";
 
@@ -15,6 +15,17 @@ export default function Employee(){
     const [employee,setEmployee] = useState([]);
     const [search,setSearch] = useState("");
     const [listemployee,setListEmployee] = useState([]);
+    const [emp_id, setEmpId] = useState(0);
+
+    // confirmModal
+    const [confirmModal, setConfirmModal] = useState(false);
+    const [confirmModalTitle, setConfirmModalTitle] = useState("");
+    const [confirmModalMessage, setConfirmModalMessage] = useState("");
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState(""); 
+
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
@@ -22,7 +33,7 @@ export default function Employee(){
 
 
     useEffect( () => {
-        async function fetchData(){
+        async function fetchEmployee(){
             const response = await fetch(
                 "http://localhost:8080/api/emp",
                 {
@@ -39,7 +50,7 @@ export default function Employee(){
             setEmployee(json.data);
             setListEmployee(json.data);
         }
-        fetchData();
+        fetchEmployee();
     },[]);
 
     useEffect(() => {
@@ -66,15 +77,30 @@ export default function Employee(){
             }
         }
      }
-
      const onDelete = async (data) => {
+
+        setEmpId(data.emp_id);
+
+        setConfirmModalTitle("ยืนยันการลบข้อมูล");
+        setConfirmModalMessage("คุณยืนยันการลบข้อมูลใช่หรือไม่");
+        setConfirmModal(true);
+    }
+     const onConfirmDelete = async () => {
         let json = await API_POST("emp/delete", {
-            emp_id: data.emp_id
+            emp_id: emp_id
         });
 
         if (json.result) {
             fetchEmployee();
         }
+    }
+
+    const onCancelDelete = () => {
+        setConfirmModal(false);
+    }
+    const onClose = () => {
+        setConfirmModal(false);
+        setShowModal(false);
     }
 
     const fetchEmployee = async () => {
@@ -197,6 +223,19 @@ export default function Employee(){
                     </div>
                 </div>
             </div>
+            
+            <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmDelete}
+                onClose={onCancelDelete}/>   
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}
+            />
         </>
     )
 }
