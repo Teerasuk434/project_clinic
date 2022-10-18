@@ -1357,10 +1357,8 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
                     JOIN appointment c ON a.appoint_id = c.appoint_id
                     JOIN service d ON c.service_id = d.service_id
                     JOIN rooms e ON a.room_id = e.room_id `
-
-    
     if(emp_id == 0){
-        where = "ORDER BY a.date";
+        where = "WHERE c.status_id != 6 ORDER BY a.date";
         
         pool.query(sql + where,(err, results, fields) => {
             if(err){
@@ -1383,7 +1381,7 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
         });
 
     }else if(emp_id >0){
-        where = "WHERE a.emp_id = ? ORDER BY a.date"
+        where = "WHERE a.emp_id = ? AND c.status_id != 6 ORDER BY a.date"
 
         pool.query(sql + where,[emp_id],(err, results, fields) => {
             if(err){
@@ -1433,53 +1431,7 @@ app.post('/api/schedules/emp_available',(req, res) => {
     });
 });
 
-// app.post('/api/schedules/appointment',async(req, res) => {
-//     const input = req.body;
-
-//     try{
-//         var result = await Schedule.addSchedule(pool,input.appoint_id);
-
-//         res.json({
-//             result: true,
-//             data:result
-//         });
-//     }catch(ex){
-//         res.json({
-//             result: false,
-//             message: ex.message
-//         });
-//     }
-// });
-
-
 app.post('/api/schedules/add',async(req, res) => {
-    const input = req.body;
-    try{
-        var result = await Schedule.addSchedule(pool,
-            input.emp_id,
-            input.appoint_id,
-            input.room_id,
-            input.appoint_date,
-            input.appoint_time,
-            input.appoint_time_end);
-
-        if(result){
-            var result2 = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
-        }
-
-        console.log(result2)
-        res.json({
-            result: true
-        });
-    }catch(ex){
-        res.json({
-            result: false,
-            message: ex.message
-        });
-    }
-});
-
-app.post('/api/schedules/edit',async(req, res) => {
     const input = req.body;
     try{
         var result = await Schedule.addSchedule(pool,
@@ -1616,6 +1568,7 @@ app.get('/api/all-appointments',(req, res) => {
     JOIN appoint_status f ON a.status_id = f.status_id
     JOIN schedules g ON a.appoint_id = g.appoint_id
     JOIN employee h ON h.emp_id = g.emp_id
+    WHERE a.status_id != 6
     GROUP BY a.appoint_id`,(err, results, fields) => {
         if(err){
             res.json({

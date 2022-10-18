@@ -27,7 +27,7 @@ export function ShowPaymentModal(props) {
 
 export function ShowAppointmentDetails(props) {
 
-    let appoint_status = props.data.appoint_status;
+    let appoint_status = props.data.status_id;
 
     return (
         <>
@@ -48,7 +48,7 @@ export function ShowAppointmentDetails(props) {
                         <p><b>ผู้รับหน้าที่ :</b> {props.data.employee_fullname}</p>
                         <p><b>สถานะ :</b> {props.data.status_name}</p>
                         <p><b>หมายเหตุ :</b> {props.data.note}</p>
-                        {appoint_status == "รอแก้ไข" &&
+                        {appoint_status == 3 &&
                         <>
                             <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
                         </>                        
@@ -81,14 +81,12 @@ export function ShowAppointmentDetails(props) {
 
 export function ShowAppointmentForm(props) {
 
-    let appoint_status = props.data.appoint_status;
+    let appoint_status = props.data.status_id;
     let navigate = useNavigate();
 
     const onClose = () =>{
         props.onClose();
     }
-
-
 
     return (
         <>
@@ -137,7 +135,7 @@ export function ShowAppointmentForm(props) {
                             <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                             <p><b>ห้อง :</b> {props.data.room_name}</p>
                             <p><b>หมายเหตุ :</b> <b className="text-danger">{props.data.note}</b></p>
-                            {appoint_status == "รอแก้ไข" &&
+                            {appoint_status == 3 &&
                             <>
                                 <p className="d-inline-block"><b>หมายเหตุ :</b></p> <p className="text-danger d-inline-block">{props.data.note}</p>
                             </>                        
