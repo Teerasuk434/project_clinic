@@ -1,10 +1,6 @@
+import { FacebookProvider, Page } from 'react-facebook';
+
 export default function Footer(){    
-
-    const iframe = '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpoonnakanpetclinic&tabs=timeline&width=370&height=100&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId"  scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>';
-
-    function Iframe(props) {
-        return (<div dangerouslySetInnerHTML={ {__html:  props.iframe?props.iframe:""}} />);
-      }
 
     return(
         <div className="Footer">
@@ -38,7 +34,10 @@ export default function Footer(){
                     <div className="col-12 col-lg-3 right">
                         
                         <div className="boxs">
-                            <Iframe iframe={iframe} />
+
+                            <FacebookProvider appId="517243269878543">
+                                <Page href="https://www.facebook.com/poonnakanpetclinic"/>
+                            </FacebookProvider>   
                         </div>
 
                     </div>  

@@ -7,7 +7,6 @@ import BoxTop from './components/Box-top';
 import Footer from './components/Footer';
 import { API_POST,API_GET } from './api';
 import jwt_decode from "jwt-decode";
-
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
 
@@ -23,7 +22,6 @@ export default function Login() {
     const [checkGoogle, setCheckGoogle] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
-
 
     let navigate = useNavigate();
 
@@ -256,6 +254,7 @@ export default function Login() {
                                             />
                                     </div>
                                     <Link to={"/register"} className="btn btn-register rounded-5">สมัครสมาชิก </Link>
+                                    
                                     
 
                                 </Row>
