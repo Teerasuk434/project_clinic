@@ -404,42 +404,48 @@ export default function Appointment(){
                         </div>
 
                     </div>
-
+                    
+                    {pet_id !=0 &&
                     <div className="appoint-form mt-4 row">
                         <div className="form-pet-header">
                             <h6>ข้อมูลสัตว์เลี้ยง</h6>
                         </div>
 
-                        <div className="form-pet-label p-3 col-2">
-                            <p>ชื่อสัตว์เลี้ยง :</p>
-                            <p>ประเภทสัตว์ :</p>
-                            <p>สายพันธุ์ :</p>
-                            <p>เพศ :</p>
-                            <p>อายุ :</p>
-                        </div>
-
-                        <div className="form-pet-details p-3 col-10">
-                            {pet_id !=0 &&
-                            <>
-                                <p>{pet_name}</p>
-                                <p>{pet_type}</p>
-                                <p>{pet_species}</p>
-                                <p>{pet_gender}</p>
-                                <p>{`${pet_age_year} ปี ${pet_age_month} เดือน`}</p>
-                            </>
-                            }
+                        <div className="form-pet-details p-3">
+                            <div className="row">
+                                <div className="col-5 col-md-2 form-pet-label"><p>ชื่อสัตว์เลี้ยง :</p></div>
+                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_name}</p></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-5 col-md-2 form-pet-label"><p>ประเภทสัตว์ :</p></div>
+                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_type}</p></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-5 col-md-2 form-pet-label"><p>สายพันธุ์ :</p></div>
+                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_species}</p></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-5 col-md-2 form-pet-label "><p>เพศ :</p></div>
+                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_gender}</p></div>
+                            </div>
+                            <div className="row">
+                                <div className="col-5 col-md-2 form-pet-label"><p>อายุ :</p></div>
+                                <div className="col-7 col-md-10 form-pet-data"><p>{`${pet_age_year} ปี ${pet_age_month} เดือน`}</p></div>
+                            </div>
                         </div>
                     </div>
+                }
+
                 
                 <fieldset disabled={isSelectPet}>
-                    <div className="appoint-form mt-4 row">
+                    <div className="appoint-form mt-4">
                         <div className="form-appoint-header">
                             <h6>รายละเอียดการนัดหมาย</h6>
                         </div>
 
-                        <div className="form-appoint-content py-3 px-5">
+                        <div className="form-appoint-content py-3 px-3">
                                 <Row className="mb-3">
-                                    <Form.Group as={Col}controlId="validateRoleType">
+                                    <Form.Group as={Col} controlId="validateRoleType">
                                         <Form.Label>บริการ</Form.Label>
                                         <Form.Select
                                             value={service}
@@ -462,7 +468,7 @@ export default function Appointment(){
                             <fieldset disabled={isSelectService}>
 
                                 <Row className="mb-3">
-                                    <Form.Group as={Col}controlId="validateDate">
+                                    <Form.Group as={Col} xs="12" md="6" controlId="validateDate">
                                         <Form.Label className="d-block">วันที่</Form.Label>
                                         {/* <Form.Control
                                             required
@@ -494,7 +500,7 @@ export default function Appointment(){
 
                                     </Form.Group>
 
-                                    <Form.Group as={Col}controlId="validateRoleType">
+                                    <Form.Group as={Col} xs="12" md="6" controlId="validateRoleType">
                                         <Form.Label>เลือกเวลา</Form.Label>
                                         <Form.Select value={time} onChange={(e) => setTime(e.target.value)}required>
                                     

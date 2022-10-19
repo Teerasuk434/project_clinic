@@ -64,7 +64,7 @@
 }
 
 .left,.center,.right{
-    border-right: 2px solid #D7DBDD ;
+    border-right: 1px solid rgba(253, 254, 254  ,0.25) ;
 }
 
 .Title{
@@ -353,7 +353,8 @@ iframe{
 
 .appoint-form{
     width: 70%;
-    margin:auto;
+    padding:auto;
+    margin: auto;
 }
 
 .form-pet-header,.form-appoint-header{
@@ -372,14 +373,17 @@ iframe{
     width: 90%;
 }
 
-.form-pet-label{
-    background-color: #AED6F1 ;
-    text-align: end;
-    font-weight: 600;
-}
-
 .form-pet-details{
     background-color: #AED6F1 ;
+}
+
+.form-pet-label {
+    font-weight: bold;
+    text-align: end;
+}
+
+.form-pet-data {
+    padding: 0;
 
 }
 
@@ -649,6 +653,19 @@ iframe{
      .service-text{
         font-size: 20px;
      }
+
+     .footer-left{
+        margin-left: 5rem;
+     }
+
+     .boxs-left{
+        padding-left: 3rem;
+     }
+
+     .boxs-right{
+        padding-left: 3rem;
+     }
+
       /* Responsive */
 
       @media only screen and (max-width: 576px) {
@@ -719,13 +736,35 @@ iframe{
         }
         .service-text{
             font-size: 14px;
-            
          }
 
          .mt4-5{
             margin-top: 0.5rem;
-    
         }
+
+        .appoint-form{
+            width: 100%;
+        }
+
+        .boxs-center{
+            margin: 16px 0px;
+            padding: 0;
+         }
+
+         .boxs-left{
+            padding-left:0;
+         }
+
+         .footer-left{
+            margin-left: 0;
+         }
+
+         .boxs-right{
+            margin: 0;
+            padding: 0;
+         }
+        
+
       }
     
       @media only screen and (min-width: 768px) {
