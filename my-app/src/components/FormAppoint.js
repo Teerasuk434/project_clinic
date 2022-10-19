@@ -314,8 +314,7 @@ export default function FormAppoint() {
                                             </div>
                                         </div>
 
-                                        <div className="end">
-                                            {/*  */}
+                                        <div className="end">-
                                         </div>
                                         
                                     <Form noValidate validated={validated} onSubmit={onSave}>

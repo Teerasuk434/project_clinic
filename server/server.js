@@ -1413,6 +1413,8 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
 
+    //SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = "2022-10-16" AND time = "13:00" and emp_id !=2);
+
     pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)", [input.date,input.time,input.time_end], function(error, results, fields){
         if (error) {
             res.json({
