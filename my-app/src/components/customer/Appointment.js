@@ -128,8 +128,6 @@ export default function Appointment(){
         }
     },[date,time])
 
-
-
     useEffect(()=>{
         if(pet_id != 0 || pet_id != ""){
             setIsSelectPet(false);
@@ -174,65 +172,41 @@ export default function Appointment(){
                 count_room = 0;     
 
                 if(appointments != null){
+
                     appointments.map(item => {
-                        if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
+
+                        let time_start = moment(`${date} ${item.time}`);
+                        let time_end = moment(`${date} ${item.time_end}`);
+                        check_time_between = moment(time).isBetween(time_start, time_end);
+
+                        if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
                             count_room++;
                             room_used.push(item.room_id);    
-                            console.log("count_room = " + count_room)
+                        }else if(check_time_between == true && item.room_type_id == room_type_id){
+                            count_room++;
+                            room_used.push(item.room_id);   
 
                         }
                     })
-                }
+                }   
 
+                console.log(time.format("HH:mm"))
                 console.log(count_room)
+
                 if(count_room == 0){ 
-                    console.log("count 0")
-                    if(appointments != null){
-                        for(let i=0;i<appointments.length;i++){
-                            // console.log("time slot = " + time.format("HH:mm"));
-                            if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time && appointments[i].room_type_id == room_type_id && appointments[i].appoint_status != "ยกเลิก"){
-                                count_room++;
-                                room_used.push(appointments[i].room_id);    
-
-                                let time_spent = appointments[i].time_spent;
-                                let time_start = moment(`${date} ${appointments[i].time}`);
-                                let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
-        
-                                check_time_between = moment(time).isBetween(time_start, time_end);
-
-                                if(check_time_between){
-                                    i = appointments.length;
-                                }
-                                
-                            }
-                            
-                        }
-    
-                        if(!check_time_between){
-                            rooms.map(item =>{
-                                console.log("add : " + time.format("HH:mm") )
-                                room_available_temp.push({
-                                    date:date,
-                                    time:time.format("HH:mm"),
-                                    room_id:item.room_id })
-                            })
-                        }
-    
-                        setRoomAvailable(room_available_temp);
-                    }else{
-                        rooms.map(item =>{
-                            room_available_temp.push({
-                                date:date,
-                                time:time.format("HH:mm"),
-                                room_id:item.room_id })
-                        })
-                        setRoomAvailable(room_available_temp);
-
-                    }
+                    // set ห้อง 
+                    rooms.map(item =>{
+                        room_available_temp.push({
+                            date:date,
+                            time:time.format("HH:mm"),
+                            room_id:item.room_id })
+                    })
+                    setRoomAvailable(room_available_temp);
 
                 }else if(count_room > 0){
-                    // console.log("else if")
+                    // set ห้องที่ว่าง
                     rooms.map(item => {
+
                         let room_boolean = room_used.find(item2 => {
                             if(item2 == item.room_id){
                                 return true
@@ -252,6 +226,7 @@ export default function Appointment(){
                     setRoomAvailable(room_available_temp)
                     
                 }
+                
                 if(count_room < rooms.length && check_time_between == false && time.format("HH:mm") != "19:00" ){
                     timeSlot.push(
                         {
