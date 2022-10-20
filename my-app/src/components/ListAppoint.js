@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { Table,Button, InputGroup, Form, Pagination, Row, Col} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { API_GET,API_POST } from '../api';
 import ListAppointItem from './ListAppointItem';
 import Top from './Top';
@@ -26,9 +25,7 @@ export default function ListAppoint(){
       };
 
     const onAppointmentFormOpening = (e) => {
-        console.log(e)
-        let data = allAppointments.find(item => item.appoint_id == e.appointmentData.id);
-        console.log(allAppointments)
+        let data = allAppointments.find(item => item.appoint_id === e.appointmentData.id);
         onShowAppointment(data);
         e.cancel = true;
     };
@@ -39,9 +36,9 @@ export default function ListAppoint(){
 
     let role_id = localStorage.getItem("role_id")
 
-    if(role_id == 2){
+    if(role_id === 2){
         pages = 2;
-    }else if (role_id == 3){
+    }else if (role_id === 3){
         pages = 3;
     }
 
@@ -66,26 +63,12 @@ export default function ListAppoint(){
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(10);
 
-    const [schedulesDate, setSchedulesDate] = useState([]);
-    const [schedulesTime, setSchedulesTime] = useState([]);
-
     useEffect(() => {
         fetchAppointment();
         fetchAllAppointment();
         fetchRooms();
         fetchEmployee();
         fetchScheduleData();
-
-        let date_temp = [];
-        for(let i=0 ;i<6; i++){
-            date_temp.push(moment().day(i).format("DD/MM/YYYY"))
-        }
-        setSchedulesDate(date_temp)
-        console.log(date_temp)
-
-        const range = moment.range(`${date_temp[0]} 13:00`, `${date_temp[0]} 19:00`);
-        const hours = Array.from(range.by('minute',{step:60}));
-        setSchedulesTime(hours);
     }, []);
 
 
@@ -164,7 +147,7 @@ export default function ListAppoint(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if(search != ""){
+            if(search !== ""){
                 const fuse = new Fuse(listAppoint, {
                     keys: ['appoint_id','cust_fname','cust_lname','date','emp_name','service_name','time','time_end']
                 })
@@ -187,7 +170,7 @@ export default function ListAppoint(){
 
         let searchAppointment = [] 
 
-        if(room_id > 0  && emp_id == 0){
+        if(room_id > 0  && emp_id === 0){
             const fuse = new Fuse(listAppoint, {
                 keys: ['room_id']
             })
@@ -199,7 +182,7 @@ export default function ListAppoint(){
             })
     
             setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
-        }else if (room_id == 0 && emp_id > 0) {
+        }else if (room_id === 0 && emp_id > 0) {
             const fuse = new Fuse(listAppoint, {
                 keys: ['emp_id']
             })
@@ -391,7 +374,7 @@ export default function ListAppoint(){
                                                 </tr>
                                             </thead>
                                             <tbody>
-						                        {appointments != null &&
+						                        {appointments !== null &&
                                                     appointments.map(item => (
                                                         <ListAppointItem
                                                         key={item.appoint_id}
@@ -404,7 +387,7 @@ export default function ListAppoint(){
                                     </Table>
                                 </div>
 
-                                {appointments.length == 0 && <h6 className="text-center">ไม่มีข้อมูลนัดหมายในขณะนี้</h6>}
+                                {appointments.length === 0 && <h6 className="text-center">ไม่มีข้อมูลนัดหมายในขณะนี้</h6>}
 
 
                                 {appointments.length > 0 &&

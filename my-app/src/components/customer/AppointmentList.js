@@ -103,7 +103,7 @@ export default function AppointmentList(){
         } else {
             let image_url
 
-            if(imageUrl == ""){
+            if(imageUrl === ""){
                 image_url = payment_image;
             }else{
                 image_url = imageUrl;
@@ -124,10 +124,6 @@ export default function AppointmentList(){
         }
         setValidated(true);
     }
-
-
-
-
 
     return(
         <>

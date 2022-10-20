@@ -17,7 +17,6 @@ export default function Appointment(){
     const moment = extendMoment(Moment);
 
     const minDate = (Moment().add(2, 'days').format('YYYY-MM-DD'));
-    const maxDate = (Moment().add(8, 'days').format('YYYY-MM-DD'));
 
     const [pet_id,setPetId] = useState(0);
     const [pet_name,setPetName] = useState("");
@@ -32,7 +31,6 @@ export default function Appointment(){
     const [timeSlot,setTimeSlot] = useState([]);
     const [symtoms,setSymtoms] = useState("");
 
-    const [rooms, setRooms] = useState([]);
     const [room_available, setRoomAvailable] = useState([]);
 
     const [listPets,setListPets] = useState([]);
@@ -48,8 +46,6 @@ export default function Appointment(){
 
     const [selectedFile, setSelectedFile] = useState([]);
 
-    const [appoint_id, setAppointId] = useState(0);
-
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
@@ -59,8 +55,6 @@ export default function Appointment(){
     const [successAppointMessage, setSuccessAppointMessage] = useState("");
 
     let navigate = useNavigate();
-
-    let d = new Date();
 
     const dateOptions = {
         "disable": [
@@ -78,7 +72,7 @@ export default function Appointment(){
     let user_id = localStorage.getItem("user_id");
     let role_id = localStorage.getItem("role_id");
     
-    if(user_id == null || role_id != 1){
+    if(user_id === null || role_id !== 1){
         navigate("/login", { replace: true});
     }
 
@@ -99,9 +93,9 @@ export default function Appointment(){
     },[])
 
     useEffect(()=>{
-        if(pet_id != 0){
+        if(pet_id !== 0){
             listPets.map(item => {
-                if(item.pet_id == pet_id){
+                if(item.pet_id === pet_id){
                     setPetName(item.pet_name);
                     setPetType(item.pet_type);
                     setPetSpecies(item.pet_species);
@@ -121,7 +115,7 @@ export default function Appointment(){
     },[pet_id])
 
     useEffect(()=>{
-        if(service != [] && time != ""){
+        if(service !== [] && time !== ""){
             setTimeSlots();
             setServiceTimeSpent(listServices[service-1].time_spent);
         }
@@ -129,7 +123,7 @@ export default function Appointment(){
 
     useEffect(() => {
         console.log(date)
-        if(pet_id != 0){
+        if(pet_id !== 0){
             setTimeSlots();
         }
     },[date,time])
@@ -137,9 +131,9 @@ export default function Appointment(){
 
 
     useEffect(()=>{
-        if(pet_id != 0 || pet_id != ""){
+        if(pet_id !== 0 || pet_id !== ""){
             setIsSelectPet(false);
-            if(service !=""){
+            if(service !==""){
                 setIsSelectService(false);
             }else{
                 setIsSelectService(true);
@@ -163,8 +157,9 @@ export default function Appointment(){
             room_type_id:room_type_id
         });
 
-        rooms = json.data;
-        setRooms(json.data);
+        if(json.result){
+            rooms = json.data;
+        }
 
         const range = moment.range(`${date} 13:00`, `${date} 19:00`);
         let timeSlot = [];
@@ -180,7 +175,7 @@ export default function Appointment(){
 
                 if(appointments != null){
                     appointments.map(item => {
-                        if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id & item.status_id != 6){
+                        if(date === item.date && time.format("HH:mm") === item.time & item.room_type_id === room_type_id & item.status_id !== 6){
                             count_room++;
                             room_used.push(item.room_id);    
                             console.log("count_room = " + count_room)
@@ -190,12 +185,12 @@ export default function Appointment(){
                 }
 
                 console.log(count_room)
-                if(count_room == 0){ 
+                if(count_room === 0){ 
                     console.log("count 0")
-                    if(appointments != null){
+                    if(appointments !== null){
                         for(let i=0;i<appointments.length;i++){
                             // console.log("time slot = " + time.format("HH:mm"));
-                            if(date == appointments[i].date && time.format("HH:mm") == appointments[i].time && appointments[i].room_type_id == room_type_id && appointments[i].appoint_status != "ยกเลิก"){
+                            if(date === appointments[i].date && time.format("HH:mm") === appointments[i].time && appointments[i].room_type_id === room_type_id && appointments[i].appoint_status !== "ยกเลิก"){
                                 count_room++;
                                 room_used.push(appointments[i].room_id);    
 
@@ -204,8 +199,7 @@ export default function Appointment(){
                                 let time_end = moment(`${date} ${appointments[i].time}`).add(time_spent,'m');
         
                                 check_time_between = moment(time).isBetween(time_start, time_end);
-                                // console.log("status : " + check_time_between)
-                                console.log(time.format("HH:mm") +" " + time_start.format("HH:mm") + " " + time_end.format("HH:mm"))
+
                                 if(check_time_between){
                                     i = appointments.length;
                                 }
@@ -257,9 +251,8 @@ export default function Appointment(){
 
                     setRoomAvailable(room_available_temp)
                     
-
                 }
-                if(count_room < rooms.length && check_time_between == false && time.format("HH:mm") != "19:00" ){
+                if(count_room < rooms.length && check_time_between === false && time.format("HH:mm") !== "19:00" ){
                     timeSlot.push(
                         {
                             "id":index++,
@@ -306,7 +299,7 @@ export default function Appointment(){
         console.log(time_end)
 
         room_available.map(item=>{
-            if(item.date == date && item.time == time){
+            if(item.date === date && item.time === time){
                 room_id.push(item.room_id)
             }
         })
@@ -405,7 +398,7 @@ export default function Appointment(){
 
                     </div>
                     
-                    {pet_id !=0 &&
+                    {pet_id !==0 &&
                     <div className="appoint-form mt-4 row">
                         <div className="form-pet-header">
                             <h6>ข้อมูลสัตว์เลี้ยง</h6>
@@ -506,7 +499,7 @@ export default function Appointment(){
                                     
                                             <option label="กรุณาเลือกเวลา"></option> 
 
-                                            {service != "" &&
+                                            {service !== "" &&
                                             timeSlot.map(item => (
                                                 <option key={item.id} value={item.time}> 
                                                     {item.time} - {moment(`${date} ${item.time}`).add(listServices[service-1].time_spent, 'm').format("HH:mm")}

@@ -2,17 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { API_GET, API_POST } from '../../api';
 import { Link } from 'react-router-dom';
-import { Form, Row, Col, Table,Button,InputGroup,Pagination } from 'react-bootstrap'
+import { Form,Table,Button,InputGroup,Pagination } from 'react-bootstrap'
 import Fuse from 'fuse.js'
 import { ConfirmModal } from '../Modal';
-
-
 import Sidebar from '../Sidebar';
 import Top from '../Top';
 import UsersItem from './UsersItem';
 
 export default function Admin() {
-    let date = new Date().toLocaleDateString();
     let pages = 2;
 
     const [search, setSearch] = useState("");
@@ -31,29 +28,12 @@ export default function Admin() {
 
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/users",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setListUsers(json.data);
-            setUsers(json.data);
-        }
-        fetchData();
+        fetchUsers();
 
     }, []);
 
     useEffect(() => {
-        if(search == ""){
+        if(search === ""){
             setUsers(listUsers);
         }
 
@@ -95,7 +75,7 @@ export default function Admin() {
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if(search != ""){
+            if(search !== ""){
 
                 const fuse = new Fuse(listUsers, {
                     keys: ['user_id','username','role_name']
@@ -107,8 +87,6 @@ export default function Admin() {
                 search_result.map(item => {
                     searchUser.push(item.item)
                 })
-
-                console.log(searchUser)
 
                 setUsers(searchUser.sort((a,b) => a.user_id - b.user_id));
             }else {
@@ -124,7 +102,7 @@ export default function Admin() {
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage == i}
+                    active={currentPage === i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -221,9 +199,9 @@ export default function Admin() {
                                 <div className="d-flex justify-content-end">
                                     <Pagination onSelect={onPageSelected} size="sm">
                                         <Pagination.First onClick={firstPage} />
-                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                        <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
                                         { getPagination()}
-                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                        <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { Form , Col, Button, Row} from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Form ,Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { API_GET, API_POST } from '../api';
 import { ShowPaymentModal } from './Modal';
 import Top from './Top';
@@ -9,15 +9,15 @@ import Top from './Top';
 import { ConfirmModal  } from './Modal';
 
 export default function FormAppoint() {
-    let date = new Date().toLocaleDateString();
+
     let params = useParams();
     let pages;
 
     let role_id = localStorage.getItem("role_id")
 
-    if(role_id == 2){
+    if(role_id === 2){
         pages = 2;
-    }else if (role_id == 3){
+    }else if (role_id === 3){
         pages = 3;
     }
 
@@ -65,8 +65,6 @@ export default function FormAppoint() {
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    const [showModal, setShowModal] = useState(false);
-
     useEffect(() => {
         async function fetchData(appoint_id) {
             let json = await API_GET("appointment");
@@ -75,7 +73,7 @@ export default function FormAppoint() {
             
             if(json.result){
                 appointment_data.map(item=>{
-                    if(item.appoint_id == appoint_id){
+                    if(item.appoint_id === appoint_id){
                         data = item
                     }
                 })
@@ -111,7 +109,7 @@ export default function FormAppoint() {
             if(json2.result){
                 let schedules_data = json2.data;
                 schedules_data.map(item => {
-                    if(item.appoint_id == data.appoint_id){
+                    if(item.appoint_id === data.appoint_id){
                         setEmpId(item.emp_id)
                         setEmpFirstName(item.emp_fname);
                         setEmpLastName(item.emp_lname);
@@ -126,7 +124,7 @@ export default function FormAppoint() {
 
             let appoint_status_temp = [];
             json3.data.map(item=>{
-                if(item.status_id != 1 && item.status_id != 3){
+                if(item.status_id !== 1 && item.status_id !== 3){
                     appoint_status_temp.push(item)
 
                 

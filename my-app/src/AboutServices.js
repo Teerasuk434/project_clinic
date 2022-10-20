@@ -1,10 +1,7 @@
 import BoxTop from "./components/Box-top"
 import Footer from "./components/Footer"
-import { Link } from "react-router-dom" 
 import Navigation from "./components/Navigation"
 import './style.css'
-
-import { Table } from "react-bootstrap"
 import { useState , useEffect } from "react"
 import { API_GET } from "./api"
 import AboutServicesItems from "./AboutServiceItem"
@@ -12,37 +9,14 @@ import AboutServicesItems from "./AboutServiceItem"
 export default function AboutServices (props){
 
     const [services, setServices] = useState([]);
-    const [service_id, setServiceId] = useState(0);
-    const [service_name, setServiceName] = useState("");
-    const [listServices, setListServices] = useState([]);
-
 
     useEffect(() => {
-        async function fetchServices() {
-            const response = await fetch(
-                "http://localhost:8080/api/service",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setServices(json.data);
-            setListServices(json.data);
-        }
-        fetchServices();
-
-    }, [service_name]);
+       fetchServices();
+    }, []);
 
     const fetchServices = async () => {
         let json = await API_GET("service");
         setServices(json.data);
-        setListServices(json.data);
     }
 
     return(
