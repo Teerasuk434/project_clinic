@@ -103,7 +103,7 @@ export default function FormReqAppoint() {
             if(json3.result){
                 let schedules_data = json3.data;
                 schedules_data.map(item => {
-                    if(item.appoint_id === data.appoint_id){
+                    if(item.appoint_id == data.appoint_id){
                         setEmpId(item.emp_id)
                     }
                 })
@@ -113,7 +113,7 @@ export default function FormReqAppoint() {
             let appoint_status_temp = [];
 
             json4.data.map(item=>{
-                if(item.status_id !== 4 && item.status_id !== 5){
+                if(item.status_id != 4 && item.status_id != 5){
                     appoint_status_temp.push(item);
                 }
             })
@@ -187,7 +187,7 @@ export default function FormReqAppoint() {
     }
 
     const onClickConfirm = async () => {
-        if(appoint_status === 2){
+        if(appoint_status == 2){
             createSchedule();
         }else{
             updateAppointment();
@@ -199,10 +199,10 @@ export default function FormReqAppoint() {
     }
 
     const getNote = () =>{
-        if(appoint_status === 2 || appoint_status === 3 || appoint_status === 6){
+        if(appoint_status == 2 || appoint_status == 3 || appoint_status == 6){
 
             let required_boolean;
-            if(appoint_status === 3){
+            if(appoint_status == 3){
                 required_boolean = true;
             }else{
                 required_boolean = false;
@@ -345,7 +345,7 @@ export default function FormReqAppoint() {
                                             </div>
 
                                             <div className="col-4">
-                                                {appoint_status === 2 &&
+                                                {appoint_status == 2 &&
                                                     <Form.Group controlId="validateEmp">
                                                         <Form.Label><b>ผู้รับหน้าที่ :</b></Form.Label>
                                                         <Form.Select

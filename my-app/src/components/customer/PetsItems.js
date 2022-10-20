@@ -12,7 +12,7 @@ export default function PetsItems(props) {
             <div className="bg-light shadow text-start col-12 col-md-3 box-pet">
                 <div className="box-pet-details">
                     <div className="text-center border-bottom border-secondary border-opacity-50 p-2 box-pet-image">
-                        {props.data.image === "" ?
+                        {props.data.image == "" ?
                             <img src={`http://localhost:8080/images/pets/default.png`} alt=""/>
                             :
                             <img src={`http://localhost:8080/images/pets/${props.data.image}`} alt=""/>    

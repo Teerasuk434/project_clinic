@@ -39,7 +39,7 @@ export default function HistoryAppoint(){
     }, []);
 
     useEffect(() => {
-        if(search === ""){
+        if(search == ""){
             setAppointment(listappointment);
         }
     }, [search]);
@@ -51,7 +51,7 @@ export default function HistoryAppoint(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if(search !== ""){
+            if(search != ""){
                 const fuse = new Fuse(listappointment, {
                     keys: ['appoint_id', 'cust_fname', 'cust_lname', 'pet_name']
                 })
@@ -77,7 +77,7 @@ export default function HistoryAppoint(){
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage === i}
+                    active={currentPage == i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -198,9 +198,9 @@ export default function HistoryAppoint(){
                                     <div className="d-flex justify-content-end">
                                         <Pagination onSelect={onPageSelected} size="sm">
                                             <Pagination.First onClick={firstPage} />
-                                            <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
+                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
                                             { getPagination()}
-                                            <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
+                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
                                             <Pagination.Last onClick={lastPage} />
                                         </Pagination>
                                     </div>

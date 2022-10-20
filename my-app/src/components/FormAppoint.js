@@ -15,9 +15,9 @@ export default function FormAppoint() {
 
     let role_id = localStorage.getItem("role_id")
 
-    if(role_id === 2){
+    if(role_id == 2){
         pages = 2;
-    }else if (role_id === 3){
+    }else if (role_id == 3){
         pages = 3;
     }
 
@@ -111,7 +111,7 @@ export default function FormAppoint() {
             if(json2.result){
                 let schedules_data = json2.data;
                 schedules_data.map(item => {
-                    if(item.appoint_id === data.appoint_id){
+                    if(item.appoint_id == data.appoint_id){
                         setEmpId(item.emp_id)
                         setEmpFirstName(item.emp_fname);
                         setEmpLastName(item.emp_lname);
@@ -126,7 +126,7 @@ export default function FormAppoint() {
 
             let appoint_status_temp = [];
             json3.data.map(item=>{
-                if(item.status_id !== 1 && item.status_id !== 3){
+                if(item.status_id != 1 && item.status_id != 3){
                     appoint_status_temp.push(item)
 
                 
