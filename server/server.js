@@ -1412,9 +1412,10 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
 
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
+    console.log(input)
     let sql;
 
-    if(input.status === "add"){
+    if(input.status == "add"){
         sql = "SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)";
 
         pool.query(sql, [input.date,input.time], function(error, results, fields){
@@ -1438,7 +1439,7 @@ app.post('/api/schedules/emp_available',(req, res) => {
             }
         });
 
-    }else if(input.status === "edit"){
+    }else if(input.status == "edit"){
         sql = "SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ? AND emp_id != ?)"
         pool.query(sql, [input.date,input.time,input.emp_id], function(error, results, fields){
             if (error) {
@@ -1461,6 +1462,7 @@ app.post('/api/schedules/emp_available',(req, res) => {
             }
         });
     }
+
 });
 
 app.post('/api/schedules/add',async(req, res) => {
