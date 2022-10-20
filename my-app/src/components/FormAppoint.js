@@ -35,6 +35,8 @@ export default function FormAppoint() {
     const [pet_age_month,setPetAgeMonth] = useState(0);
     const [symtoms,setSymtoms] = useState("");
 
+    const [appointment, setAppointment] = useState({});
+
     const [appoint_status,setAppointStatus] = useState(0);
     const [status, setStatus] = useState([]);
     const [appoint_time,setAppointTime] = useState("");
@@ -55,8 +57,11 @@ export default function FormAppoint() {
     const [paymentImageModal, setPaymentImageModal] = useState("");
 
     const [emp_id, setEmpId] = useState(0);
+    const [emp_id_selected, setEmpIdSelected] = useState(0);
     const [emp_firstname, setEmpFirstName] = useState("");
     const [emp_lastname, setEmpLastName] = useState("");
+
+    const [employees, setEmployees] = useState([]);
 
     const [validated,setValidated] = useState(false);   
 
@@ -77,6 +82,7 @@ export default function FormAppoint() {
 
                     if(item.appoint_id == appoint_id){
                         data = item
+                        setAppointment(item);
                     }
                 })
             }
@@ -116,6 +122,7 @@ export default function FormAppoint() {
                         setEmpFirstName(item.emp_fname);
                         setEmpLastName(item.emp_lname);
                         setScheduleId(item.schedule_id);
+                        setEmpIdSelected(item.emp_id)
                     }
                 })
             }
@@ -135,19 +142,31 @@ export default function FormAppoint() {
 
             setStatus(appoint_status_temp);
 
-            let json4 = await API_POST("schedules/emp_available",{
-                date:data.date,
-                time:data.time,
-                time_end:data.time_end,
-                status:"edit",
-                emp_id:emp_id
-            })
-
-            console.log(json4)
+            
 
         }
         fetchData([params.appoint_id]);
     },[params.appoint_id])
+
+    useEffect(() =>{
+        if(appointment != null){
+            fetchEmployees();
+        }
+    },[emp_id])
+
+    const fetchEmployees = async () =>{
+        let json = await API_POST("schedules/emp_available",{
+            date:appointment.date,
+            time:appointment.time,
+            time_end:appointment.time_end,
+            status:"edit",
+            emp_id:emp_id
+        })
+
+        if(json.result){
+            setEmployees(json.data);
+        }
+    }
 
 
     const onClickShow = () => {
@@ -175,7 +194,7 @@ export default function FormAppoint() {
 
     const createSchedule = async () => {
         let json = await API_POST("schedules/edit",{
-            emp_id:emp_id,
+            emp_id:emp_id_selected,
             appoint_id:appoint_id,
             room_id:room_id,
             appoint_date:appoint_date,
@@ -315,6 +334,7 @@ export default function FormAppoint() {
                                             
                                             <div className="col-3"> 
                                                 <Form.Group controlId="validateStatus">
+                                                    <Form.Label><b>สถานะ</b></Form.Label>
                                                     <Form.Select 
                                                     value={appoint_status}
                                                     required
@@ -333,14 +353,40 @@ export default function FormAppoint() {
                                                 </Form.Group>
                                             </div>
 
-                                            <div className="col-6">
+                                            <div className="col-4">
+                                                <Form.Group controlId="validateEmp">
+                                                    <Form.Label><b>ผู้รับหน้าที่ :</b></Form.Label>
+                                                    <Form.Select
+                                                        value={emp_id_selected}
+                                                        onChange={(e) => setEmpIdSelected(e.target.value)}
+                                                        required>
+                                                        <option label="เลือกผู้รับหน้าที่"></option>
+                                                        {employees != null &&
+                                                            employees.map(item => (
+                                                                <option key={item.emp_id} value={item.emp_id}>
+                                                                    {item.emp_fname}   {item.emp_lname}
+                                                                </option>
+                                                            ))
+                                                        }
+                                                    </Form.Select>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        กรุณาเลือกผู้รับหน้าที่
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            
+                                            </div>
+
+                                            <div className="col-5">
                                                 {appoint_status >3  &&
-                                                <>
-                                                    <Form.Control
-                                                    type="text"
-                                                    placeholder="หมายเหตุ"
-                                                    >
-                                                    </Form.Control>
+                                                <>  
+                                                    <Form.Group controlId="validateNote">
+                                                        <Form.Label><b>หมายเหตุ :</b></Form.Label>
+                                                            <Form.Control
+                                                            type="text"
+                                                            placeholder="หมายเหตุ"
+                                                            >
+                                                            </Form.Control>
+                                                    </Form.Group>
                                                 </>}
 
                                             </div>
