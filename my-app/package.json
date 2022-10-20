@@ -2,8 +2,11 @@
   "name": "my-product-app",
   "version": "0.1.0",
   "private": true,
-  "files": [ "dist", "README.md", "src/**" ],
-  
+  "files": [
+    "dist",
+    "README.md",
+    "src/**"
+  ],
   "dependencies": {
     "@react-oauth/google": "^0.2.8",
     "@testing-library/jest-dom": "^5.16.4",

@@ -33,23 +33,6 @@ export default function Rooms(){
     let pages = 7;
 
     useEffect( () => {
-        async function fetchData(){
-            const response = await fetch(
-                "http://localhost:8080/api/room",
-                {
-                    method: "GET",
-                    headers:{
-                        Accept:"application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer" + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setRoom(json.data);
-            setListRoom(json.data);
-        }
         fetchData();
     },[]);
 

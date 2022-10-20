@@ -204,26 +204,6 @@ export function ConfirmModal(props) {
     );
 };
 
-export function UpdateModal(props) {
-
-    return (
-        <Modal show={props.show} onHide={props.onClose} backdrop="static">
-            <Modal.Header closeButton>
-                <Modal.Title>{props.title}</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-                <h6>{props.message}</h6>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <Button variant="primary" size="sm" onClick={props.onConfirm}>ตกลง</Button>
-                <Button variant="danger" size="sm" onClick={props.onClose}>ยกเลิก</Button>
-            </Modal.Footer>
-        </Modal>
-    );
-};
-
 export function MessageModal(props) {
 
     return (

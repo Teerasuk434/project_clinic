@@ -31,25 +31,7 @@ export default function Admin() {
     const [numPerPage, setNumPerPage] = useState(10);
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/roles",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setRoles(json.data);
-            setListRoles(json.data);
-        }
-
-        fetchData();
+        fetchRoles();
     }, []);
 
     useEffect(() => {
@@ -108,16 +90,13 @@ export default function Admin() {
                 search_result.map(item => {
                     searchRoles.push(item.item)
                 })
-                listRoles.filter(role => role.role_name.includes(search)).map(item => {
-                    searchRoles.push(item);
-                })
     
                 setRoles(searchRoles.sort((a,b) => a.role_id - b.role_id));
             }else {
                 setRoles(listRoles);
             }
         }
-     }
+    }
 
      const getPagination = () => {
         let items = [];

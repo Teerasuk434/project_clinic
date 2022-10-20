@@ -36,25 +36,7 @@ export default function EmployeeType(props){
 
 
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8080/api/emp_types",
-                {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setEmpTypes(json.data);
-            setListEmpTypes(json.data);
-        }
         fetchData();
-
     }, []);
 
     useEffect(() => {

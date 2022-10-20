@@ -5,6 +5,7 @@ import EmployeeItem from "./EmployeeItem";
 import { API_GET,API_POST } from "../../api";
 import Top from "../Top";
 import { ConfirmModal } from "../Modal";
+import Fuse from "fuse.js";
 
 import Sidebar from "../Sidebar";
 
@@ -46,15 +47,25 @@ export default function Employee(){
             event.stopPropagation();
         } else {
             if(search !== ""){
-                let searchEmployee = [];
-                listemployee.filter(type => type.emp_fname.includes(search)).map(item => {
-                    searchEmployee.push(item);
+
+                const fuse = new Fuse(listemployee, {
+                    keys: ['emp_id' , 'emp_fname' ,'emp_lname']
                 })
-    
-                setEmployee(searchEmployee);
+
+                let search_result = fuse.search(search)
+                let searchEmployee = []
+
+                search_result.map(item => {
+                    searchEmployee.push(item.item)
+                })
+
+                setEmployee(searchEmployee.sort((a,b) => a.emp_id - b.emp_id));
+            }else{
+                setEmployee(listemployee);
             }
         }
-     }
+    }
+
      const onDelete = async (data) => {
 
         setEmpId(data.emp_id);
@@ -121,6 +132,7 @@ export default function Employee(){
     const lastPage = () => {
         setCurrentPage(pageCount - 1);
     }
+
     return (
         <>
            <div className="container-fluid">
