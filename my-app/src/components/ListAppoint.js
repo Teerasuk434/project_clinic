@@ -25,7 +25,7 @@ export default function ListAppoint(){
       };
 
     const onAppointmentFormOpening = (e) => {
-        let data = allAppointments.find(item => item.appoint_id === e.appointmentData.id);
+        let data = allAppointments.find(item => item.appoint_id == e.appointmentData.id);
         onShowAppointment(data);
         e.cancel = true;
     };
@@ -36,9 +36,9 @@ export default function ListAppoint(){
 
     let role_id = localStorage.getItem("role_id")
 
-    if(role_id === 2){
+    if(role_id == 2){
         pages = 2;
-    }else if (role_id === 3){
+    }else if (role_id == 3){
         pages = 3;
     }
 
@@ -144,10 +144,10 @@ export default function ListAppoint(){
         const form = event.currentTarget;
         event.preventDefault();
 
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() == false) {
             event.stopPropagation();
         } else {
-            if(search !== ""){
+            if(search != ""){
                 const fuse = new Fuse(listAppoint, {
                     keys: ['appoint_id','cust_fname','cust_lname','date','emp_name','service_name','time','time_end']
                 })
@@ -170,7 +170,7 @@ export default function ListAppoint(){
 
         let searchAppointment = [] 
 
-        if(room_id > 0  && emp_id === 0){
+        if(room_id > 0  && emp_id == 0){
             const fuse = new Fuse(listAppoint, {
                 keys: ['room_id']
             })
@@ -182,7 +182,7 @@ export default function ListAppoint(){
             })
     
             setAppointments(searchAppointment.sort((a,b) => a.appoint_id - b.appoint_id));
-        }else if (room_id === 0 && emp_id > 0) {
+        }else if (room_id == 0 && emp_id > 0) {
             const fuse = new Fuse(listAppoint, {
                 keys: ['emp_id']
             })
@@ -374,7 +374,7 @@ export default function ListAppoint(){
                                                 </tr>
                                             </thead>
                                             <tbody>
-						                        {appointments !== null &&
+						                        {appointments != null &&
                                                     appointments.map(item => (
                                                         <ListAppointItem
                                                         key={item.appoint_id}
@@ -387,7 +387,7 @@ export default function ListAppoint(){
                                     </Table>
                                 </div>
 
-                                {appointments.length === 0 && <h6 className="text-center">ไม่มีข้อมูลนัดหมายในขณะนี้</h6>}
+                                {appointments.length == 0 && <h6 className="text-center">ไม่มีข้อมูลนัดหมายในขณะนี้</h6>}
 
 
                                 {appointments.length > 0 &&

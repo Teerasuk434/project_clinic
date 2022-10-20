@@ -76,7 +76,7 @@ export default function Pets(){
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage === i}
+                    active={currentPage == i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -150,9 +150,9 @@ export default function Pets(){
                                                 <div className="d-flex justify-content-center mt-3">
                                                     <Pagination onSelect={onPageSelected} size="sm">
                                                         <Pagination.First onClick={firstPage} />
-                                                        <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
+                                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
                                                         { getPagination()}
-                                                        <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
+                                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
                                                         <Pagination.Last onClick={lastPage} />
                                                     </Pagination>
                                                 </div>

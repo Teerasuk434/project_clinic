@@ -64,13 +64,13 @@ export default function FormPets(){
             setImageUrl(data.image)
         }
 
-        if (params.pet_id !== "add") {
+        if (params.pet_id != "add") {
             fetchData([params.pet_id]);
         }
     },[params.pet_id])
 
     useEffect(() =>{
-        if(pet_age_year === 0 && pet_age_month === 0){
+        if(pet_age_year == 0 && pet_age_month == 0){
             setMinAge(1);
             setCheckAge(true);
         }else if(pet_age_year > 0){
@@ -189,7 +189,7 @@ export default function FormPets(){
 
     const onConfirm = async () => {
     
-        if(params.pet_id === "add"){
+        if(params.pet_id == "add"){
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
             setConfirmModalMessage("คุณต้องการเพิ่มสัตว์เลี้ยงใช่หรือไม่");
             setConfirmModal(true);
@@ -205,7 +205,7 @@ export default function FormPets(){
     const onClickConfirm = async () => {
         setConfirmModal(false);
 
-        if(params.pet_id === "add"){
+        if(params.pet_id == "add"){
             doCreatePet();
             
         }else{
@@ -237,7 +237,7 @@ export default function FormPets(){
                         <div className="col-12 col-md-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
-                                    {params.pet_id === "add" ?
+                                    {params.pet_id == "add" ?
                                         <h4>เพิ่มข้อมูลสัตว์เลี้ยง</h4>
                                     :
                                         <h4>แก้ไขข้อมูลสัตว์เลี้ยง</h4>
@@ -360,7 +360,7 @@ export default function FormPets(){
                                                     </div>
 
                                                     <div className="col-6"> 
-                                                        {imageUrl !== "" && 
+                                                        {imageUrl != "" && 
                                                             <div className="m-auto text-center mb-4 mt-2 shadow-sm p-2">
                                                                 <img src={`${SERVER_URL}images/pets/${imageUrl}`} width={200} alt="Upload status"/>
 

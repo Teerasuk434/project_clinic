@@ -51,7 +51,7 @@ export default function FormEmployee(){
 
         }
 
-        if(params.emp_id !== "add"){
+        if(params.emp_id != "add"){
             fetchData([params.emp_id]);
         }
     },[params.emp_id]);
@@ -120,7 +120,7 @@ export default function FormEmployee(){
     }
 
     const onConfirm = async (data) => {
-        if(params.emp_id === "add"){
+        if(params.emp_id == "add"){
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
             setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
             setConfirmModal(true);
@@ -135,7 +135,7 @@ export default function FormEmployee(){
     const onConfirmUpdate = async () => {
         setConfirmModal(false);
 
-        if(params.emp_id === "add"){
+        if(params.emp_id == "add"){
             doCreateEmployee();
         }else{
             doUpdateEmployee();
@@ -170,7 +170,7 @@ export default function FormEmployee(){
                                     <div className="container m-auto">
                                 
                                         <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            {params.emp_id === "add" ?
+                                            {params.emp_id == "add" ?
                                                 <h4 className="text-center mt-3">เพิ่มข้อมูลพนักงาน</h4>
                                             
                                             :

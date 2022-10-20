@@ -33,7 +33,7 @@ export default function Employee(){
     },[]);
 
     useEffect(() => {
-        if(search === ""){
+        if(search == ""){
             setEmployee(listemployee);
         }
 
@@ -43,10 +43,10 @@ export default function Employee(){
         const form = event.currentTarget;
         event.preventDefault();
 
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() == false) {
             event.stopPropagation();
         } else {
-            if(search !== ""){
+            if(search != ""){
 
                 const fuse = new Fuse(listemployee, {
                     keys: ['emp_id' , 'emp_fname' ,'emp_lname']
@@ -103,7 +103,7 @@ export default function Employee(){
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage === i}
+                    active={currentPage == i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -199,9 +199,9 @@ export default function Employee(){
                                 <div className="d-flex justify-content-end">
                                     <Pagination onSelect={onPageSelected} size="sm">
                                         <Pagination.First onClick={firstPage} />
-                                        <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
+                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
                                         { getPagination()}
-                                        <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
+                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>
