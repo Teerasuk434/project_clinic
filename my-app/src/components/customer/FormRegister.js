@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, Row, Col, Button, InputGroup } from 'react-bootstrap';
 import { ConfirmModal,MessageModal,SuccessRegisterModal } from '../Modal';
 import { useNavigate } from 'react-router-dom';
@@ -28,8 +28,6 @@ export default function FormRegister(){
     const [modalTitle, setModalTitle] = useState("");
     const [modalMessage, setModalMessage] = useState("");
 
-    
-    let user_id = 0;
 
     const onSave = async (event) => {
         const form = event.currentTarget;

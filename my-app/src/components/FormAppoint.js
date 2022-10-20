@@ -70,17 +70,16 @@ export default function FormAppoint() {
     useEffect(() => {
         async function fetchData(appoint_id) {
             let json = await API_GET("appointment");
-            let data
+            let appointment_data = json.data;
+            let data = [];
             
             if(json.result){
-                json.data.map(item=>{
+                appointment_data.map(item=>{
                     if(item.appoint_id == appoint_id){
                         data = item
                     }
                 })
             }
-
-            console.log(data)
 
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
@@ -119,7 +118,6 @@ export default function FormAppoint() {
                         setScheduleId(item.schedule_id);
                     }
                 })
-
             }
 
             console.log(json2)
@@ -168,7 +166,6 @@ export default function FormAppoint() {
         if(form.checkValidity()=== false){
             event.stopPropagation();
         }else{
-            // createSchedule();
             onConfirm();
 
         }
@@ -196,7 +193,7 @@ export default function FormAppoint() {
         }
     }
 
-    const onConfirm = async (data) => {
+    const onConfirm = async () => {
 
             setConfirmModalTitle("ยืนยันการแก้ไขข้อมูล");
             setConfirmModalMessage("คุณยืนยันการแก้ไขข้อมูลใช่หรือไม่");
@@ -205,7 +202,6 @@ export default function FormAppoint() {
 
     const onConfirmUpdate = async () => {
         setConfirmModal(false);
-           
         createSchedule();
             
     }
@@ -213,11 +209,6 @@ export default function FormAppoint() {
     const onCancelUpdate = () => {
         setConfirmModal(false);
 
-    }
-
-    const onClose = () => {
-        setConfirmModal(false);
-        setShowModal(false);
     }
 
     return (

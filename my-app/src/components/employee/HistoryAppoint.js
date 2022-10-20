@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
-import { Table, Button , Form , Col, Row, InputGroup , Pagination} from 'react-bootstrap';
-import { API_GET , API_POST} from '../../api';
+import { Table, Button , Form , InputGroup , Pagination} from 'react-bootstrap';
+import { API_GET } from '../../api';
 import HistoryItem from './HistoryItem';
 import Fuse from 'fuse.js';
 import Top from '../Top';
-import ReqAppointItem from './ReqAppointItem';
+import { ShowAppointmentDetails } from "../Modal";
 
 export default function HistoryAppoint(){
 
-    let date = new Date().toLocaleDateString();
     let pages = 4;
 
     const [appointments, setAppointment] = useState([]);
     const [listappointment ,setListAppointment] = useState([]);
+
+    const [showAppointmentModal, setAppointmentModal] = useState(false);
+    const [appointModalTitle, setAppointModalTitle] = useState("");
+    const [AppointmentDetails, setAppointmentDetails] = useState({});
 
     const [search,setSearch] = useState("");
 
@@ -36,10 +39,9 @@ export default function HistoryAppoint(){
     }, []);
 
     useEffect(() => {
-        if(search == ""){
+        if(search === ""){
             setAppointment(listappointment);
         }
-
     }, [search]);
 
     const onSearch = async (event) => {
@@ -49,7 +51,7 @@ export default function HistoryAppoint(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if(search != ""){
+            if(search !== ""){
                 const fuse = new Fuse(listappointment, {
                     keys: ['appoint_id', 'cust_fname', 'cust_lname', 'pet_name']
                 })
@@ -68,8 +70,6 @@ export default function HistoryAppoint(){
         }
     }
 
-
-
     const getPagination = () => {
         let items = [];
         pageCount = Math.ceil(appointments.length / numPerPage);
@@ -77,7 +77,7 @@ export default function HistoryAppoint(){
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage == i}
+                    active={currentPage === i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -106,6 +106,17 @@ export default function HistoryAppoint(){
     const lastPage = () => {
         setCurrentPage(pageCount - 1);
     }
+
+    const onShowAppointment = (data) =>{
+        setAppointmentModal(true);
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+    }
+
+    const onClose = () =>{
+        setAppointmentModal(false);
+    }
+
 
 
     return (
@@ -170,7 +181,7 @@ export default function HistoryAppoint(){
                                         <tbody>
                                             {
                                                 appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
-                                                    <ReqAppointItem
+                                                    <HistoryItem
                                                     key={item.appoint_id}
                                                     data={item}/>
                                                 ))
@@ -182,9 +193,9 @@ export default function HistoryAppoint(){
                                     <div className="d-flex justify-content-end">
                                         <Pagination onSelect={onPageSelected} size="sm">
                                             <Pagination.First onClick={firstPage} />
-                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
                                             { getPagination()}
-                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
                                             <Pagination.Last onClick={lastPage} />
                                         </Pagination>
                                     </div>
@@ -194,6 +205,14 @@ export default function HistoryAppoint(){
                     </div>
                 </div>
             </div>
+
+            <ShowAppointmentDetails
+                show={showAppointmentModal}
+                title={appointModalTitle}
+                data={AppointmentDetails}
+                onClose={onClose}
+                onShowAppointment={onShowAppointment}
+            />
         </>
     )
 }

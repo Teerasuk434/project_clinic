@@ -51,7 +51,7 @@ export default function FormEmployee(){
 
         }
 
-        if(params.emp_id != "add"){
+        if(params.emp_id !== "add"){
             fetchData([params.emp_id]);
         }
     },[params.emp_id]);
@@ -170,7 +170,7 @@ export default function FormEmployee(){
                                     <div className="container m-auto">
                                 
                                         <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            {params.emp_id == "add" ?
+                                            {params.emp_id === "add" ?
                                                 <h4 className="text-center mt-3">เพิ่มข้อมูลพนักงาน</h4>
                                             
                                             :
@@ -251,7 +251,7 @@ export default function FormEmployee(){
                                                             <Form.Label>เบอร์โทร</Form.Label>
                                                             <Form.Control
                                                                 required
-                                                                type="number"
+                                                                type="text"
                                                                 min={0}
                                                                 value={emp_tel}
                                                                 placeholder="เบอร์โทร"

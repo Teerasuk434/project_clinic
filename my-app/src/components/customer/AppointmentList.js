@@ -1,11 +1,10 @@
 import BoxTop from "../Box-top";
 import Footer from "../Footer";
 import Navigation from "../Navigation"
-import { Link, useInRouterContext, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { ShowAppointmentDetails,ShowAppointmentForm } from "../Modal";
-import { API_GET, API_POST } from "../../api";
+import { API_POST } from "../../api";
 import AppointmentItem from "./AppointmentItem";
 import ProfileSidebar from "./ProfileSidebar";
 import { SERVER_URL } from "../../app.config";
@@ -14,7 +13,6 @@ import { SERVER_URL } from "../../app.config";
 
 export default function AppointmentList(){
 
-    let navigate = useNavigate();
     let user_id = localStorage.getItem("user_id");
 
 

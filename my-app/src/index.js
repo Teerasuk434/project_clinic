@@ -32,7 +32,7 @@ import FormPets from './components/customer/FormPets';
 
 import Appointment from './components/customer/Appointment';
 import AppointmentList from './components/customer/AppointmentList';
-import Appointment_History from './components/customer/Appointment_History';
+import AppointmentHistory from './components/customer/AppointmentHistory';
 
 import Rooms from './components/admin/Rooms';
 import FormRoom from './components/admin/FormRoom';
@@ -49,7 +49,6 @@ import FormEmployee from './components/owner/FormEmployee';
 import ListAppoint from './components/ListAppoint';
 import HistoryAppoint from './components/employee/HistoryAppoint';
 
-import FormAppointment from './components/owner/FormAppointment';
 import AboutClinic from './AboutClinic';
 import AboutServices from './AboutServices';
 
@@ -78,7 +77,7 @@ root.render(
       <Route path="/account/pets" element={<Pets />} />
       <Route path="/account/pet/:pet_id" element={<FormPets />} />
       <Route path="/account/appointments" element={<AppointmentList />} />
-      <Route path="/account/history-appoint" element={<Appointment_History/>} />
+      <Route path="/account/history-appoint" element={<AppointmentHistory />} />
       <Route path="/account/reset-password" element={<ResetPassword />} />
  
       <Route path="/emptypes" element={<EmployeeType />} />
@@ -97,8 +96,6 @@ root.render(
       <Route path="/list-appoint/:appoint_id" element={<FormAppoint />} />
 
       <Route path="/list-appoint" element={<ListAppoint />} />
-     
-      <Route path="/list-appointment/:appoint_id" element={<FormAppointment />} />
 
       <Route path="/emp" element={<Employee/>} />
       <Route path="/emp/:emp_id" element={<FormEmployee/>} />

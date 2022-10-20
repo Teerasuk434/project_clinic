@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
-import { Table,Button,Pagination,Form,InputGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Table,Pagination} from 'react-bootstrap';
 import { API_GET } from '../../api';
 import ReqAppointItem from './ReqAppointItem';
 import Top from '../Top';
+import { ShowAppointmentDetails } from "../Modal";
+
 
 export default function RequestAppoint() {
-
-    let date = new Date().toLocaleDateString();
 
     let pages = 2;
 
     const [appointments, setAppointments] = useState([]);
-    const [schedules, setSchedules] = useState([]);
-
 
     const [showAppointmentModal, setAppointmentModal] = useState(false);
     const [appointModalTitle, setAppointModalTitle] = useState("");
@@ -29,11 +26,7 @@ export default function RequestAppoint() {
         }
         fetchData();
     }, []);
-
-    const onClose = () =>{
-        setAppointmentModal(false);
-    }
-
+    
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
     const [numPerPage, setNumPerPage] = useState(10);
@@ -45,7 +38,7 @@ export default function RequestAppoint() {
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage == i}
+                    active={currentPage === i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -73,6 +66,17 @@ export default function RequestAppoint() {
 
     const lastPage = () => {
         setCurrentPage(pageCount - 1);
+    }
+
+    const onShowAppointment = (data) =>{
+        setAppointmentModal(true);
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentDetails(data);
+    }
+    
+    
+    const onClose = () =>{
+        setAppointmentModal(false);
     }
 
     return(
@@ -141,15 +145,15 @@ export default function RequestAppoint() {
                                     </Table>
                                 </div>
 
-                                {appointments.length == 0 && <h6 className="text-center">ไม่มีคำขอนัดหมายในขณะนี้</h6>}
+                                {appointments.length === 0 && <h6 className="text-center">ไม่มีคำขอนัดหมายในขณะนี้</h6>}
 
                                 {appointments.length > 0 &&
                                     <div className="d-flex justify-content-end">
                                         <Pagination onSelect={onPageSelected} size="sm">
                                             <Pagination.First onClick={firstPage} />
-                                            <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                            <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
                                             { getPagination()}
-                                            <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                            <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
                                             <Pagination.Last onClick={lastPage} />
                                         </Pagination>
                                     </div>
@@ -160,6 +164,14 @@ export default function RequestAppoint() {
                     </div>
                 </div>
             </div>
+
+            <ShowAppointmentDetails 
+                show={showAppointmentModal}
+                title={appointModalTitle}
+                onClose={onClose}
+                data={AppointmentDetails}
+                showAppointmentModal={showAppointmentModal}
+                />
 
         </>
     )

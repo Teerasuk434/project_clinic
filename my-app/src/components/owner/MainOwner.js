@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import ReportAppointment from "../Report/ReportAppointment";
 import ReportByServices from "../Report/ReportByServices";
@@ -6,13 +5,7 @@ import Top from "../Top";
 
 export default function MainOwner() {
 
-    let date = new Date().toLocaleDateString();
     let pages = 1
-
-
-    const clearData = () => {
-        localStorage.clear();
-    }
 
     return (
     

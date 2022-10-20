@@ -1,7 +1,7 @@
 import { Bar, getElementAtEvent ,  } from 'react-chartjs-2';
 import { API_GET, API_POST } from '../../api';
 import { useEffect, useRef, useState } from 'react';
-import AppointmentChartItem from '../owner/AppointmentChartItem';
+import AppointmentChartItem from './AppointmentChartItem'
 import { Form , ButtonGroup , ToggleButton , Pagination} from 'react-bootstrap';
 import moment from 'moment';
 import { ShowAppointmentDetails } from '../Modal';

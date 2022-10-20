@@ -8,7 +8,7 @@ import { Table,Pagination } from "react-bootstrap";
 import AppointHistoryItem from "./AppointHistoryItem";
 import ProfileSidebar from "./ProfileSidebar";
 
-export default function Appointment_History () {
+export default function AppointmentHistory () {
 
     let user_id = localStorage.getItem("user_id")
     let pages = 4;

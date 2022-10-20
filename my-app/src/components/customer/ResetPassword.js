@@ -1,9 +1,9 @@
 import BoxTop from "../Box-top"
 import Navigation from "../Navigation"
 import Footer from "../Footer"
-import { useEffect, useState } from "react"
-import { API_GET, API_POST} from "../../api"
-import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { API_POST} from "../../api"
+import { useNavigate } from "react-router-dom"
 import { Form,Row,Button,Col,Alert } from "react-bootstrap"
 import { ConfirmModal,SuccessModal } from "../Modal"
 import ProfileSidebar from "./ProfileSidebar"
@@ -12,8 +12,6 @@ export default function ResetPassword (){
 
     let pages = 5;
 
-    const [firstname, setFirstName] = useState("");
-    const [lastname, setLastName] = useState("");
     const [curr_pwd, setCurrentPwd] = useState("");
     const [new_pwd, setNewPwd] = useState("");
     const [confirm_new_pwd, setConfirmNewPwd] = useState("");
@@ -34,18 +32,6 @@ export default function ResetPassword (){
     const [successModalMessage, setSuccessModalMessage] = useState("");
 
     let navigate = useNavigate();
-
-
-    useEffect(()=>{
-
-        async function fetchData(){
-            let json = await API_GET("customer/" + user_id);
-            setFirstName(json.data[0].cust_fname);
-            setLastName(json.data[0].cust_lname);
-        }
-        fetchData();
-
-    },[])
 
     const onSave = async (event) => {
         const form = event.currentTarget;
@@ -79,13 +65,13 @@ export default function ResetPassword (){
 
     const checkNewPassword = async () => {
         if(new_pwd.length >= 6 && confirm_new_pwd.length >= 6){
-            if(new_pwd === confirm_new_pwd && new_pwd != curr_pwd){
+            if(new_pwd === confirm_new_pwd && new_pwd !== curr_pwd){
                 updatePassword();
-            }else if (new_pwd != confirm_new_pwd){
+            }else if (new_pwd !== confirm_new_pwd){
                 setShowAlert(true);
                 setAlertColor("danger");
                 setAlertMessage("รหัสผ่านใหม่ และยืนยันรหัสผ่านใหม่ไม่ตรงกัน โปรดลองใหม่") 
-            }else if (new_pwd == curr_pwd){
+            }else if (new_pwd === curr_pwd){
                 setShowAlert(true);
                 setAlertColor("danger");
                 setAlertMessage("รหัสผ่านใหม่ต้องไม่ตรงกับรหัสผ่านเก่า โปรดลองใหม่") 
@@ -156,7 +142,7 @@ export default function ResetPassword (){
                                 <div className="profile-details">
                                     <div className="mx-5 mt-5 mb-4">
 
-                                    {showAlert == true && 
+                                    {showAlert === true && 
                                         <Alert variant={alertColor}>{alertMessage}</Alert>
                                     }
 

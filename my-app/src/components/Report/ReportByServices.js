@@ -2,7 +2,7 @@ import { useEffect,useRef,useState } from 'react';
 import { Bar, getElementAtEvent,Line } from "react-chartjs-2";
 import { API_GET, API_POST } from '../../api';
 import { Button,ButtonGroup,Form,Pagination,ToggleButton } from 'react-bootstrap'
-import AppointmentChartItem from '../owner/AppointmentChartItem';
+import AppointmentChartItem from './AppointmentChartItem'
 import { ShowAppointmentDetails } from '../Modal';
 import moment from 'moment';
 

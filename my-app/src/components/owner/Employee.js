@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
-import { Form, Row, Col, Table, Pagination, InputGroup, Button } from 'react-bootstrap'
+import { Form,Table, Pagination, InputGroup, Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 import EmployeeItem from "./EmployeeItem";
 import { API_GET,API_POST } from "../../api";
 import Top from "../Top";
-import { ConfirmModal, MessageModal } from "../Modal";
+import { ConfirmModal } from "../Modal";
 
 import Sidebar from "../Sidebar";
 
 export default function Employee(){
-    let date = new Date().toLocaleDateString();
     let pages = 3;
 
     const [employee,setEmployee] = useState([]);
@@ -22,10 +21,6 @@ export default function Employee(){
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
     const [confirmModalMessage, setConfirmModalMessage] = useState("");
 
-    const [showModal, setShowModal] = useState(false);
-    const [modalTitle, setModalTitle] = useState("");
-    const [modalMessage, setModalMessage] = useState(""); 
-
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
@@ -33,28 +28,11 @@ export default function Employee(){
 
 
     useEffect( () => {
-        async function fetchEmployee(){
-            const response = await fetch(
-                "http://localhost:8080/api/emp",
-                {
-                    method: "GET",
-                    headers:{
-                        Accept:"application/json",
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + localStorage.getItem("access_token")
-                    }
-                }
-            );
-
-            let json = await response.json();
-            setEmployee(json.data);
-            setListEmployee(json.data);
-        }
         fetchEmployee();
     },[]);
 
     useEffect(() => {
-        if(search == ""){
+        if(search === ""){
             setEmployee(listemployee);
         }
 
@@ -67,7 +45,7 @@ export default function Employee(){
         if (form.checkValidity() === false) {
             event.stopPropagation();
         } else {
-            if(search != ""){
+            if(search !== ""){
                 let searchEmployee = [];
                 listemployee.filter(type => type.emp_fname.includes(search)).map(item => {
                     searchEmployee.push(item);
@@ -100,10 +78,6 @@ export default function Employee(){
     const onCancelDelete = () => {
         setConfirmModal(false);
     }
-    const onClose = () => {
-        setConfirmModal(false);
-        setShowModal(false);
-    }
 
     const fetchEmployee = async () => {
         let json = await API_GET("emp");
@@ -118,7 +92,7 @@ export default function Employee(){
         for (let i = 0; i< pageCount; i++) {
             items.push(
                 <Pagination.Item key={i}
-                    active={currentPage == i}
+                    active={currentPage === i}
                     onClick={onPageSelected}>{i + 1}</Pagination.Item>
             )
         }
@@ -213,9 +187,9 @@ export default function Employee(){
                                 <div className="d-flex justify-content-end">
                                     <Pagination onSelect={onPageSelected} size="sm">
                                         <Pagination.First onClick={firstPage} />
-                                        <Pagination.Prev disabled={currentPage == 0} onClick={prevPage} />
+                                        <Pagination.Prev disabled={currentPage === 0} onClick={prevPage} />
                                         { getPagination()}
-                                        <Pagination.Next disabled={currentPage == pageCount -1} onClick={nextPage} />
+                                        <Pagination.Next disabled={currentPage === pageCount -1} onClick={nextPage} />
                                         <Pagination.Last onClick={lastPage} />
                                     </Pagination>
                                 </div>
@@ -232,12 +206,6 @@ export default function Employee(){
                 message={confirmModalMessage}
                 onConfirm={onConfirmDelete}
                 onClose={onCancelDelete}/>   
-            <MessageModal
-                show={showModal}
-                title={modalTitle}
-                message={modalMessage}
-                onClose={onClose}
-            />
         </>
     )
 }
