@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 export default function HistoryItem(props) {
 
     const onShowAppointment = () =>{
-        props.onShowAppointment();
+        props.onShowAppointment(props.data);
     }
 
     return (

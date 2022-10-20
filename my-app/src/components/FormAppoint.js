@@ -68,12 +68,14 @@ export default function FormAppoint() {
     useEffect(() => {
         async function fetchData(appoint_id) {
             let json = await API_GET("appointment");
-            let appointment_data = json.data;
-            let data = [];
+            let data;
             
             if(json.result){
-                appointment_data.map(item=>{
-                    if(item.appoint_id === appoint_id){
+                json.data.map(item=>{
+                    console.log(item)
+                    console.log(appoint_id)
+
+                    if(item.appoint_id == appoint_id){
                         data = item
                     }
                 })
@@ -137,7 +139,8 @@ export default function FormAppoint() {
                 date:data.date,
                 time:data.time,
                 time_end:data.time_end,
-                status:"edit"
+                status:"edit",
+                emp_id:emp_id
             })
 
             console.log(json4)

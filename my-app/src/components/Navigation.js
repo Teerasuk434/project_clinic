@@ -35,37 +35,38 @@ export default function Navigation(){
                         <Nav.Link href="/">หน้าแรก</Nav.Link>
                         <Nav.Link href="/about">เกี่ยวกับเรา</Nav.Link>
                         <Nav.Link href="/service">บริการของเรา</Nav.Link>
-                        <Nav.Link href="/appointment">นัดหมาย</Nav.Link>
+                        <Nav.Link href="/appointment" className="me-2">นัดหมาย</Nav.Link>
                         {role_id != 1 
-                                ?
-                                <Nav.Link className="Btn-login" href="login">
-                                    <i className="fa-solid fa-right-to-bracket me-2"></i>เข้าสู่ระบบ</Nav.Link> 
-                                :
+                            ?
+                            <Nav.Link className="Btn-login ps-2" href="login">
+                                <i className="fa-solid fa-right-to-bracket me-2"></i>เข้าสู่ระบบ
+                            </Nav.Link> 
+                            :
 
-                                <NavDropdown align="end" title={<><i className="fa-solid fa-user me-2"></i>{username}</>} id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/account/profile">ข้อมูลบัญชี</NavDropdown.Item>
-                                    <NavDropdown.Item href="/account/pets">สัตว์เลี้ยง</NavDropdown.Item>
-                                    <NavDropdown.Item href="/account/appointments">การนัดหมาย</NavDropdown.Item>
-                                    <NavDropdown.Item href="/account/history-appoint">ประวัติการนัดหมาย</NavDropdown.Item>
-                                    {!isLoginGoogle &&
-                                        <NavDropdown.Item href="/account/reset-password">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
-                                    }
-                                    <NavDropdown.Divider />
-                                    {isLoginGoogle ?
-                                        <GoogleLogout
-                                            className="w-100"
-                                            clientId={clientId} 
-                                            buttonText="ออกจากระบบ"
-                                            onLogoutSuccess={logOut}
-                                        />  
-                                    :
-                                    <NavDropdown.Item href="/" onClick={clearData}>
-                                        ออกจากระบบ
-                                    </NavDropdown.Item>
+                            <NavDropdown align="end" title={<><i className="fa-solid fa-user me-2"></i>{username}</>} id="basic-nav-dropdown">
+                                <NavDropdown.Item href="/account/profile">ข้อมูลบัญชี</NavDropdown.Item>
+                                <NavDropdown.Item href="/account/pets">สัตว์เลี้ยง</NavDropdown.Item>
+                                <NavDropdown.Item href="/account/appointments">การนัดหมาย</NavDropdown.Item>
+                                <NavDropdown.Item href="/account/history-appoint">ประวัติการนัดหมาย</NavDropdown.Item>
+                                {!isLoginGoogle &&
+                                    <NavDropdown.Item href="/account/reset-password">ตั้งค่ารหัสผ่าน</NavDropdown.Item>
                                 }
-                                    
-                                </NavDropdown>
+                                <NavDropdown.Divider />
+                                {isLoginGoogle ?
+                                    <GoogleLogout
+                                        className="w-100"
+                                        clientId={clientId} 
+                                        buttonText="ออกจากระบบ"
+                                        onLogoutSuccess={logOut}
+                                    />  
+                                :
+                                <NavDropdown.Item href="/" onClick={clearData}>
+                                    ออกจากระบบ
+                                </NavDropdown.Item>
                             }
+                                
+                            </NavDropdown>
+                        }
                     </Nav>
                     </Navbar.Collapse>
                 </Container>

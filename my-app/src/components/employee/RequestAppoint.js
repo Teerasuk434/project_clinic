@@ -69,9 +69,10 @@ export default function RequestAppoint() {
     }
 
     const onShowAppointment = (data) =>{
+        console.log("45")
+        setAppointmentDetails(data);
         setAppointmentModal(true);
         setAppointModalTitle("รายละเอียดการนัดหมาย")
-        setAppointmentDetails(data);
     }
     
     
@@ -138,7 +139,9 @@ export default function RequestAppoint() {
                                                     appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <ReqAppointItem
                                                         key={item.appoint_id}
-                                                        data={item}/>
+                                                        data={item}
+                                                        onShowAppointment={onShowAppointment}
+                                                        />
                                                     ))
                                                 }
                                             </tbody>
@@ -170,7 +173,6 @@ export default function RequestAppoint() {
                 title={appointModalTitle}
                 onClose={onClose}
                 data={AppointmentDetails}
-                showAppointmentModal={showAppointmentModal}
                 />
 
         </>

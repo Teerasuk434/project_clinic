@@ -1412,29 +1412,55 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
 
 app.post('/api/schedules/emp_available',(req, res) => {
     const input = req.body;
+    let sql;
 
-    //SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = "2022-10-16" AND time = "13:00" and emp_id !=2);
+    if(input.status === "add"){
+        sql = "SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)";
 
-    pool.query("SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ?)", [input.date,input.time,input.time_end], function(error, results, fields){
-        if (error) {
-            res.json({
-                result: false,
-                message: error.message
-            });
-        }
+        pool.query(sql, [input.date,input.time], function(error, results, fields){
+            if (error) {
+                res.json({
+                    result: false,
+                    message: error.message
+                });
+            }
+    
+            if (results.length) {
+                res.json({
+                    result: true,
+                    data:results
+                });
+            } else {
+                res.json({
+                    result:false,
+                    message: "ไม่พบพนักงานที่ว่าง"
+                });
+            }
+        });
 
-        if (results.length) {
-            res.json({
-                result: true,
-                data:results
-            });
-        } else {
-            res.json({
-                result:false,
-                message: "ไม่พบพนักงานที่ว่าง"
-            });
-        }
-    });
+    }else if(input.status === "edit"){
+        sql = "SELECT * FROM employee WHERE emp_id NOT IN (SELECT emp_id FROM schedules WHERE date = ? AND time = ? AND emp_id != ?)"
+        pool.query(sql, [input.date,input.time,input.emp_id], function(error, results, fields){
+            if (error) {
+                res.json({
+                    result: false,
+                    message: error.message
+                });
+            }
+    
+            if (results.length) {
+                res.json({
+                    result: true,
+                    data:results
+                });
+            } else {
+                res.json({
+                    result:false,
+                    message: "ไม่พบพนักงานที่ว่าง"
+                });
+            }
+        });
+    }
 });
 
 app.post('/api/schedules/add',async(req, res) => {

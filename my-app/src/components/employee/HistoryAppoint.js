@@ -108,9 +108,11 @@ export default function HistoryAppoint(){
     }
 
     const onShowAppointment = (data) =>{
-        setAppointmentModal(true);
-        setAppointModalTitle("รายละเอียดการนัดหมาย")
+
         setAppointmentDetails(data);
+        setAppointModalTitle("รายละเอียดการนัดหมาย")
+        setAppointmentModal(true);
+
     }
 
     const onClose = () =>{
@@ -183,7 +185,10 @@ export default function HistoryAppoint(){
                                                 appointments.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                     <HistoryItem
                                                     key={item.appoint_id}
-                                                    data={item}/>
+                                                    data={item}
+                                                    onShowAppointment={onShowAppointment}
+
+                                                    />
                                                 ))
                                             }
                                         </tbody>
@@ -211,7 +216,6 @@ export default function HistoryAppoint(){
                 title={appointModalTitle}
                 data={AppointmentDetails}
                 onClose={onClose}
-                onShowAppointment={onShowAppointment}
             />
         </>
     )

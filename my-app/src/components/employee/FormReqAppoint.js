@@ -59,7 +59,7 @@ export default function FormReqAppoint() {
             
             if(json.result){
                 json.data.map(item=>{
-                    if(item.appoint_id === appoint_id){
+                    if(item.appoint_id == appoint_id){
                         data = item
                     }
                 })
