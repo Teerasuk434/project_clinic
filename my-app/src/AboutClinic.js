@@ -31,11 +31,11 @@ export default function AboutClinic (){
 
                     <div className="text-center mt-5 about ">
                         <div className="row  mb-2 " >
-                            <div className="col-12 col-md-6 box1-contact-about p-2 ">
+                            <div className="col-12 col-md-12 col-lg-6 box1-contact-about p-2 ">
                                 <h4 className=" mt4-5 ">ช่องทางการติดต่อ</h4>
                             </div>
 
-                            <div className="col-12 col-md-6 box2-contact-about p-2 ">
+                            <div className="col-12 col-md-12 col-lg-6 box2-contact-about p-2 ">
                                 <div className="row ">
                                     <div className="col-5 text-end pt-2  mt-2">
                                         <i className="fa-brands fa-facebook fa-2xl " target="_blank"></i>
@@ -71,22 +71,22 @@ export default function AboutClinic (){
                         </div>
 
                         <div className="row  my-4 " >                            
-                            <div className="col-12 col-md-6 box3-contact-about shadow p-2 " >
+                            <div className="col-12 col-md-12 col-lg-6 box3-contact-about shadow p-2 " >
                                 <h4>เวลาเปิดทำการ</h4>
                             </div>
 
-                            <div className="col-12 col-md-6 box4-contact-about shadow p-2">
+                            <div className="col-12 col-md-12 col-lg-6 box4-contact-about shadow p-2">
                                 <h6>13.00 - 19.00 น. <b className="box4-about"> หยุดทุกวันเสาร์ </b></h6>
                             </div>
                             
                         </div>
                         
                         <div className="row " >
-                            <div className="col-12 col-md-6 box3-contact-about shadow p-2 " >
+                            <div className="col-12 col-md-12 col-lg-6 box3-contact-about shadow p-2 " >
                                 <h4 className="mt-2"> ที่อยู่ </h4>
                             </div>
 
-                            <div className="col-12 col-md-6 box4-contact-about shadow p-2">
+                            <div className="col-12 col-md-12 col-lg-6 box4-contact-about shadow p-2">
                                 <h6><i class="fa-solid fa-location-dot"></i> 382 ถนน ปุณณกัณฑ์ เทศบาลนครหาดใหญ่ 90110</h6>
                             </div>
                         </div>  

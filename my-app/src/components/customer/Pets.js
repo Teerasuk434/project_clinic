@@ -116,11 +116,11 @@ export default function Pets(){
                 <div className="container profile">
                     <div className="row">
                         
-                        <div className="col-12 col-md-2 profile-left">
+                        <div className="col-12 col-md-12 col-lg-2 profile-left">
                             <ProfileSidebar pages={pages}/>
                         </div>
 
-                        <div className="col-12 col-md-10 profile-right">
+                        <div className="col-12 col-md-12 col-lg-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
                                     <h4>ข้อมูลสัตว์เลี้ยง</h4>
@@ -129,7 +129,7 @@ export default function Pets(){
                                 <div className="profile-details">
                                     <div className="mx-5 mt-3 mb-3">
                                         <div className="row">
-                                            <div className="col-12 col-md-3 ">
+                                            <div className="col-12 col-md-5 col-lg-3 ">
                                                 <Link id="button" to="/account/pet/add" className="btn btn-success btn-sm my-3 col-12 col-md-2">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มข้อมูลสัตว์เลี้ยง</Link>
                                             </div>
                                         </div>
@@ -170,9 +170,6 @@ export default function Pets(){
                                     
                                 </div>
                             </div>
-
-                        </div>
-                        <div className="col-1">
 
                         </div>
                     </div>

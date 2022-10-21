@@ -114,11 +114,11 @@ export default function EditProfile(){
                 <div className="container profile">
                     <div className="row">
                         
-                        <div className="col-12 col-md-2 profile-left">
+                        <div className="col-12 col-md-12 col-lg-2 profile-left">
                             <ProfileSidebar pages={pages}/>
                         </div>
                         
-                        <div className="col-12 col-md-10 profile-right">
+                        <div className="col-12 col-md-12 col-lg-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
                                     <h4>แก้ไขข้อมูลบัญชี</h4>
@@ -239,8 +239,8 @@ export default function EditProfile(){
                                             </Row>
 
                                             <Row className="mb-3 border-top pt-2">
-                                                <div className="col-12 col-md-3 mx-auto">
-                                                    <Button id="button" variant="success" as="input" type="submit" value="บันทึกข้อมูล" />
+                                                <div className="col-12 col-md-12 col-lg-3 mx-auto">
+                                                    <Button id="button" variant="success" as="input" type="submit" size="sm" value="บันทึกข้อมูล" />
                                                 </div>
                                             </Row>
                                         </Form>

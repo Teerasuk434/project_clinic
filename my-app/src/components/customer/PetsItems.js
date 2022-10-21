@@ -9,8 +9,8 @@ export default function PetsItems(props) {
 
     return (
         <>
-            <div className="bg-light shadow text-start col-12 col-md-3 box-pet">
-                <div className="box-pet-details">
+            <div className=" text-start col-12 col-md-6 col-lg-4 ">
+                <div className="box-pet-details box-pet bg-light shadow">
                     <div className="text-center border-bottom border-secondary border-opacity-50 p-2 box-pet-image">
                         {props.data.image == "" ?
                             <img src={`http://localhost:8080/images/pets/default.png`} alt=""/>
@@ -24,7 +24,7 @@ export default function PetsItems(props) {
                         <p>เพศ : {props.data.pet_gender}</p>
                         <p className="border-bottom border-secondary border-opacity-25 ">อายุ : {props.data.pet_age_year} ปี {props.data.pet_age_month} เดือน</p>
                         
-                        <div className="float-end p-2">
+                        <div className="text-end p-2 pet-button">
                             <Link to={`/account/pet/${props.data.pet_id}`} className="btn btn-warning btn-sm me-2">{<i className="fa-solid fa-pen-to-square"></i>}</Link>
                             <Button variant="danger" size="sm" onClick={onDelete}><i className="fa-solid fa-trash-can"></i></Button>
                         </div>

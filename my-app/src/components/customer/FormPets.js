@@ -230,11 +230,11 @@ export default function FormPets(){
                 <div className="container profile">
                     <div className="row">
                         
-                        <div className="col-12 col-md-2 profile-left">
+                        <div className="col-12 col-md-12 col-lg-2 profile-left">
                             <ProfileSidebar pages={pages}/>
                         </div>
                         
-                        <div className="col-12 col-md-10 profile-right">
+                        <div className="col-12 col-md-12 col-lg-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
                                     {params.pet_id == "add" ?
@@ -314,7 +314,7 @@ export default function FormPets(){
                                                     <div className="col-md-6 col-12">
                                                         <div className="d-flex flex-row mt-3">
                                                             <Row>
-                                                                <Col xs="12" md="6" className="mb-3">
+                                                                <Col xs="12" md="12" lg="6" className="mb-3">
                                                                     <InputGroup>
                                                                         <Form.Label className="m-auto me-2">อายุ (ปี)</Form.Label>
                                                                         <Form.Control 
@@ -330,7 +330,7 @@ export default function FormPets(){
                                                                     </InputGroup>
                                                                 </Col>
                                                                 
-                                                                <Col xs="12" md="6">
+                                                                <Col xs="12" md="12" lg="6">
                                                                     <InputGroup>
                                                                     <Form.Label className="m-auto me-2">อายุ (เดือน)</Form.Label>
                                                                         <Form.Control 
@@ -369,7 +369,7 @@ export default function FormPets(){
                                                     </div>
 
                                                     <Row className="border-top pt-3">
-                                                        <div className="col-12 col-md-2 mx-auto">
+                                                        <div className="col-12 col-md-12 col-lg-3 mx-auto">
                                                             <Button id="button" variant="success" size="sm" as="input" type="submit" value="บันทึกข้อมูล" />
                                                         </div>
                                                     </Row>

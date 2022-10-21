@@ -217,14 +217,6 @@ body{
     font-size: 20px;
 }
 
-/* 
-iframe{
-    width:370px;
-    height:auto;
-    border:none;
-    overflow:hidden;
-} */
-
 .homepage-picture{
   background-color: #EBF5FB;
 }
@@ -666,9 +658,16 @@ iframe{
         padding-left: 3rem;
      }
 
+    .map iframe{
+        width:100%;
+        height:auto;
+        border:none;
+        overflow:hidden;
+    }
+
       /* Responsive */
 
-      @media only screen and (max-width: 576px) {
+      @media only screen and (max-width: 992px) {
         .homepage-picture a {
             width: 100%;
             margin:auto;
@@ -676,15 +675,16 @@ iframe{
             padding:0.5rem;
             margin-top: 8px;
         }
-    
-    
-        iframe{
-            width:245px;
-            height:auto;
-            border:none;
-            overflow:hidden;
+
+        .map iframe {
+            height: 300px;
         }
-    
+        
+        .fb_iframe_widget{
+            width:100%;
+            height:auto;
+        }
+
         .navbar-toggler-icon{
             margin: 0;
         }
@@ -747,7 +747,7 @@ iframe{
         }
 
         .boxs-center{
-            margin: 16px 0px;
+            /* margin: 16px 0px; */
             padding: 0;
          }
 
@@ -763,24 +763,24 @@ iframe{
             margin: 0;
             padding: 0;
          }
-        
 
+         .td button{
+            width: 100%;
+         }
+        
       }
     
       @media only screen and (min-width: 992px) {
-    
-        iframe{
-            width:370px;
-            height:auto;
-            border:none;
-            overflow:hidden;
-        }
-
+        
         .map iframe {
-            width: 810px;
             height: 500px;
         }
-    
+        
+        .fb_iframe_widget{
+            width:370px;
+            height:auto;
+        }
+        
         .right{
             border: none;
         }
@@ -796,7 +796,4 @@ iframe{
         .boxs{
             padding-top: 0.5rem;
         }
-
-        
-    
       }

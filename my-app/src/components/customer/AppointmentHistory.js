@@ -78,11 +78,11 @@ export default function AppointmentHistory () {
                 <div className="container profile">
                     <div className="row">
                         
-                        <div className="col-12 col-md-2 profile-left">
+                        <div className="col-12 col-md-12 col-lg-2 profile-left">
                             <ProfileSidebar pages={pages}/>
                         </div>
                         
-                        <div className="col-12 col-md-10 profile-right">
+                        <div className="col-12 col-md-12 col-lg-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
                                     <h4>ประวัติการนัดหมาย</h4>

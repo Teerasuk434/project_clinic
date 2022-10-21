@@ -49,11 +49,11 @@ export default function Account(){
                 <div className="container profile">
                     <div className="row">
 
-                        <div className="col-12 col-md-2 profile-left">
+                        <div className="col-12 col-md-12 col-lg-2 profile-left">
                             <ProfileSidebar pages={pages}/>
                         </div>
                         
-                        <div className="col-12 col-md-10 profile-right">
+                        <div className="col-12 col-md-12 col-lg-10 profile-right">
                             <div className="profile-right-content">
                                 <div className="profile-right-header p-2 text-center">
                                     <h4>ข้อมูลบัญชีของฉัน</h4>
@@ -92,7 +92,7 @@ export default function Account(){
                                     </div>
 
                                     <div className="row mb-3">
-                                        <div className="col-12 col-md-3 px-5">
+                                        <div className="col-12 col-md-5 col-lg-3 px-5">
                                             <Link to="/account/editprofile" id="button" className="btn btn-success">{<i className="fa-solid fa-pen-to-square me-2"></i>}แก้ไขข้อมูล</Link>
                                         </div>
                                     </div>
