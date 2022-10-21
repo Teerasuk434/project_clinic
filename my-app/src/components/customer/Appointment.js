@@ -226,7 +226,7 @@ export default function Appointment(){
                     setRoomAvailable(room_available_temp)
                     
                 }
-                
+
                 if(count_room < rooms.length && check_time_between == false && time.format("HH:mm") != "19:00" ){
                     timeSlot.push(
                         {
@@ -348,8 +348,13 @@ export default function Appointment(){
 
 
                     <Form noValidate validated={validated} onSubmit={onSave}>
-
                     <div className="appoint-form mt-5">
+
+                        <div className="form-title text-center mb-3 border border-2 border-primary p-3">
+                            <h6 className="text-dark">การนัดหมายจะเป็นการนัดหมายล่วงหน้า 2 วัน และมีการเก็บค่ามัดจำขึ้นอยู่กับบริการที่เลือก</h6>
+                            <h6 className="text-danger">* หากนัดหมายแล้วไม่มาตามนัดหรือยกเลิก จะไม่ได้ค่ามัดจำคืน ถ้าหากครบ 3 ครั้งจะไม่สามารถนัดหมายได้ *</h6>
+                        </div>
+
                         <div className="form-pet-header">
                             <h6>เลือกข้อมูลสัตว์เลี้ยง</h6>
                         </div>
@@ -373,164 +378,160 @@ export default function Appointment(){
 
                     </div>
                     
-                    {pet_id !=0 &&
-                    <div className="appoint-form mt-4 row">
-                        <div className="form-pet-header">
-                            <h6>ข้อมูลสัตว์เลี้ยง</h6>
+                    <fieldset disabled={isSelectPet}>
+
+                        <div className="appoint-form mt-4 row">
+                            <div className="form-pet-header">
+                                <h6>ข้อมูลสัตว์เลี้ยง</h6>
+                            </div>
+
+                            <div className="form-pet-details p-3">
+                                <div className="row">
+                                    <div className="col-5 col-md-2 form-pet-label"><p>ชื่อสัตว์เลี้ยง :</p></div>
+                                    <div className="col-7 col-md-10 form-pet-data"><p>{pet_name}</p></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-5 col-md-2 form-pet-label"><p>ประเภทสัตว์ :</p></div>
+                                    <div className="col-7 col-md-10 form-pet-data"><p>{pet_type}</p></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-5 col-md-2 form-pet-label"><p>สายพันธุ์ :</p></div>
+                                    <div className="col-7 col-md-10 form-pet-data"><p>{pet_species}</p></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-5 col-md-2 form-pet-label "><p>เพศ :</p></div>
+                                    <div className="col-7 col-md-10 form-pet-data"><p>{pet_gender}</p></div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-5 col-md-2 form-pet-label"><p>อายุ :</p></div>
+                                    <div className="col-7 col-md-10 form-pet-data"><p>{`${pet_age_year} ปี ${pet_age_month} เดือน`}</p></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="form-pet-details p-3">
-                            <div className="row">
-                                <div className="col-5 col-md-2 form-pet-label"><p>ชื่อสัตว์เลี้ยง :</p></div>
-                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_name}</p></div>
+                        <div className="appoint-form mt-4">
+                            <div className="form-appoint-header">
+                                <h6>รายละเอียดการนัดหมาย</h6>
                             </div>
-                            <div className="row">
-                                <div className="col-5 col-md-2 form-pet-label"><p>ประเภทสัตว์ :</p></div>
-                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_type}</p></div>
-                            </div>
-                            <div className="row">
-                                <div className="col-5 col-md-2 form-pet-label"><p>สายพันธุ์ :</p></div>
-                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_species}</p></div>
-                            </div>
-                            <div className="row">
-                                <div className="col-5 col-md-2 form-pet-label "><p>เพศ :</p></div>
-                                <div className="col-7 col-md-10 form-pet-data"><p>{pet_gender}</p></div>
-                            </div>
-                            <div className="row">
-                                <div className="col-5 col-md-2 form-pet-label"><p>อายุ :</p></div>
-                                <div className="col-7 col-md-10 form-pet-data"><p>{`${pet_age_year} ปี ${pet_age_month} เดือน`}</p></div>
-                            </div>
-                        </div>
-                    </div>
-                }
 
-                
-                <fieldset disabled={isSelectPet}>
-                    <div className="appoint-form mt-4">
-                        <div className="form-appoint-header">
-                            <h6>รายละเอียดการนัดหมาย</h6>
-                        </div>
+                            <div className="form-appoint-content py-3 px-3">
+                                    <Row className="mb-3">
+                                        <Form.Group as={Col} controlId="validateRoleType">
+                                            <Form.Label>บริการ</Form.Label>
+                                            <Form.Select
+                                                value={service}
+                                                onChange={(e) => setService(e.target.value)}
+                                                required>
+                                                <option label="กรุณาเลือกบริการ"></option> 
+                                                {
+                                                listServices.map(item => (
+                                                    <option key={item.service_id} value={item.service_id}> 
+                                                    {item.service_name} </option>
+                                                ))
+                                                }
+                                            </Form.Select>
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณาเลือกบริการ
+                                                </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Row>
 
-                        <div className="form-appoint-content py-3 px-3">
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} controlId="validateRoleType">
-                                        <Form.Label>บริการ</Form.Label>
-                                        <Form.Select
-                                            value={service}
-                                            onChange={(e) => setService(e.target.value)}
-                                            required>
-                                            <option label="กรุณาเลือกบริการ"></option> 
-                                            {
-                                            listServices.map(item => (
-                                                <option key={item.service_id} value={item.service_id}> 
-                                                {item.service_name} </option>
-                                            ))
-                                            }
-                                        </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาเลือกบริการ
-                                            </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Row>
+                                <fieldset disabled={isSelectService}>
 
-                            <fieldset disabled={isSelectService}>
+                                    <Row className="mb-3">
+                                        <Form.Group as={Col} xs="12" md="6" controlId="validateDate">
+                                            <Form.Label className="d-block">วันที่</Form.Label>
+                                            {/* <Form.Control
+                                                required
+                                                type="date"
+                                                value={date}
+                                                min={minDate}
+                                                max={maxDate}
+                                                placeholder="เลือกวันที่"
+                                                id="date"
+                                                onChange={(e) => setDate(e.target.value)}
+                                            /> */}
+                                                <InputGroup hasValidation>
+                                                    <Flatpickr
+                                                        type="text"
+                                                        className="w-75 rounded border-secondary border-opacity-25 p-1 form-control"
+                                                        value={date}
+                                                        options={dateOptions}
+                                                        onChange={(_, str) => setDate(str)}
+                                                        required
+                                                        placeholder="เลือกวันที่.."
+                                                        />
+                                                    <InputGroup.Text id="inputGroupPrepend"><i className="fa-solid fa-calendar-days"></i></InputGroup.Text>
 
-                                <Row className="mb-3">
-                                    <Form.Group as={Col} xs="12" md="6" controlId="validateDate">
-                                        <Form.Label className="d-block">วันที่</Form.Label>
-                                        {/* <Form.Control
-                                            required
-                                            type="date"
-                                            value={date}
-                                            min={minDate}
-                                            max={maxDate}
-                                            placeholder="เลือกวันที่"
-                                            id="date"
-                                            onChange={(e) => setDate(e.target.value)}
-                                        /> */}
-                                            <InputGroup hasValidation>
-                                                <Flatpickr
-                                                    type="text"
-                                                    className="w-75 rounded border-secondary border-opacity-25 p-1 form-control"
-                                                    value={date}
-                                                    options={dateOptions}
-                                                    onChange={(_, str) => setDate(str)}
-                                                    required
-                                                    placeholder="เลือกวันที่.."
-                                                    />
-                                                <InputGroup.Text id="inputGroupPrepend"><i className="fa-solid fa-calendar-days"></i></InputGroup.Text>
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณาเลือกวันที่
+                                                </Form.Control.Feedback>
+                                            </InputGroup>
+                                            
 
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาเลือกวันที่
-                                            </Form.Control.Feedback>
-                                        </InputGroup>
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} xs="12" md="6" controlId="validateRoleType">
+                                            <Form.Label>เลือกเวลา</Form.Label>
+                                            <Form.Select value={time} onChange={(e) => setTime(e.target.value)}required>
                                         
+                                                <option label="กรุณาเลือกเวลา"></option> 
 
-                                    </Form.Group>
+                                                {service != "" &&
+                                                timeSlot.map(item => (
+                                                    <option key={item.id} value={item.time}> 
+                                                        {item.time} - {moment(`${date} ${item.time}`).add(listServices[service-1].time_spent, 'm').format("HH:mm")}
+                                                    </option>
+                                                ))
+                                                }
+                                            </Form.Select>
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณาเลือกเวลา
+                                                </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Row>
 
-                                    <Form.Group as={Col} xs="12" md="6" controlId="validateRoleType">
-                                        <Form.Label>เลือกเวลา</Form.Label>
-                                        <Form.Select value={time} onChange={(e) => setTime(e.target.value)}required>
+                                    <Row className="mb-3">
+                                        <Form.Group as={Col}controlId="validateRoleType">
+                                            <Form.Label>อาการเบื้องต้น</Form.Label>
+                                            <Form.Control
+                                                required
+                                                as="textarea"
+                                                value={symtoms}
+                                                onChange={(e) => setSymtoms(e.target.value)}
+                                            />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณาระบุอาการเบื้องต้น
+                                                </Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Row>
                                     
-                                            <option label="กรุณาเลือกเวลา"></option> 
+                                    
+                                    <div className="mb-3">
+                                        {service != 0 && <h6><b>ค่ามัดจำ :</b> {listServices[service-1].cost_deposit} บาท</h6>}
+                                    </div>
 
-                                            {service != "" &&
-                                            timeSlot.map(item => (
-                                                <option key={item.id} value={item.time}> 
-                                                    {item.time} - {moment(`${date} ${item.time}`).add(listServices[service-1].time_spent, 'm').format("HH:mm")}
-                                                </option>
-                                            ))
-                                            }
-                                        </Form.Select>
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาเลือกเวลา
-                                            </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Row>
+                                    <div class="mb-3">
+                                        <Form.Group as={Col} controlId="formFile">
+                                            <Form.Label>อัพโหลดภาพการชำระเงิน</Form.Label>
+                                            <Form.Control
+                                                required
+                                                type="file"
+                                                name="file"
+                                                onChange={onFileSelected} />
+                                        </Form.Group>
+                                    </div>
 
-                                <Row className="mb-3">
-                                    <Form.Group as={Col}controlId="validateRoleType">
-                                        <Form.Label>อาการเบื้องต้น</Form.Label>
-                                        <Form.Control
-                                            required
-                                            as="textarea"
-                                            value={symtoms}
-                                            onChange={(e) => setSymtoms(e.target.value)}
-                                        />
-                                            <Form.Control.Feedback type="invalid">
-                                                กรุณาระบุอาการเบื้องต้น
-                                            </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Row>
-                                
-                                
-                                <div className="mb-3">
-                                    {service != 0 && <h6><b>ค่ามัดจำ :</b> {listServices[service-1].cost_deposit} บาท</h6>}
-                                </div>
+                                </fieldset> 
 
-                                <div class="mb-3">
-                                    <Form.Group as={Col} controlId="formFile">
-                                        <Form.Label>อัพโหลดภาพการชำระเงิน</Form.Label>
-                                        <Form.Control
-                                            required
-                                            type="file"
-                                            name="file"
-                                            onChange={onFileSelected} />
-                                    </Form.Group>
-                                </div>
+                                    <Row className="mx-1 mt-2">
+                                        <Button variant="primary" as="input" type="submit" value="นัดหมาย"/>
+                                    </Row>
 
-                            </fieldset>
-
-                                <Row className="mx-1 mt-2">
-                                    <Button variant="primary" as="input" type="submit" value="นัดหมาย"/>
-                                </Row>
-
+                            </div>
                         </div>
-                        
 
-                    </div>
-
-                </fieldset>
+                    </fieldset>
 
                     </Form>
                 </div>
