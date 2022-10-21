@@ -1407,9 +1407,6 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
             }
         });
     }
-
-    console.log(sql+where)
-    console.log("555513356")
     
 });
 
