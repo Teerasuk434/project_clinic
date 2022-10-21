@@ -684,6 +684,11 @@ body{
         height: auto;
     }
 
+    .payment-img{
+        width: 50%;
+        height: auto;
+    }
+
       /* Responsive */
 
       @media only screen and (max-width: 992px) {
@@ -694,6 +699,11 @@ body{
             padding:0.5rem;
             margin-top: 8px;
         }
+
+        .payment-img{
+            width: 100%;
+        }
+
 
         .box-main-menu{
             padding: 4px;

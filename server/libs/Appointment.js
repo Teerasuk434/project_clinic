@@ -54,8 +54,8 @@ module.exports = {
                 JOIN service d ON a.service_id = d.service_id
                 JOIN rooms e ON a.room_id = e.room_id
                 JOIN appoint_status f ON a.status_id = f.status_id
-                JOIN schedules g ON a.appoint_id = g.appoint_id
-                JOIN employee h ON g.emp_id = h.emp_id
+                LEFT JOIN schedules g ON a.appoint_id = g.appoint_id
+                LEFT JOIN employee h ON g.emp_id = h.emp_id
                 WHERE b.cust_id = ? AND a.status_id >=4
                 GROUP BY a.appoint_id`
         sql = mysql.format(sql,cust_id);

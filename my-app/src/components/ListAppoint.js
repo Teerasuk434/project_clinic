@@ -290,11 +290,11 @@ export default function ListAppoint(){
                                     <h4 className="text-center">ตารางนัดหมาย</h4>
                                 </div>
                                 <div className="my-4">
-                                    <div className="m-auto d-flex justify-content-between shadow px-3 py-2 rounded border">
-                                        <div>
+                                    <div className="m-auto row shadow px-3 py-2 rounded border">
+                                        <div className="col-12 col-md-6 col-lg-6">
                                             <Form>
                                                 <Row>
-                                                    <Form.Group as={Col} md="5">
+                                                    <Form.Group as={Col} xs="12" md="5">
                                                         <Form.Label>ห้อง :</Form.Label>
                                                         <Form.Select
                                                             size="sm"
@@ -312,7 +312,7 @@ export default function ListAppoint(){
                                                         </Form.Select>
                                                     </Form.Group>
 
-                                                    <Form.Group as={Col} md="5">
+                                                    <Form.Group as={Col} xs="12" md="5">
                                                         <Form.Label>ผู้รับหน้าที่ :</Form.Label>
                                                         <Form.Select
                                                             
@@ -340,19 +340,23 @@ export default function ListAppoint(){
                                         </div>
 
 
-                                        <div className="form-search">
+                                        <div className="col-12 col-md-6 col-lg-6">
                                             <Form noValidate onSubmit={onSearch}>
-                                                <InputGroup>
-                                                    <Form.Control
-                                                        size="sm"
-                                                        required
-                                                        type="text"
-                                                        value={search}
-                                                        placeholder="ค้นหานัดหมาย"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
-                                                </InputGroup>
+                                                <Form.Group >
+                                                            <Form.Label>ค้นหา :</Form.Label>
+                                                    <InputGroup>
+                                                        <Form.Control
+                                                            size="sm"
+                                                            required
+                                                            type="text"
+                                                            value={search}
+                                                            placeholder="ค้นหานัดหมาย"
+                                                            onChange={(e) => setSearch(e.target.value)}
+                                                        />
+                                                        <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
+                                                    </InputGroup>
+                                                </Form.Group>
+                                                    
                                             </Form>
                                         </div>
                                     </div>

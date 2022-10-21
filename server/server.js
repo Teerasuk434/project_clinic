@@ -1186,7 +1186,8 @@ app.post('/api/listpets/:user_id',async(req, res) => {
 
         res.json({
             result: true,
-            data: result2
+            data: result2,
+            cust_id:cust_id
         });
     }catch(ex){
         res.json({
@@ -1530,6 +1531,7 @@ app.get('/api/req_appointment',(req, res) => {
     a.status_id,
     a.note,
     b.*,
+    c.cust_id,
     c.cust_fname,
     c.cust_lname,
     c.cust_tel,
@@ -1926,8 +1928,14 @@ app.post("/api/appointment/upload/:appoint_new_id", checkAuth, (req, res) => {
 
 app.post('/api/req_appointment/update',async(req, res) => {
     const input = req.body;
+    console.log(input)
     try{
         var result = await Appointment.updateStatus(pool,input.appoint_status,input.appoint_id,input.appoint_note);
+
+        if(input.appoint_status == 6 && result){
+            await Customer.updateScore(pool,input.cust_id);
+        }
+
         res.json({
             result: true
         });
@@ -2205,6 +2213,22 @@ app.post('/api/appointment/allservice',checkAuth,(req, res) => {
                     }
                 });
         }
+    }
+});
+
+app.post('/api/appoint_score/:cust_id', async(req, res) => {
+    const cust_id = req.params.cust_id;
+    try{
+        var result = await Customer.getAppointScore(pool,cust_id);
+        res.json({
+            result: true,
+            data: result[0]
+        });
+    }catch(ex){
+        res.json({
+            result: false,
+            message: ex.message
+        });
     }
 });
 

@@ -28,6 +28,7 @@ export function ShowPaymentModal(props) {
 export function ShowAppointmentDetails(props) {
 
     let appoint_status = props.data.status_id;
+    console.log(props)
 
     return (
         <>
@@ -40,12 +41,22 @@ export function ShowAppointmentDetails(props) {
                     <div>
                         <p><b>เจ้าของสัตว์ :</b> {props.data.cust_fname} {props.data.cust_lname}</p>
                         <p><b>ชื่อสัตว์ :</b> {props.data.pet_name}</p>
+                        {props.data.image != "" &&
+                            <Accordion size="sm">
+                             <Accordion.Item eventKey="0">
+                                 <Accordion.Header>ภาพสัตว์</Accordion.Header>
+                                 <Accordion.Body>
+                                     <img src={`http://localhost:8080/images/pets/${props.data.image}`} width="100%" height="100%" alt="" />
+                                 </Accordion.Body>
+                             </Accordion.Item>
+                         </Accordion>
+                        }
                         <p><b>อาการเบื้องต้น :</b> {props.data.symtoms}</p>
                         <p><b>บริการ :</b> {props.data.service_name}</p>
                         <p><b>วันที่ :</b> {new Date(props.data.date).toLocaleDateString()}</p>
                         <p><b>เวลา :</b> {props.data.time} - {props.data.time_end}</p>
                         <p><b>ห้อง :</b> {props.data.room_name}</p>
-                        <p><b>ผู้รับหน้าที่ :</b> {props.data.employee_fullname}</p>
+                        {props.data.emp_id != null && <p><b>ผู้รับหน้าที่ :</b> {props.data.employee_fullname}</p>}
                         <p><b>สถานะ :</b> {props.data.status_name}</p>
                         <p><b>หมายเหตุ :</b> {props.data.note}</p>
                         {appoint_status == 3 &&
@@ -291,5 +302,27 @@ export function SuccessRegisterModal(props) {
     );
 };
 
+
+export function FailModal(props) {
+
+    return (
+        <Modal show={props.show} onHide={props.onClose} backdrop="static">
+            <Modal.Header closeVariant="white" closeButton>
+                <Modal.Title>{props.title}</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                <div className="text-center">
+                    <img src={`http://localhost:8080/images/fail.png`} alt="" width={150}/>
+                </div>
+                <h6 className="text-center mt-2">{props.message}</h6>
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button variant="danger" onClick={props.onClose} size="sm">ปิด</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
 
 

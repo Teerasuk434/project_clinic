@@ -47,9 +47,7 @@ module.exports = {
         return false;
     },
     isUsed: async(pool, room_id) => {
-        var sql = `SELECT * FROM rooms a 
-        JOIN appointment b ON a.room_id = b.room_id  
-        WHERE a.room_id = ?`;
+        var sql = `SELECT * FROM rooms a JOIN appointment b ON a.room_id = b.room_id  WHERE a.room_id = ?`;
         
         sql = mysql.format(sql, [room_id])
 

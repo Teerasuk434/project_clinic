@@ -12,6 +12,7 @@ export default function FormReqAppoint() {
     let navigate = useNavigate();
 
     const [appoint_id,setAppointId] = useState(0);
+    const [cust_id, setCustId] = useState(0);
     const [cust_fname,setCustFname] = useState("");
     const [cust_lname,setCustLname] = useState("");
     const [cust_tel,setCustTel] = useState("");
@@ -65,6 +66,9 @@ export default function FormReqAppoint() {
                 })
             }
 
+            console.log(data)
+
+            setCustId(data.cust_id)
             setAppointId(data.appoint_id);
             setCustFname(data.cust_fname);
             setCustLname(data.cust_lname);
@@ -168,7 +172,8 @@ export default function FormReqAppoint() {
         let json = await API_POST("req_appointment/update",{
             appoint_status:appoint_status,
             appoint_id:appoint_id,
-            appoint_note:appoint_note
+            appoint_note:appoint_note,
+            cust_id:cust_id
         })
 
         if(json.result){
