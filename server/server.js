@@ -1407,6 +1407,9 @@ app.post('/api/schedules/emp/:emp_id',(req,res) => {
             }
         });
     }
+
+    console.log(sql+where)
+    console.log("555513356")
     
 });
 
@@ -1500,7 +1503,7 @@ app.post('/api/schedules/edit',async(req, res) => {
         if(input.appoint_status == 6){
             result = await Schedule.deleteSchedules(pool,input.schedule_id);
         }else {
-            result = await Schedule.updateSchedules(pool,input.emp_id);
+            result = await Schedule.updateSchedules(pool,input.emp_id,input.schedule_id);
         }
 
         if(result){

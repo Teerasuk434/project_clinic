@@ -676,10 +676,11 @@ body{
 
     .box-main-menu{
         margin-right: 1rem;
+        margin-bottom: 1rem;
     }
 
     .box-main-menu img{
-        width: 100%;
+        width: 80%;
         height: auto;
     }
 
@@ -699,8 +700,12 @@ body{
             margin-bottom: 1rem;
         }
 
+        .box-main-menu img{
+            width: 100%;
+            height: auto;
+            margin-top: 6px;
+        }
         
-
         .addData{
             width: 100%;
             margin: auto;

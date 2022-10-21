@@ -7,9 +7,9 @@ module.exports = {
         sql = mysql.format(sql, [emp_id, appoint_id, room_id, appoint_date, appoint_time, appoint_time_end]);
         return await pool.query(sql);
     },
-    updateSchedules: async (pool,emp_id) =>{
-        var sql = "UPDATE schedules SET emp_id = ?";
-        sql = mysql.format(sql,[emp_id])
+    updateSchedules: async (pool,emp_id,schedule_id) =>{
+        var sql = "UPDATE schedules SET emp_id = ? WHERE schedule_id = ?";
+        sql = mysql.format(sql,[emp_id,schedule_id])
 
         return await pool.query(sql);
     },
