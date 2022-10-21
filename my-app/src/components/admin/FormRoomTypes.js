@@ -128,25 +128,26 @@ export default function FormRoomtypes(){
         <>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="row">
-                        <div className="p-0 col-12 col-lg-2 bg-primary">
-                            <div className="sidebar">
-                                <Sidebar pages={pages}/>
-                            </div>
+                    <div className="p-0 col-12 col-lg-2 bg-primary">
+                        <div className="sidebar">
+                            <Sidebar pages={pages}/>
                         </div>
+                    </div>
                         
-                        <div className="p-0 m-0 col-12 col-lg-10">
-                        <Top />
-                            <div className="content p-5">
-                                <div className="container">
-                                <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                    {params.room_type_id == "add" ?
-                                        <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
+                    <div className="p-0 m-0 col-12 col-lg-10">
+                        <div className="content">
+                            <Top />
 
-                                    :
-                                        <h4 className="text-center">แก้ไขประเภทห้องรักษา</h4>
+                            <div className="shadow bg-light m-5 p-5 rounded">
+                                {params.room_type_id == "add" ?
+                                            <h4 className="text-center">เพิ่มประเภทห้องรักษา</h4>
 
-                                    }
+                                        :
+                                            <h4 className="text-center">แก้ไขประเภทห้องรักษา</h4>
+
+                                        }
+                                        
+                                <div className="container border-top border-secondary addData">
                                     <Form noValidate validated={validated} onSubmit={onSave}>
                                     
                                         <Form.Group as={Col} controlId="validateRoomTypes" >
@@ -166,17 +167,15 @@ export default function FormRoomtypes(){
                                         <Row className="mb-3">
                                             <div className="text-end">
                                                 <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
-                                                <Link to="/roomtypes" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                <Link to="/roomtypes" className="btn btn-warning ms-2">ยกเลิก</Link>
                                             </div>
                                         </Row>
-                                        
+                                    
                                     </Form>
                                 </div>
-                                        
                             </div>
-                        </div>
                     </div>
-                </div>
+                    </div>
             </div>
         </div>
             <ConfirmModal

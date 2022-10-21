@@ -127,26 +127,27 @@ export default function FormEmptypes(){
     <>
             <div className="container-fluid">
                 <div className='row'>
-                        <div className='p-0 col-12 col-lg-2 bg-primary'>
-                            <div className='sidebar'>
-                                <Sidebar pages={pages}/>
-                            </div>
+                    <div className='p-0 col-12 col-lg-2 bg-primary'>
+                        <div className='sidebar'>
+                            <Sidebar pages={pages}/>
                         </div>
+                    </div>
 
-                            <div className='p-0 m-0 col-12 col-lg-10'>
+                    <div className='p-0 m-0 col-12 col-lg-10'>
+                        <div className="content">
                             <Top />
-                                <div className="content p-5">
-                                    <div className='container m-auto'>
 
-                                    <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                        
-                                        {params.emp_position_id == "add" ?
-                                            <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
-                                         :
-                                            <h4 className='text-center'>แก้ไขประเภทพนักงาน</h4>
+                                <div className='shadow bg-light m-5 p-5 rounded'>
+                                    
+                                    {params.emp_position_id == "add" ?
+                                        <h4 className='text-center'>เพิ่มประเภทพนักงาน</h4>
+                                    :
+                                        <h4 className='text-center'>แก้ไขประเภทพนักงาน</h4>
 
-                                        }
-                                            <Form noValidate validated={validated} onSubmit={onSave}>
+                                    }
+                                    
+                                    <div className="container border-top border-secondary addData">
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
                                                 <Form.Group as={Col} controlId="validateEmpTypes" >
                                                     <Form.Label>ประเภทพนักงาน</Form.Label>
                                                     <Form.Control
@@ -164,23 +165,19 @@ export default function FormEmptypes(){
                                                 <Row className="mb-2">
                                                     <div className="text-end">
                                                         <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
-                                                        <Link to="/emptypes" className="btn btn-danger ms-2">ยกเลิก</Link>
+                                                        <Link to="/emptypes" className="btn btn-warning ms-2">ยกเลิก</Link>
                                                     </div>
                                                 </Row>
                                             </Form>
-                                        </div>
+                                    
+                                    
                                     </div>
+
                                 </div>
-                            </div>
                         </div>
-                            <div className="row">              
-                                <div className='bottom'>
-                                    <div>
-                                        <p>วันที่ : {date}</p>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
                 </div>
+            </div>
 
                 <ConfirmModal
                     show={confirmModal}

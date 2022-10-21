@@ -122,59 +122,54 @@ export default function FormRole() {
             <div className="container-fluid">
 
                 <div className='row'>
-
+                    <div className='p-0 col-12 col-lg-2 bg-primary'>
+                        <div className='sidebar'>
+                            <Sidebar pages={pages}/>
+                        </div>
+                    </div>
                     
-                        <div className='row'>
-                            <div className='p-0 col-12 col-lg-2 bg-primary'>
-                                <div className='sidebar'>
-                                    <Sidebar pages={pages}/>
-                                </div>
-                            </div>
-                            
-                            <div className='p-0 m-0 col-12 col-lg-10'>
-                            <Top />
-                                <div className="content p-5">
-                                
-                                    <div className='container m-auto'>
-                                        
-                                        <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            {params.role_id == "add" ?
-                                                <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
-                                            :
-                                                <h4 className='text-center'>แก้ไขประเภทผู้ใช้งาน</h4>
+                    <div className='p-0 m-0 col-12 col-lg-10'>
+                        <div className="content">
+                        <Top />
+                            <div className='shadow bg-light m-5 p-5 rounded'>
+                                {params.role_id == "add" ?
+                                    <h4 className='text-center'>เพิ่มประเภทผู้ใช้งาน</h4>
+                                :
+                                    <h4 className='text-center'>แก้ไขประเภทผู้ใช้งาน</h4>
 
-                                            }
-                                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                                    <Row className="mb-3">
-                                                        <Form.Group as={Col} controlId="validateUserName">
-                                                            <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
-                                                            <Form.Control
-                                                                required
-                                                                type="text"
-                                                                value={role_name}
-                                                                placeholder="ชื่อประเภทผู้ใช้งาน"
-                                                                onChange={(e) => setRoleName(e.target.value)}
-                                                            />
-                                                            <Form.Control.Feedback type="invalid">
-                                                                กรุณากรอก ประเภทผู้ใช้งาน
-                                                            </Form.Control.Feedback>
-                                                        </Form.Group>
-                                                    </Row>
+                                }
+                                <div className="contanier border-top border-secondary addData">
+                                    <Form noValidate validated={validated} onSubmit={onSave}>
+                                        <Row className="mb-3">
+                                            <Form.Group as={Col} controlId="validateUserName">
+                                                <Form.Label>ชื่อประเภทผู้ใช้งาน</Form.Label>
+                                                <Form.Control
+                                                    required
+                                                    type="text"
+                                                    value={role_name}
+                                                    placeholder="ชื่อประเภทผู้ใช้งาน"
+                                                    onChange={(e) => setRoleName(e.target.value)}
+                                                />
+                                                <Form.Control.Feedback type="invalid">
+                                                    กรุณากรอก ประเภทผู้ใช้งาน
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                        </Row>
 
-                                                    <Row className="mb-4">
-                                                        <div className="text-end">
-                                                            <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
-                                                            <Link to="/roles" className="btn btn-danger ms-2">ยกเลิก</Link>
-                                                        </div>
-                                                    </Row>
-                                                </Form>
-                                        </div>
-                                    </div>
+                                        <Row className="mb-4">
+                                            <div className="text-end">
+                                                <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                <Link to="/roles" className="btn btn-warning ms-2">ยกเลิก</Link>
+                                            </div>
+                                        </Row>
+                                    </Form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            </div>
 
                 <ConfirmModal
                     show={confirmModal}

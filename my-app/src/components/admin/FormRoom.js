@@ -141,94 +141,92 @@ export default function FormRoom(){
     return(
         <>
             <div className="container-fluid">
+
                 <div className="row">
 
-            
-                    <div className="row">
-                        <div className="p-0 col-12 col-lg-2 bg-primary">
-                            <div className="sidebar">
-                                <Sidebar pages={pages}/>
-                            </div>
+                    <div className="p-0 col-12 col-lg-2 bg-primary">
+                        <div className="sidebar">
+                            <Sidebar pages={pages}/>
                         </div>
+                    </div>
 
-                            <div className="p-0 m-0 col-12 col-lg-10">
-                            <Top/> 
-                                <div className="content p-5">
-                                    <div className="container m-auto">
-                                
-                                        <div className='col-8 bg-white rounded shadow p-3 m-auto'>
-                                            {params.room_id == "add" ?
-                                                <h4 className="text-center mt-3">เพิ่มข้อมูลห้องรักษา</h4>
-                                            
-                                            :
-                                                <h4 className="text-center mt-3">แก้ไขข้อมูลห้องรักษา</h4>
+                        <div className="p-0 m-0 col-12 col-lg-10">
+                            <div className="content">
+                                <Top/> 
 
-                                            }
-                                            
-                                                <Form noValidate validated={validated} onSubmit={onSave}>
-                                                    <Row className="mb-3">
-                                                        <Form.Group as={Col} controlId="validateRoom" >
-                                                            <Form.Label>ข้อมูลห้องรักษา</Form.Label>
-                                                            <Form.Control
-                                                                required
-                                                                type="text"
-                                                                value={room_name}
-                                                                placeholder="ข้อมูลห้องรักษา"
-                                                                onChange={(e) => setRoomName(e.target.value)}
-                                                            />
+                                <div className="shadow bg-light m-5 p-5 rounded">
+                                    {params.room_id == "add" ?
+                                        <h4 className="text-center mt-3">เพิ่มข้อมูลห้องรักษา</h4>
+                                    
+                                    :
+                                        <h4 className="text-center mt-3">แก้ไขข้อมูลห้องรักษา</h4>
+
+                                    }
+                                    
+                                        <div className="container border-top border-secondary addData">
+                                            <Form noValidate validated={validated} onSubmit={onSave}>
+                                                <Row className="mb-3">
+                                                    <Form.Group as={Col} controlId="validateRoom" >
+                                                        <Form.Label>ข้อมูลห้องรักษา</Form.Label>
+                                                        <Form.Control
+                                                            required
+                                                            type="text"
+                                                            value={room_name}
+                                                            placeholder="ข้อมูลห้องรักษา"
+                                                            onChange={(e) => setRoomName(e.target.value)}
+                                                        />
+                                                        <Form.Control.Feedback type="invalid">
+                                                            กรุณากรอก ชื่อข้อมูลห้องรักษา
+                                                        </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                </Row>
+                                                <Row className="mb-3">
+                                                    <Form.Group as={Col} controlId="validateRoomType">
+                                                        <Form.Label>ประเภทห้องรักษา</Form.Label>
+                                                        <Form.Select
+                                                            value={room_type_id}
+                                                            onChange={(e) => setRoomTypeId(e.target.value)}
+                                                            required>
+                                                            <option label="ประเภทห้องรักษา"></option> 
+                                                            {
+                                                            room_type.map(item => (
+                                                                <option key={item.room_type_id} value={item.room_type_id}> 
+                                                                {item.room_type_name} </option>
+                                                            ))
+                                                            }
+                                                        </Form.Select>
                                                             <Form.Control.Feedback type="invalid">
-                                                                กรุณากรอก ชื่อข้อมูลห้องรักษา
+                                                                กรุณาเลือก ประเภทห้องรักษา
                                                             </Form.Control.Feedback>
-                                                        </Form.Group>
-                                                    </Row>
-                                                    <Row className="mb-3">
-                                                        <Form.Group as={Col} controlId="validateRoomType">
-                                                            <Form.Label>ประเภทห้องรักษา</Form.Label>
-                                                            <Form.Select
-                                                                value={room_type_id}
-                                                                onChange={(e) => setRoomTypeId(e.target.value)}
-                                                                required>
-                                                                <option label="ประเภทห้องรักษา"></option> 
-                                                                {
-                                                                room_type.map(item => (
-                                                                    <option key={item.room_type_id} value={item.room_type_id}> 
-                                                                    {item.room_type_name} </option>
-                                                                ))
-                                                                }
-                                                            </Form.Select>
-                                                                <Form.Control.Feedback type="invalid">
-                                                                    กรุณาเลือก ประเภทห้องรักษา
-                                                                </Form.Control.Feedback>
-                                                        </Form.Group>
-                                                    </Row>    
-                                                    <Row className="mb-5">
-                                                        <div className="text-end">
-                                                            <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
-                                                            <Link to="/rooms" className="btn btn-danger ms-2">ยกเลิก</Link>
-                                                        </div>
-                                                    </Row>
-                                                </Form>
-
-                                                <ConfirmModal
-                                                    show={confirmModal}
-                                                    title={confirmModalTitle}
-                                                    message={confirmModalMessage}
-                                                    onConfirm={onConfirmUpdate}
-                                                    onClose={onCancelUpdate}/>
-                                            
-
-                                                <MessageModal
-                                                    show={showModal}
-                                                    title={modalTitle}
-                                                    message={modalMessage}
-                                                    onClose={onClose}/>
-                                            </div>
+                                                    </Form.Group>
+                                                </Row>    
+                                                <Row className="mb-5">
+                                                    <div className="text-end">
+                                                        <Button className="btn btn-success mb-3 mt-3" as="input" type="submit" value="บันทึก" />
+                                                        <Link to="/rooms" className="btn btn-warning ms-2">ยกเลิก</Link>
+                                                    </div>
+                                                </Row>
+                                            </Form>
                                         </div>
-                                    </div>                    
                                 </div>
-                            </div>                        
-                </div>      
+                            </div>                    
+                        </div>
+                </div>    
             </div>
+
+            <ConfirmModal
+                show={confirmModal}
+                title={confirmModalTitle}
+                message={confirmModalMessage}
+                onConfirm={onConfirmUpdate}
+                onClose={onCancelUpdate}/>
+        
+
+            <MessageModal
+                show={showModal}
+                title={modalTitle}
+                message={modalMessage}
+                onClose={onClose}/>
         </>
     )
 }
