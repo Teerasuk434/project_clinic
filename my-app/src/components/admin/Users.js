@@ -136,26 +136,26 @@ export default function Admin() {
         <>
          <div className="container-fluid">
                 <div className='row'>
-                    <div className='p-0 col-12 col-lg-2'>
+                    <div className='p-0 col-12 col-md-12 col-lg-2'>
                         <div className='sidebar'>
                             <Sidebar pages={pages}/>
                         </div>
                     </div>
                     
-                    <div className='p-0 m-0 col-12 col-lg-10'>
+                    <div className='p-0 m-0 col-12 col-md-12 col-lg-10'>
                         <div className="content m-auto">
                             <Top />
-                            <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
+                            <div className='mx-4 my-3 pt-2 px-4 rounded shadow border bg-light'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ข้อมูลผู้ใช้งาน</h4>
                                 </div>
 
-                                <div className="my-3 ">
-                                    <div className="m-auto d-flex justify-content-between">
-                                        <div>
-									        <Link to={"/user/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มผู้ใช้งาน</Link>
+                                <div className="mt-2">
+                                    <div className="row">
+                                        <div className="col-12 col-md-4 col-lg-6 mb-3">
+									        <Link to={"/user/add"} className="btn btn-sm btn-success btn-add">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มผู้ใช้งาน</Link>
                                         </div>
-                                        <div className="form-search">
+                                        <div className="col-12 col-md-8 col-lg-6">
                                             <Form noValidate onSubmit={onSearch}>
                                                 <InputGroup>
                                                     <Form.Control
@@ -163,7 +163,7 @@ export default function Admin() {
                                                         required
                                                         type="text"
                                                         value={search}
-                                                        placeholder="ค้นหาผู้ใช้งาน (รหัส,ชื่อผู้ใช้งาน,ประเภทผู้ใช้งาน)"
+                                                        placeholder="ค้นหาผู้ใช้งาน"
                                                         onChange={(e) => setSearch(e.target.value)}
                                                     />
                                                     <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
@@ -173,14 +173,14 @@ export default function Admin() {
                                     </div>
                                 </div>
 
-                                <div className="mt-2">
+                                <div>
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
                                                 <th>#</th>
                                                 <th>ชื่อผู้ใช้งาน         </th>
                                                 <th>ประเภทผู้ใช้งาน</th>
-                                                <th>action</th>
+                                                <th colSpan={2}>action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

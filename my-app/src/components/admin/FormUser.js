@@ -213,9 +213,9 @@ export default function FormUser() {
                                         <h4 className='text-center'>แก้ไขข้อมูลผู้ใช้งาน</h4>
                                     }
 
-                                    <div className='container m-auto px-5 py-3 mt-3 border-top border-secondary'>
+                                    <div className='container border-top border-secondary addData'>
 
-                                        <Form className="w-50 m-auto" noValidate validated={validated} onSubmit={onSave}>
+                                        <Form noValidate validated={validated} onSubmit={onSave}>
                                             <Row className="mb-3">
                                                 <Form.Group as={Col} controlId="validateUserName">
                                                     <Form.Label>ชื่อผู้ใช้งาน</Form.Label>
@@ -293,7 +293,8 @@ export default function FormUser() {
                                             }
 
                                             <Row className="mt-3">
-                                                <div className="text-end">
+                                                <div className="col-12 col-md-6 col-lg-6"></div>
+                                                <div className="col-12 col-md-6 col-lg-6 text-end">
                                                     <Button variant="success" as="input" type="submit" value="บันทึก"/>
                                                     <Link to="/users" className="btn btn-warning ms-2">ยกเลิก</Link>
                                                 </div>

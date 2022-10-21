@@ -148,32 +148,34 @@ export default function Admin() {
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content m-auto">
                             <Top />
-                            <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
+                            <div className='mx-auto mt-3 pt-2 px-4 rounded shadow border bg-light form-user'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ข้อมูลประเภทผู้ใช้</h4>
                                 </div>
                                 <div className="my-3 ">
-                                    <div className="m-auto d-flex justify-content-between">
-                                        <div>
-						                    <Link to={"/role/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
+
+                                    <div className="row">
+                                        <div className="col-12 col-md-4 col-lg-6 mb-3">
+						                    <Link to={"/role/add"} className="btn btn-sm btn-success btn-add">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทผู้ใช้งาน</Link>
                                         </div>
-                                        <div className="form-search">
-                                            <Form noValidate onSubmit={onSearch}>
-                                                <InputGroup>
-                                                    <Form.Control
-                                                        size="sm"
-                                                        required
-                                                        type="text"
-                                                        value={search}
-                                                        placeholder="ค้นหาประเภทผู้ใช้"
-                                                        onChange={(e) => setSearch(e.target.value)}
-                                                    />
-                                                    <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
-                                                </InputGroup>
-                                            </Form>
-                                        </div>
+
+                                    <div className="col-12 col-md-8 col-lg-6">
+                                        <Form noValidate onSubmit={onSearch}>
+                                            <InputGroup>
+                                                <Form.Control
+                                                    size="sm"
+                                                    required
+                                                    type="text"
+                                                    value={search}
+                                                    placeholder="ค้นหาประเภทผู้ใช้"
+                                                    onChange={(e) => setSearch(e.target.value)}
+                                                />
+                                                <Button variant="success" type="submit" size="sm">{<i className="fa-solid fa-magnifying-glass me-2"></i>}ค้นหา</Button>
+                                            </InputGroup>
+                                        </Form>
                                     </div>
                                 </div>
+                            </div>
 
                                 <div className="mt-2">
                                     <Table size="sm" responsive bordered hover className='text-center'>

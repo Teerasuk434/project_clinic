@@ -249,7 +249,7 @@ export default function Login() {
                                             buttonText="เข้าสู่ระบบด้วย Google"
                                             onSuccess={onSuccess}
                                             onFailure={onFailure}
-                                            cookiePolicy={'single_host_origin'}
+                                            coouuuuuuuuuuuuuuuuukiePolicy={'single_host_origin'}
                                             isSignedIn={true}
                                             />
                                     </div>

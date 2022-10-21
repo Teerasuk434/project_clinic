@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { useState } from 'react';
 
 export default function Sidebar(props){
 
     let pages = props.pages;
     let role_id = localStorage.getItem("role_id")
+
+    const [menu,setMenu] = useState(false);
+
+    const onClickMenu = () => {
+        setMenu(!menu);
+    }
 
     const clearData = () => {
         localStorage.clear();
@@ -23,7 +31,7 @@ export default function Sidebar(props){
         }else if(role_id == 3){
             return (
                 <>
-                     <Link className={pages === 1 && "active"} to="/home"><span><img src={`http://localhost:8080/images/img1.png`} alt=""></img></span>หน้าแรก</Link>
+                    <Link className={pages === 1 && "active"} to="/home"><span><img src={`http://localhost:8080/images/img1.png`} alt=""></img></span>หน้าแรก</Link>
                     <Link className={pages === 2 && "active"} to="/request-appoint"><span><img src={`http://localhost:8080/images/appoint1.png`} alt=""></img></span>คำขอนัดหมาย</Link>
                     <Link className={pages === 3 && "active"} to="/list-appoint"><span><img src={`http://localhost:8080/images/appoint2.png`} alt=""></img></span>ตารางนัดหมาย</Link>
                     <Link className={pages === 4 && "active"} to="/history-appoint"><span><img src={`http://localhost:8080/images/appoint2.png`} alt=""></img></span>ประวัติการนัดหมาย</Link>
@@ -50,11 +58,16 @@ export default function Sidebar(props){
 
     return (
         <div className='sidebar'>
+            <div className="menu-bar">
+                <div >
+                    <button className="btn border border-secondary border-3" onClick={onClickMenu}><i className="fa-solid fa-bars text-light"></i></button>
+                </div>
+            </div>
             <div className="sidebar-top">
-                <img src={`http://localhost:8080/images/Logo.png`} alt=""></img>
+                <img src={`http://localhost:8080/images/Logo.png`} alt="" className="img-sidebar"></img>
             </div>
             
-            <div className="sidebar-bottom">
+            <div className={menu == false ? "sidebar-bottom-disabled" : "sidebar-bottom"}>
                 { getSideBar() } 
             </div>  
         </div>

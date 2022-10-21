@@ -161,11 +161,11 @@ export default function Rooms(){
                                     <h4 className="text-center">ข้อมูลห้องรักษา</h4>
                                 </div>
                                 <div className="my-3 ">
-                                    <div className="m-auto d-flex justify-content-between">
-                                        <div>
-						                    <Link to={"/room/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มห้องรักษา</Link>
+                                    <div className="row">
+                                        <div className="col-12 col-md-4 col-lg-6 mb-3">
+						                    <Link id="button" to={"/room/add"} className="btn btn-sm btn-success btn-add">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มห้องรักษา</Link>
                                         </div>
-                                        <div className="form-search">
+                                        <div className="col-12 col-md-8 col-lg-6">
                                             <Form noValidate onSubmit={onSearch}>
                                                 <InputGroup>
                                                     <Form.Control

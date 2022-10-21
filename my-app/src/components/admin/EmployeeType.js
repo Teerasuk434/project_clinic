@@ -166,16 +166,16 @@ export default function EmployeeType(props){
                     <div className='p-0 m-0 col-12 col-lg-10'>
                         <div className="content m-auto">
                             <Top />
-                            <div className='mx-4 mt-3 pt-2 px-4 rounded shadow border bg-light'>
+                            <div className='mx-4 my-3 pt-2 px-4 rounded shadow border bg-light'>
                                 <div className="border-bottom border-dark border-opacity-50 mb-2">
                                     <h4 className="text-center">ข้อมูลประเภทพนักงาน</h4>
                                 </div>
-                                <div className="my-3 ">
-                                    <div className="m-auto d-flex justify-content-between">
-                                        <div>
-						                    <Link to={"/emptypes/add"} className="btn btn-sm btn-success">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทพนักงาน</Link>
+                                <div className="mt-2">
+                                    <div className="row">
+                                        <div className="col-12 col-md-4 col-lg-6 mb-3"> 
+						                    <Link to={"/emptypes/add"} className="btn btn-sm btn-success btn-add">{<i className="fa-solid fa-plus me-2"></i>}เพิ่มประเภทพนักงาน</Link>
                                         </div>
-                                        <div className="form-search">
+                                        <div className="col-12 col-md-8 col-lg-6">
                                             <Form noValidate onSubmit={onSearch}>
                                                 <InputGroup>
                                                     <Form.Control
@@ -193,7 +193,7 @@ export default function EmployeeType(props){
                                     </div>
                                 </div>
 
-                                <div className="mt-2">
+                                <div>
                                     <Table size="sm" responsive bordered hover className='text-center'>
                                         <thead>
                                                 <tr>
