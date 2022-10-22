@@ -201,7 +201,7 @@ export default function Appointment(){
                         let time_start = moment(`${date} ${item.time}`);
                         let time_end = moment(`${date} ${item.time_end}`);
                         check_time_between = moment(time).isBetween(time_start, time_end);
-
+                            console.log(time.format("HH:mm") + " " + time_start.format("HH:mm") + " " + time_end.format("HH:mm") )
                         if(date == item.date && time.format("HH:mm") == item.time & item.room_type_id == room_type_id){
                             count_room++;
                             room_used.push(item.room_id);    
@@ -249,7 +249,8 @@ export default function Appointment(){
                     setRoomAvailable(room_available_temp)
                     
                 }
-
+                console.log(check_time_between)
+                console.log(rooms)
                 if(count_room < rooms.length && check_time_between == false && time.format("HH:mm") != "19:00" ){
                     timeSlot.push(
                         {
