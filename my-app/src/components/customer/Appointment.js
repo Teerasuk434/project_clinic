@@ -73,7 +73,7 @@ export default function Appointment(){
         ],
         dateFormat: "Y-m-d",
         minDate: new Date().fp_incr(2),
-        maxDate: new Date().fp_incr(9)
+        maxDate: new Date().fp_incr(8)
     }
 
     let user_id = localStorage.getItem("user_id");
@@ -213,6 +213,7 @@ export default function Appointment(){
 
                         }
                     })
+                
                 }
 
                 console.log(count_room)
@@ -263,6 +264,7 @@ export default function Appointment(){
 
                     }
 
+                
                 }else if(count_room > 0){
                     // console.log("else if")
                     rooms.map(item => {
@@ -286,7 +288,7 @@ export default function Appointment(){
                     
 
                 }
-                
+
                 if(count_room < rooms.length && time.format("HH:mm") != "19:00" ){
                     console.log("add")
                     timeSlot.push(
