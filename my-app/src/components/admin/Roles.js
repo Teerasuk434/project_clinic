@@ -188,7 +188,7 @@ export default function Admin() {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    roles.map(item => (
+                                                    roles.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <RolesItem
                                                         key={item.role_id}
                                                         data={item}

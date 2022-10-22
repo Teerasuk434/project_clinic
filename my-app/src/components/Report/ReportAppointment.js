@@ -3,7 +3,6 @@ import { API_GET, API_POST } from '../../api';
 import { useEffect, useRef, useState } from 'react';
 import AppointmentChartItem from './AppointmentChartItem'
 import { Form , ButtonGroup , ToggleButton , Pagination} from 'react-bootstrap';
-import moment from 'moment';
 import { ShowAppointmentDetails } from '../Modal';
 
 import {
@@ -95,8 +94,7 @@ export default function ReportAppointment() {
         });
             setStore(json.data);
             console.log(json.data)
-            var labels = [];
-            var data = [];
+            
     }
 
 

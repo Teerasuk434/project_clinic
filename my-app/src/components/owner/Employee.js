@@ -82,7 +82,6 @@ export default function Employee(){
         if (json.result) {
             fetchEmployee();
             setConfirmModal(false);
-
         }
     }
 
@@ -185,7 +184,7 @@ export default function Employee(){
                                             </thead>
                                             <tbody>
                                                 {
-                                                    employee.map(item => (
+                                                    employee.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <EmployeeItem
                                                         key={item.emp_id}
                                                         data={item}

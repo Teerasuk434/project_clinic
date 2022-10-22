@@ -204,7 +204,7 @@ export default function EmployeeType(props){
                                             </thead>
                                             <tbody>
                                                 {
-                                                    empTypes.map(item => (
+                                                    empTypes.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <EmployeeTypeItems
                                                         key={item.emp_position_id}
                                                         data={item}

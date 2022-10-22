@@ -82,7 +82,7 @@ export default function FormRole() {
         }
     }
     
-    const onConfirm = async (data) => {
+    const onConfirm = async () => {
         if(params.role_id === "add"){
             setConfirmModalTitle("ยืนยันการเพิ่มข้อมูล");
             setConfirmModalMessage("คุณยืนยันการเพิ่มข้อมูลใช่หรือไม่");
@@ -113,7 +113,6 @@ export default function FormRole() {
     }
 
     const onClose = () => {
-        setConfirmModal(false);
         setShowModal(false);
     }
 

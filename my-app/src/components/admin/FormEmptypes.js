@@ -119,7 +119,6 @@ export default function FormEmptypes(){
     }
 
     const onClose = () => {
-        setConfirmModal(false);
         setShowModal(false);
     }
 

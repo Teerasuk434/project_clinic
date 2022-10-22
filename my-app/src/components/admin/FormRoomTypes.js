@@ -120,7 +120,6 @@ export default function FormRoomtypes(){
 
     }
     const onClose = () => {
-        setConfirmModal(false);
         setShowModal(false);
     }
 

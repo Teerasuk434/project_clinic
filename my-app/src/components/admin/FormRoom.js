@@ -135,7 +135,6 @@ export default function FormRoom(){
     }
 
     const onClose = () => {
-        setConfirmModal(false);
         setShowModal(false);
     }
     return(

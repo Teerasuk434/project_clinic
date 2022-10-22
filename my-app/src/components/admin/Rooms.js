@@ -195,7 +195,7 @@ export default function Rooms(){
                                             </thead>
                                             <tbody>
                                                 {
-                                                    room.map(item => (
+                                                    room.slice(currentPage * numPerPage, (currentPage * numPerPage) + numPerPage).map(item => (
                                                         <RoomItem
                                                         key={item.room_id} 
                                                         data={item}
