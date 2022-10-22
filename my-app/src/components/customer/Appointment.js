@@ -286,9 +286,7 @@ export default function Appointment(){
                     
 
                 }
-                console.log("this time :" + time.format("HH:mm"))
-                console.log(check_time_between)
-
+                
                 if(count_room < rooms.length && time.format("HH:mm") != "19:00" ){
                     console.log("add")
                     timeSlot.push(
