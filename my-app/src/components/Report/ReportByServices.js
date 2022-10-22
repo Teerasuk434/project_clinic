@@ -71,7 +71,7 @@ export default function ReportByServices() {
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
-    const [numPerPage, setNumPerPage] = useState(2);
+    const [numPerPage, setNumPerPage] = useState(5);
 
 
     const radios = [

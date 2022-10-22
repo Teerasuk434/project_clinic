@@ -19,7 +19,7 @@ export default function Service() {
 
     var pageCount = 0;
     const [currentPage, setCurrentPage] = useState(0);
-    const [numPerPage, setNumPerPage] = useState(4);
+    const [numPerPage, setNumPerPage] = useState(10);
 
     const [confirmModal, setConfirmModal] = useState(false);
     const [confirmModalTitle, setConfirmModalTitle] = useState("");
