@@ -50,6 +50,8 @@ export default function ReportByServices() {
     const [isLoading, setIsLoading] = useState(false);
     const [chartData, setChartData] = useState({});
 
+    const [data_max, setDataMax] = useState(0);
+
     const [dateRange, setDateRange] = useState(0); 
     const [RangeName, setRangeName] = useState("");
 
@@ -130,7 +132,6 @@ export default function ReportByServices() {
             }
 
 
-
             if(store.length >0){
                 if(dateRange == 2){
                     setDateStart(store[0].date)
@@ -139,6 +140,7 @@ export default function ReportByServices() {
                     setDateStart(moment(store[0].date).format("DD/MM/YYYY"))
                     setDateEnd(moment(store[store.length-1].date).format("DD/MM/YYYY"))
                 }
+
             }
 
             setSumData(sumData_temp)

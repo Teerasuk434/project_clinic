@@ -1498,8 +1498,19 @@ app.post('/api/schedules/edit',async(req, res) => {
     var result
     try{
         
-        if(input.appoint_status == 6){
-            result = await Schedule.deleteSchedules(pool,input.schedule_id);
+        if(input.appoint_status == 4 || input.appoint_status == 6){
+
+            if(input.appoint_status == 6 ){
+               result = await Schedule.deleteSchedules(pool,input.schedule_id);
+
+               if(result) {
+                    await Customer.updateScore(pool,input.cust_id);
+               }
+               
+            }else if (input.appoint_status == 4){
+                result = await Customer.updateScore(pool,input.cust_id);
+            }
+    
         }else {
             result = await Schedule.updateSchedules(pool,input.emp_id,input.schedule_id);
         }
